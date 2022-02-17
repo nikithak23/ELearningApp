@@ -4,7 +4,7 @@ import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 const SignUp=()=>{
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SignUp</Text>
+      <Text style={styles.title}>SignUp Page</Text>
     </View>
   );
 };
