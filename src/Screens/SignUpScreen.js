@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 
-const SignUpSCreen = () => {
+const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SignUp Page 1</Text>
