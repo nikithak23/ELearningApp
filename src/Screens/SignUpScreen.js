@@ -5,7 +5,7 @@ const SignUp=()=>{
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SignUp Page 1</Text>
-      <Text style={styles.title}>SignUp Page 2</Text>
+      <Text style={styles.title}>SignUp Page two</Text>
     </View>
   );
 };
