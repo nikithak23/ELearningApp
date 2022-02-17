@@ -15,6 +15,9 @@ const SignUp = () => {
       <Text style={styles.title}>hii</Text>
       <Text style={styles.title}>Hello, Welcome</Text>
 
+      <Text style={styles.title}>Hello, Welcome 123</Text>
+      <Text style={styles.title}>E Learnng App</Text>
+      
     </View>
   );
 };
