@@ -6,7 +6,10 @@ const SignUp = () => {
     <View style={styles.container}>
       <Text style={styles.title}>SignUp Page 1</Text>
       <Text style={styles.title}>SignUp Page two</Text>
+      <Text style={styles.title}>SignUp Page three</Text>
       <Text style={styles.title}>SignUp Page ten</Text>
+      <Text style={styles.title}>SignUp Page 11</Text>
+      <Text style={styles.title}>SignUp Page 12</Text>
     </View>
   );
 };
