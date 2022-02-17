@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 
-const SignUp = () => {
+const SignUpSCreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SignUp Page 1</Text>
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-export default SignUp;
+export default SignUpScreen;
