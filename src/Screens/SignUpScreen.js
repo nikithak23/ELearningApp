@@ -12,7 +12,8 @@ const SignUp = () => {
       <Text style={styles.title}>SignUp Page 13</Text>
       <Text style={styles.title}>SignUp Page 12</Text>
       <Text style={styles.title}>Hello, Welcome</Text>
-
+      
+      <Text style={styles.title}>E Learnng App</Text>
     </View>
   );
 };
