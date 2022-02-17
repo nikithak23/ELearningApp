@@ -11,6 +11,7 @@ const SignUp = () => {
       <Text style={styles.title}>SignUp Page 11</Text>
 
       <Text style={styles.title}>SignUp Page 13</Text>
+      <Text style={styles.title}>SignUp Page 12</Text>
     </View>
   );
 };
