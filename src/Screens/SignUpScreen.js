@@ -9,11 +9,15 @@ const SignUp = () => {
       <Text style={styles.title}>SignUp Page three</Text>
       <Text style={styles.title}>SignUp Page ten</Text>
       <Text style={styles.title}>SignUp Page 11</Text>
-
       <Text style={styles.title}>SignUp Page 13</Text>
       <Text style={styles.title}>SignUp Page 12</Text>
+<<<<<<< HEAD
       <Text style={styles.title}>SignUp Page</Text>
       <Text style={styles.title}>hii</Text>
+=======
+      <Text style={styles.title}>Hello, Welcome</Text>
+
+>>>>>>> 2f9d2d50ab488306c290c496db13f5b7fbe52470
     </View>
   );
 };
