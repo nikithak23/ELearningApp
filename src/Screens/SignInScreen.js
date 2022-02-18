@@ -8,34 +8,43 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
+import {StackActions} from '@react-navigation/native';
 
 const SignInScreen = ({navigation}) => {
   const [phone, setPhone] = useState(null);
 
   const [password, setPassword] = useState('');
 
-  const [isValid, setIsValid] = useState(true);
+  const [isValid, setIsValid] = useState(false);
 
   const validation = () => {
     if (phone && password) {
       setIsValid(true);
+      console.log(isValid);
+      navigation.dispatch(
+        StackActions.replace('Home', {
+          phone: phone,
+        }),
+      );
     } else {
       setIsValid(false);
+      console.log(isValid);
     }
   };
 
   signUp = () => {
     navigation.navigate('SignUp');
   };
-  home = () => {
-    navigation.navigate('Home');
-  };
 
+  verify = () => {
+    navigation.navigate('Authentication');
+  };
   const renderForm = () => {
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.secondContainer}>
           <View style={styles.headerContainer}>
             <Image
@@ -55,31 +64,26 @@ const SignInScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.sign}>
-          <View>
-            <Text style={styles.signText}>Sign in</Text>
-          </View>
-          {/* <Text>Abc</Text> */}
-          <View>
-            {/* {isValid === true ? ( */}
+          <Text style={styles.signText}>Sign in</Text>
+
+          <TouchableOpacity onPress={validation}>
             {phone && password ? (
-              <TouchableOpacity onpress={home}>
-                <Image
-                  source={require('../Images/SignUp/btn_able.png')}
-                  style={styles.imagesignin}
-                />
-              </TouchableOpacity>
+              <Image
+                source={require('../Images/SignUp/btn_able.png')}
+                style={styles.imagesignin}
+              />
             ) : (
-              <TouchableOpacity>
-                <Image
-                  source={require('../Images/SignUp/btn_disable.png')}
-                  style={styles.imagesignin}
-                />
-              </TouchableOpacity>
+              <Image
+                source={require('../Images/SignUp/btn_disable.png')}
+                style={styles.imagesignin}
+              />
             )}
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.forget}>
-          <Text style={styles.forgetPassword}>Forget Password</Text>
+          <TouchableOpacity onPress={verify}>
+            <Text style={styles.forgetPassword}>Forget Password</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.dontHave}>
           <Text style={styles.DontHaveAccount}>Don't have an account?</Text>
@@ -87,7 +91,7 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.forgetPassword}> Sign Up</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     );
   };
 
@@ -101,9 +105,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   secondContainer: {},
+
   headerContainer: {
     backgroundColor: '#3C7EE3',
-    height: 310,
+    marginTop: Platform.OS === 'ios' ? 0 : -20,
+    // height: 310,
+    height: Platform.OS === 'ios' ? 310 : 300,
   },
   image: {
     width: 39,
@@ -126,7 +133,9 @@ const styles = StyleSheet.create({
     marginLeft: 51,
   },
   form: {
-    height: 290,
+    // height: 290,
+    marginTop: Platform.OS === 'ios' ? 0 : -30,
+    height: Platform.OS === 'ios' ? 290 : 260,
   },
   button: {
     marginTop: 20,

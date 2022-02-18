@@ -1,0 +1,50 @@
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA {
+  font-family: "Inv Maison Neue", "Maison Neue", -apple-system, BlinkMacSystemFont, "Open Sans", open-sans, sans-serif;
+  /* --- Selectors from Global CSS --- */
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-text-title div p {
+  font-weight: 600;
+  font-family: "Inv Eina 03", "Eina 03", -apple-system, BlinkMacSystemFont, "Open Sans", open-sans, sans-serif;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-guide-container_ {
+  /* Guide border, shadow, background, etc. */
+  background-color: #F6F6F6;
+  padding: 15px;
+  line-height: 140%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-guide-container_ ._pendo-guide-content_ {
+  /* Content area: use for font attributes, padding, etc. */
+  text-align: center;
+  padding: 0 20px;
+  color: #333;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-guide-container_ ._pendo-close-guide_ {
+  /* Close guide icon */
+  display: inline;
+  font-size: 6px;
+  font-weight: 100;
+  top: 10px;
+  right: 15px;
+  margin-bottom: 16px;
+  color: #999;
+  opacity: 0.6;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-guide-container_ ._pendo-close-guide_:hover {
+  /* Close guide icon hover effects*/
+  opacity: 0.4;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA .banner-strong-text {
+  font-weight: bold;
+  font-size: 14px;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA .pendo-radio {
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 30px !important;
+  margin-top: 8px;
+}
+#pendo-g-ztcSwLMtCqLORutauh512woV_ZA ._pendo-nps-poll-wrapper {
+  margin-top: 6px;
+  margin-left: -10px;
+}
