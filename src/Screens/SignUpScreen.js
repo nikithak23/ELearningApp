@@ -58,6 +58,10 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
+ const signIn = () => {
+    navigation.navigate('SignIn');
+  };
+
   const validation = () => {
     if (
       /[0-9]/.test(name) === false &&
@@ -131,7 +135,7 @@ const SignUpScreen = ({navigation}) => {
 
           <View style={styles.bottomContainer}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={signIn}>
               <Text style={styles.signinText}>Sign In</Text>
             </TouchableOpacity>
           </View>
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   image: {
-    width: 43,
+    width: 44,
     height: 44,
     resizeMode: 'contain',
     marginLeft: 50,
@@ -165,8 +169,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 40,
-    fontWeight: '800',
-    color: 'black',
+    fontWeight: '700',
+    color: 'white',
     marginLeft: 50,
   },
   signupContainer: {
@@ -179,13 +183,13 @@ const styles = StyleSheet.create({
   signup: {
     fontSize: 25,
     color: '#000000',
-    fontWeight: '500',
+    fontWeight: '700',
     lineHeight: 28,
     paddingBottom: 10,
   },
   submitBtn: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     resizeMode: 'contain',
   },
   bottomContainer: {
@@ -198,12 +202,12 @@ const styles = StyleSheet.create({
   bottomText: {
     fontSize: 16,
     color: '#AFAFAF',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   signinText: {
     color: '#4C93FF',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });
 export default SignUpScreen;

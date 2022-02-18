@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
 
   inputField: {
     fontSize:20,
+    fontFamily:'Rubik',
     height:75,
     lineHeight:24,
     marginHorizontal:50,
