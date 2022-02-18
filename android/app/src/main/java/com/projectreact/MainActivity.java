@@ -1,4 +1,4 @@
-import android.os.Bundle;
+//import android.os.Bundle;
 package com.projectreact;
 
 import com.facebook.react.ReactActivity;
