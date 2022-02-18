@@ -5,6 +5,7 @@ import {
   View,
   Button,
   Image,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -29,12 +30,12 @@ const SignInScreen = ({navigation}) => {
     navigation.navigate('SignUp');
   };
   home = () => {
-    nsvigation.navigate('Home');
+    navigation.navigate('Home');
   };
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.secondContainer}>
           <View style={styles.headerContainer}>
             <Image
@@ -86,7 +87,7 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.forgetPassword}> Sign Up</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 
