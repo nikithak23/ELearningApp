@@ -80,16 +80,17 @@ const SignUpScreen = ({navigation}) => {
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
-        <View style={styles.secondContainer}>
+    <View style={styles.container}>
+      <View style={styles.secondContainer}>
+
+
         <View style={styles.headerContainer}>
-        <Image source={require('../Images/SignUp/yellowLogo.png')}
-              style={styles.image}
-        />
+          <Image source={require('../Images/SignUp/yellowLogo.png')} style={styles.image}/>
           <Text style={styles.header}>Create an</Text>
           <Text style={styles.header}>Account</Text>
-          </View>
-          <View>
+        </View>
+
+        <View>
             <SignUpForm
               name={name}
               setName={setName}
@@ -102,27 +103,27 @@ const SignUpScreen = ({navigation}) => {
               confirmPassword={confirmPassword}
               setConfirmPassword={setConfirmPassword}
             />
-          </View>
-         
-       
-          <View style={styles.signupContainer}>
+        </View>
+
+        <View style={styles.signupContainer}>
           <Text style={styles.signup}>SignUp</Text>
           <TouchableOpacity onPress={validation}>
-          {isValid === true ? (
+          {name&&phone&&confirmPassword&&(password===confirmPassword)? (
             <Image source={require('../Images/SignUp/btn_able.png')} style={styles.submitBtn}/>
           ) : (
-          <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
+            <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
           }
           </TouchableOpacity>
-          </View>
+        </View>
 
-          <View style={styles.bottomContainer}>
+        <View style={styles.bottomContainer}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
             <TouchableOpacity><Text style={styles.signinText}>Sign In</Text></TouchableOpacity>
-          </View>
-          
         </View>
+          
+
       </View>
+    </View>
     );
   };
 
@@ -146,7 +147,8 @@ const styles = StyleSheet.create({
     width:43, 
     height: 44, 
     resizeMode: 'contain',
-    marginLeft:50
+    marginLeft:50,
+    marginBottom:19
   },
   header: {
     fontSize:40,
@@ -159,26 +161,26 @@ const styles = StyleSheet.create({
       justifyContent:'space-between',
       alignItems: 'center',
       marginTop:15,
-      marginHorizontal:30,
+      marginHorizontal:50,
   },
   signup:{
     fontSize:25,
     color:'#000000',
     fontWeight:'500',
     lineHeight:28,
+    paddingBottom:10
   },
   submitBtn:{
     width:80, 
     height: 80, 
     resizeMode: 'contain',
-    marginLeft:50
   },
   bottomContainer:{
       flexDirection:'row',
       justifyContent:'flex-start',
       alignItems: 'center',
-      marginTop:15,
-      marginHorizontal:30,
+      marginTop:10,
+      marginHorizontal:50,
   },
   bottomText:{
     fontSize:16,

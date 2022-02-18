@@ -80,7 +80,6 @@ const SignUpForm = ({
             style={styles.inputField}
           />
           {passwordCheck()}
-        
       </View>
     </ScrollView>
   );
@@ -89,14 +88,14 @@ const SignUpForm = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:50
+    marginTop:30
   },
 
   inputField: {
     fontSize:20,
     height:75,
     lineHeight:24,
-    marginHorizontal:30,
+    marginHorizontal:50,
     borderColor:'#EEEDE7',
     borderBottomWidth:2,
   },
