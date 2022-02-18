@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: 75,
     lineHeight: 24,
-    marginHorizontal: 30,
+    marginHorizontal: 50,
     marginTop: 20,
     // marginBottom: -20,
 

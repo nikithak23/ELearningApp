@@ -28,6 +28,9 @@ const SignInScreen = ({navigation}) => {
   signUp = () => {
     navigation.navigate('SignUp');
   };
+  home = () => {
+    nsvigation.navigate('Home');
+  };
 
   const renderForm = () => {
     return (
@@ -39,7 +42,7 @@ const SignInScreen = ({navigation}) => {
               style={styles.image}
             />
             <Text style={styles.header}>Welcome</Text>
-            <Text style={styles.header1}> Back</Text>
+            <Text style={styles.header1}>Back</Text>
           </View>
           <View style={styles.form}>
             <SignInForm
@@ -56,8 +59,9 @@ const SignInScreen = ({navigation}) => {
           </View>
           {/* <Text>Abc</Text> */}
           <View>
-            {isValid === true ? (
-              <TouchableOpacity>
+            {/* {isValid === true ? ( */}
+            {phone && password ? (
+              <TouchableOpacity onpress={home}>
                 <Image
                   source={require('../Images/SignUp/btn_able.png')}
                   style={styles.imagesignin}
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
   sign: {
     flexDirection: 'row',
     marginTop: 30,
-    marginHorizontal: 40,
+    marginHorizontal: 50,
 
     justifyContent: 'space-between',
   },
