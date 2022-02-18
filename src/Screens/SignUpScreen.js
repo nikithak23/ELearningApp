@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
     color: '#4C93FF',
     fontSize: 16,
     fontWeight: '600',
+    textDecorationLine: 'underline'
   },
 });
 export default SignUpScreen;
