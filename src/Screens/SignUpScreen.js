@@ -42,7 +42,6 @@ import React, {useState} from 'react';
 import {Text, View, Button,Image,StyleSheet,TouchableOpacity} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
-import { RotateInDownLeft } from 'react-native-reanimated';
 
 
 
