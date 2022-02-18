@@ -82,7 +82,7 @@ const SignInScreen = ({navigation}) => {
         </View>
         <View style={styles.forget}>
           <TouchableOpacity onPress={verify}>
-            <Text style={styles.forgetPassword}>Forget Password</Text>
+            <Text style={styles.forgetPassword}>Forgot Password</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.dontHave}>

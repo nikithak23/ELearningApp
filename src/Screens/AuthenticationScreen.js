@@ -51,7 +51,7 @@ const AuthenticationScreen = () => {
                     styles.cellView,
                     {
                       borderColor:
-                        index === internalVal.length ? '#4C93FF' : '#eeeeee6',
+                        index === internalVal.length ? '#4C93FF' : '#eeeeee',
                     },
                   ]}>
                   <Text
