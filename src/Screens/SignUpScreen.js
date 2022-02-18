@@ -140,20 +140,22 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor:'#3C7EE3',
-    paddingVertical:30
+    paddingBottom:30,
+    paddingTop:40
   },
   image:{
-    width:43, 
-    height: 44, 
+    width:45, 
+    height: 46, 
     resizeMode: 'contain',
     marginLeft:50,
-    marginBottom:19
+    marginBottom:15
   },
   header: {
     fontSize:40,
-    fontWeight:'800',
-    color:'black',
-    marginLeft:50
+    fontFamily: 'Rubik',
+    fontWeight:'700',
+    color:'#FFFFFF',
+    marginLeft:50,
   },
   signupContainer:{
       flexDirection:'row',
@@ -165,9 +167,11 @@ const styles = StyleSheet.create({
   signup:{
     fontSize:25,
     color:'#000000',
-    fontWeight:'500',
+    fontFamily:'Rubik',
+    fontWeight:'700',
     lineHeight:28,
-    paddingBottom:10
+    paddingBottom:10,
+    
   },
   submitBtn:{
     width:80, 
@@ -184,12 +188,14 @@ const styles = StyleSheet.create({
   bottomText:{
     fontSize:16,
     color:'#AFAFAF',
-    fontWeight:'500'
+    fontWeight:'500',
+    fontFamily:'Rubik',
   },
   signinText:{
     color:'#4C93FF',
     fontSize:16,
     fontWeight:'500',
+    fontFamily:'Rubik',
   },
 });
 export default SignUpScreen;
