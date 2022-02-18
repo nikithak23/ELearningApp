@@ -80,16 +80,17 @@ const SignUpScreen = ({navigation}) => {
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
-        <View style={styles.secondContainer}>
+    <View style={styles.container}>
+      <View style={styles.secondContainer}>
+
+
         <View style={styles.headerContainer}>
-        <Image source={require('../Images/SignUp/yellowLogo.png')}
-              style={styles.image}
-        />
+          <Image source={require('../Images/SignUp/yellowLogo.png')} style={styles.image}/>
           <Text style={styles.header}>Create an</Text>
           <Text style={styles.header}>Account</Text>
-          </View>
-          <View style={styles.form}>
+        </View>
+
+        <View>
             <SignUpForm
               name={name}
               setName={setName}
@@ -102,18 +103,27 @@ const SignUpScreen = ({navigation}) => {
               confirmPassword={confirmPassword}
               setConfirmPassword={setConfirmPassword}
             />
-          </View>
         </View>
-        <View>
-          <Text>SignUp</Text>
-          </View>
-          <View style={styles.button}>
-          <Button onPress={validation} title="Login" color={'darkolivegreen'}></Button>
-          {isValid === true ? (
-            <Text style={styles.success}>Login Success. Hello {name}</Text>
-          ) : null}
+
+        <View style={styles.signupContainer}>
+          <Text style={styles.signup}>SignUp</Text>
+          <TouchableOpacity onPress={validation}>
+          {name&&phone&&confirmPassword&&(password===confirmPassword)? (
+            <Image source={require('../Images/SignUp/btn_able.png')} style={styles.submitBtn}/>
+          ) : (
+            <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
+          }
+          </TouchableOpacity>
         </View>
+
+        <View style={styles.bottomContainer}>
+            <Text style={styles.bottomText}>Already have an Account? </Text>
+            <TouchableOpacity><Text style={styles.signinText}>Sign In</Text></TouchableOpacity>
+        </View>
+          
+
       </View>
+    </View>
     );
   };
 
@@ -137,7 +147,8 @@ const styles = StyleSheet.create({
     width:43, 
     height: 44, 
     resizeMode: 'contain',
-    marginLeft:50
+    marginLeft:50,
+    marginBottom:19
   },
   header: {
     fontSize:40,
@@ -145,20 +156,43 @@ const styles = StyleSheet.create({
     color:'black',
     marginLeft:50
   },
-  form: {
-    flex: 1,
+  signupContainer:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems: 'center',
+      marginTop:15,
+      marginHorizontal:50,
   },
-  button: {
-    marginTop:20,
-    marginBottom:120,
-    fontWeight:'bold',
-    marginHorizontal:80,
+  signup:{
+    fontSize:25,
+    color:'#000000',
+    fontWeight:'500',
+    lineHeight:28,
+    paddingBottom:10
   },
-  success: {
-    marginTop: 0,
-    textAlign: 'center',
-    color: 'black',
+  submitBtn:{
+    width:80, 
+    height: 80, 
+    resizeMode: 'contain',
+  },
+  bottomContainer:{
+      flexDirection:'row',
+      justifyContent:'flex-start',
+      alignItems: 'center',
+      marginTop:10,
+      marginHorizontal:50,
+  },
+  bottomText:{
+    fontSize:16,
+    color:'#AFAFAF',
+    fontWeight:'500'
+  },
+  signinText:{
+    color:'#4C93FF',
+    fontSize:16,
+    fontWeight:'500',
   },
 });
 export default SignUpScreen;
+
 
