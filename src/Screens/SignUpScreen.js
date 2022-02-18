@@ -58,6 +58,10 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
+  const signIn = () => {
+    navigation.navigate('SignIn');
+  };
+
   const validation = () => {
     if (
       /[0-9]/.test(name) === false &&
@@ -131,7 +135,7 @@ const SignUpScreen = ({navigation}) => {
 
           <View style={styles.bottomContainer}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={signIn}>
               <Text style={styles.signinText}>Sign In</Text>
             </TouchableOpacity>
           </View>
