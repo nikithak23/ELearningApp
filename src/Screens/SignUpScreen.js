@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   image: {
-    width: 43,
+    width: 44,
     height: 44,
     resizeMode: 'contain',
     marginLeft: 50,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 40,
     fontWeight: '800',
-    color: 'black',
+    color: 'white',
     marginLeft: 50,
   },
   signupContainer: {
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   submitBtn: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     resizeMode: 'contain',
   },
   bottomContainer: {
