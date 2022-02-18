@@ -7,8 +7,8 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
-import App from './App';
-//import mainNavig from './src/mainNavig';
+// import App from './App';
+import mainNavig from './src/mainNavig';
 //import AuthenticationScreen from './src/Screens/AuthenticationScreen';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => mainNavig);
