@@ -89,7 +89,7 @@ const SignUpScreen = ({navigation}) => {
           <Text style={styles.header}>Create an</Text>
           <Text style={styles.header}>Account</Text>
           </View>
-          <View style={styles.form}>
+          <View>
             <SignUpForm
               name={name}
               setName={setName}
@@ -103,15 +103,18 @@ const SignUpScreen = ({navigation}) => {
               setConfirmPassword={setConfirmPassword}
             />
           </View>
-        </View>
-        <View>
-          <Text>SignUp</Text>
-          </View>
-          <View style={styles.button}>
-          <Button onPress={validation} title="Login" color={'darkolivegreen'}></Button>
+         
+       
+          <View style={styles.signupContainer}>
+          <Text style={styles.signup}>SignUp</Text>
+          <TouchableOpacity onPress={validation}>
           {isValid === true ? (
-            <Text style={styles.success}>Login Success. Hello {name}</Text>
-          ) : null}
+            <Image source={require('../Images/SignUp/btn_able.png')} style={styles.submitBtn}/>
+          ) : (
+          <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
+          }
+          </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -145,20 +148,26 @@ const styles = StyleSheet.create({
     color:'black',
     marginLeft:50
   },
-  form: {
-    flex: 1,
+  signupContainer:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems: 'center',
+      marginTop:15,
+      marginHorizontal:30,
   },
-  button: {
-    marginTop:20,
-    marginBottom:120,
-    fontWeight:'bold',
-    marginHorizontal:80,
+  signup:{
+    fontSize:25,
+    color:'#000000',
+    fontWeight:'500',
+    lineHeight:28,
   },
-  success: {
-    marginTop: 0,
-    textAlign: 'center',
-    color: 'black',
-  },
+  submitBtn:{
+    width:80, 
+    height: 80, 
+    resizeMode: 'contain',
+    marginLeft:50
+  }
 });
 export default SignUpScreen;
+
 
