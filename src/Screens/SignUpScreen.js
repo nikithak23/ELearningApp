@@ -49,12 +49,6 @@ import {
 } from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
-<<<<<<< HEAD
-import {RotateInDownLeft} from 'react-native-reanimated';
-=======
-
-
->>>>>>> f7a992397f78f20d14e909cd9f26dbfb731258a7
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -89,7 +83,6 @@ const SignUpScreen = ({navigation}) => {
 
   const renderForm = () => {
     return (
-<<<<<<< HEAD
       <View style={styles.container}>
         <View style={styles.secondContainer}>
           <View style={styles.headerContainer}>
@@ -100,20 +93,8 @@ const SignUpScreen = ({navigation}) => {
             <Text style={styles.header}>Create an</Text>
             <Text style={styles.header}>Account</Text>
           </View>
-          <View style={styles.form}>
-=======
-    <View style={styles.container}>
-      <View style={styles.secondContainer}>
 
-
-        <View style={styles.headerContainer}>
-          <Image source={require('../Images/SignUp/yellowLogo.png')} style={styles.image}/>
-          <Text style={styles.header}>Create an</Text>
-          <Text style={styles.header}>Account</Text>
-        </View>
-
-        <View>
->>>>>>> 6efdbb90db578f96d8a949f8a4057b43b86b7e5d
+          <View>
             <SignUpForm
               name={name}
               setName={setName}
@@ -126,41 +107,36 @@ const SignUpScreen = ({navigation}) => {
               confirmPassword={confirmPassword}
               setConfirmPassword={setConfirmPassword}
             />
-        </View>
-<<<<<<< HEAD
-        <View>
-          <Text>SignUp</Text>
-        </View>
-        <View style={styles.button}>
-          <Button
-            onPress={validation}
-            title="Login"
-            color={'darkolivegreen'}></Button>
-          {isValid === true ? (
-            <Text style={styles.success}>Login Success. Hello {name}</Text>
-          ) : null}
-=======
+          </View>
 
-        <View style={styles.signupContainer}>
-          <Text style={styles.signup}>SignUp</Text>
-          <TouchableOpacity onPress={validation}>
-          {name&&phone&&confirmPassword&&(password===confirmPassword)? (
-            <Image source={require('../Images/SignUp/btn_able.png')} style={styles.submitBtn}/>
-          ) : (
-            <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
-          }
-          </TouchableOpacity>
-        </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signup}>SignUp</Text>
+            <TouchableOpacity onPress={validation}>
+              {name &&
+              phone &&
+              confirmPassword &&
+              password === confirmPassword ? (
+                <Image
+                  source={require('../Images/SignUp/btn_able.png')}
+                  style={styles.submitBtn}
+                />
+              ) : (
+                <Image
+                  source={require('../Images/SignUp/btn_disable.png')}
+                  style={styles.submitBtn}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.bottomContainer}>
+          <View style={styles.bottomContainer}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
-            <TouchableOpacity><Text style={styles.signinText}>Sign In</Text></TouchableOpacity>
->>>>>>> 6efdbb90db578f96d8a949f8a4057b43b86b7e5d
+            <TouchableOpacity>
+              <Text style={styles.signinText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-          
-
       </View>
-    </View>
     );
   };
 
@@ -184,12 +160,8 @@ const styles = StyleSheet.create({
     width: 43,
     height: 44,
     resizeMode: 'contain',
-<<<<<<< HEAD
     marginLeft: 50,
-=======
-    marginLeft:50,
-    marginBottom:19
->>>>>>> 6efdbb90db578f96d8a949f8a4057b43b86b7e5d
+    marginBottom: 19,
   },
   header: {
     fontSize: 40,
@@ -197,54 +169,41 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 50,
   },
-  signupContainer:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems: 'center',
-      marginTop:15,
-      marginHorizontal:50,
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+    marginHorizontal: 50,
   },
-<<<<<<< HEAD
-  button: {
-    marginTop: 20,
-    marginBottom: 120,
-    fontWeight: 'bold',
-    marginHorizontal: 80,
-=======
-  signup:{
-    fontSize:25,
-    color:'#000000',
-    fontWeight:'500',
-    lineHeight:28,
-    paddingBottom:10
->>>>>>> 6efdbb90db578f96d8a949f8a4057b43b86b7e5d
+  signup: {
+    fontSize: 25,
+    color: '#000000',
+    fontWeight: '500',
+    lineHeight: 28,
+    paddingBottom: 10,
   },
-  submitBtn:{
-    width:80, 
-    height: 80, 
+  submitBtn: {
+    width: 80,
+    height: 80,
     resizeMode: 'contain',
   },
-  bottomContainer:{
-      flexDirection:'row',
-      justifyContent:'flex-start',
-      alignItems: 'center',
-      marginTop:10,
-      marginHorizontal:50,
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: 50,
   },
-  bottomText:{
-    fontSize:16,
-    color:'#AFAFAF',
-    fontWeight:'500'
+  bottomText: {
+    fontSize: 16,
+    color: '#AFAFAF',
+    fontWeight: '500',
   },
-  signinText:{
-    color:'#4C93FF',
-    fontSize:16,
-    fontWeight:'500',
+  signinText: {
+    color: '#4C93FF',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 export default SignUpScreen;
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 6efdbb90db578f96d8a949f8a4057b43b86b7e5d

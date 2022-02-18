@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
-import {StackActions} from '@react-navigation/native';
-import {RotateInDownLeft} from 'react-native-reanimated';
 
 const SignInScreen = ({navigation}) => {
   const [phone, setPhone] = useState(null);
@@ -73,12 +71,6 @@ const SignInScreen = ({navigation}) => {
                 />
               </TouchableOpacity>
             )}
-            {/* <TouchableOpacity>
-              <Image
-                source={require('../Images/SignUp/btn_disable.png')}
-                style={styles.imagesignin}
-              />
-            </TouchableOpacity> */}
           </View>
         </View>
         <View style={styles.forget}>
@@ -90,13 +82,6 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.forgetPassword}> Sign Up</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <View style={styles.button}>
-          <Button
-            onPress={validation}
-            title="Login"
-            color={'darkolivegreen'}></Button>
-        </View> */}
       </View>
     );
   };
@@ -110,14 +95,10 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'white',
   },
-  secondContainer: {
-    // flex: 1,
-    // height: 312,
-  },
+  secondContainer: {},
   headerContainer: {
     backgroundColor: '#3C7EE3',
     height: 310,
-    // paddingVertical: 30,
   },
   image: {
     width: 39,
@@ -132,19 +113,14 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 51,
     marginTop: 19,
-    // fontWeight: 'bold',
   },
   header1: {
     fontSize: 42,
     fontWeight: '600',
     color: 'white',
     marginLeft: 51,
-    // fontWeight: 'bold',
-    // marginTop: 19,
   },
   form: {
-    // flex: 1,
-    // marginTop: 10,
     height: 290,
   },
   button: {
@@ -157,13 +133,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 30,
     marginHorizontal: 40,
-    // alignItems: 'center',
+
     justifyContent: 'space-between',
   },
   signText: {
     fontSize: 24,
     fontWeight: 'bold',
-    // marginLeft: 50,
   },
   imagesignin: {
     width: 100,
