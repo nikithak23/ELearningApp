@@ -58,7 +58,7 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
-  const signIn = () => {
+ const signIn = () => {
     navigation.navigate('SignIn');
   };
 
