@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 40,
-    fontWeight: '800',
+    fontWeight: '700',
     color: 'white',
     marginLeft: 50,
   },
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   signup: {
     fontSize: 25,
     color: '#000000',
-    fontWeight: '500',
+    fontWeight: '700',
     lineHeight: 28,
     paddingBottom: 10,
   },
@@ -202,12 +202,12 @@ const styles = StyleSheet.create({
   bottomText: {
     fontSize: 16,
     color: '#AFAFAF',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   signinText: {
     color: '#4C93FF',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });
 export default SignUpScreen;
