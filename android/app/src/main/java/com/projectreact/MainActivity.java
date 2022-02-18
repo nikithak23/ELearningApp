@@ -13,8 +13,5 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ProjectReact";
   }
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-  super.onCreate(null);
-}
+
 }
