@@ -115,6 +115,12 @@ const SignUpScreen = ({navigation}) => {
           }
           </TouchableOpacity>
           </View>
+
+          <View style={styles.bottomContainer}>
+            <Text style={styles.bottomText}>Already have an Account? </Text>
+            <TouchableOpacity><Text style={styles.signinText}>Sign In</Text></TouchableOpacity>
+          </View>
+          
         </View>
       </View>
     );
@@ -166,7 +172,24 @@ const styles = StyleSheet.create({
     height: 80, 
     resizeMode: 'contain',
     marginLeft:50
-  }
+  },
+  bottomContainer:{
+      flexDirection:'row',
+      justifyContent:'flex-start',
+      alignItems: 'center',
+      marginTop:15,
+      marginHorizontal:30,
+  },
+  bottomText:{
+    fontSize:16,
+    color:'#AFAFAF',
+    fontWeight:'500'
+  },
+  signinText:{
+    color:'#4C93FF',
+    fontSize:16,
+    fontWeight:'500',
+  },
 });
 export default SignUpScreen;
 
