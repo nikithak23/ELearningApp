@@ -49,7 +49,12 @@ import {
 } from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
+<<<<<<< HEAD
 import {RotateInDownLeft} from 'react-native-reanimated';
+=======
+
+
+>>>>>>> f7a992397f78f20d14e909cd9f26dbfb731258a7
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
