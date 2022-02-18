@@ -39,12 +39,17 @@ export default SignUpScreen;
 
 import React, {useState} from 'react';
 
-import {Text, View, Button,Image,StyleSheet,TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
-import { RotateInDownLeft } from 'react-native-reanimated';
-
-
+import {RotateInDownLeft} from 'react-native-reanimated';
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -53,7 +58,6 @@ const SignUpScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
-
 
   const validation = () => {
     if (
@@ -64,8 +68,9 @@ const SignUpScreen = ({navigation}) => {
       password === confirmPassword
     ) {
       setIsValid(true);
-      console.log(isValid)
-      navigation.dispatch(StackActions.replace('Home', {
+      console.log(isValid);
+      navigation.dispatch(
+        StackActions.replace('Home', {
           name: name,
           //email:email,
           phone: phone,
@@ -73,8 +78,7 @@ const SignUpScreen = ({navigation}) => {
       );
     } else {
       setIsValid(false);
-      console.log(isValid)
-      
+      console.log(isValid);
     }
   };
 
@@ -82,12 +86,13 @@ const SignUpScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
         <View style={styles.secondContainer}>
-        <View style={styles.headerContainer}>
-        <Image source={require('../Images/SignUp/yellowLogo.png')}
+          <View style={styles.headerContainer}>
+            <Image
+              source={require('../Images/SignUp/yellowLogo.png')}
               style={styles.image}
-        />
-          <Text style={styles.header}>Create an</Text>
-          <Text style={styles.header}>Account</Text>
+            />
+            <Text style={styles.header}>Create an</Text>
+            <Text style={styles.header}>Account</Text>
           </View>
           <View style={styles.form}>
             <SignUpForm
@@ -106,9 +111,12 @@ const SignUpScreen = ({navigation}) => {
         </View>
         <View>
           <Text>SignUp</Text>
-          </View>
-          <View style={styles.button}>
-          <Button onPress={validation} title="Login" color={'darkolivegreen'}></Button>
+        </View>
+        <View style={styles.button}>
+          <Button
+            onPress={validation}
+            title="Login"
+            color={'darkolivegreen'}></Button>
           {isValid === true ? (
             <Text style={styles.success}>Login Success. Hello {name}</Text>
           ) : null}
@@ -117,7 +125,7 @@ const SignUpScreen = ({navigation}) => {
     );
   };
 
-return <View>{renderForm()}</View>;
+  return <View>{renderForm()}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -130,29 +138,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    backgroundColor:'#3C7EE3',
-    paddingVertical:30
+    backgroundColor: '#3C7EE3',
+    paddingVertical: 30,
   },
-  image:{
-    width:43, 
-    height: 44, 
+  image: {
+    width: 43,
+    height: 44,
     resizeMode: 'contain',
-    marginLeft:50
+    marginLeft: 50,
   },
   header: {
-    fontSize:40,
-    fontWeight:'800',
-    color:'black',
-    marginLeft:50
+    fontSize: 40,
+    fontWeight: '800',
+    color: 'black',
+    marginLeft: 50,
   },
   form: {
     flex: 1,
   },
   button: {
-    marginTop:20,
-    marginBottom:120,
-    fontWeight:'bold',
-    marginHorizontal:80,
+    marginTop: 20,
+    marginBottom: 120,
+    fontWeight: 'bold',
+    marginHorizontal: 80,
   },
   success: {
     marginTop: 0,
@@ -161,4 +169,3 @@ const styles = StyleSheet.create({
   },
 });
 export default SignUpScreen;
-
