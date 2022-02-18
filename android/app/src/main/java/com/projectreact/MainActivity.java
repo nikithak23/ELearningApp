@@ -1,3 +1,4 @@
+import android.os.Bundle;
 package com.projectreact;
 
 import com.facebook.react.ReactActivity;
@@ -12,4 +13,8 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ProjectReact";
   }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
 }
