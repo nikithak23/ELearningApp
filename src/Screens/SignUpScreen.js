@@ -39,11 +39,16 @@ export default SignUpScreen;
 
 import React, {useState} from 'react';
 
-import {Text, View, Button,Image,StyleSheet,TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
-
-
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -52,7 +57,6 @@ const SignUpScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
-
 
   const validation = () => {
     if (
@@ -63,8 +67,9 @@ const SignUpScreen = ({navigation}) => {
       password === confirmPassword
     ) {
       setIsValid(true);
-      console.log(isValid)
-      navigation.dispatch(StackActions.replace('Home', {
+      console.log(isValid);
+      navigation.dispatch(
+        StackActions.replace('Home', {
           name: name,
           //email:email,
           phone: phone,
@@ -72,24 +77,24 @@ const SignUpScreen = ({navigation}) => {
       );
     } else {
       setIsValid(false);
-      console.log(isValid)
-      
+      console.log(isValid);
     }
   };
 
   const renderForm = () => {
     return (
-    <View style={styles.container}>
-      <View style={styles.secondContainer}>
+      <View style={styles.container}>
+        <View style={styles.secondContainer}>
+          <View style={styles.headerContainer}>
+            <Image
+              source={require('../Images/SignUp/yellowLogo.png')}
+              style={styles.image}
+            />
+            <Text style={styles.header}>Create an</Text>
+            <Text style={styles.header}>Account</Text>
+          </View>
 
-
-        <View style={styles.headerContainer}>
-          <Image source={require('../Images/SignUp/yellowLogo.png')} style={styles.image}/>
-          <Text style={styles.header}>Create an</Text>
-          <Text style={styles.header}>Account</Text>
-        </View>
-
-        <View>
+          <View>
             <SignUpForm
               name={name}
               setName={setName}
@@ -102,31 +107,40 @@ const SignUpScreen = ({navigation}) => {
               confirmPassword={confirmPassword}
               setConfirmPassword={setConfirmPassword}
             />
-        </View>
+          </View>
 
-        <View style={styles.signupContainer}>
-          <Text style={styles.signup}>SignUp</Text>
-          <TouchableOpacity onPress={validation}>
-          {name&&phone&&confirmPassword&&(password===confirmPassword)? (
-            <Image source={require('../Images/SignUp/btn_able.png')} style={styles.submitBtn}/>
-          ) : (
-            <Image source={require('../Images/SignUp/btn_disable.png')} style={styles.submitBtn}/>)
-          }
-          </TouchableOpacity>
-        </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signup}>SignUp</Text>
+            <TouchableOpacity onPress={validation}>
+              {name &&
+              phone &&
+              confirmPassword &&
+              password === confirmPassword ? (
+                <Image
+                  source={require('../Images/SignUp/btn_able.png')}
+                  style={styles.submitBtn}
+                />
+              ) : (
+                <Image
+                  source={require('../Images/SignUp/btn_disable.png')}
+                  style={styles.submitBtn}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.bottomContainer}>
+          <View style={styles.bottomContainer}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
-            <TouchableOpacity><Text style={styles.signinText}>Sign In</Text></TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.signinText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-          
-
       </View>
-    </View>
     );
   };
 
-return <View>{renderForm()}</View>;
+  return <View>{renderForm()}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -139,65 +153,57 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    backgroundColor:'#3C7EE3',
-    paddingBottom:30,
-    paddingTop:40
+    backgroundColor: '#3C7EE3',
+    paddingVertical: 30,
   },
-  image:{
-    width:45, 
-    height: 46, 
+  image: {
+    width: 43,
+    height: 44,
     resizeMode: 'contain',
-    marginLeft:50,
-    marginBottom:15
+    marginLeft: 50,
+    marginBottom: 19,
   },
   header: {
-    fontSize:40,
-    fontFamily: 'Rubik',
-    fontWeight:'700',
-    color:'#FFFFFF',
-    marginLeft:50,
+    fontSize: 40,
+    fontWeight: '800',
+    color: 'black',
+    marginLeft: 50,
   },
-  signupContainer:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignItems: 'center',
-      marginTop:15,
-      marginHorizontal:50,
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+    marginHorizontal: 50,
   },
-  signup:{
-    fontSize:25,
-    color:'#000000',
-    fontFamily:'Rubik',
-    fontWeight:'700',
-    lineHeight:28,
-    paddingBottom:10,
-    
+  signup: {
+    fontSize: 25,
+    color: '#000000',
+    fontWeight: '500',
+    lineHeight: 28,
+    paddingBottom: 10,
   },
-  submitBtn:{
-    width:80, 
-    height: 80, 
+  submitBtn: {
+    width: 80,
+    height: 80,
     resizeMode: 'contain',
   },
-  bottomContainer:{
-      flexDirection:'row',
-      justifyContent:'flex-start',
-      alignItems: 'center',
-      marginTop:10,
-      marginHorizontal:50,
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: 50,
   },
-  bottomText:{
-    fontSize:16,
-    color:'#AFAFAF',
-    fontWeight:'500',
-    fontFamily:'Rubik',
+  bottomText: {
+    fontSize: 16,
+    color: '#AFAFAF',
+    fontWeight: '500',
   },
-  signinText:{
-    color:'#4C93FF',
-    fontSize:16,
-    fontWeight:'500',
-    fontFamily:'Rubik',
+  signinText: {
+    color: '#4C93FF',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 export default SignUpScreen;
-
-
