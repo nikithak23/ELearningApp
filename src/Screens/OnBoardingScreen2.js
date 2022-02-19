@@ -13,33 +13,14 @@ const OnboardingScreen1 = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: '#EBEEF4',
-
-          height: 100,
-          width: 400,
-        }}>
+      <View style={styles.topContainer}>
         <TouchableOpacity onPress={skipToSign}>
-          <Text
-            style={{
-              marginTop: 64,
-              marginLeft: 330,
-              fontSize: 16,
-              fontWeight: 'bold',
-              color: 'black',
-            }}>
-            Skip
-          </Text>
+          <Text style={styles.skipText}>Skip</Text>
         </TouchableOpacity>
       </View>
       <ImageBackground
         source={require('../Images/OnBoarding/onscreen2.png')}
-        style={{
-          width: 390,
-          height: 450,
-          //   marginTop: -200,
-        }}></ImageBackground>
+        style={styles.backgroundImage}></ImageBackground>
       <View style={styles.text1view}>
         <Text style={styles.text1}>User Friendly</Text>
         <Text style={styles.text2}>
@@ -47,45 +28,10 @@ const OnboardingScreen1 = ({navigation}) => {
         </Text>
       </View>
       <View style={styles.bottom}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginLeft: 50,
-          }}>
-          <View
-            style={{
-              height: 6,
-              width: 6,
-              borderWidth: 1,
-              borderColor: '#4C93FF',
-              borderRadius: 12,
-              backgroundColor: '#4C93FF',
-
-              opacity: 0.4,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 25,
-              borderWidth: 1,
-              borderColor: '#4C93FF',
-              borderRadius: 12,
-              backgroundColor: '#4C93FF',
-              marginLeft: 5,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 6,
-              borderWidth: 1,
-              borderColor: '#4C93FF',
-              borderRadius: 12,
-              backgroundColor: '#4C93FF',
-
-              opacity: 0.4,
-              marginLeft: 5,
-            }}></View>
+        <View style={styles.bottom1}>
+          <View style={styles.inactiveBottom}></View>
+          <View style={styles.activeBottom}></View>
+          <View style={styles.inactiveBottom}></View>
         </View>
         <TouchableOpacity onPress={onBoardTo3}>
           <Image
@@ -103,16 +49,28 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-    // justifyContent: 'flex-start',
+
     alignItems: 'flex-start',
-    // backgroundColor: '#4C93FF',
   },
-  title: {
+  topContainer: {
+    backgroundColor: '#EBEEF4',
+    height: 100,
+    width: 400,
+  },
+  skipText: {
+    marginTop: Platform.OS === 'ios' ? 64 : 40,
+    marginLeft: 330,
     fontSize: 16,
+    fontWeight: 'bold',
     color: 'black',
   },
+
+  backgroundImage: {
+    width: 390,
+    height: 450,
+  },
   text1view: {
-    marginTop: 30,
+    marginTop: Platform.OS === 'ios' ? 30 : -30,
   },
   text1: {
     fontSize: 28,
@@ -136,10 +94,32 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flexDirection: 'row',
-    marginTop: 30,
-    // alignContent: 'space-around',
-    // justifyContent: 'space-around',
-    // marginHorizontal: 50,
+    marginTop: Platform.OS === 'ios' ? 30 : 0,
+  },
+  bottom1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 45,
+  },
+  activeBottom: {
+    height: 6,
+    width: 25,
+    borderWidth: 1,
+    borderColor: '#4C93FF',
+    borderRadius: 12,
+    backgroundColor: '#4C93FF',
+    marginLeft: 5,
+  },
+  inactiveBottom: {
+    height: 6,
+    width: 6,
+    borderWidth: 1,
+    borderColor: '#4C93FF',
+    borderRadius: 12,
+    backgroundColor: '#4C93FF',
+
+    opacity: 0.4,
+    marginLeft: 5,
   },
 });
 export default OnboardingScreen1;

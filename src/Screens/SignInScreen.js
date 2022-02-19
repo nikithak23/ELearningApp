@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     marginLeft: 51,
   },
   form: {
-    // height: 290,
     marginTop: Platform.OS === 'ios' ? 0 : -30,
     height: Platform.OS === 'ios' ? 290 : 260,
   },
