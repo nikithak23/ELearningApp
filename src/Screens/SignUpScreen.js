@@ -73,7 +73,7 @@ const SignUpScreen = ({navigation}) => {
       setIsValid(true);
       console.log(isValid);
       navigation.dispatch(
-        StackActions.replace('Home', {
+        StackActions.push('Home', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
           name: name,
           //email:email,
           phone: phone,
@@ -88,14 +88,14 @@ const SignUpScreen = ({navigation}) => {
   const renderForm = () => {
     return (
       <View style={styles.container}>
-        <View style={styles.secondContainer}>
-          <View style={styles.headerContainer}>
+          <View style={styles.headerContainer1}>
+          <View style={styles.headerContainer2}></View>
             <Image
               source={require('../Images/SignUp/yellowLogo.png')}
               style={styles.image}
             />
-            <Text style={styles.header}>Create an</Text>
-            <Text style={styles.header}>Account</Text>
+            <Text style={styles.header1}>Create an</Text>
+            <Text style={styles.header2}>Account</Text>
           </View>
 
           <View>
@@ -139,7 +139,6 @@ const SignUpScreen = ({navigation}) => {
               <Text style={styles.signinText}>Sign In</Text>
             </TouchableOpacity>
           </View>
-        </View>
       </View>
     );
   };
@@ -153,25 +152,49 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'white',
   },
-  secondContainer: {
-    flex: 1,
+  headerContainer1: {
+    //backgroundColor: '#3C7EE3',
+    //paddingVertical: 30,
+    backgroundColor: '#3c7ee3',
+    borderRadius: 70,
+    height: 310,
+    width: 452,
+    transform: [{rotate: '-12deg'}],
+    marginTop: -80,
+    marginLeft: -12,
   },
-  headerContainer: {
-    backgroundColor: '#3C7EE3',
-    paddingVertical: 30,
+  headerContainer2: {
+    backgroundColor: '#3274d8',
+    borderRadius: 70,
+    height: 180,
+    width: 340,
+    transform: [{rotate: '20deg'}],
+    alignSelf: 'flex-end',
+    marginRight: -50,
+    marginTop: -2
   },
   image: {
     width: 44,
     height: 44,
     resizeMode: 'contain',
-    marginLeft: 50,
-    marginBottom: 19,
+    marginLeft: 70,
+    marginTop:-70,
+    marginBottom:40,
+    transform: [{rotate: '12deg'}],
   },
-  header: {
+  header1: {
     fontSize: 40,
     fontWeight: '700',
     color: 'white',
     marginLeft: 50,
+    transform: [{rotate: '12deg'}],
+  },
+  header2: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 40,
+    transform: [{rotate: '12deg'}],
   },
   signupContainer: {
     flexDirection: 'row',
