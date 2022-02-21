@@ -14,9 +14,14 @@ const OnboardingScreen1 = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <TouchableOpacity onPress={skipToSign}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
+        <View style={styles.skipTextContainer}>
+          <View style={styles.spaceUp}></View>
+          <View>
+            <TouchableOpacity onPress={skipToSign}>
+              <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
 
       <ImageBackground
@@ -35,6 +40,9 @@ const OnboardingScreen1 = ({navigation}) => {
           <View style={styles.inactiveBottom}></View>
           <View style={styles.inactiveBottom}></View>
         </View>
+
+        <View style={styles.spaceDown}></View>
+
         <TouchableOpacity onPress={onBoardTo2}>
           <Image
             source={require('../Images/SignUp/btn_able.png')}
@@ -53,14 +61,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'flex-start',
   },
+
   topContainer: {
     backgroundColor: '#EBEEF4',
     height: 100,
     width: 400,
   },
+  skipTextContainer: {
+    alignItems: Platform.OS === 'ios' ? 'flex-end' : 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+
+  spaceUp: {height: 100, width: 200},
   skipText: {
-    marginTop: Platform.OS === 'ios' ? 64 : 40,
-    marginLeft: 330,
     fontSize: 16,
     fontWeight: 'bold',
     color: 'black',
@@ -86,12 +100,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  imagesignin: {
-    width: 100,
-    height: 100,
-    marginLeft: 160,
-    marginTop: 20,
-  },
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
@@ -116,9 +124,16 @@ const styles = StyleSheet.create({
     borderColor: '#4C93FF',
     borderRadius: 12,
     backgroundColor: '#4C93FF',
-
     opacity: 0.4,
     marginLeft: 5,
+  },
+  spaceDown: {
+    width: 160,
+  },
+  imagesignin: {
+    width: 100,
+    height: 100,
+    marginTop: 20,
   },
 });
 export default OnboardingScreen1;

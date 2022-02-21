@@ -13,7 +13,7 @@ const SplashScreen = ({navigation, route}) => {
     let interval;
     interval = setTimeout(() => {
       hideSplashScreen();
-      navigation.dispatch(StackActions.replace('SignIn'));
+      navigation.dispatch(StackActions.replace('OnBoard2'));
     }, 2500);
 
     return () => {
