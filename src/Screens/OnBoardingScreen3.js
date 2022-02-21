@@ -1,6 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity} from 'react-native';
 
 const OnboardingScreen1 = ({navigation}) => {
   gotoSignIn = () => {
