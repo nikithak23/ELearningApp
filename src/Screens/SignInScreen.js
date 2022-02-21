@@ -45,24 +45,24 @@ const SignInScreen = ({navigation}) => {
   const renderForm = () => {
     return (
       <View style={styles.container}>
-        <View style={styles.secondContainer}>
-          <View style={styles.headerContainer}>
-            <Image
-              source={require('../Images/SignUp/yellowLogo.png')}
-              style={styles.image}
-            />
-            <Text style={styles.header}>Welcome</Text>
-            <Text style={styles.header1}>Back</Text>
-          </View>
-          <View style={styles.form}>
-            <SignInForm
-              password={password}
-              setPassword={setPassword}
-              phone={phone}
-              setPhone={setPhone}
-            />
-          </View>
+        <View style={styles.headerContainer1}>
+          <View style={styles.headerContainer2}></View>
+          <Image
+            source={require('../Images/SignUp/yellowLogo.png')}
+            style={styles.image}
+          />
+          <Text style={styles.header1}>Welcome</Text>
+          <Text style={styles.header2}>Back</Text>
         </View>
+        <View style={styles.form}>
+          <SignInForm
+            password={password}
+            setPassword={setPassword}
+            phone={phone}
+            setPhone={setPhone}
+          />
+        </View>
+
         <View style={styles.sign}>
           <Text style={styles.signText}>Sign in</Text>
 
@@ -104,34 +104,51 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'white',
   },
-  secondContainer: {},
 
-  headerContainer: {
-    backgroundColor: '#3C7EE3',
-    marginTop: Platform.OS === 'ios' ? 0 : -20,
-    // height: 310,
+  headerContainer1: {
+    backgroundColor: '#3c7ee3',
+    borderRadius: 70,
     height: Platform.OS === 'ios' ? 310 : 300,
+    width: 452,
+    transform: [{rotate: '-12deg'}],
+    marginTop: Platform.OS === 'ios' ? -70 : -80,
+    marginLeft: -12,
+  },
+  headerContainer2: {
+    backgroundColor: '#3274d8',
+    borderRadius: 70,
+    height: 180,
+    width: 340,
+    transform: [{rotate: '20deg'}],
+    alignSelf: 'flex-end',
+    marginRight: -50,
+    marginTop: -2,
   },
   image: {
-    width: 39,
-    height: 29,
+    width: 44,
+    height: 44,
     resizeMode: 'contain',
-    marginLeft: 51,
-    marginTop: 84,
+    marginLeft: 70,
+    marginTop: -70,
+    marginBottom: 40,
+    transform: [{rotate: '12deg'}],
   },
-  header: {
-    fontSize: 42,
-    fontWeight: '600',
-    color: 'white',
-    marginLeft: 51,
-    marginTop: 19,
-  },
+
   header1: {
-    fontSize: 42,
-    fontWeight: '600',
+    fontSize: 40,
+    fontWeight: '700',
     color: 'white',
-    marginLeft: 51,
+    marginLeft: 50,
+    transform: [{rotate: '12deg'}],
   },
+  header2: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 40,
+    transform: [{rotate: '12deg'}],
+  },
+
   form: {
     marginTop: Platform.OS === 'ios' ? 0 : -30,
     height: Platform.OS === 'ios' ? 290 : 260,
@@ -144,7 +161,7 @@ const styles = StyleSheet.create({
   },
   sign: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 50,
     marginHorizontal: 50,
 
     justifyContent: 'space-between',
@@ -156,12 +173,10 @@ const styles = StyleSheet.create({
   imagesignin: {
     width: 100,
     height: 100,
-
-    // marginLeft: 159,
     marginTop: -20,
   },
   forget: {
-    marginTop: 10,
+    marginTop: 20,
     marginLeft: 50,
   },
   forgetPassword: {
@@ -171,7 +186,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   dontHave: {
-    marginTop: 50,
+    marginTop: 70,
     marginLeft: 50,
     flexDirection: 'row',
   },
