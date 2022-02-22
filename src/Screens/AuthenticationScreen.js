@@ -1,30 +1,56 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback, Button} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 const btnAble= require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
+const btnCancel = require('../Images/Auth/btn_cancel.png');
 
-const AuthenticationScreen = () => {
+const AuthenticationScreen = ({navigation}) => {
   let textInput = useRef(null)
   const lengthInput = 4;
   const [internalVal, setInternalVal]= useState('')
+  const [wrongOtp, setWrongOtp] = useState(false)
 
   const onChangeText = (val)=> {
     setInternalVal(val)
+    setWrongOtp(false)
   }
+
   useEffect(()=>{
     textInput.focus()
   },[])
+
+  const goHome = () => {
+    if(internalVal==='0000'){
+      return navigation.replace('Home');
+    }
+    else{
+      setInternalVal('')
+      setWrongOtp(true)
+    }
+  }
+
+  const goSignin = () => {
+    return navigation.goBack()
+  }
+
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.rectangle2}>
           <View style={styles.rectangle1}></View>
+          {/* <View style={{flexDirection: 'column'}}> */}
+          <Image
+            source={btnCancel}
+            style={styles.btnCancel}
+            onPress={() => alert('vbn')}
+          />
           <Text style={styles.title}>Verify Account</Text>
           <Text style={styles.text}>
             Enter verification code that we have sent to your email.
           </Text>
+          {/* </View> */}
         </View>
       </View>
       <KeyboardAvoidingView
@@ -50,8 +76,11 @@ const AuthenticationScreen = () => {
                   style={[
                     styles.cellView,
                     {
-                      borderColor:
-                        index === internalVal.length ? '#4C93FF' : '#eeeeee',
+                      borderColor: wrongOtp
+                        ? '#f89191'
+                        : index === internalVal.length
+                        ? '#4C93FF'
+                        : '#eeeeee',
                     },
                   ]}>
                   <Text
@@ -64,6 +93,14 @@ const AuthenticationScreen = () => {
                 </View>
               ))}
           </View>
+          {wrongOtp ? (
+            <View style={styles.row}>
+              <View style={styles.rsymbol}>
+                <Text style={styles.exclamatory}>!</Text>
+              </View>
+              <Text style={styles.rtext}>Invalid verification code</Text>
+            </View>
+          ) : null}
         </View>
         <View style={styles.row}>
           <Text style={styles.qText}>Didn't receive a code? </Text>
@@ -71,7 +108,11 @@ const AuthenticationScreen = () => {
         </View>
         <View style={styles.row}>
           <Text style={styles.verifyText}>Verify</Text>
-          <Image source={btnDisable} style={styles.btn} />
+          {internalVal.length < 4 ? (
+            <Image source={btnDisable} style={styles.btn} />
+          ) : (
+            <Image source={btnAble} onPress={goHome()} style={styles.btn} />
+          )}
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -112,9 +153,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
+    marginTop: 70,
   },
   text: {
     fontSize: 16,
+    fontWeight: '500',
     width: 290,
     marginTop: 5,
     marginLeft: 40,
@@ -136,7 +179,7 @@ const styles = StyleSheet.create({
     transform: [{rotate: '20deg'}],
     alignSelf: 'flex-end',
     marginRight: -50,
-    marginTop: -5
+    marginTop: -5,
   },
   rectangle2: {
     backgroundColor: '#3c7ee3',
@@ -157,6 +200,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: -70,
   },
+  exclamatory:{
+    color: '#fff',
+    fontSize:12,
+    fontWeight: 'bold'
+  },
+  rsymbol: {
+    marginLeft: 4,
+    paddingLeft: 4.5,
+    backgroundColor: '#e04747',
+    width: 17,
+    height: 17,
+    borderWidth: 2,
+    borderRadius: 11,
+    borderColor: '#e04747',
+  },
+  rtext: {
+    fontSize: 15,
+    color: '#e04747',
+    marginLeft: 7,
+    fontWeight: '500',
+  },
   resend: {
     color: '#4C93FF',
     fontWeight: '700',
@@ -168,7 +232,14 @@ const styles = StyleSheet.create({
     height: 99,
     width: 110,
     marginTop: 40,
-    marginLeft:130
+    marginLeft: 130,
+  },
+  btnCancel: {
+    height: 25,
+    width: 25,
+    transform: [{rotate: '12deg'}],
+    marginLeft: 50,
+    marginTop: -80,
   },
   verifyText: {
     color: '#000',
