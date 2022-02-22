@@ -51,6 +51,7 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [otp,setOTP]=useState('');
 
 const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
@@ -73,18 +74,20 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
         });
         console.log(response.status)
         if (response.status === 200) {
-          console.log(response.status);
+          setOTP(response.data.data);
+          console.log(otp);
           setIsLoading(false);
           navigation.dispatch(
-            StackActions.push('Home', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
+            StackActions.push('Authentication', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
               name: name,
               //email:email,
               phone: username,
+              otp:otp,
             }),
           );
 
         } else {
-          console.log(response.status);
+          //console.log(response.status);
           console.log("entered the else1 loop");
           throw new Error("An error has occurred");
         }
