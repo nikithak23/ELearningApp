@@ -51,13 +51,18 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [otp,setOTP]=useState('');
+  //const [otp,setOTP]=useState('');
+  //const [data,setData]=useState('');
 
 const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
  const signIn = () => {
     navigation.navigate('SignIn');
   };
+  //const otpCall = async ()=>{
+  //  setOTP(data);
+  //}
+  
 
   const validation = async () => {   //Inorder to use 'await' define the ASYNC keyword at function declaration time
     if (/[0-9]/.test(name) === false &&username &&password &&//email.includes('@') &&
@@ -72,13 +77,16 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           username,
           password
         });
+        //setData(response.data.data);
         console.log(response.status)
         if (response.status === 200) {
-          setOTP(response.data.data);
+          let otp=response.data.data;
+           
+          //await otpCall();
           console.log(response.data);
           console.log(otp);
           setIsLoading(false);
-          navigation.dispatch(
+           await navigation.dispatch(
             StackActions.push('Authentication', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
               name: name,
               //email:email,

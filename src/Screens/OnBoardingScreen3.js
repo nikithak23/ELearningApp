@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity} from 'r
 
 const OnboardingScreen1 = ({navigation}) => {
   gotoSignIn = () => {
-    navigation.navigate('SignIn');
+    navigation.navigate('SignUp');
   };
 
   return (
