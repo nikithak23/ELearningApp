@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity} from 'react-native';
+
 
 const OnboardingScreen1 = ({navigation}) => {
   onBoardTo3 = () => {
@@ -14,10 +14,16 @@ const OnboardingScreen1 = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <TouchableOpacity onPress={skipToSign}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
+        <View style={styles.skipTextContainer}>
+          <View style={styles.spaceUp}></View>
+          <View>
+            <TouchableOpacity onPress={skipToSign}>
+              <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
+
       <ImageBackground
         source={require('../Images/OnBoarding/onscreen2.png')}
         style={styles.backgroundImage}></ImageBackground>
@@ -33,6 +39,7 @@ const OnboardingScreen1 = ({navigation}) => {
           <View style={styles.activeBottom}></View>
           <View style={styles.inactiveBottom}></View>
         </View>
+        <View style={styles.spaceDown}></View>
         <TouchableOpacity onPress={onBoardTo3}>
           <Image
             source={require('../Images/SignUp/btn_able.png')}
@@ -57,9 +64,16 @@ const styles = StyleSheet.create({
     height: 100,
     width: 400,
   },
+  skipTextContainer: {
+    alignItems: Platform.OS === 'ios' ? 'flex-end' : 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+  spaceUp: {
+    height: 100,
+    width: 200,
+  },
   skipText: {
-    marginTop: Platform.OS === 'ios' ? 64 : 40,
-    marginLeft: 330,
     fontSize: 16,
     fontWeight: 'bold',
     color: 'black',
@@ -85,13 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginHorizontal: 50,
   },
-  imagesignin: {
-    width: 100,
-    height: 100,
-    marginLeft: 160,
 
-    marginTop: 20,
-  },
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
@@ -120,6 +128,14 @@ const styles = StyleSheet.create({
 
     opacity: 0.4,
     marginLeft: 5,
+  },
+  spaceDown: {
+    width: 160,
+  },
+  imagesignin: {
+    width: 100,
+    height: 100,
+    marginTop: 20,
   },
 });
 export default OnboardingScreen1;

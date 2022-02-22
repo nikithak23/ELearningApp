@@ -40,7 +40,6 @@ const SignUpForm = ({
   return (
     <ScrollView>
       <View style={styles.container}>
-        
           
           <TextInput
             value={name}
@@ -80,8 +79,9 @@ const SignUpForm = ({
             style={styles.inputField}
           />
           {passwordCheck()}
+         
       </View>
-    </ScrollView>
+      </ScrollView>
   );
 };
 
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop:30
   },
-
   inputField: {
     fontSize:20,
     fontFamily:'Rubik',
