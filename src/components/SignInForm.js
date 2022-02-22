@@ -9,21 +9,23 @@ import {
 } from 'react-native';
 
 const SignInForm = ({
-  phone,
+  username,
   setPhone,
+  // onChangePassword,
+  // onChangePhone,
 
   password,
   setPassword,
 }) => {
-  const mobileCheck = phone => {
-    return setPhone((phone = isNaN(phone) ? '' : phone));
+  const mobileCheck = username => {
+    return setPhone((username = isNaN(username) ? '' : username));
   };
 
   return (
     <View>
       <View style={styles.container}>
         <TextInput
-          value={phone}
+          value={username}
           placeholder="Mobile"
           onChangeText={input => mobileCheck(input)}
           maxLength={10}

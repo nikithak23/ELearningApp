@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import axios from 'axios';
 import {
   Text,
   View,
@@ -9,29 +9,65 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  TextInput,
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 
 const SignInScreen = ({navigation}) => {
-  const [phone, setPhone] = useState(null);
+  const [username, setPhone] = useState(null);
 
   const [password, setPassword] = useState('');
 
   const [isValid, setIsValid] = useState(false);
 
-  const validation = () => {
-    if (phone && password) {
-      setIsValid(true);
-      console.log(isValid);
-      navigation.dispatch(
-        StackActions.replace('Home', {
-          phone: phone,
-        }),
+  const [isLoading, setIsLoading] = useState(false);
+
+  // const onChangePhone = phone => {
+  //   setPhone(phone);
+  // };
+  // const onChangePassword = password => {
+  //   setPassword(password);
+  // };
+
+  const onSubmitFormHandler = async event => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        'https://elearningapp-api.herokuapp.com/learn/authenticate',
+        {
+          username,
+          password,
+        },
       );
+      if (response.status === 200) {
+        console.log(response.status);
+        alert(` Login Success ${JSON.stringify(response.resultInfo)}`);
+        setIsLoading(false);
+        setPhone('');
+        setPassword('');
+      } else {
+        throw new Error('An error has occurred here');
+      }
+    } catch (error) {
+      alert('An error has occurred');
+      setIsLoading(false);
+    }
+  };
+
+  const validation = () => {
+    if (username && password) {
+      onSubmitFormHandler();
+      setIsValid(true);
+      // console.log(isValid);
+      // navigation.dispatch(
+      //   StackActions.replace('Home', {
+      //     username: username,
+      //   }),
+      // );
     } else {
       setIsValid(false);
-      console.log(isValid);
+      // console.log(isValid);
     }
   };
 
@@ -42,6 +78,7 @@ const SignInScreen = ({navigation}) => {
   verify = () => {
     navigation.navigate('Authentication');
   };
+
   const renderForm = () => {
     return (
       <View style={styles.container}>
@@ -57,8 +94,10 @@ const SignInScreen = ({navigation}) => {
         <View style={styles.form}>
           <SignInForm
             password={password}
+            // onChangePassword={onChangePassword}
+            // onChangePhone={onChangePhone}
             setPassword={setPassword}
-            phone={phone}
+            username={username}
             setPhone={setPhone}
           />
         </View>
@@ -67,7 +106,7 @@ const SignInScreen = ({navigation}) => {
           <Text style={styles.signText}>Sign in</Text>
 
           <TouchableOpacity onPress={validation}>
-            {phone && password ? (
+            {username && password ? (
               <Image
                 source={require('../Images/SignUp/btn_able.png')}
                 style={styles.imagesignin}
