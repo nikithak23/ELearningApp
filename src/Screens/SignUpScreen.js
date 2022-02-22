@@ -38,51 +38,73 @@ export default SignUpScreen;
 */
 
 import React, {useState} from 'react';
-
-import {
-  Text,
-  View,
-  Button,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import axios from "axios";
+import {Text,View,Button,Image,StyleSheet,TouchableOpacity,} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState(null);
+  const [username, setPhone] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [otp,setOTP]=useState('');
+
+const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
  const signIn = () => {
     navigation.navigate('SignIn');
   };
 
-  const validation = () => {
-    if (
-      /[0-9]/.test(name) === false &&
-      phone &&
-      password &&
-      //email.includes('@') &&
-      password === confirmPassword
-    ) {
+  const validation = async () => {   //Inorder to use 'await' define the ASYNC keyword at function declaration time
+    if (/[0-9]/.test(name) === false &&username &&password &&//email.includes('@') &&
+      password === confirmPassword) {
       setIsValid(true);
-      console.log(isValid);
-      navigation.dispatch(
-        StackActions.push('Home', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
-          name: name,
-          //email:email,
-          phone: phone,
-        }),
-      );
+      setIsLoading(true);
+
+
+      try {
+        const response = await axios.post(`https://elearningapp-api.herokuapp.com/learn/create`, {
+          name,
+          username,
+          password
+        });
+        console.log(response.status)
+        if (response.status === 200) {
+          setOTP(response.data.data);
+          console.log(otp);
+          setIsLoading(false);
+          navigation.dispatch(
+            StackActions.push('Authentication', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
+              name: name,
+              //email:email,
+              phone: username,
+              otp:otp,
+            }),
+          );
+
+        } else {
+          //console.log(response.status);
+          console.log("entered the else1 loop");
+          throw new Error("An error has occurred");
+        }
+      } catch (error) {
+        console.log(error)
+        alert("An error has occurred");
+        setIsLoading(false);
+      }
+
+
+
+      
     } else {
       setIsValid(false);
-      console.log(isValid);
+      alert("Invalid Sign Up credentials")
     }
+
   };
 
   const renderForm = () => {
@@ -104,7 +126,7 @@ const SignUpScreen = ({navigation}) => {
               setName={setName}
               password={password}
               setPassword={setPassword}
-              phone={phone}
+              phone={username}
               setPhone={setPhone}
               //email={email}
               //setEmail={setEmail}
@@ -117,7 +139,7 @@ const SignUpScreen = ({navigation}) => {
             <Text style={styles.signup}>SignUp</Text>
             <TouchableOpacity onPress={validation}>
               {name &&
-              phone &&
+              username &&
               confirmPassword &&
               password === confirmPassword ? (
                 <Image

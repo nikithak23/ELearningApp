@@ -32,6 +32,11 @@ const SignUpForm = ({
   };
   */
   const passwordCheck = () => {
+    if (password.length >0&&password.length <=5) {
+      return <Text style={styles.error}>Password length must be more than 5</Text>;
+    }
+  };
+  const confirmPasswordCheck = () => {
     if (confirmPassword !== password && confirmPassword) {
       return <Text style={styles.error}>Both passwords must be same.</Text>;
     }
@@ -65,9 +70,10 @@ const SignUpForm = ({
             value={password}
             onChangeText={input => setPassword(input)}
             secureTextEntry={true}
-            maxLength={5}
+            maxLength={10}
             style={styles.inputField}
           />
+          {passwordCheck()}
         
         
           <TextInput
@@ -75,10 +81,10 @@ const SignUpForm = ({
             value={confirmPassword}
             onChangeText={input => setConfirmPassword(input)}
             secureTextEntry={true}
-            maxLength={5}
+            maxLength={10}
             style={styles.inputField}
           />
-          {passwordCheck()}
+          {confirmPasswordCheck()}
          
       </View>
       </ScrollView>
@@ -92,7 +98,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     fontSize:20,
-    fontFamily:'Rubik',
+    //fontFamily:'Rubik',
     height:75,
     lineHeight:24,
     marginHorizontal:50,
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
   error: {
     color:'red',
     fontSize:13,
-    marginHorizontal:20
+    marginHorizontal:50
   },
 });
 export default SignUpForm;
