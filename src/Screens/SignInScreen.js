@@ -15,7 +15,7 @@ import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 
 const SignInScreen = ({navigation}) => {
-  const [phone, setPhone] = useState(null);
+  const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
