@@ -10,6 +10,7 @@ import OnboardingScreen3 from './Screens/OnBoardingScreen3';
 import SignUpScreen from './Screens/SignUpScreen';
 import HomeScreen from './Screens/HomeScreen';
 import AuthenticationScreen from './Screens/AuthenticationScreen';
+import ResetPassScreen from './Screens/ResetPassScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,11 @@ function mainNavig() {
         <Stack.Screen
           name="Authentication"
           component={AuthenticationScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResetPassword"
+          component={ResetPassScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen

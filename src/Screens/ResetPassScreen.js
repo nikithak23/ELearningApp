@@ -18,32 +18,20 @@ const btnCancel = require('../Images/Auth/btn_cancel.png');
 
 const ResetPassScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-  let textInput = useRef(null);
-  const lengthInput = 4;
-  const otpCode = route?.params?.otp;
-  const username = route?.params?.phone;
-  const forgotPass = route?.params?.forgotPassword
-    ? route?.params?.forgotPassword
-    : false;
-  const [otp, setOtp] = useState(otpCode);
-  const [internalVal, setInternalVal] = useState('');
-  const [wrongOtp, setWrongOtp] = useState(false);
-
+  const [newPass, setNewPass] = useState('');
+  const username = route?.params?.username;
+  const otp = route?.params?.otp
   const onChangeText = val => {
-    setInternalVal(val);
-    setWrongOtp(false);
+    setNewPass(val);
   };
 
-  useEffect(() => {
-    textInput.focus();
-  }, []);
-
-  const goSignin = async () => {
-    if (internalVal === JSON.stringify(otp)) {
+  const reset = async () => {
       try {
         const response = await axios.post(
-          `${baseUrl}/learn/verify/${username}`,
+          `${baseUrl}/learn/reset`,
           {
+            username,
+            newPass,
             otp,
           },
         );
@@ -57,23 +45,7 @@ const ResetPassScreen = ({navigation, route}) => {
       } catch (err) {
         console.log(err);
       }
-    } else {
-      setInternalVal('');
-      setWrongOtp(true);
-    }
-  };
-
-  const resend = async () => {
-    try {
-      console.log('aaaa');
-      const response = await axios.get(`${baseUrl}/learn/resend/${username}`);
-      setOtp(response.data.data);
-      console.log(response.status);
-      console.log(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    } 
 
   return (
     <View style={styles.container}>
@@ -83,10 +55,8 @@ const ResetPassScreen = ({navigation, route}) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={btnCancel} style={styles.btnCancel} />
           </TouchableOpacity>
-          <Text style={styles.title}>Verify Account</Text>
-          <Text style={styles.text}>
-            Enter verification code that we have sent to your email.
-          </Text>
+          <Text style={styles.title}>Reset Password</Text>
+          <Text style={styles.text}>Please set a new Password.</Text>
         </View>
       </View>
       <KeyboardAvoidingView
@@ -95,61 +65,22 @@ const ResetPassScreen = ({navigation, route}) => {
         style={styles.containerAvoidingView}>
         <View>
           <TextInput
-            ref={input => (textInput = input)}
             onChangeText={onChangeText}
-            style={{width: 0, height: 0}}
-            value={internalVal}
-            maxLength={lengthInput}
-            keyboardType="numeric"
+            style={styles.txtinput}
+            value={newPass}
+            secureTextEntry={true}
           />
-          <View style={styles.containerInput}>
-            {Array(lengthInput)
-              .fill()
-              .map((data, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.cellView,
-                    {
-                      borderColor: wrongOtp
-                        ? '#f89191'
-                        : index === internalVal.length
-                        ? '#4C93FF'
-                        : '#eeeeee',
-                    },
-                  ]}>
-                  <Text
-                    style={styles.cellText}
-                    onPress={() => textInput.focus()}>
-                    {internalVal && internalVal.length > 0
-                      ? internalVal[index]
-                      : ''}
-                  </Text>
-                </View>
-              ))}
-          </View>
-          {wrongOtp ? (
-            <View style={styles.row}>
-              <View style={styles.rsymbol}>
-                <Text style={styles.exclamatory}>!</Text>
-              </View>
-              <Text style={styles.rtext}>Invalid verification code</Text>
-            </View>
-          ) : null}
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.qText}>Didn't receive a code? </Text>
-          <TouchableOpacity onPress={() => resend()}>
-            <Text style={styles.resend}> Resend</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.verifyText}>Verify</Text>
-          {internalVal.length < 4 ? (
-            <Image source={btnDisable} style={styles.btn} />
+          {newPass.length > 0 && newPass.length < 6 ? (
+            <Text style={styles.passErr}>Password should have more than 5 characters</Text>
           ) : (
-            <Image source={btnAble} onPress={goSignin()} style={styles.btn} />
+            null
           )}
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.reset}>Reset</Text>
+          <TouchableOpacity onPress={()=>reset()}>
+          <Image source={btnAble}  style={styles.btn} />
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -166,22 +97,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 65,
   },
-  containerInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cellView: {
-    paddingVertical: 15,
-    height: 66,
-    width: 66,
-    margin: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  txtinput: {
+    fontSize:16,
     borderWidth: 2,
-    borderRadius: 10,
-    backgroundColor: '#ffffff',
-    zIndex: 100,
+    width: 300,
+    height: 45,
+    marginTop: 15,
+    borderColor: '#eeeeee',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 40,
@@ -198,15 +121,13 @@ const styles = StyleSheet.create({
     width: 290,
     marginTop: 5,
     marginLeft: 40,
-    color: 'black',
     transform: [{rotate: '12deg'}],
     color: '#ffffff',
   },
-  cellText: {
-    textAlign: 'center',
-    fontSize: 28,
-    alignItems: 'center',
-    fontWeight: '500',
+  passErr: {
+    fontSize: 11,
+    fontWeight: '400',
+    color: 'red',
   },
   rectangle1: {
     backgroundColor: '#3274d8',
@@ -230,41 +151,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-  qText: {
-    color: '#afafaf',
-    fontWeight: '700',
-    fontSize: 15,
-    marginTop: 20,
-    marginLeft: -70,
-  },
-  exclamatory: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  rsymbol: {
-    marginLeft: 4,
-    paddingLeft: 4.5,
-    backgroundColor: '#e04747',
-    width: 17,
-    height: 17,
-    borderWidth: 2,
-    borderRadius: 11,
-    borderColor: '#e04747',
-  },
-  rtext: {
-    fontSize: 15,
-    color: '#e04747',
-    marginLeft: 7,
-    fontWeight: '500',
-  },
-  resend: {
-    color: '#4C93FF',
-    fontWeight: '700',
-    fontSize: 15,
-    textDecorationLine: 'underline',
-    marginTop: 20,
-  },
   btn: {
     height: 99,
     width: 110,
@@ -278,7 +164,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginTop: -80,
   },
-  verifyText: {
+  reset: {
     color: '#000',
     fontWeight: '700',
     fontSize: 25,

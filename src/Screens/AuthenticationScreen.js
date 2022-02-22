@@ -12,7 +12,6 @@ import {
   Button,
 } from 'react-native';
 
-
 const btnAble = require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
@@ -51,7 +50,12 @@ const AuthenticationScreen = ({navigation,route}) => {
         console.log(response.status);
         console.log(response.data);
         if (response.status === 200) {
-          return navigation.replace('SignIn');
+          if(forgotPass){
+            return navigation.replace('ResetPassword',{username: username, otp: otp});
+          }
+          else{
+            return navigation.replace('SignIn');
+          }
         }else{
           console.warn(response.status)
         }
@@ -87,9 +91,13 @@ const AuthenticationScreen = ({navigation,route}) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={btnCancel} style={styles.btnCancel} />
           </TouchableOpacity>
-          <Text style={styles.title}>Verify Account</Text>
+          {forgotPass ? (
+            <Text style={styles.title}>Reset Password</Text>
+          ) : (
+            <Text style={styles.title}>Verify Account</Text>
+          )}
           <Text style={styles.text}>
-            Enter verification code that we have sent to your email.
+            Enter verification code that we have sent to your phone.
           </Text>
         </View>
       </View>
@@ -148,7 +156,11 @@ const AuthenticationScreen = ({navigation,route}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <Text style={styles.verifyText}>Verify</Text>
+          {forgotPass ? (
+            <Text style={styles.verifyText}>Next</Text>
+          ) : (
+            <Text style={styles.verifyText}>Verify</Text>
+          )}
           {internalVal.length < 4 ? (
             <Image source={btnDisable} style={styles.btn} />
           ) : (

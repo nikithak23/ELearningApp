@@ -92,6 +92,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
               //email:email,
               phone: username,
               otp:otp,
+              forgotPassword: false
             }),
           );
 

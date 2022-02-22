@@ -146,6 +146,8 @@ const SignInScreen = ({navigation}) => {
         await navigation.dispatch(
           StackActions.push('Authentication', {
             msg: msg,
+            phone: username,
+            forgotPassword: true,
           }),
         );
       } else {
