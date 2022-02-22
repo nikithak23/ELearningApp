@@ -75,6 +75,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
         console.log(response.status)
         if (response.status === 200) {
           setOTP(response.data.data);
+          console.log(response.data);
           console.log(otp);
           setIsLoading(false);
           navigation.dispatch(
