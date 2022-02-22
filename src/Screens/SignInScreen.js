@@ -15,6 +15,7 @@ import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 
 const SignInScreen = ({navigation}) => {
+  // const [phone, setPhone] = useState(null);
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -28,54 +29,143 @@ const SignInScreen = ({navigation}) => {
   //   setPassword(password);
   // };
 
-  const onSubmitFormHandler = async event => {
+  // const onSubmitFormHandler = async event => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await axios.post(
+  //       'https://elearningapp-api.herokuapp.com/learn/authenticate',
+  //       {
+  //         username,
+  //         password,
+  //       },
+  //     );
+  //     if (response.status === 200) {
+  //       console.log(response.status);
+  //       alert(` Login Success ${JSON.stringify(response.resultInfo)}`);
+  //       setIsLoading(false);
+  //       setPhone('');
+  //       setPassword('');
+  //     } else {
+  //       throw new Error('An error has occurred here');
+  //     }
+  //   } catch (error) {
+  //     alert('An error has occurred');
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const validation = () => {
+  //   if (username && password) {
+  //     onSubmitFormHandler();
+  //     setIsValid(true);
+  //     // console.log(isValid);
+  //     // navigation.dispatch(
+  //     //   StackActions.replace('Home', {
+  //     //     username: username,
+  //     //   }),
+  //     // );
+  //   } else {
+  //     setIsValid(false);
+  //     // console.log(isValid);
+  //   }
+  // };
+  const validation = async () => {
+    //Inorder to use 'await' define the ASYNC keyword at function declaration time
+    // if (username && password) {
+    setIsValid(true);
     setIsLoading(true);
+
     try {
+      console.log('hi');
       const response = await axios.post(
-        'https://elearningapp-api.herokuapp.com/learn/authenticate',
+        `https://elearningapp-api.herokuapp.com/learn/authenticate`,
         {
           username,
           password,
         },
+        console.log('hello'),
       );
+      console.log('working');
+      console.log(response.status);
       if (response.status === 200) {
-        console.log(response.status);
-        alert(` Login Success ${JSON.stringify(response.resultInfo)}`);
+        let msg = response.data.resultInfo.message;
+        console.log(msg);
+        console.log(response);
         setIsLoading(false);
-        setPhone('');
-        setPassword('');
+        await navigation.dispatch(
+          StackActions.push('Home', {
+            //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
+            phone: username,
+            msg: msg,
+          }),
+        );
       } else {
-        throw new Error('An error has occurred here');
+        //console.log(response.status);
+
+        throw new Error('An error has occurred');
       }
     } catch (error) {
+      console.log(error);
       alert('An error has occurred');
       setIsLoading(false);
     }
+    // }
+    // else {
+    //   setIsValid(false);
+    //   alert('Invalid Sign Up credentials');
+    // }
   };
 
-  const validation = () => {
-    if (username && password) {
-      onSubmitFormHandler();
-      setIsValid(true);
-      // console.log(isValid);
-      // navigation.dispatch(
-      //   StackActions.replace('Home', {
-      //     username: username,
-      //   }),
-      // );
-    } else {
-      setIsValid(false);
-      // console.log(isValid);
-    }
-  };
-
-  signUp = () => {
+  const signUp = () => {
     navigation.navigate('SignUp');
   };
 
-  verify = () => {
-    navigation.navigate('Authentication');
+  const verify = async () => {
+    //Inorder to use 'await' define the ASYNC keyword at function declaration time
+    // if (username && password) {
+    setIsValid(true);
+    setIsLoading(true);
+
+    try {
+      console.log('hi');
+      console.log(username);
+      const response = await axios.put(
+        `https://elearningapp-api.herokuapp.com/learn/forgot`,
+        {
+          username,
+        },
+        console.log('hello'),
+      );
+      console.log('working');
+      console.log(response.status);
+      if (response.status === 200) {
+        let msg = response.data.data;
+        console.log(msg);
+
+        setIsLoading(false);
+        await navigation.dispatch(
+          StackActions.push('Authentication', {
+            msg: msg,
+          }),
+        );
+      } else {
+        throw new Error('An error has occurred');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('An error has occurred');
+      setIsLoading(false);
+    }
+    // }
+    // else {
+    //   setIsValid(false);
+    //   alert('Invalid Sign Up credentials');
+    // }
   };
+
+  // const verify = () => {
+  //   navigation.navigate('Authentication');
+  // };
 
   const renderForm = () => {
     return (
@@ -92,10 +182,8 @@ const SignInScreen = ({navigation}) => {
         <View style={styles.form}>
           <SignInForm
             password={password}
-            // onChangePassword={onChangePassword}
-            // onChangePhone={onChangePhone}
             setPassword={setPassword}
-            username={username}
+            phone={username}
             setPhone={setPhone}
           />
         </View>

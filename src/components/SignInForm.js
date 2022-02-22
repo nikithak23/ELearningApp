@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 const SignInForm = ({
-  username,
+  phone,
   setPhone,
   // onChangePassword,
   // onChangePhone,
@@ -17,17 +17,13 @@ const SignInForm = ({
   password,
   setPassword,
 }) => {
-  const mobileCheck = username => {
-    return setPhone((username = isNaN(username) ? '' : username));
-  };
-
   return (
     <View>
       <View style={styles.container}>
         <TextInput
-          value={username}
+          value={phone}
           placeholder="Mobile"
-          onChangeText={input => mobileCheck(input)}
+          onChangeText={input => setPhone(input)}
           maxLength={10}
           style={styles.inputField}
         />
@@ -37,7 +33,7 @@ const SignInForm = ({
           value={password}
           onChangeText={input => setPassword(input)}
           secureTextEntry={true}
-          maxLength={5}
+          maxLength={10}
           style={styles.inputField}
         />
       </View>
