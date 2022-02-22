@@ -1,38 +1,85 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {Text, View, StyleSheet, Image, ScrollView, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback, Button} from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import React, {useEffect, useRef, useState} from 'react';
+import axios from 'axios';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Button,
+} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 
-const btnAble= require('../Images/SignUp/btn_able.png');
+const btnAble = require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
 
-const AuthenticationScreen = ({navigation}) => {
-  let textInput = useRef(null)
+const AuthenticationScreen = ({navigation,route}) => {
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+  let textInput = useRef(null);
   const lengthInput = 4;
-  const [internalVal, setInternalVal]= useState('')
-  const [wrongOtp, setWrongOtp] = useState(false)
+  const [internalVal, setInternalVal] = useState('');
+  const [wrongOtp, setWrongOtp] = useState(false);
+  const otp = route?.params?.otp;
+  const username = route?.params?.phone;
+  const forgotPass = route?.params?.forgotPassword? route?.params?.forgotPassword : false;
 
-  const onChangeText = (val)=> {
-    setInternalVal(val)
-    setWrongOtp(false)
-  }
+  const onChangeText = val => {
+    setInternalVal(val);
+    setWrongOtp(false);
+  };
 
-  useEffect(()=>{
-    textInput.focus()
-  },[])
+  useEffect(() => {
+    textInput.focus();
+  }, []);
 
-  const goHome = () => {
-    if(internalVal==='0000'){
-      return navigation.replace('Home');
+  const goSignin = async() => {
+    if (internalVal === JSON.stringify(otp)) {
+      //return navigation.replace('SignIn');
+      try{
+        const response = await axios.post(
+          `${baseUrl}/learn/verify/${username}`,
+          {
+            otp,
+          },
+        );
+        console.log(response.status);
+        console.log(response.data);
+        if (response.status === 200) {
+          return navigation.replace('SignIn');
+        }else{
+          console.warn(response.status)
+        }
+      }catch(err){
+        console.log(err)
+      }
+    } else {
+      setInternalVal('');
+      setWrongOtp(true);
     }
-    else{
-      setInternalVal('')
-      setWrongOtp(true)
-    }
-  }
+  };
 
-  const goSignin = () => {
-    return navigation.goBack()
+  const verification=async() =>{
+    try{
+      console.log("internalval",internalVal)
+      console.log(otp)
+      const response = await axios.post(`${baseUrl}/learn/verify/${username}`,{
+        otp
+      });
+      console.log(response.status)
+      console.log(response.data)
+      if (response.status === 200) {
+        return navigation.replace('SignIn');
+      } else {
+        setInternalVal('');
+        setWrongOtp(true);
+      }
+    }catch(err){
+      console.log(err)
+    }
   }
 
   return (
@@ -40,17 +87,13 @@ const AuthenticationScreen = ({navigation}) => {
       <View>
         <View style={styles.rectangle2}>
           <View style={styles.rectangle1}></View>
-          {/* <View style={{flexDirection: 'column'}}> */}
-          <Image
-            source={btnCancel}
-            style={styles.btnCancel}
-            onPress={() => alert('vbn')}
-          />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={btnCancel} style={styles.btnCancel} />
+          </TouchableOpacity>
           <Text style={styles.title}>Verify Account</Text>
           <Text style={styles.text}>
             Enter verification code that we have sent to your email.
           </Text>
-          {/* </View> */}
         </View>
       </View>
       <KeyboardAvoidingView
@@ -64,7 +107,6 @@ const AuthenticationScreen = ({navigation}) => {
             style={{width: 0, height: 0}}
             value={internalVal}
             maxLength={lengthInput}
-            //returnKeyType="done"
             keyboardType="numeric"
           />
           <View style={styles.containerInput}>
@@ -111,7 +153,7 @@ const AuthenticationScreen = ({navigation}) => {
           {internalVal.length < 4 ? (
             <Image source={btnDisable} style={styles.btn} />
           ) : (
-            <Image source={btnAble} onPress={goHome()} style={styles.btn} />
+            <Image source={btnAble} onPress={goSignin()} style={styles.btn} />
           )}
         </View>
       </KeyboardAvoidingView>
@@ -153,7 +195,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
-    marginTop: 70,
+    marginTop: 15,
   },
   text: {
     fontSize: 16,
@@ -200,10 +242,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: -70,
   },
-  exclamatory:{
+  exclamatory: {
     color: '#fff',
-    fontSize:12,
-    fontWeight: 'bold'
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   rsymbol: {
     marginLeft: 4,
