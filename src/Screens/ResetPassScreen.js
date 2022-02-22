@@ -12,12 +12,11 @@ import {
   Button,
 } from 'react-native';
 
-
 const btnAble = require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
 
-const AuthenticationScreen = ({navigation,route}) => {
+const ResetPassScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   let textInput = useRef(null);
   const lengthInput = 4;
@@ -26,10 +25,10 @@ const AuthenticationScreen = ({navigation,route}) => {
   const forgotPass = route?.params?.forgotPassword
     ? route?.params?.forgotPassword
     : false;
-  const [otp, setOtp] = useState(otpCode)
+  const [otp, setOtp] = useState(otpCode);
   const [internalVal, setInternalVal] = useState('');
   const [wrongOtp, setWrongOtp] = useState(false);
-  
+
   const onChangeText = val => {
     setInternalVal(val);
     setWrongOtp(false);
@@ -39,9 +38,9 @@ const AuthenticationScreen = ({navigation,route}) => {
     textInput.focus();
   }, []);
 
-  const goSignin = async() => {
+  const goSignin = async () => {
     if (internalVal === JSON.stringify(otp)) {
-      try{
+      try {
         const response = await axios.post(
           `${baseUrl}/learn/verify/${username}`,
           {
@@ -52,11 +51,11 @@ const AuthenticationScreen = ({navigation,route}) => {
         console.log(response.data);
         if (response.status === 200) {
           return navigation.replace('SignIn');
-        }else{
-          console.warn(response.status)
+        } else {
+          console.warn(response.status);
         }
-      }catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     } else {
       setInternalVal('');
@@ -64,20 +63,17 @@ const AuthenticationScreen = ({navigation,route}) => {
     }
   };
 
-  const resend = async() => {
-    try{
-      console.log("aaaa");
-      const response = await axios.get(
-        `${baseUrl}/learn/resend/${username}`
-      );
-      setOtp(response.data.data)
+  const resend = async () => {
+    try {
+      console.log('aaaa');
+      const response = await axios.get(`${baseUrl}/learn/resend/${username}`);
+      setOtp(response.data.data);
       console.log(response.status);
       console.log(response.data);
-      
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -291,4 +287,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthenticationScreen;
+export default ResetPassScreen;
