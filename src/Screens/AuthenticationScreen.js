@@ -40,6 +40,9 @@ const AuthenticationScreen = ({navigation,route}) => {
 
   const goSignin = async() => {
     if (internalVal === JSON.stringify(otp)) {
+      if(forgotPass){
+            return navigation.replace('ResetPassword',{username: username, otp: otp});
+          }
       try{
         const response = await axios.post(
           `${baseUrl}/learn/verify/${username}`,
@@ -50,12 +53,12 @@ const AuthenticationScreen = ({navigation,route}) => {
         console.log(response.status);
         console.log(response.data);
         if (response.status === 200) {
-          if(forgotPass){
-            return navigation.replace('ResetPassword',{username: username, otp: otp});
-          }
-          else{
+          // if(forgotPass){
+          //   return navigation.replace('ResetPassword',{username: username, otp: otp});
+          // }
+          
             return navigation.replace('SignIn');
-          }
+          
         }else{
           console.warn(response.status)
         }

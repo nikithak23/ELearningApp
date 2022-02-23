@@ -20,7 +20,7 @@ const ResetPassScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [password, setPassword] = useState('');
   const username = route?.params?.username;
-  const otp = route?.params?.otp
+  const otp = route.params.otp
   const onChangeText = val => {
     setPassword(val);
   };
