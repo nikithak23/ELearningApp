@@ -2,6 +2,7 @@ import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
+import SubjectScreen from './SubjectScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,8 +16,8 @@ const TabNavig = ({route}) => {
           options={{headerShown: false}}
         />
         <Tab.Screen
-          name="Courses"
-          component={HomeScreen}
+          name="Subjects"
+          component={SubjectScreen}
           options={{headerShown: false}}
         />
         <Tab.Screen
