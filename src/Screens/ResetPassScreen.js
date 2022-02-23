@@ -18,22 +18,23 @@ const btnCancel = require('../Images/Auth/btn_cancel.png');
 
 const ResetPassScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-  const [newPass, setNewPass] = useState('');
+  const [password, setPassword] = useState('');
   const username = route?.params?.username;
   const otp = route?.params?.otp
   const onChangeText = val => {
-    setNewPass(val);
+    setPassword(val);
   };
 
   const reset = async () => {
       try {
+        console.log(username, otp, password);
         const response = await axios.post(
           `${baseUrl}/learn/reset`,
           {
             username,
-            newPass,
+            password,
             otp,
-          },
+          }
         );
         console.log(response.status);
         console.log(response.data);
@@ -67,19 +68,19 @@ const ResetPassScreen = ({navigation, route}) => {
           <TextInput
             onChangeText={onChangeText}
             style={styles.txtinput}
-            value={newPass}
+            value={password}
             secureTextEntry={true}
           />
-          {newPass.length > 0 && newPass.length < 6 ? (
-            <Text style={styles.passErr}>Password should have more than 5 characters</Text>
-          ) : (
-            null
-          )}
+          {password.length > 0 && password.length < 6 ? (
+            <Text style={styles.passErr}>
+              Password should have more than 5 characters
+            </Text>
+          ) : null}
         </View>
         <View style={styles.row}>
           <Text style={styles.reset}>Reset</Text>
-          <TouchableOpacity onPress={()=>reset()}>
-          <Image source={btnAble}  style={styles.btn} />
+          <TouchableOpacity onPress={() => reset()}>
+            <Image source={btnAble} style={styles.btn} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

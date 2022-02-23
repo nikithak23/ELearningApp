@@ -145,7 +145,7 @@ const SignInScreen = ({navigation}) => {
         setIsLoading(false);
         await navigation.dispatch(
           StackActions.push('Authentication', {
-            msg: msg,
+            otp: msg,
             phone: username,
             forgotPassword: true,
           }),
