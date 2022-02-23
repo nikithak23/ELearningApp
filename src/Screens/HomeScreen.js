@@ -1,12 +1,14 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 const HomeScreen = ({route}) => {
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
-      <Text style={styles.title}>Hello {route.params.msg}</Text>
-      <Text style={styles.title}>Hello {route.params.phone}</Text>
+      <Text style={styles.title}>Hello {route?.params?.msg}</Text>
+      <Text style={styles.title}>Hello {route?.params?.phone}</Text>
     </View>
   );
 };
