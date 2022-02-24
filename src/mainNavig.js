@@ -12,6 +12,8 @@ import HomeScreen from './Screens/HomeScreen';
 import AuthenticationScreen from './Screens/AuthenticationScreen';
 import ResetPassScreen from './Screens/ResetPassScreen';
 import TabNavig from './Screens/TabNavig';
+import ProfileScreen from './Screens/ProfileScreen';
+import ResultScreen from './Screens/ResultScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,11 +67,11 @@ function mainNavig() {
           component={TabNavig}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Profile"
           component={ProfileScreen}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name="Results"
           component={ResultScreen}
