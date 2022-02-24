@@ -1,22 +1,28 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity} from 'react-native';
-import { BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont().then();
 
-const HomeScreen = ({route}) => {
+
+
+const HomeScreen = ({navigation,route}) => {
  
+  const notif =()=>{
+    navigation.navigate('Subjects');
+  }
+
+
   return (
     <View>
     <View style={styles.header}>
-      <TouchableOpacity >
+      <TouchableOpacity onPress={notif}>
       <Icon
         name="notifications-outline"
         size={33}
         color="#8E8F93"
         style={styles.icon}
       />
-    </TouchableOpacity>
+    </TouchableOpacity >
     </View>
 
     <View style={styles.container}>
