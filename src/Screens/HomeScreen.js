@@ -13,7 +13,7 @@ const HomeScreen = ({navigation,route}) => {
 
 
   return (
-    <View style={{backgroundColor:'#FFFFFF'}}>
+    <View style={{backgroundColor:'#f6f8fa'}}>
         <View style={styles.header}>
           <TouchableOpacity onPress={notif}>
             <Icon
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 70,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: '#FFFFFF',
+    backgroundColor:'#FFFFFF',
     borderRadius:18,
     marginTop:50,
     marginHorizontal:30,
