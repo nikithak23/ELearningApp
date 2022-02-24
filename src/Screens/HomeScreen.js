@@ -7,8 +7,14 @@ Icon.loadFont().then();
 const HomeScreen = ({navigation,route}) => {
 
   const [enteredText, setEnteredText] = useState ('');
+
   const notif =()=>{
     navigation.navigate('Subjects');
+  }
+
+  const goSearch=()=>{
+    navigation.navigate('Subjects');
+    setEnteredText('')
   }
 
 
@@ -35,10 +41,10 @@ const HomeScreen = ({navigation,route}) => {
           <View style={styles.searchContainer}>
             <TextInput
                 onChangeText={value => setEnteredText(value)} 
-                //value={enteredText}
+                value={enteredText}
                 style={styles.input}  
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={goSearch}>
               <Icon
               name="search"
               size={33}
@@ -49,9 +55,6 @@ const HomeScreen = ({navigation,route}) => {
         </View>
        
         </View>
-
-
-
 
     </View>
   );
