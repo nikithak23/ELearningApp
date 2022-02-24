@@ -1,21 +1,72 @@
 import React,{useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput} from 'react-native';
+import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont().then();
+
+
+const Subjects = [
+  {title: 'Physics'},
+  {title: 'Biology'},
+  {title: 'Chemistry'},
+  {title: 'Mathematics'},
+  {title: 'Geography'},
+  {title: 'Art and culture'},
+];
 
 
 const HomeScreen = ({navigation,route}) => {
 
   const [enteredText, setEnteredText] = useState ('');
+  const [searchedItems, setSearchedItems] = useState([]);
+
+  useEffect (() => {
+    setSearchedItems(Subjects.filter(item=>
+        {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
+        ),
+        );
+    },[enteredText, Subjects]);
 
   const notif =()=>{
     navigation.navigate('Subjects');
   }
 
   const goSearch=()=>{
+    if(searchedItems.length===0)
+    {
+      setEnteredText('');
+    navigation.navigate('Profile');
+    }
+    else
+    {
     navigation.navigate('Subjects');
-    setEnteredText('')
+    setEnteredText('');
   }
+  }
+
+  const renderSearchList=({item})=>{
+    return (
+      <View>
+        <TouchableOpacity onPress={()=>{setEnteredText(item.title)}}>
+        <Text style={styles.search}>{item.title}</Text>
+        </TouchableOpacity>
+      </View>
+    
+    );
+  }
+  const searchSuggestions = () => {
+    return (
+    <View>
+     {searchedItems.length <= 0 ? null:
+        (   <FlatList
+            data={searchedItems}
+            keyExtractor = {(item, index)=> index.toString()}
+            horizontal={false}
+            showVerticalScrollIndicator={false}
+            renderItem={renderSearchList}/>
+        )}
+    </View>
+    );
+}
 
 
   return (
@@ -37,7 +88,6 @@ const HomeScreen = ({navigation,route}) => {
             <Text style={styles.desc}>you can search below.</Text>
 
 
-
           <View style={styles.searchContainer}>
             <TextInput
                 onChangeText={value => setEnteredText(value)} 
@@ -53,7 +103,9 @@ const HomeScreen = ({navigation,route}) => {
             />
             </TouchableOpacity>
         </View>
-       
+        <View style={{alignItems:'flex-start'}}>
+        {enteredText !== '' ? searchSuggestions() : null}
+        </View>
         </View>
 
     </View>
@@ -65,7 +117,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     //justifyContent: 'center',
-    alignItems: 'center',
+    //alignItems: 'center',
     //backgroundColor:'#4C93FF',
   },
   header: {
@@ -98,12 +150,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 70,
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: 'rgba(41,94,255,0.05)',
     backgroundColor:'#FFFFFF',
     borderRadius:18,
     marginTop:50,
     marginHorizontal:30,
-    //shadowColor:'0 12px 18px 0 rgba(41,94,255,0.05)',
 },
   input: {
   flex:1,
@@ -114,9 +165,18 @@ const styles = StyleSheet.create({
 searchIcon:{
   backgroundColor:'#4C93FF',
   borderRadius:13,
+  borderColor:'rgba(76,147,255,0.4)',
   padding:10,
   marginHorizontal:10,
-  //shadowColor:'0 10px 20px 0 rgba(76,147,255,0.4)',
 },
+search: {
+  color:'black',
+  fontSize:14,
+  paddingHorizontal:15,
+  marginHorizontal:30,
+  marginVertical:4
+},
+
+
 });
 export default HomeScreen;
