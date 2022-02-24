@@ -11,8 +11,8 @@ import SignUpScreen from './Screens/SignUpScreen';
 import HomeScreen from './Screens/HomeScreen';
 import AuthenticationScreen from './Screens/AuthenticationScreen';
 import ResetPassScreen from './Screens/ResetPassScreen';
-import ProfileScreen from './Screens/ProfileScreen';
-import ResultScreen from './Screens/ResultScreen';
+import TabNavig from './Screens/TabNavig';
+
 const Stack = createNativeStackNavigator();
 
 function mainNavig() {
@@ -62,7 +62,7 @@ function mainNavig() {
         />
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
+          component={TabNavig}
           options={{headerShown: false}}
         />
         <Stack.Screen
