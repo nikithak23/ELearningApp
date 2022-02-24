@@ -171,7 +171,7 @@ const SignInScreen = ({navigation}) => {
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.headerContainer1}>
           <View style={styles.headerContainer2}></View>
           <Image
@@ -218,7 +218,7 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.forgetPassword}> Sign Up</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 
