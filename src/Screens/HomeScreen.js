@@ -46,7 +46,10 @@ const HomeScreen = ({navigation,route}) => {
   const renderSearchList=({item})=>{
     return (
       <View>
-        <TouchableOpacity onPress={()=>{setEnteredText(item.title)}}>
+        <TouchableOpacity onPress={()=>{
+          setEnteredText(item.title);
+          setSearchedItems(enteredText);
+          }}>
         <Text style={styles.search}>{item.title}</Text>
         </TouchableOpacity>
       </View>
@@ -171,7 +174,8 @@ searchIcon:{
 },
 search: {
   color:'black',
-  fontSize:14,
+  fontSize:15,
+  fontWeight:'400',
   paddingHorizontal:15,
   marginHorizontal:30,
   marginVertical:4
