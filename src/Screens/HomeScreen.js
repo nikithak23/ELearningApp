@@ -27,7 +27,7 @@ const HomeScreen = ({navigation,route}) => {
     },[enteredText, Subjects]);
 
   const notif =()=>{
-    navigation.navigate('Subjects');
+    navigation.navigate('Notification');
   }
 
   const goSearch=()=>{
