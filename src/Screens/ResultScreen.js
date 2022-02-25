@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   StyleSheet,
@@ -6,239 +6,235 @@ import {
   View,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 
-import Modal from 'react-native-modal';
+const Results = [
+  {
+    title: 'PHYSICS',
+    Lesson: 'Lesson 1',
+    Name: 'Animal Nutrition:Food Chain',
+    right: '35',
+    qa: '35',
+    per: '75',
+  },
+  {
+    title: 'BIOLOGY',
+    Lesson: 'Lesson 2',
+    Name: 'Photosynthesis',
+    right: '40',
+    qa: '46',
+    per: '90',
+  },
+  {
+    title: 'CHEMISTRY',
+    Lesson: 'Lesson 1',
+    Name: 'Introduction to Chemistry',
+    right: '18',
+    qa: '18',
+    per: '20',
+  },
+  {
+    title: 'PHYSICS',
+    Lesson: 'Lesson 2',
+    Name: 'Animal Nutrition',
+    right: '35',
+    qa: '35',
+    per: '75',
+  },
+];
 
-export default function TabOneScreen({navigation}) {
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isinnerVisible, setIsinnerVissible] = React.useState(false);
-
-  const innerhandleModal = () => {
-    setIsinnerVissible(true);
-    setIsModalVisible(false);
-  };
-  const innerhandleModal1 = () => {
-    setIsModalVisible(true);
-  };
-  const goBack = () => {
-    setIsinnerVissible(false);
-    setIsModalVisible(false);
-    navigation.navigate('Results');
-  };
-  const gotoSign = () => {
-    setIsinnerVissible(false);
-    setIsModalVisible(false);
-    navigation.navigate('SignIn');
+export default function ResultsScreen({navigation}) {
+  const renderResults = ({item}) => {
+    return (
+      <View style={styles.Listcomponent}>
+        <View style={styles.firstRow}>
+          <Text style={styles.subject}>{item.title}</Text>
+          <Text style={styles.lesson}>{item.Lesson}</Text>
+        </View>
+        <View>
+          <Text style={styles.name}>{item.Name}</Text>
+        </View>
+        <View style={styles.bottom}>
+          <View>
+            <Text style={styles.textRight}>Right Answers</Text>
+            <Text style={styles.right}>{item.right}</Text>
+            <Text style={styles.textRight}>Questions attempted</Text>
+            <View style={styles.qa}>
+              <Text style={styles.right}>{item.qa}</Text>
+              <Text style={styles.of50}> of 50</Text>
+            </View>
+          </View>
+          <View style={styles.percentage}>
+            <Text style={styles.per}>{item.per}</Text>
+            <Text style={styles.per1}>%</Text>
+          </View>
+        </View>
+      </View>
+    );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} />
+      <View style={styles.TopContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}
+          style={styles.touchable}>
+          <Image
+            source={require('../Images/Profile/Results/back.png')}
+            style={styles.backButton}
+          />
+        </TouchableOpacity>
+        <View style={styles.TopTextView}>
+          <Text style={styles.TopText1}>Results</Text>
+          <View></View>
 
-      <Button title="button" onPress={innerhandleModal} />
-      <Modal isVisible={isinnerVisible}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            position: 'absolute',
-            top: 60,
-            right: -10,
-            // height: '10%',
-            // width: '30%',
-            height: 150,
-            width: 160,
-            alignItems: 'flex-start',
-            justifyContent: 'space-around',
-            marginRight: 20,
-            borderRadius: 15,
-          }}>
           <TouchableOpacity>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 10,
-
-                // alignSelf: 'center',
-                // justifyContent: 'space-around',
-              }}>
+            <View style={styles.TopAll}>
+              <Text style={styles.TopText2}>All</Text>
               <Image
-                source={require('../Images/Profile/edit.png')}
-                style={{width: 18, height: 20, marginLeft: 31}}
+                source={require('../Images/Profile/Results/allDown.png')}
               />
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: '#191B26',
-                  fontWeight: '500',
-                  letterSpacing: 0,
-                  lineHeight: 26,
-                  marginLeft: 19,
-                  marginTop: -4,
-                }}>
-                Edit
-              </Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={innerhandleModal1}>
-            <View style={{flexDirection: 'row', marginBottom: 10}}>
-              <Image
-                source={require('../Images/Profile/logout.png')}
-                style={{width: 20, height: 20, marginLeft: 31}}
-              />
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: '#191B26',
-                  fontWeight: '500',
-                  letterSpacing: 0,
-                  lineHeight: 26,
-                  marginLeft: 18,
-                  marginTop: -4,
-                }}>
-                Logout
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <Modal isVisible={isModalVisible}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                position: 'absolute',
-                bottom: -18,
-                height: '35%',
-                width: '100%',
-                marginRight: 20,
-                borderRadius: 15,
-              }}>
-              <View style={{alignItems: 'center'}}>
-                <View
-                  style={{
-                    height: 2,
-                    borderRadius: 20,
-                    width: 40.2,
-                    backgroundColor: 'rgba(151,151,151,0.49)',
-                    marginTop: 15,
-                  }}></View>
-                <Text
-                  style={{
-                    marginTop: 30,
-                    fontSize: 22,
-                    fontWeight: 'bold',
-                    lineHeight: 27,
-                    letterSpacing: 0,
-                    fontWeight: '500',
-                    color: '#191B26',
-                  }}>
-                  Logout
-                </Text>
-
-                <Text
-                  style={{
-                    color: '#595B60',
-
-                    fontWeight: '300',
-                    letterSpacing: 0,
-                    lineHeight: 28,
-                    textAlign: 'center',
-                    fontSize: 20,
-                    textAlign: 'center',
-                    width: 230,
-                    marginTop: 15,
-                  }}>
-                  Are you sure you want to logout now?
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-
-                  marginTop: 30,
-                }}>
-                <TouchableOpacity
-                  style={{
-                    height: 55,
-                    width: 125,
-                    borderWidth: 2,
-                    borderRadius: 13,
-                    marginLeft: 31,
-                    borderColor: '#4C93FF',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  onPress={goBack}>
-                  <Text
-                    style={{
-                      color: '#4C93FF',
-                      fontSize: 20,
-                    }}>
-                    No
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    height: 55,
-                    width: 125,
-                    borderWidth: 2,
-                    borderRadius: 13,
-                    borderColor: '#4C93FF',
-                    marginLeft: 31,
-                    backgroundColor: '#4C93FF',
-                  }}
-                  onPress={gotoSign}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-around',
-                      marginHorizontal: 10,
-                    }}>
-                    <Text
-                      style={{
-                        // textAlign: 'center',
-                        marginVertical: 14,
-                        fontSize: 20,
-                        color: 'white',
-                      }}>
-                      Yes
-                    </Text>
-                    <Image
-                      source={require('../Images/Profile/yesArrow.png')}
-                      style={{width: 24, height: 24}}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
         </View>
-      </Modal>
+      </View>
+
+      <View style={styles.List}>
+        <FlatList
+          data={Results}
+          renderItem={renderResults}
+          keyExtractor={(item, index) => item.Name}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#F6FAFF',
+  },
+  TopContainer: {
+    marginTop: 51,
+  },
+  backButton: {
+    marginLeft: 32,
+  },
+  touchable: {
+    height: 20,
+    width: 23,
+  },
+  TopTextView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
+
+    marginHorizontal: 32,
+    marginTop: 24,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  text: {
+  TopText1: {
     fontSize: 16,
     fontWeight: '400',
-    textAlign: 'center',
+
+    color: '#292929',
+    fontSize: 34,
+    fontWeight: '600',
+    letterSpacing: 0,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  TopText2: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#595B60',
+  },
+  TopAll: {
+    width: 69,
+    height: 30,
+    borderWidth: 2,
+    borderColor: '#4C93FF',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+  List: {
+    marginTop: 37,
+  },
+  Listcomponent: {
+    backgroundColor: 'white',
+    marginHorizontal: 30,
+    paddingHorizontal: 26,
+    marginVertical: 10,
+    borderColor: 'rgba(151,151,151,0.1)',
+    borderWidth: 1,
+    borderRadius: 18,
+    height: 245,
+    paddingVertical: 24,
+  },
+  firstRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  subject: {
+    color: '#3A7FE7',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  lesson: {
+    color: '#595B60',
+    fontSize: 14,
+    textAlign: 'right',
+  },
+  name: {
+    marginTop: 10,
+    color: '#191B26',
+    fontSize: 22,
+    fontWeight: '500',
+  },
+  bottom: {
+    flexDirection: 'row',
+    marginTop: 25,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textRight: {
+    color: '#595B60',
+    fontSize: 12,
+    fontWeight: '300',
+  },
+  of50: {
+    color: '#595B60',
+    fontSize: 14,
+    fontWeight: '300',
+    marginBottom: 21,
+  },
+  right: {
+    fontSize: 18,
+    color: '#191B26',
+    marginTop: 8,
+    marginBottom: 20,
+  },
+  qa: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  percentage: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  per: {
+    color: '#0BC763',
+    fontSize: 50,
+
+    marginTop: -10,
+  },
+  per1: {
+    fontSize: 25,
+    paddingRight: 14,
+    color: '#0BC763',
+    fontWeight: 'bold',
   },
 });
