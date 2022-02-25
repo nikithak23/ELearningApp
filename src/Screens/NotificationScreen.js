@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 
+const btnBack = require('../Images/Notification/btnback.png');
 const NotificationData = [
   {
     title: 'Complete the test!',
@@ -16,7 +17,7 @@ const NotificationData = [
   },
 ];
 
-const NotificationScreen = () => {
+const NotificationScreen = ({navigation}) => {
   const renderNotifications = ({item}) => {
     return (
       <View style={styles.component}>
@@ -33,6 +34,9 @@ const NotificationScreen = () => {
   };
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Image source={btnBack} style={styles.btnBack} />
+      </TouchableOpacity>
       <Text style={styles.title}>Notifications</Text>
       <FlatList
         data={NotificationData}
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     fontWeight: '700',
-    marginTop: 85,
+    marginTop: 22,
     marginLeft: 32,
     marginBottom: 12,
     color: '#292929',
@@ -90,7 +94,13 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     position: 'absolute',
     marginLeft: 230
-  }
+  },
+  btnBack: {
+    height: 25,
+    width: 29,
+    marginLeft: 32,
+    marginTop: 51,
+  },
 });
 
 export default NotificationScreen;
