@@ -73,7 +73,6 @@ const AuthenticationScreen = ({navigation,route}) => {
 
   const resend = async() => {
     try{
-      console.log("aaaa");
       const response = await axios.get(
         `${baseUrl}/learn/resend/${username}`
       );

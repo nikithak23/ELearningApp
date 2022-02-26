@@ -1,7 +1,8 @@
-import React from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 
-const Subjects = [
+let Subjects = [
   {title: 'Physics', image: require('../Images/Subject/physics.png')},
   {title: 'Biology', image: require('../Images/Subject/bio.png')},
   {title: 'Chemistry', image: require('../Images/Subject/chem.png')},
@@ -10,25 +11,56 @@ const Subjects = [
   {title: 'Art and culture', image: require('../Images/Subject/art.png')},
 ];
 
-const SubjectScreen = () => {
+const SubjectScreen = ({token}) => {
+  let [SubjectsData, setSubjectsData] = useState([]);
+  let sub;
+  const [fetchSubjects, setFetchSubjects] = useState(false)
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const renderSubjects = ({item})=>{
     return (
       <View style={styles.component}>
-        <View style={styles.row}>
-          <Image source = {item.image} style= {styles.img} />
-          <Text style={styles.subject}>{item.title}</Text>
-        </View>
+        <TouchableOpacity style={styles.row} onPress={()=>console.log({item})}>
+          <Image source = {{uri : item.subjectsLogo}} style= {styles.img} />
+          <Text style={styles.subject}>{item.subjectName}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
+
+  const getSubjects = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      sub='hii'
+      console.log('done');
+      setSubjectsData(response.data.data);
+      console.log('printttttt',SubjectsData[0].subjectName);
+      // sub = SubjectsData[0].subjectName;
+      console.log('SubjectsData', SubjectsData)
+      setFetchSubjects(true)
+      console.log('done',fetchSubjects)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+console.log('printttttt222222', SubjectsData);
+  useEffect(()=>{
+    getSubjects()
+  },[])
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Subjects</Text>
-      <FlatList 
-        data = {Subjects}
-        renderItem = {renderSubjects}
-        keyExtractor = {(item, index)=> index.toString()}
-        />
+      {/* {fetchSubjects === true ? <Text style={styles.title}>{sub}</Text> : null} */}
+      {/* <Text>{SubjectsData[0].subjectName}</Text> */}
+      <FlatList
+        data={SubjectsData}
+        renderItem={renderSubjects}
+        keyExtractor={item => item.subjectId}
+      />
     </View>
   );
 };

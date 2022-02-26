@@ -76,37 +76,36 @@ const SignInScreen = ({navigation}) => {
     setIsLoading(true);
 
     try {
-      console.log('hi');
       const response = await axios.post(
         `https://elearningapp-api.herokuapp.com/learn/authenticate`,
         {
           username,
           password,
         },
-        console.log('hello'),
+    
       );
-      console.log('working');
       console.log(response.status);
+      console.log(response.data.data);
+      const token = response.data.data
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
         console.log(msg);
-        console.log(response);
         setIsLoading(false);
         await navigation.dispatch(
           StackActions.push('Home', {
             //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
             phone: username,
             msg: msg,
+            token: token
           }),
         );
       } else {
         //console.log(response.status);
-
         throw new Error('An error has occurred');
       }
     } catch (error) {
       console.log(error);
-      alert('An error has occurred');
+      alert('Password Incorrect');
       setIsLoading(false);
     }
     // }
@@ -127,16 +126,13 @@ const SignInScreen = ({navigation}) => {
     setIsLoading(true);
 
     try {
-      console.log('hi');
       console.log(username);
       const response = await axios.put(
         `https://elearningapp-api.herokuapp.com/learn/forgot`,
         {
           username,
         },
-        console.log('hello'),
       );
-      console.log('working');
       console.log(response.status);
       if (response.status === 200) {
         let msg = response.data.data;
