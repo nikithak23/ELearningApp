@@ -42,7 +42,7 @@ const HomeScreen = ({navigation,route}) => {
     if(searchedItems.length===0)
     {
       setEnteredText('');
-    navigation.navigate('Profile');
+    navigation.navigate('NoSearch');
     }
     else
     {
@@ -124,12 +124,7 @@ const HomeScreen = ({navigation,route}) => {
                 style={styles.input}  
             />
             <TouchableOpacity onPress={goSearch}>
-              <Icon
-              name="search"
-              size={33}
-              color="#FFFFFF"
-              style={styles.searchIcon}
-            />
+              <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
             </TouchableOpacity>
          </View>
          <View style={{alignItems:'flex-start'}}>
@@ -207,11 +202,8 @@ const styles = StyleSheet.create({
   paddingHorizontal:15,
 },
 searchIcon:{
-  backgroundColor:'#4C93FF',
-  borderRadius:13,
-  borderColor:'rgba(76,147,255,0.4)',
-  padding:10,
-  marginHorizontal:10,
+  marginTop:18,
+  marginHorizontal:-4
 },
 search: {
   color:'black',
