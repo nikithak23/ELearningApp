@@ -7,32 +7,25 @@ import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavig = ({route}) => {
+const TabNavig = ({route,navigation}) => {
   const token = route.params.token;
   return (
     // <NavigationContainer independent={true}>
     <Tab.Navigator initialRouteName="TabHome">
       <Tab.Screen
         name="TabHome"
-        children={() => (
-          <HomeScreen token={token} />
-        )}
+        children={() => <HomeScreen token={token} navigation={navigation} />}
         options={{headerShown: false}}
-   
       />
       <Tab.Screen
         name="Subjects"
-        children={() => (
-          <SubjectScreen token={token} />
-        )}
+        children={() => <SubjectScreen token={token} navigation={navigation} />}
         options={{headerShown: false}}
-  
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        children={() => <ProfileScreen token={token} navigation={navigation} />}
         options={{headerShown: false}}
-  
       />
     </Tab.Navigator>
     // </NavigationContainer>
