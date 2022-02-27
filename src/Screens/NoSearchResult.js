@@ -25,7 +25,7 @@ const NoSearchResult=({navigation})=> {
         console.log(subName);
         if(response.status===200){
           setEnteredText('');
-          //navigation.navigate('Subjects');
+          navigation.navigate('Subjects');
         }
       } 
       
