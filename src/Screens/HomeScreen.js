@@ -77,7 +77,7 @@ const HomeScreen = ({navigation,route,token}) => {
       setEnteredText('');
       console.log(err);
       navigation.navigate('NoSearch');
-      alert('Enter a valid Search Item');
+      //alert('Enter a valid Search Item');
     }
 }
 
