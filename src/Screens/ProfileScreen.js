@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import axios from 'axios';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   Text,
@@ -7,13 +8,75 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  ImageBackground,
+  TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation, token}) => {
+  // let namee = 'asd';
   const [notify, setNotify] = useState(false);
+  const [isRight, setIsRight] = useState(true);
+  const [namee, setName] = useState('abc');
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [isinnerVisible, setIsinnerVissible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [text, onChangeText] = useState(namee);
+  const [fetchData, setFetchData] = useState(false);
+  const [ProfileData, setProfileData] = useState([]);
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
+  const getProfileData = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/learn/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('welocome to profile');
+      setProfileData(response.data);
+
+      console.log('profile', ProfileData);
+      setFetchData(true);
+      console.log(fetchData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const ri = () => {
+    setIsRight(true);
+    setName(text);
+  };
+  const ro = () => {
+    setIsRight(false);
+  };
+  const editHandleModalTrue = () => {
+    setEditModalVisible(true);
+  };
+  const editHandleModalT = () => {
+    setEditModalVisible(false);
+    setIsinnerVissible(false);
+    setIsModalVisible(false);
+    // ri();
+    setIsRight(true);
+    setName(text);
+  };
+  const editHandleModalF = () => {
+    setEditModalVisible(false);
+    setIsinnerVissible(false);
+    setIsModalVisible(false);
+    onChangeText(namee);
+
+    setIsRight(false);
+
+    // ro();
+  };
 
   const innerhandleModal = () => {
     setIsinnerVissible(true);
@@ -22,10 +85,14 @@ const ProfileScreen = ({navigation}) => {
   const innerhandleModal1 = () => {
     setIsModalVisible(true);
   };
+  const goBack1 = () => {
+    setIsinnerVissible(false);
+    setIsModalVisible(false);
+    setEditModalVisible(false);
+  };
   const goBack = () => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
-    navigation.navigate('Profile');
   };
   const gotoSign = () => {
     setIsinnerVissible(false);
@@ -53,7 +120,7 @@ const ProfileScreen = ({navigation}) => {
         animationType="slide"
         isVisible={isinnerVisible}>
         <View style={styles.InModalMainContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={editHandleModalTrue}>
             <View style={styles.InModalEditContainer}>
               <Image
                 source={require('../Images/Profile/edit.png')}
@@ -62,7 +129,53 @@ const ProfileScreen = ({navigation}) => {
               <Text style={styles.InModalEditText}>Edit</Text>
             </View>
           </TouchableOpacity>
-
+          {/* NB */}
+          <Modal isVisible={editModalVisible}>
+            <View style={styles.editModalMainContainer}>
+              <View>
+                <View style={styles.ModalEditTopContainer}>
+                  <TouchableOpacity onPress={editHandleModalF}>
+                    <Image
+                      source={require('../Images/Profile/wrong.png')}
+                      style={styles.ModalLogoutText}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={editHandleModalT}>
+                    <Image
+                      source={require('../Images/Profile/right.png')}
+                      style={styles.ModalLogoutText}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.ProfilePhotoContainer1}>
+                  <ImageBackground
+                    source={require('../Images/Profile/photo1.jpeg')}
+                    style={styles.ProfilePhotoImage1}
+                    imageStyle={{
+                      borderRadius: 60,
+                      opacity: 0.2,
+                    }}>
+                    <Image
+                      source={require('../Images/Profile/camera.png')}
+                      style={styles.cameraImg}
+                    />
+                  </ImageBackground>
+                </View>
+              </View>
+              <View style={styles.EditModalBottomContainer}>
+                <View style={styles.EditTextInputContainer}>
+                  <TextInput
+                    placeholder="name"
+                    value={text}
+                    onChangeText={onChangeText}
+                    style={styles.input}></TextInput>
+                </View>
+                <View style={styles.EditModalLine}></View>
+                <Text style={styles.ProfileMail}>prallav.raj@gmail.com</Text>
+              </View>
+            </View>
+          </Modal>
+          {/* NB */}
           <TouchableOpacity onPress={innerhandleModal1}>
             <View style={styles.InModalLogoutContainer}>
               <Image
@@ -72,7 +185,6 @@ const ProfileScreen = ({navigation}) => {
               <Text style={styles.InModalEditText}>Logout</Text>
             </View>
           </TouchableOpacity>
-
           <Modal isVisible={isModalVisible}>
             <View style={styles.ModalMainContainer}>
               <View style={styles.ModalTopContainer}>
@@ -115,7 +227,17 @@ const ProfileScreen = ({navigation}) => {
           />
         </View>
         <View style={styles.ProfileNameView}>
-          <Text style={styles.ProfileName}>Prallav Raj</Text>
+          {/* <Text style={styles.ProfileName}>Prallav Raj</Text> */}
+          {/* <Text style={styles.ProfileName}>{text}</Text> */}
+          {isRight ? (
+            <Text style={styles.ProfileName}>{text}</Text>
+          ) : (
+            <Text style={styles.ProfileName}>{namee}</Text>
+          )}
+          {/* {isRight ? setName(`{text}`) : null} */}
+
+          {/* {isRight == false && <Text style={styles.ProfileName}>{namee}</Text>} */}
+
           <Text style={styles.ProfileMail}>prallav.raj@gmail.com</Text>
         </View>
 
@@ -522,9 +644,82 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     backgroundColor: 'white',
   },
-
-  cover: {
-    backgroundColor: 'rgba(0,0,0,.5)',
+  editModalMainContainer: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: -19,
+    left: -19,
+    // right: 1,
+    height: '45%',
+    width: '111%',
+    // marginRight: 20,
+    // borderRadius: 15,
   },
+  ModalEditTopContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    margin: 32,
+
+    justifyContent: 'space-between',
+  },
+  // ProfilePhotoContainer: {
+  //   borderRadius: 60,
+  //   borderColor: '#3A7FE7',
+  //   borderWidth: 2,
+  //   // marginTop: ,
+  //   alignSelf: 'center',
+  // },
+  ProfilePhotoImage1: {
+    width: 100,
+    height: 100,
+    margin: 5,
+    // borderRadius: 60,
+  },
+  ProfilePhotoContainer1: {
+    borderRadius: 60,
+    borderColor: 'rgba(58,127,231,0.3)',
+
+    borderWidth: 2,
+    // marginTop: ,
+    alignSelf: 'center',
+  },
+  cameraImg: {
+    alignSelf: 'center',
+    marginTop: 26,
+  },
+  input: {
+    // flex: 1,
+    color: 'black',
+    fontSize: 20,
+    // height: 40,
+    // alignSelf: 'center',
+    // paddingHorizontal: 15,
+  },
+  EditTextInputContainer: {
+    alignSelf: 'center',
+
+    // flexDirection: 'row',
+    // marginTop: 30,
+    // a,
+  },
+  EditModalBottomContainer: {
+    alignItems: 'center',
+    marginTop: 15,
+  },
+
+  EditModalLine: {
+    height: 2,
+    borderRadius: 20,
+    marginLeft: 50,
+    marginRight: 50,
+    width: 290,
+    backgroundColor: '#C1C2C4',
+    marginTop: 15,
+    marginBottom: 16,
+  },
+
+  // cover: {
+  //   backgroundColor: 'rgba(0,0,0,.5)',
+  // },
 });
 export default ProfileScreen;

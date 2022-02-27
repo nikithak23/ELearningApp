@@ -16,22 +16,22 @@ const TabNavig = ({route}) => {
         name="TabHome"
         component={HomeScreen}
         options={{headerShown: false}}
-   
       />
       <Tab.Screen
         name="Subjects"
-        children={() => (
-          <SubjectScreen token={token} />
-        )}
+        children={() => <SubjectScreen token={token} />}
         options={{headerShown: false}}
-  
       />
       <Tab.Screen
         name="Profile"
+        children={() => <ProfileScreen token={token} />}
+        options={{headerShown: false}}
+      />
+      {/* <Tab.Screen
+        name="Profile"
         component={ProfileScreen}
         options={{headerShown: false}}
-  
-      />
+      /> */}
     </Tab.Navigator>
     // </NavigationContainer>
   );
