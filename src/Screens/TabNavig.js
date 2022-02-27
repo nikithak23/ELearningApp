@@ -14,7 +14,9 @@ const TabNavig = ({route}) => {
     <Tab.Navigator initialRouteName="TabHome">
       <Tab.Screen
         name="TabHome"
-        component={HomeScreen}
+        children={() => (
+          <HomeScreen token={token} />
+        )}
         options={{headerShown: false}}
    
       />

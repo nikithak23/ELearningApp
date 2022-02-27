@@ -84,6 +84,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
            
           //await otpCall();
           console.log(response.data);
+          console.log(response.data.resultInfo.message);
           console.log(otp);
           setIsLoading(false);
            await navigation.dispatch(
@@ -97,18 +98,16 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           );
 
         } else {
-          //console.log(response.status);
-          console.log("entered the else1 loop");
+          console.log(response.status);
           throw new Error("An error has occurred");
+          alert("An error has occured");
         }
       } catch (error) {
-        console.log(error)
-        alert("An error has occurred");
+        console.log(error);
+        //console.log(response);
+        alert("Username already exists");
         setIsLoading(false);
       }
-
-
-
       
     } else {
       setIsValid(false);

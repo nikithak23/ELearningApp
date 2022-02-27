@@ -1,14 +1,43 @@
 import React,{useState} from 'react';
+import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
+import {StackActions} from '@react-navigation/native';
 
 const NoSearchResult=({navigation})=> {
 
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+  const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ1OTUzMzQwLCJpYXQiOjE2NDU5MzUzNDB9.KZwtiCEdRyIdliQRKqe3KLjx9jjKUTlppvNHC3Bs_WDpn3LWPYmK2VNwGIONyghgxKH6IwOfDKz9nQ2KIatkOw';
   const [enteredText, setEnteredText] = useState ('');
 
-  const goSearch=()=>{
+
+  const goSearch=async()=>{
     if(enteredText){
-    navigation.navigate('Subjects');
-    setEnteredText('');
+      console.log(enteredText);
+      try {
+        const response = await axios.get(`${baseUrl}/subject/search/${enteredText}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.status);
+        let subjectData=response.data.data;
+        let subName=subjectData[0].subjectName
+        console.log(subName);
+        if(response.status===200){
+          setEnteredText('');
+          //navigation.navigate('Subjects');
+        }
+      } 
+      
+      catch (err) {
+        setEnteredText('');
+        console.log(err);
+        alert('Enter a valid Search Item');
+      }
+  }
+
+  else{
+    alert('Enter a Search Item');
   }
   }
 
