@@ -85,7 +85,7 @@ const SignInScreen = ({navigation}) => {
     
       );
       console.log(response.status);
-      console.log(response.data.data);
+      //console.log(response.data.data);
       const token = response.data.data
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;

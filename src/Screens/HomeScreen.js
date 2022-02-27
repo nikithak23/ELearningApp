@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react';
+import axios from 'axios';
 import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
@@ -20,8 +21,9 @@ const CurrentlyStudying=[
 
 
 
-const HomeScreen = ({navigation,route}) => {
-
+const HomeScreen = ({navigation,route,token}) => {
+  //console.log(token);
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
   const [currentlyStud, setCurrentlyStud] = useState(true);
@@ -37,12 +39,13 @@ const HomeScreen = ({navigation,route}) => {
     navigation.navigate('Notification');
   }
 
-  const goSearch=()=>{
+  const goSearch=async()=>{
+    /*
     if(enteredText){
     if(searchedItems.length===0)
     {
       setEnteredText('');
-    navigation.navigate('Profile');
+    navigation.navigate('NoSearch');
     }
     else
     {
@@ -50,9 +53,41 @@ const HomeScreen = ({navigation,route}) => {
     setEnteredText('');
   }
   }
-  }
+  */
 
-  const renderSearchList=({item})=>{
+  if(enteredText){
+    console.log(enteredText);
+    try {
+      const response = await axios.get(`${baseUrl}/subject/search/${enteredText}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.status);
+      let subjectData=response.data.data;
+      let subName=subjectData[0].subjectName
+      console.log(subName);
+      if(response.status===200){
+        setEnteredText('');
+        navigation.navigate('Subjects');
+      }
+    } 
+    
+    catch (err) {
+      setEnteredText('');
+      console.log(err);
+      navigation.navigate('NoSearch');
+      //alert('Enter a valid Search Item');
+    }
+}
+
+else{
+  alert('Enter a Search Item');
+}
+}
+
+
+const renderSearchList=({item})=>{
     return (
       <View>
         <TouchableOpacity onPress={()=>{
@@ -124,12 +159,7 @@ const HomeScreen = ({navigation,route}) => {
                 style={styles.input}  
             />
             <TouchableOpacity onPress={goSearch}>
-              <Icon
-              name="search"
-              size={33}
-              color="#FFFFFF"
-              style={styles.searchIcon}
-            />
+              <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
             </TouchableOpacity>
          </View>
          <View style={{alignItems:'flex-start'}}>
@@ -161,9 +191,6 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    //backgroundColor:'#4C93FF',
   },
   header: {
     flexDirection: 'row',
@@ -207,11 +234,8 @@ const styles = StyleSheet.create({
   paddingHorizontal:15,
 },
 searchIcon:{
-  backgroundColor:'#4C93FF',
-  borderRadius:13,
-  borderColor:'rgba(76,147,255,0.4)',
-  padding:10,
-  marginHorizontal:10,
+  marginTop:18,
+  marginHorizontal:-4
 },
 search: {
   color:'black',

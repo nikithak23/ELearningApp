@@ -9,6 +9,8 @@ import {name as appName} from './app.json';
 
 // import App from './App';
 import mainNavig from './src/mainNavig';
+import ResultsScreen from './src/Screens/ResultScreen';
+import Dropdown from './src/components/Dropdown';
 // import AuthenticationScreen from './src/Screens/SignInScreen';
 
 AppRegistry.registerComponent(appName, () => mainNavig);

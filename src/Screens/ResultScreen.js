@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+// import {Picker} from '@react-native-picker/picker';
+// import {Dropdown} from 'react-native-material-dropdown';
 import {
   Button,
   StyleSheet,
@@ -7,6 +9,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Modal,
+  ScrollView,
 } from 'react-native';
 
 const Results = [
@@ -44,7 +48,63 @@ const Results = [
   },
 ];
 
+//const Subjects = ['PHYSICS','BIOLOGY','CHEMISTRY','MATHEMATICS','GEOGRAPHY','ART AND CULTURE'];
+
 export default function ResultsScreen({navigation}) {
+  // const [chooseSub, setChoosesub] = useState('All');
+  // const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // const onPressItem = (sub)=>{
+  //   setIsModalVisible(false)
+  //   setChoosesub(sub)
+  // }
+  // console.log(Subjects)
+  
+  // const subs = Subjects.map((item,index)=>{
+  //   return(
+  //     <TouchableOpacity key={index} onPress={onPressItem}>
+  //       <Text>{item}</Text>
+  //     </TouchableOpacity>
+  //   )
+  // })
+  // console.log(subs)
+  // const ModalPicker=()=>{
+  //   return(
+  //     <TouchableOpacity 
+  //       onPress = {()=>setIsModalVisible(false)}
+        
+  //     >
+  //       <View >
+  //         {console.log(subs)}
+  //         <ScrollView>
+  //           <Text>{subs}</Text>
+  //         </ScrollView>
+  //       </View>
+  //     </TouchableOpacity>
+  //   )
+  // }
+
+  // const dropdownModal = () => {
+  //   console.log('aa')
+  //   return(
+  //   <View>
+  //     <Text>abcd</Text>
+  //     <TouchableOpacity onPress={()=>setIsModalVisible(true)} >
+  //       <Text >{chooseSub}</Text>
+  //       <Modal
+  //       transparent={true}
+  //       animationType='fade'
+  //       visible={isModalVisible}
+  //       onRequestClose = {()=>setIsModalVisible(false)}
+  //       >
+  //         <ModalPicker />
+  //       </Modal>
+  //       {console.log(isModalVisible)}
+  //     </TouchableOpacity>
+  //   </View>
+  
+  //   )} 
+ 
   const renderResults = ({item}) => {
     return (
       <View style={styles.Listcomponent}>
@@ -89,9 +149,9 @@ export default function ResultsScreen({navigation}) {
           <Text style={styles.TopText1}>Results</Text>
           <View></View>
 
-          <TouchableOpacity>
+          <TouchableOpacity >
             <View style={styles.TopAll}>
-              <Text style={styles.TopText2}>All</Text>
+              <Text style={styles.TopText2}>All</Text> 
               <Image
                 source={require('../Images/Profile/Results/allDown.png')}
               />

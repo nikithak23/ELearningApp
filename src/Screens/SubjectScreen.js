@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 
 let Subjects = [
   {title: 'Physics', image: require('../Images/Subject/physics.png')},
@@ -11,7 +12,7 @@ let Subjects = [
   {title: 'Art and culture', image: require('../Images/Subject/art.png')},
 ];
 
-const SubjectScreen = ({token}) => {
+const SubjectScreen = ({token,navigation}) => {
   let [SubjectsData, setSubjectsData] = useState([]);
   let sub;
   const [fetchSubjects, setFetchSubjects] = useState(false)
@@ -19,7 +20,7 @@ const SubjectScreen = ({token}) => {
   const renderSubjects = ({item})=>{
     return (
       <View style={styles.component}>
-        <TouchableOpacity style={styles.row} onPress={()=>console.log({item})}>
+        <TouchableOpacity style={styles.row} onPress={()=>navigation.navigate('Profile')}>
           <Image source = {{uri : item.subjectsLogo}} style= {styles.img} />
           <Text style={styles.subject}>{item.subjectName}</Text>
         </TouchableOpacity>

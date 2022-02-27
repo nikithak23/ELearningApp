@@ -8,13 +8,11 @@ import OnboardingScreen1 from './Screens/OnBoardingScreen1';
 import OnboardingScreen2 from './Screens/OnBoardingScreen2';
 import OnboardingScreen3 from './Screens/OnBoardingScreen3';
 import SignUpScreen from './Screens/SignUpScreen';
-import HomeScreen from './Screens/HomeScreen';
 import AuthenticationScreen from './Screens/AuthenticationScreen';
 import ResetPassScreen from './Screens/ResetPassScreen';
 import TabNavig from './Screens/TabNavig';
-import ProfileScreen from './Screens/ProfileScreen';
 import ResultScreen from './Screens/ResultScreen';
-import NoSearchResult from './Screens/NoSearchResult'
+import NoSearchResult from './Screens/NoSearchResult';
 import NotificationScreen from './Screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator();
@@ -79,11 +77,6 @@ function mainNavig() {
           component={NoSearchResult}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{headerShown: false}}
-        /> */}
         <Stack.Screen
           name="Results"
           component={ResultScreen}
