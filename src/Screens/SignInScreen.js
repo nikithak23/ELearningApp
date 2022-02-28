@@ -19,6 +19,8 @@ const SignInScreen = ({navigation}) => {
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  let name;
+  let data=[];
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -86,17 +88,56 @@ const SignInScreen = ({navigation}) => {
       );
       console.log(response.status);
       //console.log(response.data.data);
-      const token = response.data.data
+      const token = response.data.data;
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
         console.log(msg);
         setIsLoading(false);
+
+
+
+        try { //Name Api
+          const resp = await axios.get(`https://elearningapp-api.herokuapp.com/subject/get/name`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(resp.status);
+          name=resp.data.data.toUpperCase();
+          //setName(N);
+          console.log(name);
+        } 
+        catch (err) {
+          console.log(err);
+        }
+
+
+        try { //Homepage Api
+          const resp = await axios.get(`https://elearningapp-api.herokuapp.com/subject/get/studying`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(resp.status);
+          data=resp.data.data;
+          //console.log(data);
+          //console.log(data[0].subjectLogo);
+        } 
+        catch (err) {
+          console.log(err);
+        }
+
+
+
+
         await navigation.dispatch(
           StackActions.push('Home', {
             //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
             phone: username,
             msg: msg,
-            token: token
+            token: token,
+            name:name,
+            data:data,
           }),
         );
       } else {

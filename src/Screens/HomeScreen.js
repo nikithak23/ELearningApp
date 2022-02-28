@@ -14,47 +14,61 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
+/*
 const CurrentlyStudying=[
   {title:'Geography',image: require('../Images/Subject/geography.png'),chapter:'Elements of Physical Geography'},
   {title:'Biology',image: require('../Images/Subject/bio.png'),chapter:'Introduction to Biology'},
 ]
+*/
 
-
-
-const HomeScreen = ({navigation,route,token}) => {
+const HomeScreen = ({navigation,route,token,name,data}) => {
   //console.log(token);
+  //console.log(name);
+  //console.log(data)
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
-  const [currentlyStud, setCurrentlyStud] = useState(true);
+//const [currentlyStud, setCurrentlyStud] = useState(true);
+
+  
+  /*
+  const [SubObj, setSubObj] = useState([]);
+  const [Sub, setSub] = useState([]);
+  const getSubjects = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSubObj(response.data.data);
+      //console.log(SubObj[6].subjectName)
+    } catch (err) {
+      console.log(err);
+    }
+    for(i=0;i<7;i++){
+      Sub[i].title=SubObj[i].subjectName;
+      console.log(Sub);
+    }
+  };
+  getSubjects();
+  */
+  
 
   useEffect (() => {
+    
     setSearchedItems(Subjects.filter(item=>
         {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
         ),
         );
     },[enteredText, Subjects]);
 
+
   const notif =()=>{
     navigation.navigate('Notification');
   }
 
   const goSearch=async()=>{
-    /*
-    if(enteredText){
-    if(searchedItems.length===0)
-    {
-      setEnteredText('');
-    navigation.navigate('NoSearch');
-    }
-    else
-    {
-    navigation.navigate('Subjects');
-    setEnteredText('');
-  }
-  }
-  */
-
   if(enteredText){
     console.log(enteredText);
     try {
@@ -76,7 +90,7 @@ const HomeScreen = ({navigation,route,token}) => {
     catch (err) {
       setEnteredText('');
       console.log(err);
-      navigation.navigate('NoSearch');
+      navigation.navigate('NoSearch',{token:token});
       //alert('Enter a valid Search Item');
     }
 }
@@ -101,21 +115,6 @@ const renderSearchList=({item})=>{
     );
   }
 
-
-  const renderCurrentStud = ({item})=>{
-    return (
-      
-      <Card style = {styles.bottomCards}>
-        <View style={styles.imgContainer}>
-          <Image source = {item.image} style= {styles.img} />
-        </View>
-          <Text style={styles.subName}>{item.title.toUpperCase()}</Text>
-          <Text style={styles.ChapName}>{item.chapter}</Text>
-      </Card>
-    );
-  }
-
- 
   const searchSuggestions = () => {
     return (
     <View>
@@ -133,6 +132,26 @@ const renderSearchList=({item})=>{
 
 
 
+  const renderCurrentStud = ({item})=>{
+    return (
+      <Card style = {styles.bottomCards}>
+        <View style={styles.imgContainer}>
+          <Image source = {item.subjectName} style= {styles.img} />
+        </View>
+          <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
+          <Text style={styles.ChapName}>{item.courseName}</Text>
+          <View style={{flexDirection:'row'}}>
+          <Text style={styles.percent1}>Percentage Completed: </Text>
+          <Text style={styles.percent2}>{item.percent}%</Text>
+          </View>
+      </Card>
+    );
+  }
+
+ 
+
+
+
   return (
     <View style={{backgroundColor:'#f6f8fa'}}>
         <View style={styles.header}>
@@ -147,7 +166,7 @@ const renderSearchList=({item})=>{
         </View>
 
         <View style={styles.container}>
-            <Text style={styles.greet}>Hi, Name</Text>
+            <Text style={styles.greet}>Hi, {name}</Text>
             <Text style={styles.desc}>What would you like to study today?</Text>
             <Text style={styles.desc}>you can search below.</Text>
 
@@ -167,11 +186,11 @@ const renderSearchList=({item})=>{
          </View>
 
 
-         {currentlyStud === true ?          
+         {data!==[] ?          
         <View >
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
-              data = {CurrentlyStudying}
+              data = {data}
               renderItem = {renderCurrentStud}
               keyExtractor = {(item, index)=> index.toString()}
               horizontal={true}
@@ -284,6 +303,20 @@ ChapName:{
   fontWeight:'500',
   paddingHorizontal:10,
   paddingTop:2
+},
+percent1:{
+  color:'black',
+  fontSize:13,
+  fontWeight:'400',
+  paddingLeft:10,
+  paddingTop:6
+},
+percent2:{
+  color:'#3A7FE7',
+  fontSize:13,
+  fontWeight:'400',
+  //paddingHorizontal:0,
+  paddingTop:6
 },
 
 });

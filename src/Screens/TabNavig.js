@@ -9,12 +9,15 @@ const Tab = createBottomTabNavigator();
 
 const TabNavig = ({route,navigation}) => {
   const token = route.params.token;
+  const name=route.params.name;
+  const data=route.params.data;
+  //console.log(data);
   return (
     // <NavigationContainer independent={true}>
     <Tab.Navigator initialRouteName="TabHome">
       <Tab.Screen
         name="TabHome"
-        children={() => <HomeScreen token={token} navigation={navigation} />}
+        children={() => <HomeScreen token={token} name={name} data={data} navigation={navigation} />}
         options={{headerShown: false}}
       />
       <Tab.Screen
