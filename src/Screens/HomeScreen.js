@@ -136,7 +136,7 @@ const renderSearchList=({item})=>{
     return (
       <Card style = {styles.bottomCards}>
         <View style={styles.imgContainer}>
-          <Image source = {item.subjectName} style= {styles.img} />
+          <Image source = {{uri : item.subjectName}} style= {styles.img} />
         </View>
           <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
           <Text style={styles.ChapName}>{item.courseName}</Text>
