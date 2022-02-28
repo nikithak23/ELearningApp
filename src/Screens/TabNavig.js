@@ -7,7 +7,7 @@ import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
-const TabNavig = ({route,navigation}) => {
+const TabNavig = ({route, navigation}) => {
   const token = route.params.token;
   const name=route.params.name;
   const data=route.params.data;
@@ -30,6 +30,11 @@ const TabNavig = ({route,navigation}) => {
         children={() => <ProfileScreen token={token} navigation={navigation} />}
         options={{headerShown: false}}
       />
+      {/* <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{headerShown: false}}
+      /> */}
     </Tab.Navigator>
     // </NavigationContainer>
   );
