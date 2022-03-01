@@ -63,7 +63,7 @@ function mainNavig() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Home"
+          name="TabPage"
           component={TabNavig}
           options={{headerShown: false}}
         />
