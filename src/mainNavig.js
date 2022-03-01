@@ -14,6 +14,7 @@ import TabNavig from './Screens/TabNavig';
 import ResultScreen from './Screens/ResultScreen';
 import NoSearchResult from './Screens/NoSearchResult';
 import NotificationScreen from './Screens/NotificationScreen';
+import SubjectDetails from './Screens/SubjectDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,6 +81,11 @@ function mainNavig() {
         <Stack.Screen
           name="Results"
           component={ResultScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SubjectDetails"
+          component={SubjectDetails}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

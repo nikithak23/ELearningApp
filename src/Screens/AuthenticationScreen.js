@@ -36,7 +36,8 @@ const AuthenticationScreen = ({navigation,route}) => {
 
   useEffect(() => {
     textInput.focus();
-  }, []);
+    console.warn('OTP: ', otp)
+  }, [otp]);
 
   const goSignin = async() => {
     if (internalVal === JSON.stringify(otp)) {
