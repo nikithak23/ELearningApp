@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import Animated from 'react-native-reanimated';
 Icon.loadFont().then();
 
 
@@ -131,19 +132,23 @@ const renderSearchList=({item})=>{
 }
 
 
-
+let percent='50%';
   const renderCurrentStud = ({item})=>{
-    return (
+    return ( 
       <Card style = {styles.bottomCards}>
         <View style={styles.imgContainer}>
           <Image source = {{uri : item.subjectName}} style= {styles.img} />
         </View>
           <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
           <Text style={styles.ChapName}>{item.courseName}</Text>
-          <View style={{flexDirection:'row'}}>
-          <Text style={styles.percent1}>Percentage Completed: </Text>
-          <Text style={styles.percent2}>{item.percent}%</Text>
+          <View style={{flexDirection:'row',alignItems:'center'}}>
+          <View style={styles.progressBar}>
+         <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor:'green',width:percent}}/>
           </View>
+          <Text style={styles.percentText}>{item.percent}% </Text>
+          <Text style={styles.percentText}>{percent}</Text>
+          </View>
+          
       </Card>
     );
   }
@@ -186,8 +191,8 @@ const renderSearchList=({item})=>{
          </View>
 
 
-         {data!==[] ?          
-        <View >
+         {data!==null ?          
+        <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
               data = {data}
@@ -304,20 +309,24 @@ ChapName:{
   paddingHorizontal:10,
   paddingTop:2
 },
-percent1:{
-  color:'black',
-  fontSize:13,
-  fontWeight:'400',
-  paddingLeft:10,
-  paddingTop:6
-},
-percent2:{
-  color:'#3A7FE7',
+percentText:{
+  color:'green',
   fontSize:13,
   fontWeight:'400',
   //paddingHorizontal:0,
   paddingTop:6
 },
+progressBar: {
+  height: 3,
+  width: '70%',
+  flexDirection: "row",
+  backgroundColor: 'gray',
+  borderColor: 'black',
+  //borderWidth: 2,
+  borderRadius: 5,
+  marginTop:10,
+  marginHorizontal:10,
+}
 
 });
 export default HomeScreen;
