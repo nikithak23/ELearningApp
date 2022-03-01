@@ -131,7 +131,7 @@ const SignInScreen = ({navigation}) => {
 
 
         await navigation.dispatch(
-          StackActions.push('Home', {
+          StackActions.push('TabPage', {
             //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
             phone: username,
             msg: msg,
