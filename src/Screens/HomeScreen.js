@@ -6,7 +6,7 @@ import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'r
 import Animated from 'react-native-reanimated';
 Icon.loadFont().then();
 
-
+/*
 const Subjects = [
   {title: 'Physics'},
   {title: 'Biology'},
@@ -15,54 +15,81 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
-/*
-const CurrentlyStudying=[
-  {title:'Geography',image: require('../Images/Subject/geography.png'),chapter:'Elements of Physical Geography'},
-  {title:'Biology',image: require('../Images/Subject/bio.png'),chapter:'Introduction to Biology'},
-]
 */
 
-const HomeScreen = ({navigation,route,token,name,data}) => {
+const HomeScreen = ({navigation,route,token}) => {
   //console.log(token);
-  //console.log(name);
-  //console.log(data)
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
-//const [currentlyStud, setCurrentlyStud] = useState(true);
+  let [DataRecent, setDataRecent] = useState([]);
+  let [Sub, setSub] = useState([]);
+  let [userName, setUserName] = useState('');
 
-  
-  /*
-  const [SubObj, setSubObj] = useState([]);
-  const [Sub, setSub] = useState([]);
-  const getSubjects = async () => {
+ const getName=async()=>{//Name Api
+   try { 
+    const resp = await axios.get(`${baseUrl}/subject/get/name`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //console.log(resp.status);
+    setUserName(resp.data.data.toUpperCase());
+  } 
+  catch (err) {
+    console.log(err);
+  }}
+
+  const getData = async () => {//Recently studied api
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/studying`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.status);
+      setDataRecent(response.data.data);
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+
+
+  const getSub = async () => {//Recently studied api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setSubObj(response.data.data);
-      //console.log(SubObj[6].subjectName)
+      //console.log(response.status);
+      setSub(response.data.data);
     } catch (err) {
       console.log(err);
     }
-    for(i=0;i<7;i++){
-      Sub[i].title=SubObj[i].subjectName;
-      console.log(Sub);
-    }
   };
-  getSubjects();
-  */
-  
+//console.log('RecData', DataRecent);
+//console.log('Name',userName);
+//console.log('Data length',len)
+//console.log('Subjects',Sub)
+let len=DataRecent.length;
+  useEffect(()=>{
+    getData();
+    getName();
+    getSub();
+  },[])
+
+
+
+
 
   useEffect (() => {
-    
-    setSearchedItems(Subjects.filter(item=>
-        {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
-        ),
+    setSearchedItems(Sub.filter(item=>
+        { //console.log(item.subjectName);
+          return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());
+        }),
         );
-    },[enteredText, Subjects]);
+    },[enteredText,Sub]);
 
 
   const notif =()=>{
@@ -106,10 +133,10 @@ const renderSearchList=({item})=>{
     return (
       <View>
         <TouchableOpacity onPress={()=>{
-          setEnteredText(item.title);
+          setEnteredText(item.subjectName);
           setSearchedItems(enteredText);
           }}>
-        <Text style={styles.search}>{item.title}</Text>
+        <Text style={styles.search}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
     
@@ -132,28 +159,33 @@ const renderSearchList=({item})=>{
 }
 
 
-let percent='50%';
+
   const renderCurrentStud = ({item})=>{
+    //let percent='100%';
+    let percent=item.percent+'%';
     return ( 
       <Card style = {styles.bottomCards}>
         <View style={styles.imgContainer}>
-          <Image source = {{uri : item.subjectName}} style= {styles.img} />
+          <Image source = {{uri : item.subjectLogo}} style= {styles.img} />
         </View>
-          <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
+          <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
           <Text style={styles.ChapName}>{item.courseName}</Text>
           <View style={{flexDirection:'row',alignItems:'center'}}>
           <View style={styles.progressBar}>
          <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor:'green',width:percent}}/>
           </View>
           <Text style={styles.percentText}>{item.percent}% </Text>
-          <Text style={styles.percentText}>{percent}</Text>
           </View>
           
       </Card>
     );
   }
 
- 
+
+
+
+
+
 
 
 
@@ -171,7 +203,7 @@ let percent='50%';
         </View>
 
         <View style={styles.container}>
-            <Text style={styles.greet}>Hi, {name}</Text>
+            <Text style={styles.greet}>Hi, {userName}</Text>
             <Text style={styles.desc}>What would you like to study today?</Text>
             <Text style={styles.desc}>you can search below.</Text>
 
@@ -190,19 +222,22 @@ let percent='50%';
           {enteredText !== '' ? searchSuggestions() : null}
          </View>
 
-
-         {data!==null ?          
+         
+         
+        {len!==0? (
         <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
-              data = {data}
+              data = {DataRecent}
               renderItem = {renderCurrentStud}
               keyExtractor = {(item, index)=> index.toString()}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-            />
-        </View>
-            : null}
+            /> 
+        </View>):null}
+        
+       
+            
 
          
         </View>
@@ -320,10 +355,10 @@ progressBar: {
   height: 3,
   width: '70%',
   flexDirection: "row",
-  backgroundColor: 'gray',
-  borderColor: 'black',
+  backgroundColor: '#8E8F93',
+  //borderColor: 'black',
   //borderWidth: 2,
-  borderRadius: 5,
+  //borderRadius: 5,
   marginTop:10,
   marginHorizontal:10,
 }

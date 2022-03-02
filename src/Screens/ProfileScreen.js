@@ -14,17 +14,24 @@ import {
 import Modal from 'react-native-modal';
 
 const ProfileScreen = ({navigation, token}) => {
-  // let namee = 'asd';
   const [notify, setNotify] = useState(false);
-  const [isRight, setIsRight] = useState(true);
-  const [namee, setName] = useState('abc');
+  // const [isRight, setIsRight] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const [isinnerVisible, setIsinnerVissible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [text, onChangeText] = useState(namee);
-  const [fetchData, setFetchData] = useState(false);
+  // const [ProfileData, setProfileData] = useState([]);
   const [ProfileData, setProfileData] = useState([]);
+
+  let name1 = ProfileData.name;
+  const [fetchData, setFetchData] = useState(false);
+  const [name, setName] = useState(name1);
+
+  // console.log(name1);
+
+  // const [edit, setEdit] = useState(true);
+  // const [name, setName] = useState('');
+  // const [text, onChangeText] = useState(ProfileData);
+
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
   const getProfileData = async () => {
@@ -35,7 +42,7 @@ const ProfileScreen = ({navigation, token}) => {
         },
       });
       console.log('welocome to profile');
-      setProfileData(response.data);
+      setProfileData(response.data.data);
 
       console.log('profile', ProfileData);
       setFetchData(true);
@@ -49,33 +56,61 @@ const ProfileScreen = ({navigation, token}) => {
     getProfileData();
   }, []);
 
-  const ri = () => {
-    setIsRight(true);
-    setName(text);
+  const editProfileData = async () => {
+    try {
+      const response = await axios.put(
+        `${baseUrl}/learn/editprofile`,
+        {
+          name,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      // setName(name);
+      console.log('welocome to  edit profile');
+      console.log();
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const ro = () => {
-    setIsRight(false);
-  };
+
+  // useEffect(() => {
+  //   editProfileData();
+  // }, [name]);
+
+  // const ri = () => {
+  //   setIsRight(true);
+  //   setName(text);
+  // };
+  // const ro = () => {
+  //   setIsRight(false);
+  // };
   const editHandleModalTrue = () => {
     setEditModalVisible(true);
+    // setEdit(false);
   };
-  const editHandleModalT = () => {
+  const editHandleModalT = async () => {
     setEditModalVisible(false);
     setIsinnerVissible(false);
     setIsModalVisible(false);
-    // ri();
-    setIsRight(true);
-    setName(text);
+    await editProfileData();
+    await getProfileData();
+
+    // setIsRight(true);
+    // setName(name);
+    // setProfileData(text);
   };
   const editHandleModalF = () => {
     setEditModalVisible(false);
     setIsinnerVissible(false);
     setIsModalVisible(false);
-    onChangeText(namee);
-
-    setIsRight(false);
-
-    // ro();
+    setName(name1);
+    // onChangeText(name);
+    // setName(name);
+    // setIsRight(false);
   };
 
   const innerhandleModal = () => {
@@ -165,13 +200,14 @@ const ProfileScreen = ({navigation, token}) => {
               <View style={styles.EditModalBottomContainer}>
                 <View style={styles.EditTextInputContainer}>
                   <TextInput
-                    placeholder="name"
-                    value={text}
-                    onChangeText={onChangeText}
+                    placeholder={name1}
+                    placeholderTextColor={'black'}
+                    value={name}
+                    onChangeText={setName}
                     style={styles.input}></TextInput>
                 </View>
                 <View style={styles.EditModalLine}></View>
-                <Text style={styles.ProfileMail}>prallav.raj@gmail.com</Text>
+                <Text style={styles.ProfileMail}>{ProfileData.username}</Text>
               </View>
             </View>
           </Modal>
@@ -229,16 +265,28 @@ const ProfileScreen = ({navigation, token}) => {
         <View style={styles.ProfileNameView}>
           {/* <Text style={styles.ProfileName}>Prallav Raj</Text> */}
           {/* <Text style={styles.ProfileName}>{text}</Text> */}
-          {isRight ? (
+          {/* {isRight ? (
             <Text style={styles.ProfileName}>{text}</Text>
           ) : (
             <Text style={styles.ProfileName}>{namee}</Text>
-          )}
+          )} */}
           {/* {isRight ? setName(`{text}`) : null} */}
 
           {/* {isRight == false && <Text style={styles.ProfileName}>{namee}</Text>} */}
+          {/* {edit ? (
+            // <Text>{ProfileData}</Text>
+          ) */}
+          {/* {isRight ? (
+            <Text style={styles.ProfileName}>{text}</Text>
+          ) : ( */}
+          {/* <Text>{name}</Text> */}
 
-          <Text style={styles.ProfileMail}>prallav.raj@gmail.com</Text>
+          {/* <Text>{ProfileData.name}</Text> */}
+          {/* <Text>{name}</Text> */}
+          <Text style={styles.ProfileName}>{ProfileData.name}</Text>
+          {/* )} */}
+
+          <Text style={styles.ProfileMail}>{ProfileData.username}</Text>
         </View>
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -690,7 +738,8 @@ const styles = StyleSheet.create({
   input: {
     // flex: 1,
     color: 'black',
-    fontSize: 20,
+    fontSize: 30,
+    fontWeight: 'bold',
     // height: 40,
     // alignSelf: 'center',
     // paddingHorizontal: 15,

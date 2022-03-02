@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import {StackActions} from '@react-navigation/native';
-
+/*
 const Subjects = [
   {title: 'Physics'},
   {title: 'Biology'},
@@ -11,7 +11,7 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
-
+*/
 const NoSearchResult=({navigation,route})=> {
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
@@ -19,14 +19,37 @@ const NoSearchResult=({navigation,route})=> {
   //console.log(token);
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
+  let [Sub, setSub] = useState([]);
+
+  const getSub = async () => {//Recently studied api
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //console.log(response.status);
+      setSub(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(()=>{
+    getSub();
+  },[])
+
+
+
+
 
   useEffect (() => {
-    
-    setSearchedItems(Subjects.filter(item=>
-        {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
+    setSearchedItems(Sub.filter(item=>
+        {return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());}
         ),
         );
-    },[enteredText, Subjects]);
+    },[enteredText,Sub]);
+
+
 
 
   const goSearch=async()=>{
@@ -66,10 +89,10 @@ const NoSearchResult=({navigation,route})=> {
     return (
       <View>
         <TouchableOpacity onPress={()=>{
-          setEnteredText(item.title);
+          setEnteredText(item.subjectName);
           setSearchedItems(enteredText);
           }}>
-        <Text style={styles.search}>{item.title}</Text>
+        <Text style={styles.search}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
     

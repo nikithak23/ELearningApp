@@ -24,14 +24,14 @@ const TabNavig = ({route, navigation}) => {
       }   
       return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: '#595B60',
-      tabBarInactiveTintColor: '#595B60',
+      tabBarActiveTintColor: '#3A7FE7',
+      tabBarInactiveTintColor: '#8E8F93',
     })}
     
     >
       <Tab.Screen
         name="Home"
-        children={() => <HomeScreen token={token} name={name} data={data} navigation={navigation} />}
+        children={() => <HomeScreen token={token} navigation={navigation} />}
         options={{headerShown: false}}
       />
       <Tab.Screen
