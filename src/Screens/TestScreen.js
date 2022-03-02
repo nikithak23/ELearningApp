@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Text, Image, View, StyleSheet, ImageBackground, Touchable} from 'react-native';
-import {StackActions} from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
+
 
 
 const TestScreen =()=>{
