@@ -15,49 +15,73 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
-/*
-const CurrentlyStudying=[
-  {title:'Geography',image: require('../Images/Subject/geography.png'),chapter:'Elements of Physical Geography'},
-  {title:'Biology',image: require('../Images/Subject/bio.png'),chapter:'Introduction to Biology'},
-]
-*/
 
-const HomeScreen = ({navigation,route,token,name,data}) => {
+
+const HomeScreen = ({navigation,route,token}) => {
   //console.log(token);
-  //console.log(name);
-  //console.log(data)
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
-//const [currentlyStud, setCurrentlyStud] = useState(true);
+  let [DataRecent, setDataRecent] = useState([]);
+  let [Sub, setSub] = useState([]);
+  let [userName, setUserName] = useState('');
+ const getName=async()=>{//Name Api
+   try { 
+    const resp = await axios.get(`${baseUrl}/subject/get/name`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //console.log(resp.status);
+    setUserName(resp.data.data.toUpperCase());
+  } 
+  catch (err) {
+    console.log(err);
+  }}
 
-  
-  /*
-  const [SubObj, setSubObj] = useState([]);
-  const [Sub, setSub] = useState([]);
-  const getSubjects = async () => {
+  const getData = async () => {//Recently studied api
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/studying`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.status);
+      setDataRecent(response.data.data);
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+
+
+  const getSub = async () => {//Recently studied api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setSubObj(response.data.data);
-      //console.log(SubObj[6].subjectName)
+      //console.log(response.status);
+      setSub(response.data.data);
     } catch (err) {
       console.log(err);
     }
-    for(i=0;i<7;i++){
-      Sub[i].title=SubObj[i].subjectName;
-      console.log(Sub);
-    }
   };
-  getSubjects();
-  */
-  
+//console.log('RecData', DataRecent);
+//console.log('Name',userName);
+//console.log('Subjects',Sub)
+  useEffect(()=>{
+    getData();
+    getName();
+    getSub();
+  },[])
+
+
+
+
+
 
   useEffect (() => {
-    
     setSearchedItems(Subjects.filter(item=>
         {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
         ),
@@ -153,7 +177,11 @@ let percent='50%';
     );
   }
 
- 
+
+
+
+
+
 
 
 
@@ -171,7 +199,7 @@ let percent='50%';
         </View>
 
         <View style={styles.container}>
-            <Text style={styles.greet}>Hi, {name}</Text>
+            <Text style={styles.greet}>Hi, {userName}</Text>
             <Text style={styles.desc}>What would you like to study today?</Text>
             <Text style={styles.desc}>you can search below.</Text>
 
@@ -191,11 +219,11 @@ let percent='50%';
          </View>
 
 
-         {data!==null ?          
+         {DataRecent!==null ?          
         <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
-              data = {data}
+              data = {DataRecent}
               renderItem = {renderCurrentStud}
               keyExtractor = {(item, index)=> index.toString()}
               horizontal={true}
@@ -320,10 +348,10 @@ progressBar: {
   height: 3,
   width: '70%',
   flexDirection: "row",
-  backgroundColor: 'gray',
-  borderColor: 'black',
+  backgroundColor: '#8E8F93',
+  //borderColor: 'black',
   //borderWidth: 2,
-  borderRadius: 5,
+  //borderRadius: 5,
   marginTop:10,
   marginHorizontal:10,
 }
