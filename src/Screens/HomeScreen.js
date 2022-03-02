@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import Animated from 'react-native-reanimated';
 Icon.loadFont().then();
 
 
@@ -14,11 +15,6 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
-const CurrentlyStudying=[
-  {title:'Geography',image: require('../Images/Subject/geography.png'),chapter:'Elements of Physical Geography'},
-  {title:'Biology',image: require('../Images/Subject/bio.png'),chapter:'Introduction to Biology'},
-]
-
 
 
 const HomeScreen = ({navigation,route,token}) => {
@@ -26,7 +22,64 @@ const HomeScreen = ({navigation,route,token}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
-  const [currentlyStud, setCurrentlyStud] = useState(true);
+  let [DataRecent, setDataRecent] = useState([]);
+  let [Sub, setSub] = useState([]);
+  let [userName, setUserName] = useState('');
+ const getName=async()=>{//Name Api
+   try { 
+    const resp = await axios.get(`${baseUrl}/subject/get/name`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //console.log(resp.status);
+    setUserName(resp.data.data.toUpperCase());
+  } 
+  catch (err) {
+    console.log(err);
+  }}
+
+  const getData = async () => {//Recently studied api
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/studying`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.status);
+      setDataRecent(response.data.data);
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+
+
+  const getSub = async () => {//Recently studied api
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //console.log(response.status);
+      setSub(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+//console.log('RecData', DataRecent);
+//console.log('Name',userName);
+//console.log('Subjects',Sub)
+  useEffect(()=>{
+    getData();
+    getName();
+    getSub();
+  },[])
+
+
+
+
+
 
   useEffect (() => {
     setSearchedItems(Subjects.filter(item=>
@@ -35,26 +88,12 @@ const HomeScreen = ({navigation,route,token}) => {
         );
     },[enteredText, Subjects]);
 
+
   const notif =()=>{
     navigation.navigate('Notification');
   }
 
   const goSearch=async()=>{
-    /*
-    if(enteredText){
-    if(searchedItems.length===0)
-    {
-      setEnteredText('');
-    navigation.navigate('NoSearch');
-    }
-    else
-    {
-    navigation.navigate('Subjects');
-    setEnteredText('');
-  }
-  }
-  */
-
   if(enteredText){
     console.log(enteredText);
     try {
@@ -76,7 +115,7 @@ const HomeScreen = ({navigation,route,token}) => {
     catch (err) {
       setEnteredText('');
       console.log(err);
-      navigation.navigate('NoSearch');
+      navigation.navigate('NoSearch',{token:token});
       //alert('Enter a valid Search Item');
     }
 }
@@ -101,21 +140,6 @@ const renderSearchList=({item})=>{
     );
   }
 
-
-  const renderCurrentStud = ({item})=>{
-    return (
-      
-      <Card style = {styles.bottomCards}>
-        <View style={styles.imgContainer}>
-          <Image source = {item.image} style= {styles.img} />
-        </View>
-          <Text style={styles.subName}>{item.title.toUpperCase()}</Text>
-          <Text style={styles.ChapName}>{item.chapter}</Text>
-      </Card>
-    );
-  }
-
- 
   const searchSuggestions = () => {
     return (
     <View>
@@ -130,6 +154,34 @@ const renderSearchList=({item})=>{
     </View>
     );
 }
+
+
+let percent='50%';
+  const renderCurrentStud = ({item})=>{
+    return ( 
+      <Card style = {styles.bottomCards}>
+        <View style={styles.imgContainer}>
+          <Image source = {{uri : item.subjectName}} style= {styles.img} />
+        </View>
+          <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
+          <Text style={styles.ChapName}>{item.courseName}</Text>
+          <View style={{flexDirection:'row',alignItems:'center'}}>
+          <View style={styles.progressBar}>
+         <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor:'green',width:percent}}/>
+          </View>
+          <Text style={styles.percentText}>{item.percent}% </Text>
+          <Text style={styles.percentText}>{percent}</Text>
+          </View>
+          
+      </Card>
+    );
+  }
+
+
+
+
+
+
 
 
 
@@ -147,7 +199,7 @@ const renderSearchList=({item})=>{
         </View>
 
         <View style={styles.container}>
-            <Text style={styles.greet}>Hi, Name</Text>
+            <Text style={styles.greet}>Hi, {userName}</Text>
             <Text style={styles.desc}>What would you like to study today?</Text>
             <Text style={styles.desc}>you can search below.</Text>
 
@@ -167,11 +219,11 @@ const renderSearchList=({item})=>{
          </View>
 
 
-         {currentlyStud === true ?          
-        <View >
+         {DataRecent!==null ?          
+        <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
-              data = {CurrentlyStudying}
+              data = {DataRecent}
               renderItem = {renderCurrentStud}
               keyExtractor = {(item, index)=> index.toString()}
               horizontal={true}
@@ -285,6 +337,24 @@ ChapName:{
   paddingHorizontal:10,
   paddingTop:2
 },
+percentText:{
+  color:'green',
+  fontSize:13,
+  fontWeight:'400',
+  //paddingHorizontal:0,
+  paddingTop:6
+},
+progressBar: {
+  height: 3,
+  width: '70%',
+  flexDirection: "row",
+  backgroundColor: '#8E8F93',
+  //borderColor: 'black',
+  //borderWidth: 2,
+  //borderRadius: 5,
+  marginTop:10,
+  marginHorizontal:10,
+}
 
 });
 export default HomeScreen;

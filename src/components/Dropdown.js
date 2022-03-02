@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   TouchableOpacity,
@@ -8,54 +8,69 @@ import {
   Pressable,
   View,
   ScrollView,
+  Image
 } from 'react-native';
 
-const Dropdown = () => {
-    const Subjects = [
-        'ALL',
-      'PHYSICS',
-      'BIOLOGY',
-      'CHEMISTRY',
-      'MATHEMATICS',
-      'GEOGRAPHY',
-      'ART AND CULTURE',
-    ];
-  const subs = Subjects.map((item,index)=>{
+const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
+  const downarrow = require('../Images/Profile/Results/allDown.png');
+  // const Subjects = [
+  //       'ALL',
+  //     'PHYSICS',
+  //     'BIOLOGY',
+  //     'CHEMISTRY',
+  //     'MATHEMATICS',
+  //     'GEOGRAPHY',
+  //     'ART AND CULTURE',
+  // ];
+  // const [filterSub, setFilterSub] = useState('All')
+  // const onPressSub = (item) => {
+  //   return (
+  //     setFilterSub(item),
+  //     setModalVisible(!modalVisible)
+  //     );
+  // }
+  // const subs = Subjects.map((item,index)=>{
+  //   return (
+  //     <TouchableOpacity key={index}>
+  //       <Text
+  //         style={styles.modalText}
+  //         onPress={() => onPressSub(item)}>
+  //         {item}
+  //       </Text>
+  //     </TouchableOpacity>
+  //   );
+  // })
+  //const [modalVisible, setModalVisible] = useState(false);
+  
+
+  const renderDropdown = () => {
     return (
-      <TouchableOpacity key={index}>
-        <Text style={styles.modalText}>{item}</Text>
-      </TouchableOpacity>
-    );
-  })
-  const [modalVisible, setModalVisible] = useState(false);
-  return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <ScrollView>{subs}</ScrollView>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          // onRequestClose={() => {
+          //   Alert.alert('Modal has been closed.');
+          //   setModalVisible(!modalVisible);
+          // }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <ScrollView>{subs}</ScrollView>
+            </View>
           </View>
-        </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>All</Text>
-      </Pressable>
-    </View>
-  );
+        </Modal>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.textStyle}>{filterSub}</Text>
+          <Image source={downarrow} style={styles.arrow} />
+        </Pressable>
+      </View>
+    );
+  };
+  return renderDropdown();
 };
 
 const styles = StyleSheet.create({
@@ -63,46 +78,50 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
-    marginTop: 85,
   },
   modalView: {
-    margin: 10,
+    margin: 32,
+    marginTop:130,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 25,
+    padding: 22,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
     elevation: 5,
+    height: 250
   },
   button: {
-    borderRadius: 8,
-    padding: 6,
+    borderRadius: 6,
+    padding: 3,
     elevation: 2,
   },
   buttonOpen: {
     backgroundColor: '#fff',
-    borderWidth:2,
+    borderWidth:1.5,
     borderColor: '#4c93ff',
-    marginRight: 25
+    marginRight: 25,
+    flexDirection: 'row',
   },
   buttonClose: {
     backgroundColor: '#2196F3',
   },
   textStyle: {
     color: '#292929',
-    fontWeight: 'bold',
+    fontWeight: '500',
     textAlign: 'center',
+    marginLeft:6
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
+  // modalText: {
+  //   marginBottom: 15,
+  //   textAlign: 'center',
+  // },
+  arrow:{
+    marginLeft:15,
+    marginTop:5,
+    marginRight:3
+  }
 });
 
 export default Dropdown;
+

@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-// import {Picker} from '@react-native-picker/picker';
-// import {Dropdown} from 'react-native-material-dropdown';
+import React, {useEffect, useState} from 'react';
 import {
   Button,
   StyleSheet,
@@ -12,6 +10,7 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import Dropdown from '../components/Dropdown';
 
 const Results = [
   {
@@ -48,63 +47,67 @@ const Results = [
   },
 ];
 
-//const Subjects = ['PHYSICS','BIOLOGY','CHEMISTRY','MATHEMATICS','GEOGRAPHY','ART AND CULTURE'];
+const Subjects = [
+  'ALL',
+  'PHYSICS',
+  'BIOLOGY',
+  'CHEMISTRY',
+  'MATHEMATICS',
+  'GEOGRAPHY',
+  'ART AND CULTURE',
+];
 
 export default function ResultsScreen({navigation}) {
-  // const [chooseSub, setChoosesub] = useState('All');
-  // const [isModalVisible, setIsModalVisible] = useState(false);
+  const [filterSub, setFilterSub] = useState('ALL');
+  const [filterFlatlist, setFilterFlatlist] = useState(Results)
+  const [modalVisible, setModalVisible] = useState(false);
 
-  // const onPressItem = (sub)=>{
-  //   setIsModalVisible(false)
-  //   setChoosesub(sub)
-  // }
-  // console.log(Subjects)
-  
-  // const subs = Subjects.map((item,index)=>{
-  //   return(
-  //     <TouchableOpacity key={index} onPress={onPressItem}>
-  //       <Text>{item}</Text>
-  //     </TouchableOpacity>
-  //   )
-  // })
-  // console.log(subs)
-  // const ModalPicker=()=>{
-  //   return(
-  //     <TouchableOpacity 
-  //       onPress = {()=>setIsModalVisible(false)}
-        
-  //     >
-  //       <View >
-  //         {console.log(subs)}
-  //         <ScrollView>
-  //           <Text>{subs}</Text>
-  //         </ScrollView>
-  //       </View>
-  //     </TouchableOpacity>
-  //   )
-  // }
+  useEffect(() => {  
+    if(filterSub==='ALL'){
+      setFilterFlatlist(Results)
+    }else{
+      setFilterFlatlist(
+        Results.filter(item => {
+          return item.title.toLowerCase().includes(filterSub.toLowerCase());
+        }),
+      );
+    }
+  }, [filterSub]);
 
-  // const dropdownModal = () => {
-  //   console.log('aa')
-  //   return(
-  //   <View>
-  //     <Text>abcd</Text>
-  //     <TouchableOpacity onPress={()=>setIsModalVisible(true)} >
-  //       <Text >{chooseSub}</Text>
-  //       <Modal
-  //       transparent={true}
-  //       animationType='fade'
-  //       visible={isModalVisible}
-  //       onRequestClose = {()=>setIsModalVisible(false)}
-  //       >
-  //         <ModalPicker />
-  //       </Modal>
-  //       {console.log(isModalVisible)}
-  //     </TouchableOpacity>
-  //   </View>
-  
-  //   )} 
- 
+
+  const onPressSub = item => {
+    if(item === 'ALL'){
+      //setFilterSub(item);
+      return(
+       setModalVisible(!modalVisible),
+       setFilterFlatlist(Results),
+       setFilterSub(item)
+      )
+    }else{
+    return (
+      setFilterSub(item),
+      setModalVisible(!modalVisible)
+      // setFilterFlatlist(
+      //   Results.filter(item => {
+      //     return item.title.toLowerCase().includes(filterSub.toLowerCase());
+      //   }),
+      //   console.log(filterFlatlist)
+      // )
+    )};
+    
+     
+    
+  };
+  const subs = Subjects.map((item, index) => {
+    return (
+      <TouchableOpacity key={index}>
+        <Text style={styles.modalText} onPress={() => onPressSub(item)}>
+          {item}
+        </Text>
+      </TouchableOpacity>
+    );
+  });
+
   const renderResults = ({item}) => {
     return (
       <View style={styles.Listcomponent}>
@@ -147,22 +150,18 @@ export default function ResultsScreen({navigation}) {
         </TouchableOpacity>
         <View style={styles.TopTextView}>
           <Text style={styles.TopText1}>Results</Text>
-          <View></View>
-
-          <TouchableOpacity >
-            <View style={styles.TopAll}>
-              <Text style={styles.TopText2}>All</Text> 
-              <Image
-                source={require('../Images/Profile/Results/allDown.png')}
-              />
-            </View>
-          </TouchableOpacity>
+          <Dropdown
+            filterSub={filterSub}
+            subs={subs}
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
         </View>
       </View>
 
       <View style={styles.List}>
         <FlatList
-          data={Results}
+          data={filterFlatlist}
           renderItem={renderResults}
           keyExtractor={(item, index) => item.Name}
         />
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
+    marginRight: 8,
     marginHorizontal: 32,
     marginTop: 24,
   },
@@ -296,5 +295,9 @@ const styles = StyleSheet.create({
     paddingRight: 14,
     color: '#0BC763',
     fontWeight: 'bold',
+  },
+  modalText: {
+    marginBottom: 13,
+    textAlign: 'center',
   },
 });

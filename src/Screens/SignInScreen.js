@@ -19,6 +19,9 @@ const SignInScreen = ({navigation}) => {
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  let name;
+  let data=[];
+  let Sub=[];
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -86,17 +89,20 @@ const SignInScreen = ({navigation}) => {
       );
       console.log(response.status);
       //console.log(response.data.data);
-      const token = response.data.data
+      const token = response.data.data;
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
         console.log(msg);
         setIsLoading(false);
+
+
+
         await navigation.dispatch(
-          StackActions.push('Home', {
+          StackActions.push('TabPage', {
             //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
             phone: username,
             msg: msg,
-            token: token
+            token: token,
           }),
         );
       } else {

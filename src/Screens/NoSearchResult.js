@@ -1,13 +1,32 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import {StackActions} from '@react-navigation/native';
 
-const NoSearchResult=({navigation})=> {
+const Subjects = [
+  {title: 'Physics'},
+  {title: 'Biology'},
+  {title: 'Chemistry'},
+  {title: 'Mathematics'},
+  {title: 'Geography'},
+  {title: 'Art and culture'},
+];
+
+const NoSearchResult=({navigation,route})=> {
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-  const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ1OTUzMzQwLCJpYXQiOjE2NDU5MzUzNDB9.KZwtiCEdRyIdliQRKqe3KLjx9jjKUTlppvNHC3Bs_WDpn3LWPYmK2VNwGIONyghgxKH6IwOfDKz9nQ2KIatkOw';
+  const token=route.params.token;
+  //console.log(token);
   const [enteredText, setEnteredText] = useState ('');
+  const [searchedItems, setSearchedItems] = useState([]);
+
+  useEffect (() => {
+    
+    setSearchedItems(Subjects.filter(item=>
+        {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
+        ),
+        );
+    },[enteredText, Subjects]);
 
 
   const goSearch=async()=>{
@@ -42,6 +61,37 @@ const NoSearchResult=({navigation})=> {
   }
 
 
+
+  const renderSearchList=({item})=>{
+    return (
+      <View>
+        <TouchableOpacity onPress={()=>{
+          setEnteredText(item.title);
+          setSearchedItems(enteredText);
+          }}>
+        <Text style={styles.search}>{item.title}</Text>
+        </TouchableOpacity>
+      </View>
+    
+    );
+  }
+  const searchSuggestions = () => {
+    return (
+    <View>
+     {searchedItems.length <= 0 ? null:
+        (   <FlatList
+            data={searchedItems}
+            keyExtractor = {(item, index)=> index.toString()}
+            horizontal={false}
+            showVerticalScrollIndicator={false}
+            renderItem={renderSearchList}/>
+        )}
+    </View>
+    );
+}
+
+
+
 return(
 <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -62,6 +112,9 @@ return(
               <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
             </TouchableOpacity>
          </View>
+            <View style={{alignItems:'flex-start'}}>
+            {enteredText !== '' ? searchSuggestions() : null}
+            </View>
 
 </View>
 )};
@@ -127,6 +180,14 @@ const styles = StyleSheet.create({
     searchIcon:{
     marginTop:18,
     marginHorizontal:-4
+    },
+    search: {
+      color:'black',
+      fontSize:15,
+      fontWeight:'400',
+      paddingHorizontal:15,
+      marginHorizontal:30,
+      marginVertical:3,
     },
 
   });

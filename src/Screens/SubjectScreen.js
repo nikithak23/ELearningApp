@@ -20,7 +20,7 @@ const SubjectScreen = ({token,navigation}) => {
   const renderSubjects = ({item})=>{
     return (
       <View style={styles.component}>
-        <TouchableOpacity style={styles.row} onPress={()=>navigation.navigate('Profile')}>
+        <TouchableOpacity style={styles.row} onPress={()=>navigation.navigate('SubjectDetails')}>
           <Image source = {{uri : item.subjectsLogo}} style= {styles.img} />
           <Text style={styles.subject}>{item.subjectName}</Text>
         </TouchableOpacity>
@@ -87,13 +87,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: 15,
-    zIndex: 100,
+    borderColor: 10,
   },
   subject: {
     fontSize: 21,
     color: '#191b26',
     fontWeight: '700',
-    marginLeft: 22
+    marginLeft: 22,
   },
   row: {
     flexDirection: 'row',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     marginTop: -10,
-    marginLeft: -10
+    marginLeft: -10,
   },
 });
 
