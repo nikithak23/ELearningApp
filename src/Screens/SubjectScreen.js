@@ -13,15 +13,22 @@ let Subjects = [
 ];
 
 const SubjectScreen = ({token,navigation}) => {
-  let [SubjectsData, setSubjectsData] = useState([]);
-  let sub;
+  const [SubjectsData, setSubjectsData] = useState([]);
   const [fetchSubjects, setFetchSubjects] = useState(false)
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const renderSubjects = ({item})=>{
     return (
       <View style={styles.component}>
-        <TouchableOpacity style={styles.row} onPress={()=>navigation.navigate('SubjectDetails')}>
-          <Image source = {{uri : item.subjectsLogo}} style= {styles.img} />
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() =>
+            navigation.navigate('SubjectDetails', {
+              subject: item.subjectName,
+              token: token,
+              id: item.subjectId,
+            })
+          }>
+          <Image source={{uri: item.subjectsLogo}} style={styles.img} />
           <Text style={styles.subject}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
@@ -35,19 +42,12 @@ const SubjectScreen = ({token,navigation}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      sub='hii'
-      console.log('done');
       setSubjectsData(response.data.data);
-      console.log('printttttt',SubjectsData[0].subjectName);
-      // sub = SubjectsData[0].subjectName;
-      console.log('SubjectsData', SubjectsData)
       setFetchSubjects(true)
-      console.log('done',fetchSubjects)
     } catch (err) {
       console.log(err);
     }
   };
-console.log('printttttt222222', SubjectsData);
   useEffect(()=>{
     getSubjects()
   },[])
