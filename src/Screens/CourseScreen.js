@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   list1: {
-    padding: 30,
+    // padding: 15,
   },
   listComponent: {
     flexDirection: 'row',
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 30,
     borderRadius: 15,
-    // padding: 30,
+    padding: 30,
   },
   chapterCoverPhoto: {
     height: 40,
@@ -312,6 +312,8 @@ const styles = StyleSheet.create({
   },
   listname: {
     marginTop: 10,
+    // paddingRight: 20,
+    marginRight: 30,
     fontSize: 18,
     fontWeight: '600',
   },
