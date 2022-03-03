@@ -297,7 +297,9 @@ const ProfileScreen = ({navigation, token}) => {
           <View style={styles.MiddleContainer}>
             <View style={styles.MiddleCard}>
               <View style={styles.CardTop}>
-                <Text style={styles.Card1Text}>30</Text>
+                <Text style={styles.Card1Text}>
+                  {ProfileData.chapterscompleted}
+                </Text>
                 <Text style={styles.Card1Text1}>%</Text>
               </View>
               <View style={styles.CardBottom}>
@@ -307,7 +309,7 @@ const ProfileScreen = ({navigation, token}) => {
 
             <View style={styles.MiddleCard}>
               <View style={styles.CardTop}>
-                <Text style={styles.Card2Text}>70</Text>
+                <Text style={styles.Card2Text}>{ProfileData.avgscore}</Text>
                 <Text style={styles.Card2Text2}>%</Text>
               </View>
               <View style={styles.CardBottom}>
@@ -317,7 +319,7 @@ const ProfileScreen = ({navigation, token}) => {
 
             <View style={styles.MiddleCard}>
               <View style={styles.CardTop}>
-                <Text style={styles.Card3Text}>75</Text>
+                <Text style={styles.Card3Text}>{ProfileData.highestscore}</Text>
                 <Text style={styles.Card3Text3}>%</Text>
               </View>
               <View style={styles.CardBottom}>
