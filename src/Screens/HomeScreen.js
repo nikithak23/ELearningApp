@@ -6,7 +6,7 @@ import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'r
 import Animated from 'react-native-reanimated';
 Icon.loadFont().then();
 
-
+/*
 const Subjects = [
   {title: 'Physics'},
   {title: 'Biology'},
@@ -15,7 +15,7 @@ const Subjects = [
   {title: 'Geography'},
   {title: 'Art and culture'},
 ];
-
+*/
 
 const HomeScreen = ({navigation,route,token}) => {
   //console.log(token);
@@ -25,6 +25,7 @@ const HomeScreen = ({navigation,route,token}) => {
   let [DataRecent, setDataRecent] = useState([]);
   let [Sub, setSub] = useState([]);
   let [userName, setUserName] = useState('');
+
  const getName=async()=>{//Name Api
    try { 
     const resp = await axios.get(`${baseUrl}/subject/get/name`, {
@@ -69,7 +70,9 @@ const HomeScreen = ({navigation,route,token}) => {
   };
 //console.log('RecData', DataRecent);
 //console.log('Name',userName);
+//console.log('Data length',len)
 //console.log('Subjects',Sub)
+let len=DataRecent.length;
   useEffect(()=>{
     getData();
     getName();
@@ -80,13 +83,13 @@ const HomeScreen = ({navigation,route,token}) => {
 
 
 
-
   useEffect (() => {
-    setSearchedItems(Subjects.filter(item=>
-        {return item.title.toLowerCase().includes(enteredText.toLowerCase());}
-        ),
+    setSearchedItems(Sub.filter(item=>
+        { //console.log(item.subjectName);
+          return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());
+        }),
         );
-    },[enteredText, Subjects]);
+    },[enteredText,Sub]);
 
 
   const notif =()=>{
@@ -130,10 +133,10 @@ const renderSearchList=({item})=>{
     return (
       <View>
         <TouchableOpacity onPress={()=>{
-          setEnteredText(item.title);
+          setEnteredText(item.subjectName);
           setSearchedItems(enteredText);
           }}>
-        <Text style={styles.search}>{item.title}</Text>
+        <Text style={styles.search}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
     
@@ -156,21 +159,22 @@ const renderSearchList=({item})=>{
 }
 
 
-let percent='50%';
+
   const renderCurrentStud = ({item})=>{
+    //let percent='100%';
+    let percent=item.percent+'%';
     return ( 
       <Card style = {styles.bottomCards}>
         <View style={styles.imgContainer}>
-          <Image source = {{uri : item.subjectName}} style= {styles.img} />
+          <Image source = {{uri : item.subjectLogo}} style= {styles.img} />
         </View>
-          <Text style={styles.subName}>{item.subjectLogo.toUpperCase()}</Text>
+          <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
           <Text style={styles.ChapName}>{item.courseName}</Text>
           <View style={{flexDirection:'row',alignItems:'center'}}>
           <View style={styles.progressBar}>
          <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor:'green',width:percent}}/>
           </View>
           <Text style={styles.percentText}>{item.percent}% </Text>
-          <Text style={styles.percentText}>{percent}</Text>
           </View>
           
       </Card>
@@ -218,8 +222,9 @@ let percent='50%';
           {enteredText !== '' ? searchSuggestions() : null}
          </View>
 
-
-         {DataRecent!==null ?          
+         
+         
+        {len!==0? (
         <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
             <FlatList 
@@ -228,9 +233,11 @@ let percent='50%';
               keyExtractor = {(item, index)=> index.toString()}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-            />
-        </View>
-            : null}
+            /> 
+        </View>):null}
+        
+       
+            
 
          
         </View>

@@ -15,6 +15,7 @@ import ResultScreen from './Screens/ResultScreen';
 import NoSearchResult from './Screens/NoSearchResult';
 import NotificationScreen from './Screens/NotificationScreen';
 import SubjectDetails from './Screens/SubjectDetails';
+import TestScreen from './Screens/TestScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -86,6 +87,11 @@ function mainNavig() {
         <Stack.Screen
           name="SubjectDetails"
           component={SubjectDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Tests"
+          component={TestScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
