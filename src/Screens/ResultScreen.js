@@ -59,13 +59,13 @@ const Subjects = [
 
 export default function ResultsScreen({navigation}) {
   const [filterSub, setFilterSub] = useState('ALL');
-  const [filterFlatlist, setFilterFlatlist] = useState(Results)
+  const [filterFlatlist, setFilterFlatlist] = useState(Results);
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {  
-    if(filterSub==='ALL'){
-      setFilterFlatlist(Results)
-    }else{
+  useEffect(() => {
+    if (filterSub === 'ALL') {
+      setFilterFlatlist(Results);
+    } else {
       setFilterFlatlist(
         Results.filter(item => {
           return item.title.toLowerCase().includes(filterSub.toLowerCase());
@@ -74,29 +74,25 @@ export default function ResultsScreen({navigation}) {
     }
   }, [filterSub]);
 
-
   const onPressSub = item => {
-    if(item === 'ALL'){
+    if (item === 'ALL') {
       //setFilterSub(item);
-      return(
-       setModalVisible(!modalVisible),
-       setFilterFlatlist(Results),
-       setFilterSub(item)
-      )
-    }else{
-    return (
-      setFilterSub(item),
-      setModalVisible(!modalVisible)
-      // setFilterFlatlist(
-      //   Results.filter(item => {
-      //     return item.title.toLowerCase().includes(filterSub.toLowerCase());
-      //   }),
-      //   console.log(filterFlatlist)
-      // )
-    )};
-    
-     
-    
+      return (
+        setModalVisible(!modalVisible),
+        setFilterFlatlist(Results),
+        setFilterSub(item)
+      );
+    } else {
+      return (
+        setFilterSub(item), setModalVisible(!modalVisible)
+        // setFilterFlatlist(
+        //   Results.filter(item => {
+        //     return item.title.toLowerCase().includes(filterSub.toLowerCase());
+        //   }),
+        //   console.log(filterFlatlist)
+        // )
+      );
+    }
   };
   const subs = Subjects.map((item, index) => {
     return (
@@ -180,11 +176,12 @@ const styles = StyleSheet.create({
     marginTop: 51,
   },
   backButton: {
-    marginLeft: 32,
+    // marginLeft: 32,
   },
   touchable: {
     height: 20,
     width: 23,
+    marginLeft: 32,
   },
   TopTextView: {
     flexDirection: 'row',

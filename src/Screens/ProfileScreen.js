@@ -19,6 +19,7 @@ const ProfileScreen = ({navigation, token}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isinnerVisible, setIsinnerVissible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editData, setEditData] = useState(false);
   // const [ProfileData, setProfileData] = useState([]);
   const [ProfileData, setProfileData] = useState([]);
 
@@ -43,8 +44,9 @@ const ProfileScreen = ({navigation, token}) => {
       });
       console.log('welocome to profile');
       setProfileData(response.data.data);
+      console.log(ProfileData);
 
-      console.log('profile', ProfileData);
+      console.log('profile', ProfileData.name);
       setFetchData(true);
       console.log(fetchData);
     } catch (err) {
@@ -54,7 +56,7 @@ const ProfileScreen = ({navigation, token}) => {
 
   useEffect(() => {
     getProfileData();
-  }, []);
+  }, [name]);
 
   const editProfileData = async () => {
     try {
@@ -70,7 +72,9 @@ const ProfileScreen = ({navigation, token}) => {
         },
       );
       // setName(name);
+      console.log(response.data);
       console.log('welocome to  edit profile');
+      // setEditData;
       console.log();
     } catch (err) {
       console.log(err);
