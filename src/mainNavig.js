@@ -16,6 +16,7 @@ import NoSearchResult from './Screens/NoSearchResult';
 import NotificationScreen from './Screens/NotificationScreen';
 import SubjectDetails from './Screens/SubjectDetails';
 import TestScreen from './Screens/TestScreen';
+import CourseScreen from './Screens/CourseScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +93,11 @@ function mainNavig() {
         <Stack.Screen
           name="Tests"
           component={TestScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseScreen"
+          component={CourseScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
