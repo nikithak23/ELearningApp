@@ -66,7 +66,7 @@ const SubjectDetails = ({navigation, route}) => {
 
   const getChaps = async (id) => {
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/chapters/1`, {
+      const response = await axios.get(`${baseUrl}/subject/get/chapters/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -145,10 +145,11 @@ const SubjectDetails = ({navigation, route}) => {
 
   const renderLesson = ({item,index}) => {
     // console.log('iiiii', index+1, lessonId)
+    setLessonId(index)
     return (
       <TouchableOpacity
         style={styles.lessons}
-        onPress={() => navigation.navigate('CourseScreen',{lId: item.lessonId})}>
+        onPress={() => navigation.navigate('CourseScreen',{lId: item.lessonId, token: token})}>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
