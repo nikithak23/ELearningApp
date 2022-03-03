@@ -17,7 +17,7 @@ const QtnList =({navigation,route})=>{
 
     const getQtns = async () => {//Recently studied api
       try {
-        const response = await axios.get(`${baseUrl}/subject/gettest/1`, {
+        const response = await axios.get(`${baseUrl}/subject/gettest/${courseId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +31,6 @@ const QtnList =({navigation,route})=>{
       //console.log('Questions', questions);
       let len=questions.length;
       console.log('len',len);
-      //console.log(questions[0].questions)
 
       useEffect(()=>{
         getQtns();

@@ -18,7 +18,7 @@ const TestScreen =({navigation,route})=>{
 
     const getQtns = async () => {//Recently studied api
       try {
-        const response = await axios.get(`${baseUrl}/subject/gettest/1`, {
+        const response = await axios.get(`${baseUrl}/subject/gettest/${courseId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -256,99 +256,6 @@ const styles = StyleSheet.create({
     marginVertical:18,
     marginHorizontal:15,
   },
-
-
-
-
-  
-
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 70,
-    borderWidth: 1,
-    borderColor: 'rgba(41,94,255,0.05)',
-    backgroundColor:'#FFFFFF',
-    borderRadius:18,
-    marginTop:50,
-    marginHorizontal:30,
-},
-  input: {
-  flex:1,
-  color:'black',
-  fontSize:20,
-  paddingHorizontal:15,
-},
-searchIcon:{
-  marginTop:18,
-  marginHorizontal:-4
-},
-search: {
-  color:'black',
-  fontSize:15,
-  fontWeight:'400',
-  paddingHorizontal:15,
-  marginHorizontal:30,
-  marginVertical:3,
-},
-currentHead:{
-  marginTop:25,
-  marginHorizontal:30,
-  fontSize: 16,
-  color: '#595B60',
-  letterSpacing:0.69
-},
-bottomCards:{
-  marginLeft:25,  
-  backgroundColor:'#FFFFFF', 
-  width:260,
-  height:270,
-  marginTop:10,
-  borderRadius:18
-},
-imgContainer:{
-  width:260,height:160,
-  borderTopRightRadius:18,borderTopLeftRadius:18,
-  backgroundColor:'#FFA4A4'
-},
-img:{
-  height:80,
-  width:80,
-  marginHorizontal:90,
-  marginVertical:40,
-},
-subName:{
-  color:'#3A7FE7',
-  fontSize:13,
-  fontWeight:'500',
-  paddingHorizontal:10,
-  paddingTop:6
-},
-ChapName:{
-  color:'#191B26',
-  fontSize:18,
-  fontWeight:'500',
-  paddingHorizontal:10,
-  paddingTop:2
-},
-percentText:{
-  color:'green',
-  fontSize:13,
-  fontWeight:'400',
-  //paddingHorizontal:0,
-  paddingTop:6
-},
-progressBar: {
-  height: 3,
-  width: '70%',
-  flexDirection: "row",
-  backgroundColor: '#8E8F93',
-  //borderColor: 'black',
-  //borderWidth: 2,
-  //borderRadius: 5,
-  marginTop:10,
-  marginHorizontal:10,
-}
 
 });
 
