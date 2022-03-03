@@ -32,7 +32,7 @@ const Chapters = [
   },
 ];
 
-const LessonsScreen = ({navigation}) => {
+const CourseScreen = ({navigation}) => {
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
 
@@ -318,4 +318,4 @@ const styles = StyleSheet.create({
     marginLeft: 60,
   },
 });
-export default LessonsScreen;
+export default CourseScreen;

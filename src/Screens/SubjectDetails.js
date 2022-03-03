@@ -22,8 +22,11 @@ const SubjectDetails = ({navigation, route}) => {
   const btnBack = require('../Images/Notification/btnback.png');
   const [selected, setSelected] = useState('ALL');
   const [courseTitle, setCourseTitle] = useState([]);
-  const [courseId, setCourseId] = useState('1');
+  const [courseId, setCourseId] = useState('0');
   const [LessonTitle, setLessonTitle] = useState([]);
+  const [lessonId, setLessonId] = useState('0')
+  const [selectedCourse, setSelectedCourse] = useState();
+  const [chapters, setChapters] = useState([]);
 
   const getCourses = async () => {
     try {
@@ -36,8 +39,8 @@ const SubjectDetails = ({navigation, route}) => {
         },
       );
       setCourseTitle(response.data.data);
-      console.log('course',courseTitle);
-      // getLessons()
+      //console.log('course', courseTitle);
+      // getLessons();
     } catch (err) {
       console.log(err);
     }
@@ -53,8 +56,26 @@ const SubjectDetails = ({navigation, route}) => {
           },
         },
       );
-      setLessonTitle(response.data.data)
-      console.log('lesson',LessonTitle);
+      setLessonTitle(response.data.data);
+      console.log('lesson', LessonTitle);
+      // getChaps();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getChaps = async (id) => {
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/chapters/1`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // response.data.data.map((el)=>{
+      //   chapters.push(el.chapterName);
+      //   console.log('chappppss',chapters)
+      //})
+      setChapters(response.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -63,18 +84,24 @@ const SubjectDetails = ({navigation, route}) => {
   useEffect(() => {
     getCourses();
   }, []);
+  useEffect(() => {
+    getLessons();
+  }, [courseId]);
+  useEffect(()=>{
+    getChaps(lessonId);
+  },[lessonId])
+  
 
-  const OnPressCourse=(item)=> {
-    console.log('bbbbb',item.courseId);
-    return(
-      setCourseId(item.courseId),
-      getLessons()
-    )
-  }
+  const OnPressCourse = item => {
+    setCourseId(item.courseId);
+    return setSelectedCourse(item);
+  };
   const renderCourse = ({item}) => {
     return (
       <>
-        <TouchableOpacity style={styles.courses} onPress={()=>OnPressCourse(item)}>
+        <TouchableOpacity
+          style={styles.courses}
+          onPress={() => OnPressCourse(item)}>
           <View style={styles.courseImg}>
             <Text>Intro to Bio imhg</Text>
           </View>
@@ -82,14 +109,46 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.courseName}>{item.courseName}</Text>
           </View>
         </TouchableOpacity>
-        {/* <Text style={styles.selectedCourse}>v</Text> */}
+        {selectedCourse === item && (
+          <Text style={styles.selectedCourse}>v</Text>
+        )}
       </>
     );
   };
 
-  const renderLesson = ({item}) => {
+  const renderChap = ({item,index}) => {
+    // console.log(index,item)
+    //setLessonId(index)
     return (
-      <View style={styles.lessons}>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <View style={styles.progressLine}></View>
+          <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.chaps}>
+            {/* {LessonTitle.map((elem)=>{
+              <>
+              {setLessonId(elem.lessonId)}
+              {console.log(elem.lessonId, item.lessonId,item)}
+              {elem.lessonId === item.lessonId && item.chapterName}
+              </>
+            })} */}
+            {item.chapterName}
+            {/* {item.lessonId === lessonId && item.chapterName} */}
+          </Text>
+          <Text style={styles.summary}>Classes and sources</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const renderLesson = ({item,index}) => {
+    // console.log('iiiii', index+1, lessonId)
+    return (
+      <TouchableOpacity
+        style={styles.lessons}
+        onPress={() => navigation.navigate('CourseScreen')}>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
@@ -105,21 +164,14 @@ const SubjectDetails = ({navigation, route}) => {
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.lessonName}>{item.lessonName.toUpperCase()}</Text>
+            <Text style={styles.lessonName}>
+              {item.lessonName.toUpperCase()}
+            </Text>
             <Text style={styles.lessonNum}>Lesson {item.lessonId}</Text>
           </View>
         </View>
-        <View style={styles.row}>
-          <View style={styles.column}>
-            <View style={styles.progressLine}></View>
-            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.chaps}>Food Substances</Text>
-            <Text style={styles.summary}>Classes and sources</Text>
-          </View>
-        </View>
-        <View style={styles.row}>
+
+        {/* <View style={styles.row}>
           <View style={styles.column}>
             <View style={styles.progressLine}></View>
             <Icon name="ellipse" size={12} style={styles.dot} />
@@ -128,8 +180,14 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.chaps}>Balanced Diet</Text>
             <Text style={styles.summary}>Sources of food substances</Text>
           </View>
-        </View>
-      </View>
+        </View> */}
+
+        <FlatList
+          data={chapters}
+          renderItem={renderChap}
+          keyExtractor={item => item.chapterid}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -225,7 +283,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.1,
     borderColor: 15,
     borderRadius: 15,
-    width: 150,
+    width: 160,
     height: 175,
   },
   courseImg: {
@@ -233,6 +291,7 @@ const styles = StyleSheet.create({
     padding: 30,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
+    flexDirection: 'column',
   },
   courseTitle: {
     color: '#292929',
@@ -240,12 +299,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    
   },
-  courseName:{
-    fontSize:16,
+  courseName: {
+    fontSize: 16,
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    color: '#292929',
+    fontWeight: '500',
+    letterSpacing: 0.25,
   },
   row: {
     flexDirection: 'row',
@@ -281,11 +342,12 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   chaps: {
-    color: '#000',
-    fontSize: 22,
+    color: '#292929',
+    fontSize: 20,
     fontWeight: '400',
     marginLeft: 15,
-    letterSpacing: 0.5,
+    letterSpacing: 0.15,
+    width: 220
   },
   summary: {
     color: '#999',
@@ -313,8 +375,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowColor: '#fff',
     marginHorizontal: 30,
-    marginLeft: 108,
-    marginTop: -17,
+    marginLeft: -85,
+    marginTop: 180,
+    width: 50,
   },
   progress: {
     marginTop: 20,
