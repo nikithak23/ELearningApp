@@ -9,6 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+import axios from 'axios';
 import {StackActions} from '@react-navigation/native';
 
 const Chapters = [
@@ -32,10 +33,42 @@ const Chapters = [
   },
 ];
 
-const CourseScreen = ({navigation}) => {
+const CourseScreen = ({navigation, route}) => {
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+  const token = route?.params.token;
+  const id = route?.params.lId;
+  const lName = route?.params.lName;
+  console.log('token', token);
+  console.log('LESSONID', id);
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
+  const [chapters, setChapters] = useState([]);
 
+  const getChapters = async id => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/subject/get/chapters/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setChapters(response.data.data);
+      // console.log('hiii', response.data.chapterName);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // useEffect(() => {
+  //   // setChapters();
+  // });
+  useEffect(() => {
+    getChapters(id);
+  }, [id]);
+  console.log('hiii', chapters);
+  // console.log('', chapters[0].chapterName);
   RenderTests = () => {
     return (
       <View style={styles.testList}>
@@ -71,12 +104,25 @@ const CourseScreen = ({navigation}) => {
       <View>
         <TouchableOpacity style={styles.listComponent}>
           <View>
-            <Image source={item.img} style={styles.chapterCoverPhoto} />
+            {item.imageUrl ? (
+              <Image
+                source={{uri: item.imageUrl}}
+                style={styles.chapterCoverPhoto}
+              />
+            ) : (
+              <Image
+                source={require('../Images/Profile/photo1.jpeg')}
+                style={styles.chapterCoverPhoto}
+              />
+            )}
           </View>
           <View style={styles.listRight}>
-            <Text style={styles.listdifficulty}>{item.difficulty}</Text>
-            <Text style={styles.listname}>{item.name}</Text>
-            <Text style={styles.listsummary}>{item.summary}</Text>
+            <Text style={styles.listdifficulty}>BEGINEER</Text>
+            {/* <Text style={styles.listname}>{item.name}</Text>
+            <Text style={styles.listsummary}>{item.summary}</Text>  */}
+            {/* <Text style={styles.listdifficulty}>{item.difficulty}</Text> */}
+            <Text style={styles.listname}>{item.chapterName}</Text>
+            {/* <Text style={styles.listsummary}>{item.summary}</Text> */}
           </View>
         </TouchableOpacity>
       </View>
@@ -107,8 +153,8 @@ const CourseScreen = ({navigation}) => {
         <Text style={styles.topText}>INTRODUCTION TO BIOLOGY</Text>
       </View>
       <View style={styles.Lessons}>
-        <Text style={styles.LessonTitle}>Animal Nutrition: Food Chain</Text>
-        <Text style={styles.LessonTitle2}>Lesson 1</Text>
+        <Text style={styles.LessonTitle}>{lName}</Text>
+        <Text style={styles.LessonTitle2}>Lesson {id}</Text>
       </View>
       <View style={styles.tabContainer}>
         <TouchableOpacity onPress={chapterHandler} style={styles.chapter}>
@@ -133,9 +179,10 @@ const CourseScreen = ({navigation}) => {
       {isChapter && (
         <View style={styles.list}>
           <FlatList
-            data={Chapters}
+            // data={Chapters}
+            data={chapters}
             renderItem={renderChapters}
-            keyExtractor={(item, index) => item.name}
+            keyExtractor={(item, index) => item.chapterName}
           />
         </View>
       )}
