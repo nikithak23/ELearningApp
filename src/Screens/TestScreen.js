@@ -13,7 +13,7 @@ const TestScreen =({navigation,route})=>{
     const [markedAnswer,setMarkedAnswer]=useState('');
     const courseId=1;
     const courseName='Introduction to Physics';
-    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2Mjk5OTAyLCJpYXQiOjE2NDYyODE5MDJ9.uAavySgzVUdnTaljpxK5ccgsJNHNQvIPmUqwGOk2_i-MUPliBhzr3BS2A3uWcLQNrUzWCOPscs-0wo_g6nMZkg';
+    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
   
 
     const getQtns = async () => {//Recently studied api
@@ -106,7 +106,7 @@ const sendAns = async () => {//Send Answers
         }
       }
       else{
-        if(ans){
+        if(markedAnswer){
           sendAns();
           console.log(markedAnswer);
           setMarkedAnswer('')
@@ -133,7 +133,7 @@ const sendAns = async () => {//Send Answers
         </TouchableOpacity >
         <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
         <Text style={styles.timer} >Time Remaining</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('QtnList')}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>

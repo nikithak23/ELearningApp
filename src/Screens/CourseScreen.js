@@ -93,7 +93,7 @@ const CourseScreen = ({navigation, route}) => {
           </Text>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Tests', {cid: cid, cName: cName})
+              navigation.navigate('Tests', {cid: cid, cName: cName,token:token})
             }
             style={styles.beginButton}>
             <Text style={styles.buttonText}>Begin Text</Text>
