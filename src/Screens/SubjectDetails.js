@@ -148,7 +148,7 @@ const SubjectDetails = ({navigation, route}) => {
     return (
       <TouchableOpacity
         style={styles.lessons}
-        onPress={() => navigation.navigate('CourseScreen')}>
+        onPress={() => navigation.navigate('CourseScreen',{lId: item.lessonId})}>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
