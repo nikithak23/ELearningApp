@@ -24,11 +24,11 @@ const SubjectDetails = ({navigation, route}) => {
   const [courseTitle, setCourseTitle] = useState([]);
   const [courseId, setCourseId] = useState('0');
   const [LessonTitle, setLessonTitle] = useState([]);
-  const [lessonId, setLessonId] = useState('0')
+  const [lessonId, setLessonId] = useState('0');
   const [selectedCourse, setSelectedCourse] = useState();
   const [chapters, setChapters] = useState([]);
-  const [courseName, setCourseName] = useState('')
-  const trial = ['abcd','efgh','ijkl']
+  const [courseName, setCourseName] = useState('');
+  const trial = ['abcd', 'efgh', 'ijkl'];
 
   const getCourses = async () => {
     try {
@@ -66,13 +66,16 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
-  const getChaps = async (id) => {
+  const getChaps = async id => {
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/chapters/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `${baseUrl}/subject/get/chapters/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
       // response.data.data.map((el)=>{
       //   chapters.push(el.chapterName);
       //   console.log('chappppss',chapters)
@@ -89,10 +92,9 @@ const SubjectDetails = ({navigation, route}) => {
   useEffect(() => {
     getLessons();
   }, [courseId]);
-  useEffect(()=>{
+  useEffect(() => {
     getChaps(lessonId);
-  },[lessonId])
-  
+  }, [lessonId]);
 
   const OnPressCourse = item => {
     setCourseId(item.courseId);
@@ -119,7 +121,7 @@ const SubjectDetails = ({navigation, route}) => {
     );
   };
 
-  const renderChap = ({item,index}) => {
+  const renderChap = ({item, index}) => {
     // console.log(index,lessonId, LessonTitle.lessonId)
     // //setLessonId(index)
     // return (
@@ -144,20 +146,29 @@ const SubjectDetails = ({navigation, route}) => {
     //     </View>
     //   </View>
     // );
-    return(
+    return (
       <View>
         <Text>{item}</Text>
       </View>
-    )
+    );
   };
 
-  const renderLesson = ({item,index}) => {
+  const renderLesson = ({item, index}) => {
     // console.log('iiiii', index+1, lessonId)
     //setLessonId(index)
     return (
       <TouchableOpacity
         style={styles.lessons}
-        onPress={() => navigation.navigate('CourseScreen',{lId: item.lessonId, token: token, cId: courseId, cName: courseName})}>
+        onPress={() =>
+          navigation.navigate('CourseScreen', {
+            lId: item.lessonId,
+            lName: item.lessonName,
+            token: token,
+            cId: courseId,
+            cName: courseName,
+            lSummary: item.summary,
+          })
+        }>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
@@ -194,7 +205,7 @@ const SubjectDetails = ({navigation, route}) => {
         <FlatList
           data={trial}
           renderItem={renderChap}
-          keyExtractor={(item,index) => index.toString()}
+          keyExtractor={(item, index) => index.toString()}
         />
       </TouchableOpacity>
     );
@@ -356,7 +367,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginLeft: 15,
     letterSpacing: 0.15,
-    width: 220
+    width: 220,
   },
   summary: {
     color: '#999',
