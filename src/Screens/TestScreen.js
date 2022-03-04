@@ -93,6 +93,8 @@ const submitTest=async()=>{//Submit test
     })
   } catch (err) {
     console.log(err);
+    alert('You have not attempted any questions yet')
+    setModalVisible(false);
   }
 };
 
@@ -165,12 +167,14 @@ const submitTest=async()=>{//Submit test
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
         <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
         <Text style={styles.timer} >Time Remaining</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('QtnList')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('QtnList',{
+          courseId:courseId,courseName:courseName,token:token
+        })}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>
@@ -200,7 +204,7 @@ const submitTest=async()=>{//Submit test
       {len!==0? (
         <View>
           <Text style={styles.footerTxt1}>C{courseId}: {courseName}</Text>
-          <Text style={styles.footerTxt2}>{questions[n].id} of {len} question</Text>
+          <Text style={styles.footerTxt2}>{n+1} of {len} question</Text>
         </View>
         ):null}
         <View style={{flexDirection:'row'}}>

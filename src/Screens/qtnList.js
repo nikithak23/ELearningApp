@@ -7,12 +7,15 @@ import axios from 'axios';
 
 const QtnList =({navigation,route})=>{
 
+    const courseId=route?.params.courseId;
+    const courseName=route?.params.courseName;
+    const token=route?.params.token;
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let n=0;
-    const courseId=1;
-    const courseName='Introduction to Physics';
-    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
+    //const courseId=1;
+    //const courseName='Introduction to Physics';
+    //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
   
 
     const getQtns = async () => {//Recently studied api
