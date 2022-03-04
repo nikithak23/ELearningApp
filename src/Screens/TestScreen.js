@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity,ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import Modal from 'react-native-modal';
 
 
 
@@ -9,21 +10,24 @@ const TestScreen =({navigation,route})=>{
 
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
+    //const [submitData,setSubmitData] = useState([]);
+    let submitData=[];
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
+    const [modalVisible,setModalVisible]=useState(false);
     const courseId=1;
     const courseName='Introduction to Physics';
-    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
+    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzgxNDcxLCJpYXQiOjE2NDYzNjM0NzF9.7UI6PQSKEypBC-Bdg_4uQCZWJt5M429qN3bAduZV1aeLYIMiRSpyY9bu0XXXmA55Fb5d8QR0dJPapUJepHyORQ';
   
 
-    const getQtns = async () => {//Recently studied api
+    const getQtns = async () => {//Get questions
       try {
         const response = await axios.get(`${baseUrl}/subject/gettest/${courseId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.status);
+        console.log('Get questions Api',response.status);
         setQuestions(response.data.data);
       } catch (err) {
         console.log(err);
@@ -34,9 +38,9 @@ const TestScreen =({navigation,route})=>{
       console.log('len',len);
       //console.log(questions[0].questions)
 
-      useEffect(()=>{
+    useEffect(()=>{
         getQtns();
-        },[])
+    },[])
 
   
 
@@ -50,7 +54,7 @@ const sendAns = async () => {//Send Answers
       },
     }
     );
-    console.log(response.status);
+    console.log('Send answers Api',response.status);
     console.log('Sent');
     console.log(response.data.data);
   } catch (err) {
@@ -60,7 +64,31 @@ const sendAns = async () => {//Send Answers
 };
 
 
-    const nxt=async()=>{
+
+const submitTest=async()=>{//Submit test
+  try {
+    const response = await axios.get(`${baseUrl}/subject/submittest/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('Submit Test Api',response.status);
+    submitData=response.data.data;
+    console.log(submitData);
+    setModalVisible(false);
+    console.log(submitData.percentScore)
+    navigation.navigate('TestResult',{
+      percent:submitData[0].percentScore,
+      score:submitData[0].score,
+    })
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+
+  const nxt=async()=>{
       if(n<9){
         if(markedAnswer){
           sendAns();
@@ -74,24 +102,23 @@ const sendAns = async () => {//Send Answers
           setN(n+1);
         }
       }
-
       else{
         if(markedAnswer){
           sendAns();
           console.log(markedAnswer);
           setMarkedAnswer('')
-          alert('Do you wish to Submit?')
+          setModalVisible(true)
         }
         else{
           console.log('Not Sent');
           console.log('Ans',markedAnswer);
-          alert('Do you wish to Submit?')
+          setModalVisible(true)
         }
       }
-      
-    } 
+  } 
 
-    const prev=async()=>{
+
+  const prev=async()=>{
       if(n>0){
         if(markedAnswer){
           sendAns();
@@ -173,10 +200,34 @@ const sendAns = async () => {//Send Answers
         <TouchableOpacity onPress={nxt}>
         <Image source={require('../Images/TestPage/btnNxtQtn.png')} style={styles.footerBtn} />
         </TouchableOpacity >
-        
         </View>
       </View>
      
+
+
+      <Modal isVisible={modalVisible}>
+          <View style={styles.ModalMainContainer}>
+              <View style={styles.ModalTopContainer}>
+                <View style={styles.ModalContainer}></View>
+                <Text style={styles.ModalLogoutText}>Submit Test</Text>
+                <Text style={styles.ModalLogoutText1}>
+                  Are you sure you want to submit the test?
+                </Text>
+              </View>
+
+              <View style={styles.ModalBottomContainer}>
+                <TouchableOpacity style={styles.ModalNoContainer} onPress={()=>setModalVisible(false)}>
+                  <Text style={styles.ModalNoText}>No</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.ModalYesContainer} onPress={submitTest}>
+                  <View style={styles.ModalYesView}>
+                    <Text style={styles.ModalYesText}>Yes</Text>
+                    <Image source={require('../Images/TestPage/yesArrow.png')} style={styles.ModalYesImg}/>
+                  </View>
+                </TouchableOpacity>
+              </View>
+          </View>
+      </Modal>
 
 
     </View>
@@ -255,6 +306,91 @@ const styles = StyleSheet.create({
     textAlign:'left',
     marginVertical:18,
     marginHorizontal:15,
+  },
+
+
+
+
+  ModalMainContainer: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: -18,
+    height: '35%',
+    width: '100%',
+    marginRight: 20,
+    borderRadius: 15,
+  },
+  ModalTopContainer: {
+    alignItems: 'center',
+  },
+  ModalContainer: {
+    height: 2,
+    borderRadius: 20,
+    width: 40.2,
+    backgroundColor: 'rgba(151,151,151,0.49)',
+    marginTop: 15,
+  },
+  ModalLogoutText: {
+    marginTop: 30,
+    fontSize: 22,
+    fontWeight: 'bold',
+    lineHeight: 27,
+    letterSpacing: 0,
+    fontWeight: '500',
+    color: '#191B26',
+  },
+  ModalLogoutText1: {
+    color: '#595B60',
+    fontWeight: '300',
+    letterSpacing: 0,
+    lineHeight: 28,
+    textAlign: 'center',
+    fontSize: 20,
+    textAlign: 'center',
+    width: 230,
+    marginTop: 15,
+  },
+  ModalBottomContainer: {
+    flexDirection: 'row',
+    marginTop: 30,
+  },
+  ModalNoContainer: {
+    height: 55,
+    width: 125,
+    borderWidth: 2,
+    borderRadius: 13,
+    marginLeft: 31,
+    borderColor: '#4C93FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ModalNoText: {
+    color: '#4C93FF',
+    fontSize: 20,
+  },
+  ModalYesContainer: {
+    height: 55,
+    width: 125,
+    borderWidth: 2,
+    borderRadius: 13,
+    borderColor: '#4C93FF',
+    marginLeft: 31,
+    backgroundColor: '#4C93FF',
+  },
+  ModalYesView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginHorizontal: 10,
+  },
+  ModalYesText: {
+    marginVertical: 14,
+    fontSize: 20,
+    color: 'white',
+  },
+  ModalYesImg: {
+    width: 24,
+    height: 24,
   },
 
 });
