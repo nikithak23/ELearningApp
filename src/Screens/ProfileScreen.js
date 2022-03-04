@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect} from '@react-navigation/core';
 import axios from 'axios';
 import React, {useState, useEffect, useContext} from 'react';
 import {
@@ -15,7 +16,6 @@ import {
 import Modal from 'react-native-modal';
 import AuthContext from '../AsyncStorage/Context';
 
-
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState(false);
   // const [isRight, setIsRight] = useState(true);
@@ -30,6 +30,7 @@ const ProfileScreen = ({navigation, token}) => {
   const [fetchData, setFetchData] = useState(false);
   const [name, setName] = useState(name1);
   const context = useContext(AuthContext);
+  const [Results, setResults] = useState([]);
 
   // console.log(name1);
 
@@ -38,6 +39,26 @@ const ProfileScreen = ({navigation, token}) => {
   // const [text, onChangeText] = useState(ProfileData);
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
+  const getResults = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/subject/get/result`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setResults(response.data.data);
+
+      console.log('the result is', Results);
+      // setFetchSubjects(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getResults();
+    // setFilterFlatlist(Results);
+  }, []);
 
   const getProfileData = async () => {
     try {
@@ -58,9 +79,15 @@ const ProfileScreen = ({navigation, token}) => {
     }
   };
 
-  useEffect(() => {
-    getProfileData();
-  }, [name]);
+  useFocusEffect(
+    React.useCallback(() => {
+      getProfileData();
+    }, [name]),
+  );
+
+  // useEffect(() => {
+  //   getProfileData();
+  // }, [name]);
 
   const editProfileData = async () => {
     try {
@@ -137,15 +164,15 @@ const ProfileScreen = ({navigation, token}) => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
   };
-  const gotoSign = async() => {
+  const gotoSign = async () => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
-    await AsyncStorage.clear()
+    await AsyncStorage.clear();
     navigation.navigate('SignIn');
   };
 
   const gotoResult = () => {
-    navigation.navigate('Results');
+    navigation.navigate('Results', {token: token, Results: Results});
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   Button,
   StyleSheet,
@@ -10,42 +10,44 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
+import axios from 'axios';
 import Dropdown from '../components/Dropdown';
+import {useFocusEffect} from '@react-navigation/core';
 
-const Results = [
-  {
-    title: 'PHYSICS',
-    Lesson: 'Lesson 1',
-    Name: 'Animal Nutrition:Food Chain',
-    right: '35',
-    qa: '35',
-    per: '75',
-  },
-  {
-    title: 'BIOLOGY',
-    Lesson: 'Lesson 2',
-    Name: 'Photosynthesis',
-    right: '40',
-    qa: '46',
-    per: '90',
-  },
-  {
-    title: 'CHEMISTRY',
-    Lesson: 'Lesson 1',
-    Name: 'Introduction to Chemistry',
-    right: '18',
-    qa: '18',
-    per: '20',
-  },
-  {
-    title: 'PHYSICS',
-    Lesson: 'Lesson 2',
-    Name: 'Animal Nutrition',
-    right: '35',
-    qa: '35',
-    per: '75',
-  },
-];
+// const Results = [
+//   {
+//     title: 'PHYSICS',
+//     Lesson: 'Lesson 1',
+//     Name: 'Animal Nutrition:Food Chain',
+//     right: '35',
+//     qa: '35',
+//     per: '75',
+//   },
+//   {
+//     title: 'BIOLOGY',
+//     Lesson: 'Lesson 2',
+//     Name: 'Photosynthesis',
+//     right: '40',
+//     qa: '46',
+//     per: '90',
+//   },
+//   {
+//     title: 'CHEMISTRY',
+//     Lesson: 'Lesson 1',
+//     Name: 'Introduction to Chemistry',
+//     right: '18',
+//     qa: '18',
+//     per: '20',
+//   },
+//   {
+//     title: 'PHYSICS',
+//     Lesson: 'Lesson 2',
+//     Name: 'Animal Nutrition',
+//     right: '35',
+//     qa: '35',
+//     per: '75',
+//   },
+// ];
 
 const Subjects = [
   'ALL',
@@ -57,10 +59,36 @@ const Subjects = [
   'ART AND CULTURE',
 ];
 
-export default function ResultsScreen({navigation}) {
+export default function ResultsScreen({navigation, route}) {
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
+  const token = route?.params.token;
+  const Results = route?.params.Results;
+
   const [filterSub, setFilterSub] = useState('ALL');
+  // const [Results, setResults] = useState([]);
   const [filterFlatlist, setFilterFlatlist] = useState(Results);
   const [modalVisible, setModalVisible] = useState(false);
+
+  // const getResults = async () => {
+  //   try {
+  //     const response = await axios.get(`${baseUrl}/subject/get/result`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setResults(response.data.data);
+
+  //     console.log('the result is', Results);
+  //     // setFetchSubjects(true);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   // getResults();
+  //   setFilterFlatlist(Results);
+  // }, []);
 
   useEffect(() => {
     if (filterSub === 'ALL') {
@@ -68,7 +96,9 @@ export default function ResultsScreen({navigation}) {
     } else {
       setFilterFlatlist(
         Results.filter(item => {
-          return item.title.toLowerCase().includes(filterSub.toLowerCase());
+          return item.subjectName
+            .toLowerCase()
+            .includes(filterSub.toLowerCase());
         }),
       );
     }
@@ -108,24 +138,24 @@ export default function ResultsScreen({navigation}) {
     return (
       <View style={styles.Listcomponent}>
         <View style={styles.firstRow}>
-          <Text style={styles.subject}>{item.title}</Text>
-          <Text style={styles.lesson}>{item.Lesson}</Text>
+          <Text style={styles.subject}>{item.subjectName.toUpperCase()}</Text>
+          <Text style={styles.lesson}>{item.courseId}</Text>
         </View>
         <View>
-          <Text style={styles.name}>{item.Name}</Text>
+          <Text style={styles.name}>{item.courseName}</Text>
         </View>
         <View style={styles.bottom}>
           <View>
             <Text style={styles.textRight}>Right Answers</Text>
-            <Text style={styles.right}>{item.right}</Text>
+            <Text style={styles.right}>{item.rightAnswer}</Text>
             <Text style={styles.textRight}>Questions attempted</Text>
             <View style={styles.qa}>
-              <Text style={styles.right}>{item.qa}</Text>
-              <Text style={styles.of50}> of 50</Text>
+              <Text style={styles.right}>{item.attempted}</Text>
+              <Text style={styles.of50}> of 10</Text>
             </View>
           </View>
           <View style={styles.percentage}>
-            <Text style={styles.per}>{item.per}</Text>
+            <Text style={styles.per}>{item.percentScore}</Text>
             <Text style={styles.per1}>%</Text>
           </View>
         </View>
@@ -159,7 +189,7 @@ export default function ResultsScreen({navigation}) {
         <FlatList
           data={filterFlatlist}
           renderItem={renderResults}
-          keyExtractor={(item, index) => item.Name}
+          keyExtractor={(item, index) => item.courseName}
         />
       </View>
     </View>
