@@ -10,29 +10,36 @@ import {
   ScrollView,
 } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 
 
 const TestResult=({navigation,route})=>{
   const percent=route?.params.percent;
   const score=route?.params.score;
+  const attempted=route?.params.attempted;
+  const rightAnswer=route?.params.rightAnswer;
+  const star =route?.params.star;
+
   const token=route?.params.token;
   const lid=route?.params.lid;
   const lName=route?.params.lName;
   const cid=route?.params.cid;
   const cName=route?.params.cName;
-  //console.log(percent,score,cid,cName,lid,lName,token);
+  const len=route?.params.len;
+  //console.log(cid,lid,cName)
 return(
 <View style={styles.container}>
 
   <View style={styles.header}>
-    <TouchableOpacity onPress={()=>navigation.navigate('CourseScreen',{
+    <TouchableOpacity onPress={()=>
+      navigation.navigate('CourseScreen',{
       token:token,
       lid:lid,
       lName:lName,
-      cid:cid,
+      cId:cid,
       cName:cName,
-    })}>
+    })
+    }>
     <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
     </TouchableOpacity >
   </View>
@@ -50,12 +57,32 @@ return(
               inActiveStrokeWidth={10.5}
               inActiveStrokeColor={'#999'}
               inActiveStrokeOpacity={0.35}
+              title={`${attempted} of ${len} answered`} 
+              titleColor={'#8E8F93'}
+              titleStyle={styles.CircularTxt}
             >
             </CircularProgress>
             <Text style={styles.Text1}>Bravo!</Text>
-            <Text style={styles.Text2}>You are just {(100-percent)/10} correct questions away from 100%. You can do it.
+            <Text style={styles.Text2}>You are just {len-rightAnswer} correct questions away from 100%. You can do it.
             </Text>
-  </View>
+    </View>
+
+    <View>
+            <TouchableOpacity style={styles.TryAgnContainer} onPress={() =>
+              navigation.navigate('Tests',{ 
+                cid: cid, 
+                cName: cName,
+                token:token,
+                id:lid,
+                lName:lName
+              })
+            }>
+              <View style={styles.TryAgnBtn}>
+                  <Text style={styles.TryAgnTxt}>Try Again</Text>
+                  <Image source={require('../Images/TestPage/yesArrow.png')} style={styles.TryAgnImg}/>
+              </View>
+            </TouchableOpacity>
+      </View>
 
 </View>
 )
@@ -92,12 +119,38 @@ const styles = StyleSheet.create({
     color:'black',
     marginTop:80,
     marginBottom:7,
-
   },
   Text2:{
     textAlign:'center',
     fontSize:17,
+  },
+  CircularTxt:{
+    fontWeight: 'bold',
+    fontSize:13,
+    marginTop:-10,
+  },
 
+  TryAgnContainer: {
+    height: 50,
+    width: 320,
+    borderRadius: 13,
+    backgroundColor: '#4C93FF',
+    alignSelf:'center',
+  },
+  TryAgnBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginLeft: 70,
+  },
+  TryAgnTxt: {
+    marginVertical: 10,
+    fontSize: 20,
+    color: 'white',
+  },
+  TryAgnImg: {
+    width: 24,
+    height: 24, 
   },
 });
 

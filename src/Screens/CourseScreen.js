@@ -111,8 +111,9 @@ const CourseScreen = ({navigation, route}) => {
             5 marks
           </Text>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => { console.log(cid,cName,token,id,lName)
               navigation.navigate('Tests', {cid: cid, cName: cName,token:token,id:id,lName:lName})
+            }
             }
             style={styles.beginButton}>
             <Text style={styles.buttonText}>Begin Text</Text>
