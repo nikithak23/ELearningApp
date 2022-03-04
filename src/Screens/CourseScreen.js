@@ -72,6 +72,25 @@ const CourseScreen = ({navigation, route}) => {
   }, [id]);
   console.log('hiii', chapters);
   // console.log('', chapters[0].chapterName);
+
+  const getContent = async id => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/subject/get/chapters/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setChapters(response.data.data);
+      // console.log('hiii', response.data.chapterName);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   RenderTests = () => {
     return (
       <View style={styles.testList}>
