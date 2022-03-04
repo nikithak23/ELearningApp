@@ -46,7 +46,6 @@ const CourseScreen = ({navigation, route}) => {
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
   const [chapters, setChapters] = useState([]);
-  const [contents, setContents] = useState([]);
 
   const getChapters = async id => {
     try {
@@ -75,27 +74,27 @@ const CourseScreen = ({navigation, route}) => {
   console.log('hiii', chapters);
   // console.log('', chapters[0].chapterName);
 
-  const getContent = async () => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/content/1?pageSize=1&pageNumber=0`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+  // const getContent = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${baseUrl}/subject/get/content/1?pageSize=1&pageNumber=0`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
 
-      setContents(response.data.data);
-      // console.log('hiii', response.data.chapterName);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  useEffect(() => {
-    getContent();
-  }, []);
-  console.log('hlo', contents);
+  //     setContents(response.data.data);
+  //     // console.log('hiii', response.data.chapterName);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getContent();
+  // }, []);
+  // console.log('hlo', contents);
 
   RenderTests = () => {
     return (
@@ -146,6 +145,7 @@ const CourseScreen = ({navigation, route}) => {
             navigation.navigate('Chapter', {
               token: token,
               chapterId: item.chapterId,
+              chapterName: item.chapterName,
               // console.log(item.)
             })
           }
