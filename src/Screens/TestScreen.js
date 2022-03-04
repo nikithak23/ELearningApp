@@ -10,8 +10,8 @@ const TestScreen =({navigation,route})=>{
    const courseId=route?.params.cid;
    const courseName=route?.params.cName;
    const token=route?.params.token;
-   const lid=route?.params.id;//to send to test result page
-   const lName=route?.params.lName;// to send to test result page
+   const lid=route?.params.id;//reqd to go bck to course page
+   const lName=route?.params.lName;//reqd to go back to course page
    //console.log(courseId,courseName,token);
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);

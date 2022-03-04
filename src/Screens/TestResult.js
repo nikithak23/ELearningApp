@@ -21,8 +21,7 @@ const TestResult=({navigation,route})=>{
   const lName=route?.params.lName;
   const cid=route?.params.cid;
   const cName=route?.params.cName;
-
-  console.log(percent,score,cid,cName,lid,lName,token);
+  //console.log(percent,score,cid,cName,lid,lName,token);
 return(
 <View style={styles.container}>
 
