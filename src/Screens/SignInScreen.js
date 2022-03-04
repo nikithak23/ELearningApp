@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import {
   Text,
@@ -13,17 +13,16 @@ import {
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
+import AuthContext from '../AsyncStorage/Context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = ({navigation}) => {
   // const [phone, setPhone] = useState(null);
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
-  let name;
-  let data=[];
-  let Sub=[];
-
   const [isLoading, setIsLoading] = useState(false);
+  //const context = useContext(AuthContext);
 
   // const onChangePhone = phone => {
   //   setPhone(phone);
@@ -90,11 +89,21 @@ const SignInScreen = ({navigation}) => {
       console.log(response.status);
       //console.log(response.data.data);
       const token = response.data.data;
+      //context.onLogin()
+      //console.log(context)
+      try{
+        await AsyncStorage.setItem('loggedIn', '1')
+        await AsyncStorage.setItem('token', token);
+        console.log('stored')
+        
+      }catch(e){
+        console.log(e)
+      }
+      
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
         console.log(msg);
         setIsLoading(false);
-
 
 
         await navigation.dispatch(

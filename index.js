@@ -13,6 +13,7 @@ import mainNavig from './src/mainNavig';
 import ResultsScreen from './src/Screens/ResultScreen';
 import Dropdown from './src/components/Dropdown';
 import CourseScreen from './src/Screens/CourseScreen';
+import ChapterScreen from './src/Screens/ChapterScreen';
 // import AuthenticationScreen from './src/Screens/SignInScreen';
 
 AppRegistry.registerComponent(appName, () => mainNavig);
