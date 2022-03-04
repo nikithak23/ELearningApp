@@ -263,12 +263,12 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     },
     btn: {
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:28,
     },
     timer:{
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:-45,
       alignSelf:'center'

@@ -41,11 +41,14 @@ const QtnList =({navigation,route})=>{
 
 
 
-
+//{console.log(item.id%10)}
     const renderQuestions = ({item}) => {
+      let div=questions[0].id-1;
+      let qNo=item.id-div
+      //console.log(qNo);
         return (
             <View style={{flexDirection:'row'}}>
-                <Text style={styles.qtnNo}>{item.id}.</Text>
+                <Text style={styles.qtnNo}>{qNo}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
             </View>
         );
@@ -90,12 +93,12 @@ const styles = StyleSheet.create({
     marginBottom:17,
     },
     btn: {
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:28,
     },
     headerTxt:{
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:80,
       color:'black',
