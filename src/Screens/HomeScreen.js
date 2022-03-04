@@ -107,11 +107,16 @@ let len=DataRecent.length;
       });
       console.log(response.status);
       let subjectData=response.data.data;
-      let subName=subjectData[0].subjectName
+      let subName=subjectData[0].subjectName;
+      let subId=subjectData[0].subjectId;
       console.log(subName);
       if(response.status===200){
         setEnteredText('');
-        navigation.navigate('Subjects');
+        navigation.navigate('SubjectDetails', {
+          subject:subName,
+          token: token,
+          id: subId,
+        })
       }
     } 
     
