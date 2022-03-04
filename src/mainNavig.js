@@ -17,6 +17,8 @@ import NotificationScreen from './Screens/NotificationScreen';
 import SubjectDetails from './Screens/SubjectDetails';
 import TestScreen from './Screens/TestScreen';
 import CourseScreen from './Screens/CourseScreen';
+import QtnList from './Screens/qtnList';
+import TestResult from './Screens/TestResult';
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +95,16 @@ function mainNavig() {
         <Stack.Screen
           name="Tests"
           component={TestScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="QtnList"
+          component={QtnList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TestResult"
+          component={TestResult}
           options={{headerShown: false}}
         />
         <Stack.Screen
