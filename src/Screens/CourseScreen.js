@@ -46,11 +46,13 @@ const CourseScreen = ({navigation, route}) => {
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
   const [chapters, setChapters] = useState([]);
+  const [contents, setContents] = useState([]);
 
   const getChapters = async id => {
     try {
       const response = await axios.get(
         `${baseUrl}/subject/get/chapters/${id}`,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -73,10 +75,10 @@ const CourseScreen = ({navigation, route}) => {
   console.log('hiii', chapters);
   // console.log('', chapters[0].chapterName);
 
-  const getContent = async id => {
+  const getContent = async () => {
     try {
       const response = await axios.get(
-        `${baseUrl}/subject/get/chapters/${id}`,
+        `${baseUrl}/subject/get/content/1?pageSize=1&pageNumber=0`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,12 +86,16 @@ const CourseScreen = ({navigation, route}) => {
         },
       );
 
-      setChapters(response.data.data);
+      setContents(response.data.data);
       // console.log('hiii', response.data.chapterName);
     } catch (err) {
       console.log(err);
     }
   };
+  useEffect(() => {
+    getContent();
+  }, []);
+  console.log('hiii', contents);
 
   RenderTests = () => {
     return (
@@ -112,7 +118,13 @@ const CourseScreen = ({navigation, route}) => {
           </Text>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Tests', {cid: cid, cName: cName,token:token,id:id,lName:lName})
+              navigation.navigate('Tests', {
+                cid: cid,
+                cName: cName,
+                token: token,
+                id: id,
+                lName: lName,
+              })
             }
             style={styles.beginButton}>
             <Text style={styles.buttonText}>Begin Text</Text>
