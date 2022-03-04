@@ -1,9 +1,26 @@
-import React,{useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {Text, View, StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Card, CardTitle, CardContent, CardAction, CardButton, CardImage} from 'react-native-cards';
+import {
+  Card,
+  CardTitle,
+  CardContent,
+  CardAction,
+  CardButton,
+  CardImage,
+} from 'react-native-cards';
 import Animated from 'react-native-reanimated';
+import {useFocusEffect} from '@react-navigation/core';
 Icon.loadFont().then();
 
 /*
@@ -17,30 +34,32 @@ const Subjects = [
 ];
 */
 
-const HomeScreen = ({navigation,route,token}) => {
+const HomeScreen = ({navigation, route, token}) => {
   //console.log(token);
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-  const [enteredText, setEnteredText] = useState ('');
+  const [enteredText, setEnteredText] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
   let [DataRecent, setDataRecent] = useState([]);
   let [Sub, setSub] = useState([]);
   let [userName, setUserName] = useState('');
 
- const getName=async()=>{//Name Api
-   try { 
-    const resp = await axios.get(`${baseUrl}/subject/get/name`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    //console.log(resp.status);
-    setUserName(resp.data.data.toUpperCase());
-  } 
-  catch (err) {
-    console.log(err);
-  }}
+  const getName = async () => {
+    //Name Api
+    try {
+      const resp = await axios.get(`${baseUrl}/subject/get/name`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //console.log(resp.status);
+      setUserName(resp.data.data.toUpperCase());
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  const getData = async () => {//Recently studied api
+  const getData = async () => {
+    //Recently studied api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/studying`, {
         headers: {
@@ -54,8 +73,8 @@ const HomeScreen = ({navigation,route,token}) => {
     }
   };
 
-
-  const getSub = async () => {//Recently studied api
+  const getSub = async () => {
+    //Recently studied api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
@@ -68,185 +87,179 @@ const HomeScreen = ({navigation,route,token}) => {
       console.log(err);
     }
   };
-//console.log('RecData', DataRecent);
-//console.log('Name',userName);
-//console.log('Data length',len)
-//console.log('Subjects',Sub)
-let len=DataRecent.length;
-  useEffect(()=>{
-    getData();
-    getName();
-    getSub();
-  },[])
+  //console.log('RecData', DataRecent);
+  //console.log('Name',userName);
+  //console.log('Data length',len)
+  //console.log('Subjects',Sub)
+  let len = DataRecent.length;
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getData();
+      getName();
+      getSub();
+    }, []),
+  );
+  // useEffect(()=>{
+  //   getData();
+  //   getName();
+  //   getSub();
+  // },[])
 
+  useEffect(() => {
+    setSearchedItems(
+      Sub.filter(item => {
+        //console.log(item.subjectName);
+        return item.subjectName
+          .toLowerCase()
+          .includes(enteredText.toLowerCase());
+      }),
+    );
+  }, [enteredText, Sub]);
 
-
-
-  useEffect (() => {
-    setSearchedItems(Sub.filter(item=>
-        { //console.log(item.subjectName);
-          return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());
-        }),
-        );
-    },[enteredText,Sub]);
-
-
-  const notif =()=>{
+  const notif = () => {
     navigation.navigate('Notification');
-  }
+  };
 
-  const goSearch=async()=>{
-  if(enteredText){
-    console.log(enteredText);
-    try {
-      const response = await axios.get(`${baseUrl}/subject/search/${enteredText}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response.status);
-      let subjectData=response.data.data;
-      let subName=subjectData[0].subjectName;
-      let subId=subjectData[0].subjectId;
-      console.log(subName);
-      if(response.status===200){
+  const goSearch = async () => {
+    if (enteredText) {
+      console.log(enteredText);
+      try {
+        const response = await axios.get(
+          `${baseUrl}/subject/search/${enteredText}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        console.log(response.status);
+        let subjectData = response.data.data;
+        let subName = subjectData[0].subjectName;
+        let subId = subjectData[0].subjectId;
+        console.log(subName);
+        if (response.status === 200) {
+          setEnteredText('');
+          navigation.navigate('SubjectDetails', {
+            subject: subName,
+            token: token,
+            id: subId,
+          });
+        }
+      } catch (err) {
         setEnteredText('');
-        navigation.navigate('SubjectDetails', {
-          subject:subName,
-          token: token,
-          id: subId,
-        })
+        console.log(err);
+        navigation.navigate('NoSearch', {token: token});
+        //alert('Enter a valid Search Item');
       }
-    } 
-    
-    catch (err) {
-      setEnteredText('');
-      console.log(err);
-      navigation.navigate('NoSearch',{token:token});
-      //alert('Enter a valid Search Item');
+    } else {
+      alert('Enter a Search Item');
     }
-}
+  };
 
-else{
-  alert('Enter a Search Item');
-}
-}
-
-
-const renderSearchList=({item})=>{
+  const renderSearchList = ({item}) => {
     return (
       <View>
-        <TouchableOpacity onPress={()=>{
-          setEnteredText(item.subjectName);
-          setSearchedItems(enteredText);
+        <TouchableOpacity
+          onPress={() => {
+            setEnteredText(item.subjectName);
+            setSearchedItems(enteredText);
           }}>
-        <Text style={styles.search}>{item.subjectName}</Text>
+          <Text style={styles.search}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
-    
     );
-  }
+  };
 
   const searchSuggestions = () => {
     return (
-    <View>
-     {searchedItems.length <= 0 ? null:
-        (   <FlatList
+      <View>
+        {searchedItems.length <= 0 ? null : (
+          <FlatList
             data={searchedItems}
-            keyExtractor = {(item, index)=> index.toString()}
+            keyExtractor={(item, index) => index.toString()}
             horizontal={false}
             showVerticalScrollIndicator={false}
-            renderItem={renderSearchList}/>
+            renderItem={renderSearchList}
+          />
         )}
-    </View>
+      </View>
     );
-}
+  };
 
-
-
-  const renderCurrentStud = ({item})=>{
+  const renderCurrentStud = ({item}) => {
     //let percent='100%';
-    let percent=item.percent+'%';
-    return ( 
-      <Card style = {styles.bottomCards}>
+    let percent = item.percent + '%';
+    return (
+      <Card style={styles.bottomCards}>
         <View style={styles.imgContainer}>
-          <Image source = {{uri : item.subjectLogo}} style= {styles.img} />
+          <Image source={{uri: item.subjectLogo}} style={styles.img} />
         </View>
-          <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
-          <Text style={styles.ChapName}>{item.courseName}</Text>
-          <View style={{flexDirection:'row',alignItems:'center'}}>
+        <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
+        <Text style={styles.ChapName}>{item.courseName}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.progressBar}>
-         <Animated.View style={[StyleSheet.absoluteFill],{backgroundColor:'green',width:percent}}/>
+            <Animated.View
+              style={
+                ([StyleSheet.absoluteFill],
+                {backgroundColor: 'green', width: percent})
+              }
+            />
           </View>
           <Text style={styles.percentText}>{item.percent}% </Text>
-          </View>
-          
+        </View>
       </Card>
     );
-  }
-
-
-
-
-
-
-
-
+  };
 
   return (
-    <View style={{backgroundColor:'#f6f8fa'}}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={notif}>
-            <Icon
-              name="notifications-outline"
-              size={33}
-              color="#8E8F93"
-              style={styles.icon}
+    <View style={{backgroundColor: '#f6f8fa'}}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={notif}>
+          <Icon
+            name="notifications-outline"
+            size={33}
+            color="#8E8F93"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.container}>
+        <Text style={styles.greet}>Hi, {userName}</Text>
+        <Text style={styles.desc}>What would you like to study today?</Text>
+        <Text style={styles.desc}>you can search below.</Text>
+
+        <View style={styles.searchContainer}>
+          <TextInput
+            onChangeText={value => setEnteredText(value)}
+            value={enteredText}
+            style={styles.input}
+          />
+          <TouchableOpacity onPress={goSearch}>
+            <Image
+              source={require('../Images/Search/searchIcon.png')}
+              style={styles.searchIcon}
             />
-          </TouchableOpacity >
+          </TouchableOpacity>
+        </View>
+        <View style={{alignItems: 'flex-start'}}>
+          {enteredText !== '' ? searchSuggestions() : null}
         </View>
 
-        <View style={styles.container}>
-            <Text style={styles.greet}>Hi, {userName}</Text>
-            <Text style={styles.desc}>What would you like to study today?</Text>
-            <Text style={styles.desc}>you can search below.</Text>
-
-
-          <View style={styles.searchContainer}>
-            <TextInput
-                onChangeText={value => setEnteredText(value)} 
-                value={enteredText}
-                style={styles.input}  
-            />
-            <TouchableOpacity onPress={goSearch}>
-              <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
-            </TouchableOpacity>
-         </View>
-         <View style={{alignItems:'flex-start'}}>
-          {enteredText !== '' ? searchSuggestions() : null}
-         </View>
-
-         
-         
-        {len!==0? (
-        <View>
+        {len !== 0 ? (
+          <View>
             <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
-            <FlatList 
-              data = {DataRecent}
-              renderItem = {renderCurrentStud}
-              keyExtractor = {(item, index)=> index.toString()}
+            <FlatList
+              data={DataRecent}
+              renderItem={renderCurrentStud}
+              keyExtractor={(item, index) => index.toString()}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-            /> 
-        </View>):null}
-        
-       
-            
-
-         
-        </View>
-
+            />
+          </View>
+        ) : null}
+      </View>
     </View>
   );
 };
@@ -262,23 +275,23 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginTop: 30,
-    marginHorizontal:32,
+    marginHorizontal: 32,
   },
   greet: {
     fontSize: 36,
     color: 'black',
-    fontWeight:'500',
+    fontWeight: '500',
     lineHeight: 43,
-    textAlign:'center',
-    marginTop:20,
-    marginBottom:20,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
   },
   desc: {
     fontSize: 21,
     color: '#595B60',
-    fontWeight:'300',
+    fontWeight: '300',
     lineHeight: 28,
-    textAlign:'center',
+    textAlign: 'center',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -286,87 +299,88 @@ const styles = StyleSheet.create({
     height: 70,
     borderWidth: 1,
     borderColor: 'rgba(41,94,255,0.05)',
-    backgroundColor:'#FFFFFF',
-    borderRadius:18,
-    marginTop:50,
-    marginHorizontal:30,
-},
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    marginTop: 50,
+    marginHorizontal: 30,
+  },
   input: {
-  flex:1,
-  color:'black',
-  fontSize:20,
-  paddingHorizontal:15,
-},
-searchIcon:{
-  marginTop:18,
-  marginHorizontal:-4
-},
-search: {
-  color:'black',
-  fontSize:15,
-  fontWeight:'400',
-  paddingHorizontal:15,
-  marginHorizontal:30,
-  marginVertical:3,
-},
-currentHead:{
-  marginTop:25,
-  marginHorizontal:30,
-  fontSize: 16,
-  color: '#595B60',
-  letterSpacing:0.69
-},
-bottomCards:{
-  marginLeft:25,  
-  backgroundColor:'#FFFFFF', 
-  width:260,
-  height:270,
-  marginTop:10,
-  borderRadius:18
-},
-imgContainer:{
-  width:260,height:160,
-  borderTopRightRadius:18,borderTopLeftRadius:18,
-  backgroundColor:'#FFA4A4'
-},
-img:{
-  height:80,
-  width:80,
-  marginHorizontal:90,
-  marginVertical:40,
-},
-subName:{
-  color:'#3A7FE7',
-  fontSize:13,
-  fontWeight:'500',
-  paddingHorizontal:10,
-  paddingTop:6
-},
-ChapName:{
-  color:'#191B26',
-  fontSize:18,
-  fontWeight:'500',
-  paddingHorizontal:10,
-  paddingTop:2
-},
-percentText:{
-  color:'green',
-  fontSize:13,
-  fontWeight:'400',
-  //paddingHorizontal:0,
-  paddingTop:6
-},
-progressBar: {
-  height: 3,
-  width: '70%',
-  flexDirection: "row",
-  backgroundColor: '#8E8F93',
-  //borderColor: 'black',
-  //borderWidth: 2,
-  //borderRadius: 5,
-  marginTop:10,
-  marginHorizontal:10,
-}
-
+    flex: 1,
+    color: 'black',
+    fontSize: 20,
+    paddingHorizontal: 15,
+  },
+  searchIcon: {
+    marginTop: 18,
+    marginHorizontal: -4,
+  },
+  search: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '400',
+    paddingHorizontal: 15,
+    marginHorizontal: 30,
+    marginVertical: 3,
+  },
+  currentHead: {
+    marginTop: 25,
+    marginHorizontal: 30,
+    fontSize: 16,
+    color: '#595B60',
+    letterSpacing: 0.69,
+  },
+  bottomCards: {
+    marginLeft: 25,
+    backgroundColor: '#FFFFFF',
+    width: 260,
+    height: 270,
+    marginTop: 10,
+    borderRadius: 18,
+  },
+  imgContainer: {
+    width: 260,
+    height: 160,
+    borderTopRightRadius: 18,
+    borderTopLeftRadius: 18,
+    backgroundColor: '#FFA4A4',
+  },
+  img: {
+    height: 80,
+    width: 80,
+    marginHorizontal: 90,
+    marginVertical: 40,
+  },
+  subName: {
+    color: '#3A7FE7',
+    fontSize: 13,
+    fontWeight: '500',
+    paddingHorizontal: 10,
+    paddingTop: 6,
+  },
+  ChapName: {
+    color: '#191B26',
+    fontSize: 18,
+    fontWeight: '500',
+    paddingHorizontal: 10,
+    paddingTop: 2,
+  },
+  percentText: {
+    color: 'green',
+    fontSize: 13,
+    fontWeight: '400',
+    //paddingHorizontal:0,
+    paddingTop: 6,
+  },
+  progressBar: {
+    height: 3,
+    width: '70%',
+    flexDirection: 'row',
+    backgroundColor: '#8E8F93',
+    //borderColor: 'black',
+    //borderWidth: 2,
+    //borderRadius: 5,
+    marginTop: 10,
+    marginHorizontal: 10,
+  },
 });
 export default HomeScreen;
