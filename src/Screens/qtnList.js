@@ -44,9 +44,11 @@ const QtnList =({navigation,route})=>{
 //{console.log(item.id%10)}
     const renderQuestions = ({item}) => {
         return (
-            <View style={{flexDirection:'row'}}>
+            <View >
+              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{n:item.testNumber})}}>
                 <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
+              </TouchableOpacity>
             </View>
         );
     };

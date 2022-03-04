@@ -7,15 +7,16 @@ import Modal from 'react-native-modal';
 
 
 const TestScreen =({navigation,route})=>{
-   const courseId=route?.params.cid;
-   const courseName=route?.params.cName;
-   const token=route?.params.token;
-   const lid=route?.params.id;//reqd to go bck to course page
-   const lName=route?.params.lName;//reqd to go back to course page
-   //console.log(courseId,courseName,token);
+    
+    const courseId=route?.params.cid;
+    const courseName=route?.params.cName;
+    const token=route?.params.token;
+    const lid=route?.params.id;//reqd to go bck to course page
+    const lName=route?.params.lName;//reqd to go back to course page
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let submitData=[];
+    //const [noAnswered,setNoAnswered] = useState(1);
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
@@ -39,7 +40,7 @@ const TestScreen =({navigation,route})=>{
     };
       //console.log('Questions', questions);
       let len=questions.length;
-      console.log('len',len);
+      //console.log('len',len);
       //console.log(questions[0].questions)
 
     useEffect(()=>{
@@ -49,7 +50,9 @@ const TestScreen =({navigation,route})=>{
   
 
 const sendAns = async () => {//Send Answers
-  console.log(markedAnswer)
+  console.log(markedAnswer);
+  //setNoAnswered(noAnswered+1);
+  //console.log(noAnswered);
   try {
     const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`, {
       headers: {
@@ -59,6 +62,7 @@ const sendAns = async () => {//Send Answers
     console.log('Send answers Api',response.status);
     console.log('Sent');
     console.log(response.data.data);
+    
   } catch (err) {
     console.log('Not Sent');
     console.log(err);
@@ -78,20 +82,26 @@ const submitTest=async()=>{//Submit test
     submitData=response.data.data;
     console.log(submitData);
     setModalVisible(false);
-    console.log(submitData.percentScore)
+    setN(0);
+    //setNoAnswered(1);
+    //console.log(courseId,lid,courseName)
     navigation.navigate('TestResult',{
       percent:submitData[0].percentScore,
+      attempted:submitData[0].attempted,
+      rightAnswer:submitData[0].rightAnswer,
       score:submitData[0].score,
+      star:submitData[0].star,
       //following params are needed to go back to course page
       cid:courseId, 
       cName:courseName,
       token:token,
-      lid:lid,
+      lId:lid,
       lName:lName,
+      len:len,
     })
   } catch (err) {
     console.log(err);
-    alert('You have not attempted any questions yet')
+    alert(err)
     setModalVisible(false);
   }
 };
@@ -107,8 +117,7 @@ const submitTest=async()=>{//Submit test
           setN(n+1);  
         }
         else{
-          console.log('Not Sent');
-          console.log('Ans',markedAnswer);
+          //console.log('Not Sent');
           setN(n+1);
         }
       }
@@ -117,12 +126,16 @@ const submitTest=async()=>{//Submit test
           sendAns();
           //console.log(markedAnswer);
           setMarkedAnswer('')
-          setModalVisible(true)
+          //if(noAnswered<10)
+          //alert('Answer all the questions to submit the test')
+          //else
+          setModalVisible(true);
         }
         else{
-          console.log('Not Sent');
-          console.log('Ans',markedAnswer);
-          setModalVisible(true)
+          //if(noAnswered<10)
+          //alert('Answer all the questions to submit the test')
+          //else
+          setModalVisible(true);
         }
       }
   } 
@@ -137,8 +150,8 @@ const submitTest=async()=>{//Submit test
           setN(n-1);  
         }
         else{
-          console.log('Not Sent');
-          console.log('Ans',markedAnswer);
+          //console.log('Not Sent');
+          //console.log('Ans',markedAnswer);
           setN(n-1);
         }
       }
@@ -151,7 +164,6 @@ const submitTest=async()=>{//Submit test
         }
         else{
           console.log('Not Sent');
-          console.log('Ans',markedAnswer);
           alert('You have reached the start of the test.')
         }
       }
@@ -190,9 +202,11 @@ const submitTest=async()=>{//Submit test
                 <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_C)}>
                 <Text style={styles.options}>C.   {questions[n].option_C}</Text>
                 </TouchableOpacity>
+                {(questions[n].option_D)?(
                 <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_D)}>
                 <Text style={styles.options}>D.   {questions[n].option_D}</Text>
                 </TouchableOpacity>
+                ):<></>}
       </ScrollView>
       ):null}
 
