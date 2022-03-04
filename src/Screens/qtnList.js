@@ -43,12 +43,9 @@ const QtnList =({navigation,route})=>{
 
 //{console.log(item.id%10)}
     const renderQuestions = ({item}) => {
-      let div=questions[0].id-1;
-      let qNo=item.id-div
-      //console.log(qNo);
         return (
             <View style={{flexDirection:'row'}}>
-                <Text style={styles.qtnNo}>{qNo}.</Text>
+                <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
             </View>
         );

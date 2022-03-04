@@ -49,15 +49,13 @@ const TestScreen =({navigation,route})=>{
   
 
 const sendAns = async () => {//Send Answers
+  console.log(markedAnswer)
   try {
-    const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].id}`, 
-    {markedAnswer},
-    {
+    const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-    );
+    });
     console.log('Send answers Api',response.status);
     console.log('Sent');
     console.log(response.data.data);
@@ -104,7 +102,7 @@ const submitTest=async()=>{//Submit test
       if(n<9){
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           setN(n+1);  
         }
@@ -117,7 +115,7 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           setModalVisible(true)
         }
@@ -134,7 +132,7 @@ const submitTest=async()=>{//Submit test
       if(n>0){
         if(markedAnswer){
           sendAns();
-          console.log('Ans',markedAnswer);
+          //console.log('Ans',markedAnswer);
           setMarkedAnswer('')
           setN(n-1);  
         }
@@ -147,7 +145,7 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           alert('You have reached the start of the test.')
         }
