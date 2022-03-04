@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity,ScrollView,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/core';
 
 
 
@@ -13,6 +14,7 @@ const QtnList =({navigation,route})=>{
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let n=0;
+    
     //const courseId=1;
     //const courseName='Introduction to Physics';
     //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
@@ -35,9 +37,14 @@ const QtnList =({navigation,route})=>{
       let len=questions.length;
       console.log('len',len);
 
-      useEffect(()=>{
+      /*useEffect(()=>{
         getQtns();
         },[])
+       */
+    useFocusEffect(React.useCallback(() => {
+          getQtns();
+        }, []),
+    );
 
 
 
@@ -45,7 +52,7 @@ const QtnList =({navigation,route})=>{
     const renderQuestions = ({item}) => {
         return (
             <View >
-              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{n:item.testNumber})}}>
+              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{cid:courseId,cName:courseName,token:token,num:item.testNumber})}}>
                 <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
               </TouchableOpacity>
