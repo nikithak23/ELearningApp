@@ -143,7 +143,7 @@ const CourseScreen = ({navigation, route}) => {
       <View style={styles.list1}>
         <TouchableOpacity
           onpress={() =>
-            navigation.navigate('Chapters', {
+            navigation.navigate('Chapter', {
               token: token,
               chapterId: item.chapterId,
               // console.log(item.)
