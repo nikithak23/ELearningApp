@@ -10,5 +10,11 @@ import {
 } from 'react-native';
 import {StackActions} from '@react-navigation/native';
 
-const ChapterScreen = () => {};
+const ChapterScreen = () => {
+  return(
+    <View>
+      <Text>aaasssdddffghjkkloiikdfghj</Text>
+    </View>
+  )
+};
 export default ChapterScreen;
