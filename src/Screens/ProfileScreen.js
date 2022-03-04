@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   Image,
   Text,
@@ -12,6 +13,8 @@ import {
   TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import AuthContext from '../AsyncStorage/Context';
+
 
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState(false);
@@ -26,6 +29,7 @@ const ProfileScreen = ({navigation, token}) => {
   let name1 = ProfileData.name;
   const [fetchData, setFetchData] = useState(false);
   const [name, setName] = useState(name1);
+  const context = useContext(AuthContext);
 
   // console.log(name1);
 
@@ -133,9 +137,10 @@ const ProfileScreen = ({navigation, token}) => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
   };
-  const gotoSign = () => {
+  const gotoSign = async() => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
+    await AsyncStorage.clear()
     navigation.navigate('SignIn');
   };
 

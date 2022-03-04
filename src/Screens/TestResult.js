@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   marginBottom:17,
   },
   btn: {
-    marginTop:20,
+    marginTop:Platform.OS === 'ios' ? 50 : 20,
     marginBottom:15,
     marginHorizontal:28,
   },

@@ -49,15 +49,13 @@ const TestScreen =({navigation,route})=>{
   
 
 const sendAns = async () => {//Send Answers
+  console.log(markedAnswer)
   try {
-    const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].id}`, 
-    {markedAnswer},
-    {
+    const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-    );
+    });
     console.log('Send answers Api',response.status);
     console.log('Sent');
     console.log(response.data.data);
@@ -93,6 +91,8 @@ const submitTest=async()=>{//Submit test
     })
   } catch (err) {
     console.log(err);
+    alert('You have not attempted any questions yet')
+    setModalVisible(false);
   }
 };
 
@@ -102,7 +102,7 @@ const submitTest=async()=>{//Submit test
       if(n<9){
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           setN(n+1);  
         }
@@ -115,7 +115,7 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           setModalVisible(true)
         }
@@ -132,7 +132,7 @@ const submitTest=async()=>{//Submit test
       if(n>0){
         if(markedAnswer){
           sendAns();
-          console.log('Ans',markedAnswer);
+          //console.log('Ans',markedAnswer);
           setMarkedAnswer('')
           setN(n-1);  
         }
@@ -145,7 +145,7 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          console.log(markedAnswer);
+          //console.log(markedAnswer);
           setMarkedAnswer('')
           alert('You have reached the start of the test.')
         }
@@ -165,12 +165,14 @@ const submitTest=async()=>{//Submit test
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
         <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
         <Text style={styles.timer} >Time Remaining</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('QtnList')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('QtnList',{
+          courseId:courseId,courseName:courseName,token:token
+        })}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>
@@ -200,7 +202,7 @@ const submitTest=async()=>{//Submit test
       {len!==0? (
         <View>
           <Text style={styles.footerTxt1}>C{courseId}: {courseName}</Text>
-          <Text style={styles.footerTxt2}>{questions[n].id} of {len} question</Text>
+          <Text style={styles.footerTxt2}>{n+1} of {len} question</Text>
         </View>
         ):null}
         <View style={{flexDirection:'row'}}>
@@ -259,12 +261,12 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     },
     btn: {
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:28,
     },
     timer:{
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:-45,
       alignSelf:'center'

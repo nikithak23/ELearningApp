@@ -1,25 +1,46 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {Text, Image, View, StyleSheet, ImageBackground} from 'react-native';
 import {StackActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = ({navigation, route}) => {
   const [splashScreen, setSplashScreen] = useState(true);
 
-  const hideSplashScreen = () => {
-    setSplashScreen(false);
-  };
+  // const hideSplashScreen = () => {
+  //   setSplashScreen(false);
+  // };
+  
+  const retrieveData = async() => {
+    const value = await AsyncStorage.getItem('loggedIn');
+    const token = await AsyncStorage.getItem('token');
+    if (value !== null) {
+      // We have data!!
+      console.log(value);
+      let interval;
+      interval = setTimeout(() => {
+        setSplashScreen(false)
+        navigation.replace('TabPage',{token: token});
+      }, 2500);
+
+      return () => {
+        clearTimeout(interval);
+      };
+    }else{
+      let interval;
+      interval = setTimeout(() => {
+        setSplashScreen(false)
+        navigation.replace('OnBoard1');
+      }, 2500);
+
+      return () => {
+        clearTimeout(interval);
+      };
+    }
+  }
 
   useEffect(() => {
-    let interval;
-    interval = setTimeout(() => {
-      hideSplashScreen();
-      navigation.dispatch(StackActions.replace('OnBoard1'));
-    }, 2500);
-
-    return () => {
-      clearTimeout(interval);
-    };
-  });
+    retrieveData();
+  },[]);
 
   const renderSplash = () => {
     return (

@@ -7,12 +7,15 @@ import axios from 'axios';
 
 const QtnList =({navigation,route})=>{
 
+    const courseId=route?.params.courseId;
+    const courseName=route?.params.courseName;
+    const token=route?.params.token;
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let n=0;
-    const courseId=1;
-    const courseName='Introduction to Physics';
-    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
+    //const courseId=1;
+    //const courseName='Introduction to Physics';
+    //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
   
 
     const getQtns = async () => {//Recently studied api
@@ -38,11 +41,11 @@ const QtnList =({navigation,route})=>{
 
 
 
-
+//{console.log(item.id%10)}
     const renderQuestions = ({item}) => {
         return (
             <View style={{flexDirection:'row'}}>
-                <Text style={styles.qtnNo}>{item.id}.</Text>
+                <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
             </View>
         );
@@ -87,12 +90,12 @@ const styles = StyleSheet.create({
     marginBottom:17,
     },
     btn: {
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:28,
     },
     headerTxt:{
-      marginTop:20,
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:80,
       color:'black',
