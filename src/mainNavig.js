@@ -20,6 +20,7 @@ import CourseScreen from './Screens/CourseScreen';
 import QtnList from './Screens/qtnList';
 import TestResult from './Screens/TestResult';
 import ChapterScreen from './Screens/ChapterScreen';
+import FavouriteScreen from './Screens/FavouriteScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -116,6 +117,11 @@ function mainNavig() {
         <Stack.Screen
           name="Chapter"
           component={ChapterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Favourite"
+          component={FavouriteScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
