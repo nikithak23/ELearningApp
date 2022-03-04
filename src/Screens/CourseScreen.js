@@ -95,7 +95,7 @@ const CourseScreen = ({navigation, route}) => {
   useEffect(() => {
     getContent();
   }, []);
-  console.log('hiii', contents);
+  console.log('hlo', contents);
 
   RenderTests = () => {
     return (
@@ -141,17 +141,25 @@ const CourseScreen = ({navigation, route}) => {
   const renderChapters = ({item}) => {
     return (
       <View style={styles.list1}>
-        <TouchableOpacity style={styles.listComponent}>
+        <TouchableOpacity
+          onpress={() =>
+            navigation.navigate('Chapters', {
+              token: token,
+              chapterId: item.chapterId,
+              // console.log(item.)
+            })
+          }
+          style={styles.listComponent}>
           <View>
-            <Image
+            {/* <Image
               source={{uri: item.imageUrl}}
               style={styles.chapterCoverPhoto}
-            />
+            /> */}
 
-            {/* <Image
-                source={require('../Images/Profile/photo1.jpeg')}
-                style={styles.chapterCoverPhoto}
-              /> */}
+            <Image
+              source={require('../Images/Profile/photo1.jpeg')}
+              style={styles.chapterCoverPhoto}
+            />
           </View>
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
@@ -166,6 +174,9 @@ const CourseScreen = ({navigation, route}) => {
       </View>
     );
   };
+  // const gotoChapters = item => {
+  //   navigation.navigate('Chapter', {token: token, chapterId: item.chapterId});
+  // };
 
   const chapterHandler = () => {
     setIsChapter(true);

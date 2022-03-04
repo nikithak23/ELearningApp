@@ -19,6 +19,7 @@ import TestScreen from './Screens/TestScreen';
 import CourseScreen from './Screens/CourseScreen';
 import QtnList from './Screens/qtnList';
 import TestResult from './Screens/TestResult';
+import ChapterScreen from './Screens/ChapterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -110,6 +111,11 @@ function mainNavig() {
         <Stack.Screen
           name="CourseScreen"
           component={CourseScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Chapter"
+          component={ChapterScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

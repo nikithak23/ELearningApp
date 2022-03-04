@@ -139,7 +139,7 @@ export default function ResultsScreen({navigation, route}) {
       <View style={styles.Listcomponent}>
         <View style={styles.firstRow}>
           <Text style={styles.subject}>{item.subjectName.toUpperCase()}</Text>
-          <Text style={styles.lesson}>{item.courseId}</Text>
+          {/* <Text style={styles.lesson}>{item.courseId}</Text> */}
         </View>
         <View>
           <Text style={styles.name}>{item.courseName}</Text>
@@ -155,8 +155,16 @@ export default function ResultsScreen({navigation, route}) {
             </View>
           </View>
           <View style={styles.percentage}>
-            <Text style={styles.per}>{item.percentScore}</Text>
-            <Text style={styles.per1}>%</Text>
+            <Text
+              style={item.percentScore >= 50 ? styles.perhigh : styles.perlow}>
+              {item.percentScore}
+            </Text>
+            <Text
+              style={
+                item.percentScore >= 50 ? styles.per1high : styles.per1low
+              }>
+              %
+            </Text>
           </View>
         </View>
       </View>
@@ -311,16 +319,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  per: {
+  perhigh: {
     color: '#0BC763',
-    fontSize: 50,
-
+    fontSize: 40,
     marginTop: -10,
   },
-  per1: {
-    fontSize: 25,
+  perlow: {
+    color: '#F24545',
+    fontSize: 40,
+    marginTop: -10,
+  },
+
+  per1high: {
+    fontSize: 20,
     paddingRight: 14,
     color: '#0BC763',
+    fontWeight: 'bold',
+  },
+  per1low: {
+    fontSize: 20,
+    paddingRight: 14,
+    color: '#F24545',
     fontWeight: 'bold',
   },
   modalText: {
