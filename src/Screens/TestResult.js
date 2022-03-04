@@ -16,12 +16,24 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const TestResult=({navigation,route})=>{
   const percent=route?.params.percent;
   const score=route?.params.score;
-  console.log(percent,score);
+  const token=route?.params.token;
+  const lid=route?.params.lid;
+  const lName=route?.params.lName;
+  const cid=route?.params.cid;
+  const cName=route?.params.cName;
+
+  console.log(percent,score,cid,cName,lid,lName,token);
 return(
 <View style={styles.container}>
 
   <View style={styles.header}>
-    <TouchableOpacity onPress={()=>navigation.goBack()}>
+    <TouchableOpacity onPress={()=>navigation.navigate('CourseScreen',{
+      token:token,
+      lid:lid,
+      lName:lName,
+      cid:cid,
+      cName:cName,
+    })}>
     <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
     </TouchableOpacity >
   </View>

@@ -7,17 +7,21 @@ import Modal from 'react-native-modal';
 
 
 const TestScreen =({navigation,route})=>{
-
+   const courseId=route?.params.cid;
+   const courseName=route?.params.cName;
+   const token=route?.params.token;
+   const lid=route?.params.id;//to send to test result page
+   const lName=route?.params.lName;// to send to test result page
+   //console.log(courseId,courseName,token);
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
-    //const [submitData,setSubmitData] = useState([]);
     let submitData=[];
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
-    const courseId=1;
-    const courseName='Introduction to Physics';
-    const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzgxNDcxLCJpYXQiOjE2NDYzNjM0NzF9.7UI6PQSKEypBC-Bdg_4uQCZWJt5M429qN3bAduZV1aeLYIMiRSpyY9bu0XXXmA55Fb5d8QR0dJPapUJepHyORQ';
+    //const courseId=1;
+    //const courseName='Introduction to Physics';
+    //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzgxNDcxLCJpYXQiOjE2NDYzNjM0NzF9.7UI6PQSKEypBC-Bdg_4uQCZWJt5M429qN3bAduZV1aeLYIMiRSpyY9bu0XXXmA55Fb5d8QR0dJPapUJepHyORQ';
   
 
     const getQtns = async () => {//Get questions
@@ -80,6 +84,12 @@ const submitTest=async()=>{//Submit test
     navigation.navigate('TestResult',{
       percent:submitData[0].percentScore,
       score:submitData[0].score,
+      //following params are needed to go back to course page
+      cid:courseId, 
+      cName:courseName,
+      token:token,
+      lid:lid,
+      lName:lName,
     })
   } catch (err) {
     console.log(err);
