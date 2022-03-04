@@ -3,6 +3,7 @@ import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity,ScrollV
 import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import Modal from 'react-native-modal';
+import {useFocusEffect} from '@react-navigation/core';
 
 
 
@@ -17,6 +18,8 @@ const TestScreen =({navigation,route})=>{
     const [questions,setQuestions] = useState([]);
     let submitData=[];
     //const [noAnswered,setNoAnswered] = useState(1);
+    let num=route.params.num?route.params.num:0;
+    console.log(num,'nummm');
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
@@ -47,7 +50,8 @@ const TestScreen =({navigation,route})=>{
         getQtns();
     },[])
 
-  
+
+
 
 const sendAns = async () => {//Send Answers
   console.log(markedAnswer);
