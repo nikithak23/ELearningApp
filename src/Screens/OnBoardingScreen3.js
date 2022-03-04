@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
 const OnboardingScreen1 = ({navigation}) => {
   gotoSignIn = () => {
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
   imagesignin: {
     width: 100,
     height: 100,
-    marginLeft: 10,
+    marginLeft: 20,
     marginTop: 20,
   },
   bottom: {
@@ -107,7 +114,7 @@ const styles = StyleSheet.create({
   bottom1: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 45,
+    marginLeft: 40,
   },
   activeBottom: {
     height: 6,
@@ -129,7 +136,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   gettingStarted: {
-    marginLeft: 30,
+    marginLeft: 40,
     fontSize: 20,
     fontWeight: 'bold',
   },

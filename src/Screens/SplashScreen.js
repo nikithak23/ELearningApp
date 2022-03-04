@@ -22,6 +22,7 @@ const SplashScreen = ({navigation, route}) => {
         navigation.replace('TabPage',{token: token});
       }, 2500);
 
+<<<<<<< HEAD
       return () => {
         clearTimeout(interval);
       };
@@ -31,6 +32,14 @@ const SplashScreen = ({navigation, route}) => {
         setSplashScreen(false)
         navigation.replace('OnBoard1');
       }, 2500);
+=======
+  useEffect(() => {
+    let interval;
+    interval = setTimeout(() => {
+      hideSplashScreen();
+      navigation.dispatch(StackActions.replace('OnBoard1'));
+    }, 2500);
+>>>>>>> b4c730d7486f29d5dbd70ea9dc46b1ed371d1a13
 
       return () => {
         clearTimeout(interval);

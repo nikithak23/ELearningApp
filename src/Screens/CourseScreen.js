@@ -38,8 +38,11 @@ const CourseScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const id = route?.params.lId;
   const lName = route?.params.lName;
+  const cid = route?.params.cId;
+  const cName = route?.params.cName;
   console.log('token', token);
   console.log('LESSONID', id);
+  console.log('lNAmee', lName);
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
   const [chapters, setChapters] = useState([]);
@@ -69,6 +72,25 @@ const CourseScreen = ({navigation, route}) => {
   }, [id]);
   console.log('hiii', chapters);
   // console.log('', chapters[0].chapterName);
+
+  const getContent = async id => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/subject/get/chapters/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setChapters(response.data.data);
+      // console.log('hiii', response.data.chapterName);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   RenderTests = () => {
     return (
       <View style={styles.testList}>
@@ -79,15 +101,20 @@ const CourseScreen = ({navigation, route}) => {
           />
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
-            <Text style={styles.listname}>Introduction to Biology</Text>
+            <Text style={styles.listname}>{cName}</Text>
+            <Text style={styles.listname}>{cid}</Text>
           </View>
         </View>
         <View style={styles.testListBottom}>
           <Text style={styles.testListSummary}>
-            You have 40 minutes to ansawer all 50 questions. For each right ans
+            You have 20 minutes to ansawer all 10 questions. For each right ans
             5 marks
           </Text>
-          <TouchableOpacity style={styles.beginButton}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Tests', {cid: cid, cName: cName,token:token,id:id,lName:lName})
+            }
+            style={styles.beginButton}>
             <Text style={styles.buttonText}>Begin Text</Text>
             <Image
               source={require('../Images/Profile/yesArrow.png')}
@@ -101,27 +128,26 @@ const CourseScreen = ({navigation, route}) => {
 
   const renderChapters = ({item}) => {
     return (
-      <View>
+      <View style={styles.list1}>
         <TouchableOpacity style={styles.listComponent}>
           <View>
-            {item.imageUrl ? (
-              <Image
-                source={{uri: item.imageUrl}}
-                style={styles.chapterCoverPhoto}
-              />
-            ) : (
-              <Image
+            <Image
+              source={{uri: item.imageUrl}}
+              style={styles.chapterCoverPhoto}
+            />
+
+            {/* <Image
                 source={require('../Images/Profile/photo1.jpeg')}
                 style={styles.chapterCoverPhoto}
-              />
-            )}
+              /> */}
           </View>
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
-            {/* <Text style={styles.listname}>{item.name}</Text>
-            <Text style={styles.listsummary}>{item.summary}</Text>  */}
+            {/* <Text style={styles.listname}>{item.name}</Text> */}
+
             {/* <Text style={styles.listdifficulty}>{item.difficulty}</Text> */}
             <Text style={styles.listname}>{item.chapterName}</Text>
+            <Text style={styles.listsummary}>{item.summary}</Text>
             {/* <Text style={styles.listsummary}>{item.summary}</Text> */}
           </View>
         </TouchableOpacity>
@@ -142,7 +168,7 @@ const CourseScreen = ({navigation, route}) => {
     <View style={styles.container}>
       <View style={styles.TopContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.goBack()}
           style={styles.touchable}>
           <Image
             source={require('../Images/Profile/Results/back.png')}
@@ -277,6 +303,9 @@ const styles = StyleSheet.create({
   list: {
     marginTop: 35,
   },
+  list1: {
+    // padding: 15,
+  },
   listComponent: {
     flexDirection: 'row',
     borderColor: 'rgba(151,151,151,0.1)',
@@ -302,6 +331,8 @@ const styles = StyleSheet.create({
   },
   listname: {
     marginTop: 10,
+    // paddingRight: 20,
+    marginRight: 30,
     fontSize: 18,
     fontWeight: '600',
   },

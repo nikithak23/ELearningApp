@@ -181,13 +181,13 @@ const ProfileScreen = ({navigation, token}) => {
                   <TouchableOpacity onPress={editHandleModalF}>
                     <Image
                       source={require('../Images/Profile/wrong.png')}
-                      style={styles.ModalLogoutText}
+                      style={styles.ModalTopRight}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={editHandleModalT}>
                     <Image
                       source={require('../Images/Profile/right.png')}
-                      style={styles.ModalLogoutText}
+                      style={styles.ModalTopRight}
                     />
                   </TouchableOpacity>
                 </View>
@@ -468,6 +468,15 @@ const styles = StyleSheet.create({
     width: 40.2,
     backgroundColor: 'rgba(151,151,151,0.49)',
     marginTop: 15,
+  },
+  ModalTopRight: {
+    marginTop: 30,
+    // fontSize: 22,
+    // fontWeight: 'bold',
+    // lineHeight: 27,
+    // letterSpacing: 0,
+    // fontWeight: '500',
+    // color: '#191B26',
   },
   ModalLogoutText: {
     marginTop: 30,
