@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -68,7 +68,7 @@ const ChapterScreen = ({navigation, route}) => {
       console.log(page);
       setPage(page + 1);
     } else {
-      setPage(0);
+      setPage(2);
     }
   };
 
@@ -76,7 +76,7 @@ const ChapterScreen = ({navigation, route}) => {
     if (page > 0) {
       setPage(page - 1);
     } else {
-      setPage(2);
+      setPage(0);
     }
   };
 
@@ -286,11 +286,16 @@ const ChapterScreen = ({navigation, route}) => {
           <TouchableOpacity onPress={() => decPage(page)}>
             <Image
               source={require('../Images/TestPage/btnPrevQtn.png')}
-              style={styles.prevQn}
+              style={
+                page == 0 ? [styles.prevQn, {opacity: 0.2}] : styles.prevQn
+              }
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => incPage(page)}>
-            <Image source={require('../Images/TestPage/btnNxtQtn.png')} />
+            <Image
+              source={require('../Images/TestPage/btnNxtQtn.png')}
+              style={page == 2 ? {opacity: 0.2} : {opactiy: 1}}
+            />
           </TouchableOpacity>
         </View>
       </View>
