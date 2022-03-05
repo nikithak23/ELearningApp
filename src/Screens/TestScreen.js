@@ -19,8 +19,8 @@ const TestScreen =({navigation,route})=>{
     const [option,setOption]=useState('');
     let submitData=[];
     //const [noAnswered,setNoAnswered] = useState(1);
-    let num=route.params.num?route.params.num:0;
-    //console.log(num,'nummm');
+    let num=route.params.num?route.params.num-1:0;
+    console.log(num,'nummm');
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
@@ -51,6 +51,10 @@ const TestScreen =({navigation,route})=>{
         getQtns();
     },[])
 
+    useFocusEffect(React.useCallback(() => {
+      setN(num);
+    }, [num]),
+);
 
 
 
@@ -194,9 +198,11 @@ const submitTest=async()=>{//Submit test
         </TouchableOpacity >
         <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
         <Text style={styles.timer} >Time Remaining</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('QtnList',{
-          courseId:courseId,courseName:courseName,token:token
-        })}>
+        <TouchableOpacity onPress={()=>{
+          setOption('');
+          navigation.navigate('QtnList',{
+          courseId:courseId,courseName:courseName,token:token}
+        )}}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>

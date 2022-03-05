@@ -19,10 +19,15 @@ const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
   const chapterName = route?.params.chapterName;
+<<<<<<< HEAD
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
+=======
+  const lessonName = route?.params.lessonName;
+>>>>>>> 962cc551334dd4c9e9c30983533165d4b657cf85
   console.log(chapterName);
   console.log(chapterId);
+  console.log('llll', lessonName);
   const [contents, setContents] = useState([]);
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
@@ -45,7 +50,7 @@ const ChapterScreen = ({navigation, route}) => {
   useEffect(() => {
     getContent(chapterId);
   }, []);
-  console.log('hlo', contents);
+  // console.log('hlo', contents);
   // console.log('conid', contents[0].contentId);
 
   //This is for storing liked list
@@ -97,7 +102,16 @@ const ChapterScreen = ({navigation, route}) => {
         <View style={styles.topLeft}>
           <TouchableOpacity
             onPress={() =>
+<<<<<<< HEAD
               addToLikedList(chapterName)
+=======
+              navigation.navigate('Favourite', {
+                token: token,
+                chapterId: chapterId,
+                chapterName: chapterName,
+                lessonName: lessonName,
+              })
+>>>>>>> 962cc551334dd4c9e9c30983533165d4b657cf85
             }
             style={styles.touchable}>
             <Image
