@@ -8,10 +8,18 @@ import {
   Image,
   FlatList,
   ScrollView,
+  ActivityIndicator
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/core';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 
+const sub1 = require('../Images/Subject/sub1.png')
+const sub2 = require('../Images/Subject/sub2.png')
+const subImg = [sub1, sub2];
+const bgImg = ['#d5f1e5', '#ffebb5']
 const Options = ['ALL', 'STUDYING', 'LIKED'];
 
 const SubjectDetails = ({navigation, route}) => {
@@ -27,8 +35,21 @@ const SubjectDetails = ({navigation, route}) => {
   const [lessonId, setLessonId] = useState('0');
   const [selectedCourse, setSelectedCourse] = useState();
   const [chapters, setChapters] = useState([]);
+  const [chapters2, setChapters2] = useState([]);
   const [courseName, setCourseName] = useState('');
-  const trial = ['abcd', 'efgh', 'ijkl'];
+  const [lId, setLId] = useState('0');
+  const [lName, setLName] = useState('');
+  const [lSummary, setLSummary] = useState('');
+  const [loading, setLoading] = useState(true)
+  const [empty, setEmpty] = useState(false);
+  const [likedList, setLikedList] = useState(null);
+  const dispatch = useDispatch();
+  console.log('====================>>',likedList)
+
+  const l1chaps = chapters.map((item)=>{
+    return item.chapterName; 
+  })
+  console.log('aa',l1chaps)
 
   const getCourses = async () => {
     try {
@@ -66,7 +87,7 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
-  const getChaps = async id => {
+  const getChaps = async (id) => {
     try {
       const response = await axios.get(
         `${baseUrl}/subject/get/chapters/${id}`,
@@ -81,10 +102,14 @@ const SubjectDetails = ({navigation, route}) => {
       //   console.log('chappppss',chapters)
       //})
       setChapters(response.data.data);
+      console.log(chapters[0].lessonId)
+      console.log('ccc',chapters)
+      setLoading(false)
     } catch (err) {
       console.log(err);
     }
   };
+
 
   useEffect(() => {
     getCourses();
@@ -92,30 +117,40 @@ const SubjectDetails = ({navigation, route}) => {
   useEffect(() => {
     getLessons();
   }, [courseId]);
-  useEffect(() => {
-    getChaps(lessonId);
-  }, [lessonId]);
+  useFocusEffect(
+    React.useCallback(()=>{
+      getChaps(lId)
+    },[lId])
+  )
+
+  // useEffect(() => {
+  //   getChaps(lId);
+  // }, []);
+  console.log(chapters[0]?.lessonId);
+  console.log('ccc', chapters);
+  
 
   const OnPressCourse = item => {
     setCourseId(item.courseId);
     setCourseName(item.courseName);
     return setSelectedCourse(item);
   };
-  const renderCourse = ({item}) => {
+  const renderCourse = ({item, index}) => {
     return (
       <>
         <TouchableOpacity
           style={styles.courses}
           onPress={() => OnPressCourse(item)}>
-          <View style={styles.courseImg}>
-            <Text>Intro to Bio imhg</Text>
+          <View style={[styles.courseImg, {backgroundColor: bgImg[index]}]}>
+            <Image source={subImg[index]} style={styles.cImg} />
           </View>
           <View style={styles.courseTitle}>
             <Text style={styles.courseName}>{item.courseName}</Text>
           </View>
         </TouchableOpacity>
         {selectedCourse === item && (
-          <Text style={styles.selectedCourse}>v</Text>
+          // <Text style={styles.selectedCourse}>v</Text>
+          <View style= {styles.selected}></View>
         )}
       </>
     );
@@ -124,50 +159,88 @@ const SubjectDetails = ({navigation, route}) => {
   const renderChap = ({item, index}) => {
     // console.log(index,lessonId, LessonTitle.lessonId)
     // //setLessonId(index)
-    // return (
-    //   <View style={styles.row}>
-    //     <View style={styles.column}>
-    //       <View style={styles.progressLine}></View>
-    //       <Icon name="checkmark-sharp" size={21} style={styles.tick} />
-    //     </View>
-    //     <View style={styles.column}>
-    //       <Text style={styles.chaps}>
-    //         {/* {LessonTitle.map((elem)=>{
-    //           <>
-    //           {setLessonId(elem.lessonId)}
-    //           {console.log(elem.lessonId, item.lessonId,item)}
-    //           {elem.lessonId === item.lessonId && item.chapterName}
-    //           </>
-    //         })} */}
-    //         {item.chapterName}
-    //         {/* {item.lessonId === lessonId && item.chapterName} */}
-    //       </Text>
-    //       <Text style={styles.summary}>Classes and sources</Text>
-    //     </View>
-    //   </View>
-    // );
-    return (
-      <View>
-        <Text>{item}</Text>
-      </View>
-    );
-  };
-
-  const renderLesson = ({item, index}) => {
-    // console.log('iiiii', index+1, lessonId)
-    //setLessonId(index)
-    return (
-      <TouchableOpacity
-        style={styles.lessons}
-        onPress={() =>
+    {
+      if(loading === true){
+        return(
+          <> 
+          </>
+        )
+      }else{
+        return (
+          <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={
+        ()=>{
           navigation.navigate('CourseScreen', {
-            lId: item.lessonId,
-            lName: item.lessonName,
+            lId: lId,
+            lName: lName,
             token: token,
             cId: courseId,
             cName: courseName,
-            lSummary: item.summary,
+            lSummary: lSummary,
           })
+        }
+      }>
+        <View style={styles.column}>
+          <View style={styles.progressLine}></View>
+          <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.chaps}>
+            {/* {LessonTitle.map((elem)=>{
+              <>
+              {setLessonId(elem.lessonId)}
+              {console.log(elem.lessonId, item.lessonId,item)}
+              {elem.lessonId === item.lessonId && item.chapterName}
+              </>
+            })} */}
+            {item.chapterName}
+            {/* {item.lessonId === lessonId && item.chapterName} */}
+          </Text>
+          <Text style={styles.summary}>{item.summary}</Text>
+        </View>
+      </TouchableOpacity>
+        )
+      }
+    }
+      
+  };
+  // const callChap = () => {
+  //   return (
+  //     <View>
+  //       <FlatList
+  //         data={trial}
+  //         renderItem={renderChap}
+  //         keyExtractor={(item, index) => index.toString()}
+  //       />
+  //     </View>
+  //   );
+  // }
+  const onPressLesson = (item) => {
+    setLId(item.lessonId),
+    console.log(lId)
+    setLName(item.lessonName), 
+    setLSummary(item.summary), 
+    getChaps(lId),
+    setLoading(true)
+    //callChap();
+   }
+  const renderLesson = ({item, index}) => {
+    // console.log('iiiii', index+1, lessonId)
+    //setLessonId(index)
+    console.log('itemmmmm', item)
+    return (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.lessons}
+        onPress={
+          () => onPressLesson(item)
+          // navigation.navigate('CourseScreen', {
+          //   lId: item.lessonId,
+          //   lName: item.lessonName,
+          //   token: token,
+          //   cId: courseId,
+          //   cName: courseName,
+          //   lSummary: item.summary,
+          //})
         }>
         <View style={styles.row}>
           <View style={styles.progress}>
@@ -202,53 +275,141 @@ const SubjectDetails = ({navigation, route}) => {
           </View>
         </View> */}
 
-        <FlatList
+        {/* <FlatList
           data={trial}
           renderItem={renderChap}
           keyExtractor={(item, index) => index.toString()}
-        />
+        /> */}
+        {console.log(item.lessonId, chapters[index + 1]?.lessonId, index)}
+        {item.lessonId === lId && (
+          <FlatList
+            data={chapters}
+            renderItem={renderChap}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        )}
+        {/* {item.lessonNumber === 2 && (
+          <FlatList
+            data={chapters2}
+            renderItem={renderChap}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        )} } */}
       </TouchableOpacity>
     );
   };
 
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image source={btnBack} style={styles.btnBack} />
-      </TouchableOpacity>
-      <Text style={styles.title}>{subject}</Text>
-      <View style={styles.rowOpts}>
-        {Options.map((opt, index) => (
-          <View
-            key={index.toString()}
-            style={opt === 'STUDYING' ? styles.line : null}>
-            <TouchableOpacity onPress={() => setSelected(opt)}>
-              <Text style={opt === selected ? styles.active : styles.optText}>
-                {Options[index]}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-      <View>
-        <FlatList
-          data={courseTitle}
-          renderItem={renderCourse}
-          keyExtractor={item => item.courseId}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
-      <>
-        <FlatList
-          data={LessonTitle}
-          renderItem={renderLesson}
-          keyExtractor={item => item.lessonId}
-          showsVerticalScrollIndicator={false}
-        />
-      </>
-    </View>
+
+  //////////////////////////get liked list///////////////////////////
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      try {
+        initialiseLikedList();
+      } catch (err) {
+        console.log(err);
+      }
+    }, []),
   );
+
+  const initialiseLikedList = async () => {
+    //get Favourite list from Async Storage
+    const currentItems = await AsyncStorage.getItem('liked');
+    if (currentItems === null) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+      setLikedList(JSON.parse(currentItems));
+    }
+    dispatch({
+      type: 'UPDATE_LIKED_LIST',
+      items: likedList,
+    });
+  };
+
+  const removeLiked = async () => {
+    //Clear favourite list
+    Alert.alert('Removed all the favourites');
+    try {
+      await AsyncStorage.removeItem('liked');
+      setEmpty(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeItem = async item => {
+    //Remove a particular city from favourite list
+    try {
+      const deleteLikedListItem = likedList.filter(function (id) {
+        return id !== item;
+      });
+      await AsyncStorage.setItem(
+        'liked',
+        JSON.stringify(deleteLikedListItem),
+      );
+      if (deleteLikedListItem.length === 0) {
+        setEmpty(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const renderLikedList = ({item}) => {
+    return (
+      <View  >
+      
+         <Text>{item}</Text>
+       
+      </View>
+    );
+  };
+
+  const renderAll = () => {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image source={btnBack} style={styles.btnBack} />
+        </TouchableOpacity>
+        <Text style={styles.title}>{subject}</Text>
+        <View style={styles.rowOpts}>
+          {Options.map((opt, index) => (
+            <View
+              key={index.toString()}
+              style={opt === 'STUDYING' ? styles.line : null}>
+              <TouchableOpacity onPress={() => setSelected(opt)}>
+                <Text style={opt === selected ? styles.active : styles.optText}>
+                  {Options[index]}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+        <View>
+          <FlatList
+            data={courseTitle}
+            renderItem={renderCourse}
+            keyExtractor={item => item.courseId}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <>
+          <FlatList
+            data={LessonTitle}
+            renderItem={renderLesson}
+            keyExtractor={item => item.lessonId}
+            showsVerticalScrollIndicator={false}
+          />
+        </>
+      </View>
+    );
+  }
+
+  return(
+    renderAll()
+  )
 };
 
 const styles = StyleSheet.create({
@@ -296,6 +457,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 30,
   },
+  selected: {
+    width: 15,
+    height: 15,
+    borderWidth: 2,
+    marginTop: 211,
+    marginLeft: -85,
+    marginHorizontal: 70,
+    backgroundColor: '#fff',
+    borderColor: '#fff',
+    borderColor: 1,
+    transform: [{rotate: '45deg'}],
+  },
   courses: {
     flexDirection: 'column',
     marginLeft: 30,
@@ -303,15 +476,21 @@ const styles = StyleSheet.create({
     borderWidth: 0.1,
     borderColor: 15,
     borderRadius: 15,
-    width: 160,
-    height: 175,
+    width: 162,
+    height: 192,
   },
   courseImg: {
-    backgroundColor: '#ffa4a4',
-    padding: 30,
+    //backgroundColor: '#ffa4a4',
+    padding: 32,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     flexDirection: 'column',
+    borderColor: 15,
+  },
+  cImg: {
+    width: 50,
+    height: 50,
+    marginLeft: 22,
   },
   courseTitle: {
     color: '#292929',
@@ -388,17 +567,17 @@ const styles = StyleSheet.create({
     width: 138,
     justifyContent: 'center',
   },
-  selectedCourse: {
-    color: '#fff',
-    fontSize: 29,
-    fontWeight: '900',
-    shadowOpacity: 1,
-    shadowColor: '#fff',
-    marginHorizontal: 30,
-    marginLeft: -85,
-    marginTop: 180,
-    width: 50,
-  },
+  // selectedCourse: {
+  //   color: '#fff',
+  //   fontSize: 29,
+  //   fontWeight: '900',
+  //   shadowOpacity: 1,
+  //   shadowColor: '#fff',
+  //   marginHorizontal: 30,
+  //   marginLeft: -85,
+  //   marginTop: 180,
+  //   width: 50,
+  // },
   progress: {
     marginTop: 20,
     marginLeft: 15,

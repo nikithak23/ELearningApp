@@ -9,13 +9,18 @@ import {
   Touchable,
   FlatList,
   TouchableOpacity,
+  Alert
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackActions} from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
   const chapterName = route?.params.chapterName;
+  const dispatch = useDispatch();
+  const [likedItems, setLikedItems] = useState([]);
   console.log(chapterName);
   console.log(chapterId);
   const [contents, setContents] = useState([]);
@@ -43,6 +48,35 @@ const ChapterScreen = ({navigation, route}) => {
   console.log('hlo', contents);
   // console.log('conid', contents[0].contentId);
 
+  //This is for storing liked list
+  const persistLikedlist = async newItem => {
+    //store favourite list
+    try {
+      const currentItems = await AsyncStorage.getItem('liked');
+      let json = currentItems === null ? [] : JSON.parse(currentItems);
+      //Check if the city is already in the favourute list, if not push to favourite list
+      if (json.some(element => element === newItem) === false) {
+        json.push(newItem);
+        setLikedItems(json);
+      } else {
+        Alert.alert('', 'Already added to Favourite list');
+      }
+      //update Async Storage
+      await AsyncStorage.setItem('liked', JSON.stringify(json));
+      const current = await AsyncStorage.getItem('liked');
+      dispatch({
+        type: 'UPDATE_LIKED_LIST',
+        items: json,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addToLikedList = async item => {
+    await persistLikedlist(item);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.TopContainer}>
@@ -63,11 +97,7 @@ const ChapterScreen = ({navigation, route}) => {
         <View style={styles.topLeft}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Favourite', {
-                token: token,
-                chapterId: chapterId,
-                chapterName: chapterName,
-              })
+              addToLikedList(chapterName)
             }
             style={styles.touchable}>
             <Image

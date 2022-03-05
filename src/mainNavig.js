@@ -24,7 +24,7 @@ import FavouriteScreen from './Screens/FavouriteScreen';
 
 const Stack = createNativeStackNavigator();
 
-function mainNavig() {
+function MainNavig() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash">
@@ -129,4 +129,4 @@ function mainNavig() {
   );
 }
 
-export default mainNavig;
+export default MainNavig;
