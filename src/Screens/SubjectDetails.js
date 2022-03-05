@@ -44,7 +44,7 @@ const SubjectDetails = ({navigation, route}) => {
   const [empty, setEmpty] = useState(false);
   const [likedList, setLikedList] = useState(null);
   const dispatch = useDispatch();
-  console.log('====================>>',likedList)
+  //console.log('====================>>',likedList)
 
   const l1chaps = chapters.map((item)=>{
     return item.chapterName; 
@@ -360,7 +360,7 @@ const SubjectDetails = ({navigation, route}) => {
     return (
       <View  >
       
-         <Text>{item}</Text>
+         <Text>{item[1]},{item[2]}</Text>
        
       </View>
     );
@@ -386,30 +386,65 @@ const SubjectDetails = ({navigation, route}) => {
             </View>
           ))}
         </View>
-        <View>
-          <FlatList
-            data={courseTitle}
-            renderItem={renderCourse}
-            keyExtractor={item => item.courseId}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-        <>
-          <FlatList
-            data={LessonTitle}
-            renderItem={renderLesson}
-            keyExtractor={item => item.lessonId}
-            showsVerticalScrollIndicator={false}
-          />
-        </>
+        {selected === Options[0] ? (
+          <>
+            <View>
+              <FlatList
+                data={courseTitle}
+                renderItem={renderCourse}
+                keyExtractor={item => item.courseId}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+            <>
+              <FlatList
+                data={LessonTitle}
+                renderItem={renderLesson}
+                keyExtractor={item => item.lessonId}
+                showsVerticalScrollIndicator={false}
+              />
+            </>
+          </>
+        ) : selected === Options[1] ? (
+          renderStudying()
+        ) : (
+          renderLiked()
+        )}
       </View>
     );
   }
+  const renderStudying=() => {
+    return(
+      <View>
+        <Text>List of Studyng</Text>
+      </View>
+    )
+  } 
 
+  const renderLiked = () => {
+    console.log('this is liked list ===> ',likedList)
+    return (
+      <View>
+        <FlatList
+          data={likedList}
+          renderItem={renderLikedList}
+          keyExtractor={(item,index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    );
+  }; 
   return(
     renderAll()
   )
+  // if(selected === Options[0]){
+  //   return renderAll();
+  // }else if(selected === Options[1]){
+  //   return renderStudying();
+  // }else{
+  //   return renderLiked();
+  // }
 };
 
 const styles = StyleSheet.create({

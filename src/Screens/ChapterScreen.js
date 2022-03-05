@@ -19,12 +19,10 @@ const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
   const chapterName = route?.params.chapterName;
-<<<<<<< HEAD
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
-=======
   const lessonName = route?.params.lessonName;
->>>>>>> 962cc551334dd4c9e9c30983533165d4b657cf85
+  const lessonChap = [chapterId, chapterName, lessonName]
   console.log(chapterName);
   console.log(chapterId);
   console.log('llll', lessonName);
@@ -59,8 +57,7 @@ const ChapterScreen = ({navigation, route}) => {
     try {
       const currentItems = await AsyncStorage.getItem('liked');
       let json = currentItems === null ? [] : JSON.parse(currentItems);
-      //Check if the city is already in the favourute list, if not push to favourite list
-      if (json.some(element => element === newItem) === false) {
+      if (json.some(element => element.id === newItem[0]) === false) {
         json.push(newItem);
         setLikedItems(json);
       } else {
@@ -102,16 +99,7 @@ const ChapterScreen = ({navigation, route}) => {
         <View style={styles.topLeft}>
           <TouchableOpacity
             onPress={() =>
-<<<<<<< HEAD
-              addToLikedList(chapterName)
-=======
-              navigation.navigate('Favourite', {
-                token: token,
-                chapterId: chapterId,
-                chapterName: chapterName,
-                lessonName: lessonName,
-              })
->>>>>>> 962cc551334dd4c9e9c30983533165d4b657cf85
+              addToLikedList(lessonChap)
             }
             style={styles.touchable}>
             <Image
