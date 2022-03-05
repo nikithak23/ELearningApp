@@ -16,9 +16,10 @@ const TestScreen =({navigation,route})=>{
     const lName=route?.params.lName;//reqd to go back to course page
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
+    const [option,setOption]=useState('');
     let submitData=[];
     //const [noAnswered,setNoAnswered] = useState(1);
-    let num=route.params.num?route.params.num:0;
+    let num=route.params.num?route.params.num-1:0;
     console.log(num,'nummm');
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
@@ -50,6 +51,10 @@ const TestScreen =({navigation,route})=>{
         getQtns();
     },[])
 
+    useFocusEffect(React.useCallback(() => {
+      setN(num);
+    }, [num]),
+);
 
 
 
@@ -87,6 +92,7 @@ const submitTest=async()=>{//Submit test
     console.log(submitData);
     setModalVisible(false);
     setN(0);
+    setOption('');
     //setNoAnswered(1);
     //console.log(courseId,lid,courseName)
     navigation.navigate('TestResult',{
@@ -117,11 +123,13 @@ const submitTest=async()=>{//Submit test
         if(markedAnswer){
           sendAns();
           //console.log(markedAnswer);
-          setMarkedAnswer('')
+          setMarkedAnswer('');
+          setOption('');
           setN(n+1);  
         }
         else{
           //console.log('Not Sent');
+          setOption('');
           setN(n+1);
         }
       }
@@ -133,12 +141,14 @@ const submitTest=async()=>{//Submit test
           //if(noAnswered<10)
           //alert('Answer all the questions to submit the test')
           //else
+          setOption('');
           setModalVisible(true);
         }
         else{
           //if(noAnswered<10)
           //alert('Answer all the questions to submit the test')
           //else
+          setOption('');
           setModalVisible(true);
         }
       }
@@ -150,12 +160,14 @@ const submitTest=async()=>{//Submit test
         if(markedAnswer){
           sendAns();
           //console.log('Ans',markedAnswer);
-          setMarkedAnswer('')
+          setMarkedAnswer('');
+          setOption('');
           setN(n-1);  
         }
         else{
           //console.log('Not Sent');
           //console.log('Ans',markedAnswer);
+          setOption('');
           setN(n-1);
         }
       }
@@ -186,9 +198,11 @@ const submitTest=async()=>{//Submit test
         </TouchableOpacity >
         <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
         <Text style={styles.timer} >Time Remaining</Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('QtnList',{
-          courseId:courseId,courseName:courseName,token:token
-        })}>
+        <TouchableOpacity onPress={()=>{
+          setOption('');
+          navigation.navigate('QtnList',{
+          courseId:courseId,courseName:courseName,token:token}
+        )}}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>
@@ -197,18 +211,29 @@ const submitTest=async()=>{//Submit test
       {len!==0? (
       <ScrollView>
                 <Text style={styles.qtn}>{questions[n].questions}</Text>
-                <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_A)}>
-                <Text style={styles.options}>A.   {questions[n].option_A}</Text>
+                <TouchableOpacity style={option==='A'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                  setOption('A');
+                  setMarkedAnswer(questions[n].option_A)}}>
+                <Text style={option==='A'?styles.optionsSelected:styles.options}>A.   {questions[n].option_A}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_B)}>
-                <Text style={styles.options}>B.   {questions[n].option_B}</Text>
+
+                <TouchableOpacity style={option==='B'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                  setOption('B');
+                  setMarkedAnswer(questions[n].option_B)}}>
+                <Text style={option==='B'?styles.optionsSelected:styles.options}>B.   {questions[n].option_B}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_C)}>
-                <Text style={styles.options}>C.   {questions[n].option_C}</Text>
+
+                <TouchableOpacity style={option==='C'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                  setOption('C');;
+                  setMarkedAnswer(questions[n].option_C)}}>
+                <Text style={option==='C'?styles.optionsSelected:styles.options}>C.   {questions[n].option_C}</Text>
                 </TouchableOpacity>
+
                 {(questions[n].option_D)?(
-                <TouchableOpacity style={styles.optionContainer} onPress={()=>setMarkedAnswer(questions[n].option_D)}>
-                <Text style={styles.options}>D.   {questions[n].option_D}</Text>
+                <TouchableOpacity style={option==='D'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                  setOption('D');
+                  setMarkedAnswer(questions[n].option_D)}}>
+                <Text style={option==='D'?styles.optionsSelected:styles.options}>D.   {questions[n].option_D}</Text>
                 </TouchableOpacity>
                 ):<></>}
       </ScrollView>
@@ -329,6 +354,14 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     marginHorizontal:28,
   },
+  optionContainerSelected:{
+    borderColor:'#4C93FF',
+    borderWidth:1,
+    borderRadius:25,
+    marginVertical:5,
+    backgroundColor:'white',
+    marginHorizontal:28,
+  },
   options: {
     fontSize: 15,
     color: '#595B60',
@@ -337,6 +370,15 @@ const styles = StyleSheet.create({
     marginVertical:18,
     marginHorizontal:15,
   },
+  optionsSelected: {
+    fontSize: 15,
+    color: '#4C93FF',
+    fontWeight:'500',
+    textAlign:'left',
+    marginVertical:18,
+    marginHorizontal:15,
+  },
+
 
 
 
