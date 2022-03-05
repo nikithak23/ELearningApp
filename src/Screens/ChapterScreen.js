@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {StackActions} from '@react-navigation/native';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
@@ -42,7 +43,7 @@ const ChapterScreen = ({navigation, route}) => {
   useEffect(() => {
     getContent(chapterId);
   }, []);
-  // console.log('hlo', contents);
+  console.log('hlo', contents);
   // console.log('conid', contents[0].contentId);
 
   return (
@@ -54,11 +55,10 @@ const ChapterScreen = ({navigation, route}) => {
               navigation.navigate('CourseScreen', {
                 token: token,
               })
-            }
-            style={styles.touchable}>
+            }>
             <Image
               source={require('../Images/Profile/Results/back.png')}
-              style={styles.backButton}
+              style={styles.touchableback}
             />
           </TouchableOpacity>
         </View>
@@ -71,11 +71,11 @@ const ChapterScreen = ({navigation, route}) => {
                 chapterName: chapterName,
                 lessonName: lessonName,
               })
-            }
-            style={styles.touchable}>
+            }>
             <Image
               source={require('../Images/Subject/heart.png')}
-              style={styles.backButton}
+              // style={styles.heartimg}
+              style={styles.touchableheart}
             />
           </TouchableOpacity>
 
@@ -84,19 +84,32 @@ const ChapterScreen = ({navigation, route}) => {
               navigation.navigate('CourseScreen', {
                 token: token,
               })
-            }
-            style={styles.touchable}>
+            }>
             <Image
               source={require('../Images/Subject/pages.png')}
-              style={styles.backButton}
+              style={styles.touchablepages}
             />
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{marginTop: 60}}>
-        <Text>{chapterName}</Text>
-        <Text> {contents[0]?.content}</Text>
+      <View style={styles.body}>
+        <View>
+          <Text style={styles.name}>{chapterName}</Text>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {contents[0]?.imageUrl ? (
+            <Image
+              source={{uri: contents[0]?.imageUrl}}
+              style={styles.contentimg}
+            />
+          ) : null}
+
+          <Text style={styles.content}> {contents[0]?.content}</Text>
+        </ScrollView>
+      </View>
+      <View style={styles.bottom}>
+        <Text>abc</Text>
       </View>
     </View>
   );
@@ -115,15 +128,62 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 30,
   },
-  backButton: {
-    // marginLeft: 32,
+  body: {
+    marginTop: 40,
   },
-  touchable: {
+  name: {
+    color: '#191B26',
+    fontSize: 28,
+    textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 33,
+    letterSpacing: 0,
+  },
+  contentimg: {
+    height: 197,
+    width: 322,
+    marginLeft: 32,
+    marginRight: 32,
+    borderRadius: 15,
+    marginTop: 30,
+  },
+  content: {
+    marginTop: 30,
+    marginHorizontal: 32,
+
+    // textAlign: 'left',
+    textAlign: 'justify',
+    color: '#4D5060',
+    fontSize: 18,
+    lineHeight: 26,
+    letterSpacing: 0,
+  },
+
+  touchableback: {
     height: 20,
     width: 23,
-    marginLeft: 32,
+  },
+
+  touchableheart: {
+    height: 21.6,
+    width: 26,
+    marginRight: 40,
+  },
+  touchablepages: {
+    height: 23,
+    width: 23,
+    // marginRight: 20,
   },
   topLeft: {
     flexDirection: 'row',
+  },
+
+  bottom: {
+    backgroundColor: 'white',
+    width: 400,
+    height: 90,
+
+    position: 'absolute',
+    bottom: 0,
   },
 });
