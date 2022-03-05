@@ -146,6 +146,7 @@ const CourseScreen = ({navigation, route}) => {
               token: token,
               chapterId: item.chapterId,
               chapterName: item.chapterName,
+              lessonName: lName,
               // console.log(item.)
             })
           }

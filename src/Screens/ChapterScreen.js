@@ -16,8 +16,10 @@ const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
   const chapterName = route?.params.chapterName;
+  const lessonName = route?.params.lessonName;
   console.log(chapterName);
   console.log(chapterId);
+  console.log('llll', lessonName);
   const [contents, setContents] = useState([]);
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
@@ -40,7 +42,7 @@ const ChapterScreen = ({navigation, route}) => {
   useEffect(() => {
     getContent(chapterId);
   }, []);
-  console.log('hlo', contents);
+  // console.log('hlo', contents);
   // console.log('conid', contents[0].contentId);
 
   return (
@@ -67,6 +69,7 @@ const ChapterScreen = ({navigation, route}) => {
                 token: token,
                 chapterId: chapterId,
                 chapterName: chapterName,
+                lessonName: lessonName,
               })
             }
             style={styles.touchable}>

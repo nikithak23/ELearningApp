@@ -16,6 +16,7 @@ const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
   const chapterName = route?.params.chapterName;
+  const lessonName = route?.params.lessonName;
   console.log(chapterId);
   //   const [contents, setContents] = useState([]);
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
@@ -27,6 +28,7 @@ const ChapterScreen = ({navigation, route}) => {
         <Text>
           {' '}
           {chapterId} {chapterName}
+          {lessonName}
         </Text>
       </View>
     </View>
