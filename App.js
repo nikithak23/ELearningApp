@@ -1,11 +1,16 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
+import reducer from './src/Redux/reducer';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import MainNavig from './src/MainNavig';
 
 const App = () => {
+  const store = createStore(reducer);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>E learning App</Text>
-    </View>
+    <Provider store={store}>
+      <MainNavig />
+    </Provider>
   );
 };
 

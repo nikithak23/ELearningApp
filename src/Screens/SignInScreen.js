@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
-import AuthContext from '../AsyncStorage/Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = ({navigation}) => {
