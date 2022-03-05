@@ -21,7 +21,6 @@ import QtnList from './Screens/qtnList';
 import TestResult from './Screens/TestResult';
 import ChapterScreen from './Screens/ChapterScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 function MainNavig() {
@@ -119,7 +118,6 @@ function MainNavig() {
           component={ChapterScreen}
           options={{headerShown: false}}
         />
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
