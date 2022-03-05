@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   icon: {
-    marginTop: 30,
+    marginTop: Platform.OS === 'ios' ? 50 : 30,
     marginHorizontal: 32,
   },
   greet: {
