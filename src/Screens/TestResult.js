@@ -19,6 +19,8 @@ const TestResult=({navigation,route})=>{
   const attempted=route?.params.attempted;
   const rightAnswer=route?.params.rightAnswer;
   const star =route?.params.star;
+  const key=route?.params.key;
+  //console.log(key);
 
   const token=route?.params.token;
   const lid=route?.params.lid;
@@ -62,9 +64,21 @@ return(
               titleStyle={styles.CircularTxt}
             >
             </CircularProgress>
+            {percent!==100&&percent!==0&&
+            <>
             <Text style={styles.Text1}>Bravo!</Text>
-            <Text style={styles.Text2}>You are just {len-rightAnswer} correct questions away from 100%. You can do it.
-            </Text>
+            <Text style={styles.Text2}>You are just {len-rightAnswer} correct questions away from 100%. You can do it.</Text>
+            </>}
+            {percent===100&&
+            <>
+            <Text style={styles.Text1}>Bravo!</Text>
+            <Text style={styles.Text2}>Congratulations. You did it!</Text>
+            </>}
+            {percent===0&&
+            <>
+            <Text style={styles.Text1}>Alas!</Text>
+            <Text style={styles.Text2}>Go for it again, Champ. You got this!</Text>
+            </>}
     </View>
 
     <View>
@@ -74,7 +88,8 @@ return(
                 cName: cName,
                 token:token,
                 id:lid,
-                lName:lName
+                lName:lName,
+                key:key+1,
               })
             }>
               <View style={styles.TryAgnBtn}>

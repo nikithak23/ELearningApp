@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/core';
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 
 
 
@@ -17,6 +18,7 @@ const TestScreen =({navigation,route})=>{
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     const [option,setOption]=useState('');
+    let key=route.params.key?route.params.key:0;//to restart the timer 
     let submitData=[];
     //const [noAnswered,setNoAnswered] = useState(1);
     let num=route.params.num?route.params.num-1:0;
@@ -24,6 +26,7 @@ const TestScreen =({navigation,route})=>{
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
+   
     //const courseId=1;
     //const courseName='Introduction to Physics';
     //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzgxNDcxLCJpYXQiOjE2NDYzNjM0NzF9.7UI6PQSKEypBC-Bdg_4uQCZWJt5M429qN3bAduZV1aeLYIMiRSpyY9bu0XXXmA55Fb5d8QR0dJPapUJepHyORQ';
@@ -101,6 +104,7 @@ const submitTest=async()=>{//Submit test
       rightAnswer:submitData[0].rightAnswer,
       score:submitData[0].score,
       star:submitData[0].star,
+      key:key,
       //following params are needed to go back to course page
       cid:courseId, 
       cName:courseName,
@@ -187,6 +191,22 @@ const submitTest=async()=>{//Submit test
 
 
 
+    const formatRemainingTime = time=> {
+      //const minutes = Math.floor(remainingTime / 60)
+      //const seconds = remainingTime % 60
+      const minutes = Math.floor((time % 3600) / 60);
+      const seconds = time % 60;
+      return `${minutes}:${seconds}`
+    }
+    const renderTime = ({ remainingTime }) => {
+      return (
+        <View>
+          <Text>{formatRemainingTime(remainingTime)}</Text>
+        </View>
+      );
+    };
+
+
 
 
   return(
@@ -196,16 +216,34 @@ const submitTest=async()=>{//Submit test
         <TouchableOpacity onPress={()=>navigation.goBack()}>
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
-        <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer} />
-        <Text style={styles.timer} >Time Remaining</Text>
+        
+        <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer0} />
+        <View style={styles.timer1}>
+        <CountdownCircleTimer
+          isPlaying
+          key={key}
+          size={37}
+          strokeWidth={3}
+          duration={20}
+          colors={["#32cd32", "#F7B801", "#A30000", "#A30000"]}
+          colorsTime={[8,10, 5, 0]}
+          onComplete={() =>{
+             submitTest();
+          }}
+        >
+          {renderTime}
+        </CountdownCircleTimer>
+    </View>
+    <Text style={styles.timerText} >remaining</Text>
         <TouchableOpacity onPress={()=>{
           setOption('');
           navigation.navigate('QtnList',{
-          courseId:courseId,courseName:courseName,token:token}
+          courseId:courseId,courseName:courseName,token:token,key:key}
         )}}>
         <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
       </View>
+
 
 
       {len!==0? (
@@ -240,6 +278,7 @@ const submitTest=async()=>{//Submit test
       ):null}
 
 
+
     
       <View style={styles.footer}>
       {len!==0? (
@@ -258,6 +297,7 @@ const submitTest=async()=>{//Submit test
         </View>
       </View>
      
+
 
 
       <Modal isVisible={modalVisible}>
@@ -308,16 +348,31 @@ const styles = StyleSheet.create({
       marginBottom:15,
       marginHorizontal:28,
     },
-    timer:{
+    timer0:{
       marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
-      marginHorizontal:-45,
+      marginHorizontal:-17,
       alignSelf:'center'
     },
+    timerText:{
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
+      marginBottom:15,
+      marginHorizontal:-30,
+      alignSelf:'center'
+    },
+    timer1:{
+      //marginTop:Platform.OS === 'ios' ? 50 : 20,
+      //marginBottom:15,
+      marginHorizontal:-30,
+      alignSelf:'center',
+      marginTop:5,
+    },
     footer: {
+      width:'100%',
       flexDirection: 'row',
       justifyContent: 'space-between',
       backgroundColor:'white',
+      position:'absolute',
       bottom:0,
     },
     footerBtn:{
@@ -471,3 +526,4 @@ const styles = StyleSheet.create({
 
  
                 
+
