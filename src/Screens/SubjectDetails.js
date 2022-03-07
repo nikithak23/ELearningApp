@@ -107,11 +107,11 @@ const SubjectDetails = ({navigation, route}) => {
   // useEffect(() => {
   //   getLessons();
   // }, [courseId]);
-  useFocusEffect(
-    React.useCallback(()=>{
-      getChaps(lId)
-    },[lId])
-  )
+  // useFocusEffect(
+  //   React.useCallback(()=>{
+  //     getChaps(lId)
+  //   },[lId])
+  // )
 
   const OnPressCourse = item => {
     setCourseId(item.courseId);
@@ -189,9 +189,16 @@ const SubjectDetails = ({navigation, route}) => {
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.lessons}
-        onPress={
-          () => onPressLesson(item)
-        }>
+        onPress={() => {
+          navigation.navigate('CourseScreen', {
+            lId: lId,
+            lName: lName,
+            token: token,
+            cId: courseId,
+            cName: courseName,
+            lSummary: lSummary,
+          })
+        }}>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
@@ -213,15 +220,45 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.lessonNum}>Lesson {item.lessonNumber}</Text>
           </View>
         </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            <View style={styles.progressLine}></View>
+            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.chaps}>{item.chapter1}</Text>
+            <Text style={styles.summary}>{item.summary1}</Text>
+          </View>
+        </View>
+        {item.chapter2? <View style={styles.row}>
+          <View style={styles.column}>
+            <View style={styles.progressLine}></View>
+            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.chaps}>{item.chapter2}</Text>
+            <Text style={styles.summary}>{item.summary2}</Text>
+          </View>
+        </View> : null}
+        {item.chapter3? <View style={styles.row}>
+          <View style={styles.column}>
+            <View style={styles.progressLine}></View>
+            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+          </View>
+          <View style={styles.column}>
+            <Text style={styles.chaps}>{item.chapter3}</Text>
+            <Text style={styles.summary}>{item.summary3}</Text>
+          </View>
+        </View> : null}
 
-        {console.log(item.lessonId, chapters[index + 1]?.lessonId, index)}
+        {/* {console.log(item.lessonId, chapters[index + 1]?.lessonId, index)}
         {item.lessonId === lId && (
           <FlatList
             data={chapters}
             renderItem={renderChap}
             keyExtractor={(item, index) => index.toString()}
           />
-        )}
+        )} */}
       </TouchableOpacity>
     );
   };

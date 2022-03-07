@@ -237,17 +237,31 @@ const ChapterScreen = ({navigation, route}) => {
                   onPress={() => setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.ModalYesContainer}
-                  onPress={submitPage}>
-                  <View style={styles.ModalYesView}>
-                    <Text style={styles.ModalYesText}>Ok</Text>
-                    <Image
-                      source={require('../Images/TestPage/yesArrow.png')}
-                      style={styles.ModalYesImg}
-                    />
-                  </View>
-                </TouchableOpacity>
+                {(noSelect1 || noSelect2 || noSelect3) === true ? (
+                  <TouchableOpacity
+                    style={styles.ModalYesContainer}
+                    onPress={submitPage}>
+                    <View style={styles.ModalYesView}>
+                      <Text style={styles.ModalYesText}>Ok</Text>
+                      <Image
+                        source={require('../Images/TestPage/yesArrow.png')}
+                        style={styles.ModalYesImg}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity activeOpacity={1}
+                    style={styles.ModalYesContainer}
+                    >
+                    <View style={styles.ModalYesView}>
+                      <Text style={styles.ModalYesText}>Ok</Text>
+                      <Image
+                        source={require('../Images/TestPage/yesArrow.png')}
+                        style={styles.ModalYesImg}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </Modal>
@@ -347,7 +361,7 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 30,
     marginHorizontal: 32,
-
+    marginBottom : 200,
     // textAlign: 'left',
     textAlign: 'justify',
     color: '#4D5060',
