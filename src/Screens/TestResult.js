@@ -20,6 +20,8 @@ const TestResult=({navigation,route})=>{
   const rightAnswer=route?.params.rightAnswer;
   const star =route?.params.star;
   const key=route?.params.key;
+  const timeup=route?.params.timeup;//timeup=1=>timeup submit, timeup=0=>voluntary submit
+  //console.log('RESULTpage',timeup);
   //console.log(key);
 
   const token=route?.params.token;
@@ -64,20 +66,26 @@ return(
               titleStyle={styles.CircularTxt}
             >
             </CircularProgress>
-            {percent!==100&&percent!==0&&
+            {percent!==100&&percent!==0&&timeup===0&&
             <>
             <Text style={styles.Text1}>Bravo!</Text>
             <Text style={styles.Text2}>You are just {len-rightAnswer} correct questions away from 100%. You can do it.</Text>
             </>}
-            {percent===100&&
+            {percent===100&&timeup===0&&
             <>
             <Text style={styles.Text1}>Bravo!</Text>
             <Text style={styles.Text2}>Congratulations. You did it!</Text>
             </>}
-            {percent===0&&
+            {percent===0&&timeup===0&&
             <>
             <Text style={styles.Text1}>Alas!</Text>
             <Text style={styles.Text2}>Go for it again, Champ. You got this!</Text>
+            </>}
+            {timeup===1&&
+            <>
+            <Text style={styles.Text1}>Oooops!</Text>
+            <Text style={styles.Text2}>You ran out of time.</Text>
+            <Text style={styles.Text2}>Your test has been submitted by default.</Text>
             </>}
     </View>
 
@@ -90,6 +98,7 @@ return(
                 id:lid,
                 lName:lName,
                 key:key+1,
+                timeup:0
               })
             }>
               <View style={styles.TryAgnBtn}>
@@ -124,7 +133,7 @@ const styles = StyleSheet.create({
   resultContainer:{
     //justifyContent:'center',
     alignItems:'center',
-    marginVertical:120,
+    marginVertical:100,
     marginHorizontal:20,
   },
   Text1:{
