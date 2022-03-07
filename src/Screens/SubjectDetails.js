@@ -32,10 +32,8 @@ const SubjectDetails = ({navigation, route}) => {
   const [courseTitle, setCourseTitle] = useState([]);
   const [courseId, setCourseId] = useState('0');
   const [LessonTitle, setLessonTitle] = useState([]);
-  const [lessonId, setLessonId] = useState('0');
   const [selectedCourse, setSelectedCourse] = useState();
   const [chapters, setChapters] = useState([]);
-  const [chapters2, setChapters2] = useState([]);
   const [courseName, setCourseName] = useState('');
   const [lId, setLId] = useState('0');
   const [lName, setLName] = useState('');
@@ -44,12 +42,7 @@ const SubjectDetails = ({navigation, route}) => {
   const [empty, setEmpty] = useState(false);
   const [likedList, setLikedList] = useState(null);
   const dispatch = useDispatch();
-  //console.log('====================>>',likedList)
 
-  const l1chaps = chapters.map((item)=>{
-    return item.chapterName; 
-  })
-  console.log('aa',l1chaps)
 
   const getCourses = async () => {
     try {
@@ -62,8 +55,6 @@ const SubjectDetails = ({navigation, route}) => {
         },
       );
       setCourseTitle(response.data.data);
-      //console.log('course', courseTitle);
-      // getLessons();
     } catch (err) {
       console.log(err);
     }
@@ -81,7 +72,6 @@ const SubjectDetails = ({navigation, route}) => {
       );
       setLessonTitle(response.data.data);
       console.log('lesson', LessonTitle);
-      // getChaps();
     } catch (err) {
       console.log(err);
     }
@@ -97,10 +87,6 @@ const SubjectDetails = ({navigation, route}) => {
           },
         },
       );
-      // response.data.data.map((el)=>{
-      //   chapters.push(el.chapterName);
-      //   console.log('chappppss',chapters)
-      //})
       setChapters(response.data.data);
       console.log(chapters[0].lessonId)
       console.log('ccc',chapters)
@@ -110,25 +96,22 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
-
   useEffect(() => {
     getCourses();
   }, []);
-  useEffect(() => {
-    getLessons();
-  }, [courseId]);
+  useFocusEffect(
+    React.useCallback(() => {
+      getLessons();
+    }, [courseId]),
+  );
+  // useEffect(() => {
+  //   getLessons();
+  // }, [courseId]);
   useFocusEffect(
     React.useCallback(()=>{
       getChaps(lId)
     },[lId])
   )
-
-  // useEffect(() => {
-  //   getChaps(lId);
-  // }, []);
-  console.log(chapters[0]?.lessonId);
-  console.log('ccc', chapters);
-  
 
   const OnPressCourse = item => {
     setCourseId(item.courseId);
@@ -149,7 +132,6 @@ const SubjectDetails = ({navigation, route}) => {
           </View>
         </TouchableOpacity>
         {selectedCourse === item && (
-          // <Text style={styles.selectedCourse}>v</Text>
           <View style= {styles.selected}></View>
         )}
       </>
@@ -157,8 +139,6 @@ const SubjectDetails = ({navigation, route}) => {
   };
 
   const renderChap = ({item, index}) => {
-    // console.log(index,lessonId, LessonTitle.lessonId)
-    // //setLessonId(index)
     {
       if(loading === true){
         return(
@@ -185,15 +165,7 @@ const SubjectDetails = ({navigation, route}) => {
         </View>
         <View style={styles.column}>
           <Text style={styles.chaps}>
-            {/* {LessonTitle.map((elem)=>{
-              <>
-              {setLessonId(elem.lessonId)}
-              {console.log(elem.lessonId, item.lessonId,item)}
-              {elem.lessonId === item.lessonId && item.chapterName}
-              </>
-            })} */}
             {item.chapterName}
-            {/* {item.lessonId === lessonId && item.chapterName} */}
           </Text>
           <Text style={styles.summary}>{item.summary}</Text>
         </View>
@@ -203,17 +175,7 @@ const SubjectDetails = ({navigation, route}) => {
     }
       
   };
-  // const callChap = () => {
-  //   return (
-  //     <View>
-  //       <FlatList
-  //         data={trial}
-  //         renderItem={renderChap}
-  //         keyExtractor={(item, index) => index.toString()}
-  //       />
-  //     </View>
-  //   );
-  // }
+  
   const onPressLesson = (item) => {
     setLId(item.lessonId),
     console.log(lId)
@@ -221,26 +183,14 @@ const SubjectDetails = ({navigation, route}) => {
     setLSummary(item.summary), 
     getChaps(lId),
     setLoading(true)
-    //callChap();
    }
   const renderLesson = ({item, index}) => {
-    // console.log('iiiii', index+1, lessonId)
-    //setLessonId(index)
-    console.log('itemmmmm', item)
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.lessons}
         onPress={
           () => onPressLesson(item)
-          // navigation.navigate('CourseScreen', {
-          //   lId: item.lessonId,
-          //   lName: item.lessonName,
-          //   token: token,
-          //   cId: courseId,
-          //   cName: courseName,
-          //   lSummary: item.summary,
-          //})
         }>
         <View style={styles.row}>
           <View style={styles.progress}>
@@ -260,26 +210,10 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.lessonName}>
               {item.lessonName.toUpperCase()}
             </Text>
-            <Text style={styles.lessonNum}>Lesson {item.lessonId}</Text>
+            <Text style={styles.lessonNum}>Lesson {item.lessonNumber}</Text>
           </View>
         </View>
 
-        {/* <View style={styles.row}>
-          <View style={styles.column}>
-            <View style={styles.progressLine}></View>
-            <Icon name="ellipse" size={12} style={styles.dot} />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.chaps}>Balanced Diet</Text>
-            <Text style={styles.summary}>Sources of food substances</Text>
-          </View>
-        </View> */}
-
-        {/* <FlatList
-          data={trial}
-          renderItem={renderChap}
-          keyExtractor={(item, index) => index.toString()}
-        /> */}
         {console.log(item.lessonId, chapters[index + 1]?.lessonId, index)}
         {item.lessonId === lId && (
           <FlatList
@@ -288,17 +222,9 @@ const SubjectDetails = ({navigation, route}) => {
             keyExtractor={(item, index) => index.toString()}
           />
         )}
-        {/* {item.lessonNumber === 2 && (
-          <FlatList
-            data={chapters2}
-            renderItem={renderChap}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        )} } */}
       </TouchableOpacity>
     );
   };
-
 
   //////////////////////////get liked list///////////////////////////
   
@@ -309,17 +235,17 @@ const SubjectDetails = ({navigation, route}) => {
       } catch (err) {
         console.log(err);
       }
-    }, []),
+    }, [likedList]),
   );
 
   const initialiseLikedList = async () => {
-    //get Favourite list from Async Storage
     const currentItems = await AsyncStorage.getItem('liked');
     if (currentItems === null) {
       setEmpty(true);
     } else {
       setEmpty(false);
       setLikedList(JSON.parse(currentItems));
+      console.log('likeddd', likedList)
     }
     dispatch({
       type: 'UPDATE_LIKED_LIST',
@@ -328,10 +254,9 @@ const SubjectDetails = ({navigation, route}) => {
   };
 
   const removeLiked = async () => {
-    //Clear favourite list
-    Alert.alert('Removed all the favourites');
     try {
       await AsyncStorage.removeItem('liked');
+      setLikedList([])
       setEmpty(true);
     } catch (err) {
       console.log(err);
@@ -339,10 +264,10 @@ const SubjectDetails = ({navigation, route}) => {
   };
 
   const removeItem = async item => {
-    //Remove a particular city from favourite list
     try {
-      const deleteLikedListItem = likedList.filter(function (id) {
-        return id !== item;
+      const deleteLikedListItem = likedList.filter(function (el) {
+        
+        return el[0] !== item[0];
       });
       await AsyncStorage.setItem(
         'liked',
@@ -358,10 +283,12 @@ const SubjectDetails = ({navigation, route}) => {
 
   const renderLikedList = ({item}) => {
     return (
-      <View  >
-      
-         <Text>{item[1]},{item[2]}</Text>
-       
+      <View style={styles.lessons}>
+        <View style={styles.row}>
+          <Text style={styles.likedCName}>{item[2]}</Text>
+          <Icon onPress={()=>removeItem(item)} name="heart" size={21} style={styles.like} />
+        </View>
+        <Text style={styles.likedchap}>{item[1]}</Text>
       </View>
     );
   };
@@ -424,27 +351,31 @@ const SubjectDetails = ({navigation, route}) => {
 
   const renderLiked = () => {
     console.log('this is liked list ===> ',likedList)
-    return (
-      <View>
-        <FlatList
-          data={likedList}
-          renderItem={renderLikedList}
-          keyExtractor={(item,index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-    );
+    if(empty){
+      return(
+        <>
+          <Text style={styles.empty}>No Likes</Text>
+        </>
+      )
+    }else{
+      return (
+        <View>
+          <TouchableOpacity onPress={() => removeLiked()}>
+            <Text style={styles.clear}>Clear All</Text>
+          </TouchableOpacity>
+          <FlatList
+            data={likedList}
+            renderItem={renderLikedList}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      );
+    }
   }; 
   return(
     renderAll()
   )
-  // if(selected === Options[0]){
-  //   return renderAll();
-  // }else if(selected === Options[1]){
-  //   return renderStudying();
-  // }else{
-  //   return renderLiked();
-  // }
 };
 
 const styles = StyleSheet.create({
@@ -628,6 +559,12 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: '#ccc',
   },
+  like: {
+    position: 'absolute',
+    marginTop: 18,
+    marginLeft: 290,
+    color: '#1b7ced',
+  },
   progressLine: {
     borderLeftWidth: 2,
     height: 40,
@@ -635,6 +572,43 @@ const styles = StyleSheet.create({
     marginLeft: 31.5,
     marginTop: -26,
   },
+  likedCName: {
+    color: '#1b7ced',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginLeft: 20,
+    letterSpacing: 0,
+    width: 280,
+  },
+  likedchap: {
+    color: '#292929',
+    fontSize: 18,
+    fontWeight: '500',
+    marginTop: 12,
+    marginLeft: 20,
+    marginBottom: 20,
+    letterSpacing: 0,
+    width: 299,
+  },
+  clear: {
+    color: '#1b7ced',
+    fontSize: 13,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+    marginTop: 12,
+    marginRight: 40,
+  },
+  empty: {
+    color: '#1b7ced',
+    fontSize:28,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 220
+  }
 });
 
 export default SubjectDetails;
