@@ -101,7 +101,7 @@ const CourseScreen = ({navigation, route}) => {
       <View style={styles.testList}>
         <View style={styles.testListTop}>
           <Image
-            source={require('../Images/Profile/photo1.jpeg')}
+            source={require('../Images/Subject/testcoverphoto.jpeg')}
             style={styles.testCoverPhoto}
           />
           <View style={styles.listRight}>
@@ -144,10 +144,12 @@ const CourseScreen = ({navigation, route}) => {
           onPress={() =>
             navigation.navigate('Chapter', {
               token: token,
-              chapterId: item.chapterId,
+              chapterNumber: item.chapterNumber,
               chapterName: item.chapterName,
+              chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
+
               // console.log(item.)
             })
           }
@@ -159,7 +161,8 @@ const CourseScreen = ({navigation, route}) => {
             /> */}
 
             <Image
-              source={require('../Images/Profile/photo1.jpeg')}
+              source={{uri: item.imageUrl}}
+              // source={require('../Images/Profile/photo1.jpeg')}
               style={styles.chapterCoverPhoto}
             />
           </View>
