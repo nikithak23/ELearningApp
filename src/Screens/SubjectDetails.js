@@ -191,12 +191,12 @@ const SubjectDetails = ({navigation, route}) => {
         style={styles.lessons}
         onPress={() => {
           navigation.navigate('CourseScreen', {
-            lId: lId,
-            lName: lName,
+            lId: item.lessonId,
+            lName: item.lessonName,
             token: token,
             cId: courseId,
             cName: courseName,
-            lSummary: lSummary,
+            lessonNumber: item.lessonNumber
           })
         }}>
         <View style={styles.row}>
@@ -272,7 +272,7 @@ const SubjectDetails = ({navigation, route}) => {
       } catch (err) {
         console.log(err);
       }
-    }, [likedList]),
+    }, []),
   );
 
   const initialiseLikedList = async () => {
