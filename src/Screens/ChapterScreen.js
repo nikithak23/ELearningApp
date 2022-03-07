@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-// import Video from 'react-native-video';
+// import VideoPlayer from 'react-native-video-player';
+import Video from 'react-native-video';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,6 +22,7 @@ import {useDispatch} from 'react-redux';
 const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const chapterId = route?.params.chapterId;
+  const chapterNumber = route?.params.chapterNumber;
   const chapterName = route?.params.chapterName;
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
@@ -28,6 +30,7 @@ const ChapterScreen = ({navigation, route}) => {
   const lessonId = route?.params.lessonId;
   const lessonChap = [chapterId, chapterName, lessonName];
   const [modalVisible, setModalVisible] = useState(false);
+  const videoUrl = route?.params.videoUrl;
   console.log(chapterName);
   console.log(chapterId);
   console.log('llll', lessonName);
@@ -266,19 +269,23 @@ const ChapterScreen = ({navigation, route}) => {
       </View>
 
       <View style={styles.body}>
-        <View>
-          {console.log('video')}
-          {/* <Video
-            source={{
-              url: 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4?_=1',
-            }}
-            style={{width: 390, height: 300}}
-            paused={true}
-            controls={true}
-          /> */}
-          <Text style={styles.name}>{chapterName}</Text>
-        </View>
+        <Text style={styles.name}>{chapterName}</Text>
+
         <ScrollView showsVerticalScrollIndicator={false}>
+          {contents[0]?.videoUrl ? (
+            <Video
+              source={{
+                uri: contents[0]?.videoUrl,
+              }}
+              style={{
+                width: 390,
+                height: 300,
+              }}
+              paused={true}
+              controls={true}
+            />
+          ) : null}
+
           {contents[0]?.imageUrl ? (
             <Image
               source={{uri: contents[0]?.imageUrl}}
@@ -291,7 +298,9 @@ const ChapterScreen = ({navigation, route}) => {
       </View>
       <View style={styles.bottom}>
         <View style={styles.bottomLeft}>
-          <Text style={styles.bottomChapter}>C1:{chapterName}</Text>
+          <Text style={styles.bottomChapter}>
+            C{chapterNumber}:{chapterName}
+          </Text>
 
           <Text style={styles.bottomPage}>{page + 1} of 3 pages</Text>
           {/* {console.log(page)} */}
