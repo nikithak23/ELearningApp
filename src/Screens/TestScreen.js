@@ -20,9 +20,12 @@ const TestScreen =({navigation,route})=>{
     const [option,setOption]=useState('');
     let key=route.params.key?route.params.key:0;//to restart the timer 
     let submitData=[];
+    let timeup=route?.params.timeup?route.params.timeup:0;
+    const [timer,setTimer] = useState(true);
+    //console.log('UP',timeup);
     //const [noAnswered,setNoAnswered] = useState(1);
     let num=route.params.num?route.params.num-1:0;
-    console.log(num,'nummm');
+    //console.log(num,'nummm');
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
@@ -56,6 +59,7 @@ const TestScreen =({navigation,route})=>{
 
     useFocusEffect(React.useCallback(() => {
       setN(num);
+      setTimer(true);
     }, [num]),
 );
 
@@ -96,15 +100,17 @@ const submitTest=async()=>{//Submit test
     setModalVisible(false);
     setN(0);
     setOption('');
+    console.log('SUBMITTEST',timeup);
     //setNoAnswered(1);
     //console.log(courseId,lid,courseName)
-    navigation.navigate('TestResult',{
+     await navigation.navigate('TestResult',{
       percent:submitData[0].percentScore,
       attempted:submitData[0].attempted,
       rightAnswer:submitData[0].rightAnswer,
       score:submitData[0].score,
       star:submitData[0].star,
       key:key,
+      timeup:timeup,
       //following params are needed to go back to course page
       cid:courseId, 
       cName:courseName,
@@ -217,10 +223,9 @@ const submitTest=async()=>{//Submit test
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
         
-        <Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer0} />
         <View style={styles.timer1}>
         <CountdownCircleTimer
-          isPlaying
+          isPlaying={timer}
           key={key}
           size={37}
           strokeWidth={3}
@@ -228,13 +233,15 @@ const submitTest=async()=>{//Submit test
           colors={["#32cd32", "#F7B801", "#A30000", "#A30000"]}
           colorsTime={[8,10, 5, 0]}
           onComplete={() =>{
+            timeup=1;
+            //console.log('DOWN',timeup);
              submitTest();
           }}
         >
           {renderTime}
         </CountdownCircleTimer>
     </View>
-    <Text style={styles.timerText} >remaining</Text>
+    <Text style={styles.timerText} >Time remaining</Text>
         <TouchableOpacity onPress={()=>{
           setOption('');
           navigation.navigate('QtnList',{
@@ -314,7 +321,10 @@ const submitTest=async()=>{//Submit test
                 <TouchableOpacity style={styles.ModalNoContainer} onPress={()=>setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ModalYesContainer} onPress={submitTest}>
+                <TouchableOpacity style={styles.ModalYesContainer} onPress={()=>{
+                  setTimer(false);//if not set to false, timer will keep running in the background
+                  submitTest();
+                  }}>
                   <View style={styles.ModalYesView}>
                     <Text style={styles.ModalYesText}>Yes</Text>
                     <Image source={require('../Images/TestPage/yesArrow.png')} style={styles.ModalYesImg}/>
@@ -357,13 +367,13 @@ const styles = StyleSheet.create({
     timerText:{
       marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
-      marginHorizontal:-30,
+      marginHorizontal:-40,
       alignSelf:'center'
     },
     timer1:{
       //marginTop:Platform.OS === 'ios' ? 50 : 20,
       //marginBottom:15,
-      marginHorizontal:-30,
+      marginHorizontal:-40,
       alignSelf:'center',
       marginTop:5,
     },
@@ -523,7 +533,10 @@ const styles = StyleSheet.create({
 });
 
 
-
+/*
+//Clock icon
+<Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer0} />
+*/
  
                 
 
