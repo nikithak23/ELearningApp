@@ -15,8 +15,10 @@ import {
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
+// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
-const pic1 = require('../Images/Profile/photo1.jpeg');
+const pic1 = '../Images/Profile/photo1.jpeg';
 const pic2 = require('../Images/Profile/2photo.jpeg');
 const pic3 = require('../Images/Profile/photo3.jpeg');
 
@@ -39,6 +41,9 @@ const ProfileScreen = ({navigation, token}) => {
 
   const [Results, setResults] = useState([]);
   const [profileModalVisivle, setProfileModalVisible] = useState(false)
+  const [profilePic, setProfilePic] = useState(
+    'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
+  );
 
   console.log('nccc', profileModalVisivle);
 
@@ -193,27 +198,45 @@ const ProfileScreen = ({navigation, token}) => {
   }
 
   const changeProfile = () => {
-    setProfileModalVisible(true);
-    console.log('click', profileModalVisivle);
-    return (
-      <View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          isVisible={profileModalVisivle}>
-          <View style={styles.InModalMainContainer}>
-            <FlatList
-              horizontal={true}
-              data={profiles}
-              renderItem={renderChangeProfile}
-              keyExtractor={(item, index) => index.toString()}
-              showsHorizontalScrollIndicator={false}
-            />
-          </View>
-        </Modal>
-      </View>
-    );
+    // setProfileModalVisible(true);
+    // console.log('click', profileModalVisivle);
+    // return (
+    //   <View>
+    //     <Modal
+    //       animationType="slide"
+    //       transparent={true}
+    //       isVisible={profileModalVisivle}>
+    //       <View style={styles.InModalMainContainer}>
+    //         <FlatList
+    //           horizontal={true}
+    //           data={profiles}
+    //           renderItem={renderChangeProfile}
+    //           keyExtractor={(item, index) => index.toString()}
+    //           showsHorizontalScrollIndicator={false}
+    //         />
+    //       </View>
+    //     </Modal>
+    //   </View>
+    // );
+
+    // console.warn('choose photo')
+
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setProfilePic(image.path)
+    });
   }
+
+  // const handleImage = () => {
+  //   console.log('edit')
+  //   ImagePicker.showImagePicker({},(response)=>{
+  //     console.log('response=', response)
+  //   })
+  // }
 
   return (
     <ScrollView style={styles.MainContainer}>
@@ -262,7 +285,7 @@ const ProfileScreen = ({navigation, token}) => {
                   {/* ////////////////////// */}
                   <TouchableOpacity activeOpacity={0.8} onPress={changeProfile}>
                     <ImageBackground
-                      source={pic1}
+                      source= {{uri: profilePic}}
                       style={styles.ProfilePhotoImage1}
                       imageStyle={{
                         borderRadius: 60,
@@ -336,8 +359,8 @@ const ProfileScreen = ({navigation, token}) => {
 
       <View>
         <View style={styles.ProfilePhotoContainer}>
-          <Image 
-            source={require('../Images/Profile/photo1.jpeg')}
+          <Image
+            source={{uri: profilePic}}
             style={styles.ProfilePhotoImage}
           />
         </View>
