@@ -70,6 +70,7 @@ const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
       </View>
     );
   };
+  
   return renderDropdown();
 };
 

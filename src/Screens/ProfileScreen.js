@@ -13,7 +13,14 @@ import {
   ImageBackground,
   TextInput,
 } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
+
+const pic1 = require('../Images/Profile/photo1.jpeg');
+const pic2 = require('../Images/Profile/2photo.jpeg');
+const pic3 = require('../Images/Profile/photo3.jpeg');
+
+const profiles = [pic1, pic2, pic3];
 
 
 const ProfileScreen = ({navigation, token}) => {
@@ -31,8 +38,9 @@ const ProfileScreen = ({navigation, token}) => {
   const [name, setName] = useState(name1);
 
   const [Results, setResults] = useState([]);
+  const [profileModalVisivle, setProfileModalVisible] = useState(false)
 
-  // console.log(name1);
+  console.log('nccc', profileModalVisivle);
 
   // const [edit, setEdit] = useState(true);
   // const [name, setName] = useState('');
@@ -167,13 +175,45 @@ const ProfileScreen = ({navigation, token}) => {
   const gotoSign = async () => {
     setIsinnerVissible(false);
     setIsModalVisible(false);
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('loggedIn');
+    await AsyncStorage.removeItem('token');
     navigation.navigate('SignIn');
   };
 
   const gotoResult = () => {
     navigation.navigate('Results', {token: token, Results: Results});
   };
+
+  const renderChangeProfile = ({item}) => {
+    return(
+      <TouchableOpacity onPress={()=>setProfileModalVisible}>
+      <Image source={item} style={{height: 60, width: 60}}></Image>
+      </TouchableOpacity>
+    )
+  }
+
+  const changeProfile = () => {
+    setProfileModalVisible(true);
+    console.log('click', profileModalVisivle);
+    return (
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          isVisible={profileModalVisivle}>
+          <View style={styles.InModalMainContainer}>
+            <FlatList
+              horizontal={true}
+              data={profiles}
+              renderItem={renderChangeProfile}
+              keyExtractor={(item, index) => index.toString()}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </Modal>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.MainContainer}>
@@ -219,18 +259,21 @@ const ProfileScreen = ({navigation, token}) => {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.ProfilePhotoContainer1}>
-                  <ImageBackground
-                    source={require('../Images/Profile/photo1.jpeg')}
-                    style={styles.ProfilePhotoImage1}
-                    imageStyle={{
-                      borderRadius: 60,
-                      opacity: 0.2,
-                    }}>
-                    <Image
-                      source={require('../Images/Profile/camera.png')}
-                      style={styles.cameraImg}
-                    />
-                  </ImageBackground>
+                  {/* ////////////////////// */}
+                  <TouchableOpacity activeOpacity={0.8} onPress={changeProfile}>
+                    <ImageBackground
+                      source={pic1}
+                      style={styles.ProfilePhotoImage1}
+                      imageStyle={{
+                        borderRadius: 60,
+                        opacity: 0.2,
+                      }}>
+                      <Image
+                        source={require('../Images/Profile/camera.png')}
+                        style={styles.cameraImg}
+                      />
+                    </ImageBackground>
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.EditModalBottomContainer}>
@@ -293,7 +336,7 @@ const ProfileScreen = ({navigation, token}) => {
 
       <View>
         <View style={styles.ProfilePhotoContainer}>
-          <Image
+          <Image 
             source={require('../Images/Profile/photo1.jpeg')}
             style={styles.ProfilePhotoImage}
           />
