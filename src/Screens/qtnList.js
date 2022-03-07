@@ -11,6 +11,7 @@ const QtnList =({navigation,route})=>{
     const courseId=route?.params.courseId;
     const courseName=route?.params.courseName;
     const token=route?.params.token;
+    const key=route?.params.key;
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let n=0;
@@ -52,7 +53,7 @@ const QtnList =({navigation,route})=>{
     const renderQuestions = ({item}) => {
         return (
             <View >
-              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{cid:courseId,cName:courseName,token:token,num:item.testNumber})}}>
+              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{cid:courseId,cName:courseName,token:token,num:item.testNumber,key:key})}}>
                 <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
               </TouchableOpacity>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 import reducer from './src/Redux/reducer';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
 import MainNavig from './src/MainNavig';
 
 const App = () => {
