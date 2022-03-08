@@ -75,9 +75,9 @@ const HomeScreen = ({navigation, route, token}) => {
       console.log(err);
     }
   };
+  
+
   let len = DataRecent.length;
-
-
   useFocusEffect(
     React.useCallback(() => {
       getData();
@@ -85,6 +85,7 @@ const HomeScreen = ({navigation, route, token}) => {
       getSub();
     }, []),
   );
+  
 
 
   useEffect(() => {
@@ -173,7 +174,14 @@ const HomeScreen = ({navigation, route, token}) => {
     recentId=item.homeId;
     return (
       <Card style={styles.bottomCards}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={()=>{
+          navigation.navigate('SubjectDetails', {
+            token: token,
+            subject:item.subjectName,
+            subId:item.subjectId,
+            courseId:item.courseId,
+          });
+        }}>
           <View style={recentId%2===0?styles.imgContainer0:styles.imgContainer1}>
             <Image source={{uri: item.subjectLogo}} style={styles.img} />
           </View>
