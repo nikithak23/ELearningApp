@@ -247,7 +247,7 @@ const ProfileScreen = ({navigation, token}) => {
     setNotify(true);
     try {
       const response = await axios.delete(
-        `${baseUrl}/subject/set/notification/0`,
+        `${baseUrl}/subject/set/notification/1`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

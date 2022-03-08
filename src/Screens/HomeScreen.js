@@ -118,7 +118,7 @@ const HomeScreen = ({navigation, route, token}) => {
   }, [enteredText, Sub]);
 
   const notif = () => {
-    navigation.navigate('Notification');
+    navigation.navigate('Notification', {token: token});
   };
 
   const goSearch = async () => {
