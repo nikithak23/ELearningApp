@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text,View,TextInput,StyleSheet,Platform,ScrollView,} from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 
 const SignUpForm = ({
   name,
@@ -13,6 +14,7 @@ const SignUpForm = ({
   confirmPassword,
   setConfirmPassword,
 }) => {
+  const orientation = useOrientation();
     
   const nameCheck = () => {
     if (/[0-9]/.test(name) === true) {
@@ -44,7 +46,7 @@ const SignUpForm = ({
 
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View style={orientation.isPortrait?styles.container:styles.containerLandscape}>
           
           <TextInput
             value={name}
@@ -95,6 +97,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop:30
+  },
+  containerLandscape: {
+    flex: 1,
+    marginTop:50
   },
   inputField: {
     fontSize:20,

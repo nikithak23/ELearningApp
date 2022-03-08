@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Card} from 'react-native-cards';
 import Animated from 'react-native-reanimated';
 import {useFocusEffect} from '@react-navigation/core';
+import useOrientation from '../hooks/useOrientation';
 Icon.loadFont().then();
 
 
@@ -21,7 +22,8 @@ Icon.loadFont().then();
 
 
 const HomeScreen = ({navigation, route, token}) => {
- 
+
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
@@ -173,7 +175,7 @@ const HomeScreen = ({navigation, route, token}) => {
     let percent = item.percent + '%';
     recentId=item.homeId;
     return (
-      <Card style={styles.bottomCards}>
+      <Card style={orientation.isPortrait?styles.bottomCards:styles.bottomCardsLandscape}>
         <TouchableOpacity onPress={()=>{
           navigation.navigate('SubjectDetails', {
             token: token,
@@ -330,6 +332,15 @@ const styles = StyleSheet.create({
     height: 270,
     marginTop: 10,
     borderRadius: 18,
+  },
+  bottomCardsLandscape: {
+    marginLeft: 25,
+    backgroundColor: '#FFFFFF',
+    width: 260,
+    height: 270,
+    marginTop: 10,
+    borderRadius: 18,
+    marginBottom:90,
   },
   imgContainer0: {
     width: 260,

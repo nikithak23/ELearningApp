@@ -8,10 +8,12 @@ import {
   ScrollView,
 } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-
+import useOrientation from '../hooks/useOrientation';
 
 
 const TestResult=({navigation,route})=>{
+
+  const orientation = useOrientation();
   const percent=route?.params.percent;
   const attempted=route?.params.attempted;
   const rightAnswer=route?.params.rightAnswer;
@@ -46,7 +48,7 @@ return(
     </View>
 
     <ScrollView>
-        <View style={styles.resultContainer}>
+        <View style={orientation.isPortrait?styles.resultContainer:styles.resultContainerLandscape}>
               <CircularProgress
                 value={percent}
                 radius={80}
@@ -67,29 +69,29 @@ return(
 
               {percent!==100&&percent!==0&&timeup===0&&
               <>
-              <Text style={styles.Text1}>Bravo!</Text>
+              <Text style={orientation.isPortrait?styles.Text1:styles.Text1Landscape}>Bravo!</Text>
               <Text style={styles.Text2}>You are just {len-rightAnswer} correct questions away from 100%. You can do it.</Text>
               </>}
               {percent===100&&timeup===0&&
               <>
-              <Text style={styles.Text1}>Bravo!</Text>
+              <Text style={orientation.isPortrait?styles.Text1:styles.Text1Landscape}>Bravo!</Text>
               <Text style={styles.Text2}>Congratulations. You did it!</Text>
               </>}
               {percent===0&&timeup===0&&
               <>
-              <Text style={styles.Text1}>Alas!</Text>
+              <Text style={orientation.isPortrait?styles.Text1:styles.Text1Landscape}>Alas!</Text>
               <Text style={styles.Text2}>Go for it again, Champ. You got this!</Text>
               </>}
               {timeup===1&&
               <>
-              <Text style={styles.Text1}>Oooops!</Text>
+              <Text style={orientation.isPortrait?styles.Text1:styles.Text1Landscape}>Oooops!</Text>
               <Text style={styles.Text2}>You ran out of time.</Text>
               <Text style={styles.Text2}>Your test has been submitted by default.</Text>
               </>}
         </View>
 
         <View>
-            <TouchableOpacity style={styles.TryAgnContainer} onPress={() =>
+            <TouchableOpacity style={orientation.isPortrait?styles.TryAgnContainer:styles.TryAgnContainerLandscape} onPress={() =>
               navigation.navigate('Tests',{ 
                 cid: cid, 
                 cName: cName,
@@ -122,7 +124,6 @@ const styles = StyleSheet.create({
   header: {
   flexDirection: 'row',
   backgroundColor:'white',
-  marginBottom:17,
   },
   btn: {
   marginTop:Platform.OS === 'ios' ? 50 : 20,
@@ -134,14 +135,27 @@ const styles = StyleSheet.create({
   marginVertical:100,
   marginHorizontal:20,
   },
+  resultContainerLandscape:{
+    alignItems:'center',
+    marginVertical:50,
+    marginHorizontal:20,
+  },
   Text1:{
   textAlign:'center',
   fontSize:20,
   fontWeight:'700',
   color:'black',
   marginTop:80,
-marginBottom:7,
+  marginBottom:7,
   },
+  Text1Landscape:{
+    textAlign:'center',
+    fontSize:20,
+    fontWeight:'700',
+    color:'black',
+    marginTop:45,
+    marginBottom:7,
+    },
   Text2:{
   textAlign:'center',
   fontSize:17,
@@ -159,6 +173,15 @@ marginBottom:7,
   backgroundColor: '#4C93FF',
   alignSelf:'center',
   },
+  TryAgnContainerLandscape: {
+    height: 50,
+    width: 320,
+    borderRadius: 13,
+    backgroundColor: '#4C93FF',
+    alignSelf:'center',
+    marginBottom:50,
+    marginTop:30
+    },
   TryAgnBtn: {
   flexDirection: 'row',
   alignItems: 'center',

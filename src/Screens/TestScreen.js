@@ -4,12 +4,13 @@ import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/core';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-
+import useOrientation from '../hooks/useOrientation';
 
 
 
 const TestScreen =({navigation,route})=>{
-    
+  
+    const orientation = useOrientation();
     const courseId=route?.params.cid;
     const courseName=route?.params.cName;
     const token=route?.params.token;
@@ -198,7 +199,7 @@ const submitTest=async()=>{//Submit test api
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
         
-        <View style={styles.timer1}>
+        <View style={orientation.isPortrait?styles.timer:styles.timerLandscape}>
           <CountdownCircleTimer
             isPlaying={timer}
             key={key}
@@ -214,7 +215,7 @@ const submitTest=async()=>{//Submit test api
           >{renderTime}
           </CountdownCircleTimer>
         </View>
-        <Text style={styles.timerText} >Time remaining</Text>
+        <Text style={orientation.isPortrait?styles.timerText:styles.timerTextLandscape} >Time remaining</Text>
 
         <TouchableOpacity onPress={()=>{
           setOption('');
@@ -228,7 +229,7 @@ const submitTest=async()=>{//Submit test api
 
 
       {len!==0? (
-    <ScrollView>
+    <ScrollView style={orientation.isPortrait?null:styles.midcontainerLandscape}>
               <Text style={styles.qtn}>{questions[n].questions}</Text>
               <TouchableOpacity style={option==='A'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
                 setOption('A');
@@ -281,7 +282,7 @@ const submitTest=async()=>{//Submit test api
 
 
     <Modal isVisible={modalVisible}>
-        <View style={styles.ModalMainContainer}>
+        <View style={orientation.isPortrait?styles.ModalMainContainer:styles.ModalMainContainerLandscape}>
 
             <View style={styles.ModalTopContainer}>
               <View style={styles.ModalContainer}></View>
@@ -289,7 +290,8 @@ const submitTest=async()=>{//Submit test api
                 <Text style={styles.ModalLogoutText1}>Are you sure you want to submit the test?</Text>
             </View>
             <View style={styles.ModalBottomContainer}>
-                <TouchableOpacity style={styles.ModalNoContainer} onPress={()=>setModalVisible(false)}>
+                <TouchableOpacity style={orientation.isPortrait?styles.ModalNoContainer:styles.ModalNoContainerLandscape} 
+                                  onPress={()=>setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.ModalYesContainer} onPress={()=>{
@@ -329,20 +331,31 @@ const styles = StyleSheet.create({
       marginBottom:15,
       marginHorizontal:28,
     },
-    timer0:{
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:-17,
-      alignSelf:'center'
-    },
+    //timer0:{
+    //  marginTop:Platform.OS === 'ios' ? 50 : 20,
+    //  marginBottom:15,
+    //  marginHorizontal:-17,
+    //  alignSelf:'center'
+    //},
     timerText:{
       marginTop:Platform.OS === 'ios' ? 50 : 20,
       marginBottom:15,
       marginHorizontal:-40,
       alignSelf:'center'
     },
-    timer1:{
+    timerTextLandscape:{
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
+      marginBottom:15,
+      marginHorizontal:-180,
+      alignSelf:'center'
+    },
+    timer:{
       marginHorizontal:-40,
+      alignSelf:'center',
+      marginTop:5,
+    },
+    timerLandscape:{
+      marginHorizontal:-180,
       alignSelf:'center',
       marginTop:5,
     },
@@ -370,6 +383,9 @@ const styles = StyleSheet.create({
       marginLeft:28,
       fontSize:14
     },
+    midcontainerLandscape:{
+      marginBottom:90,
+    },
   qtn: {
     fontSize: 20,
     lineHeight:28,
@@ -381,8 +397,6 @@ const styles = StyleSheet.create({
     marginHorizontal:28
   },
   optionContainer:{
-    //borderColor:'black',
-    //borderWidth:1,
     borderRadius:25,
     marginVertical:5,
     backgroundColor:'white',
@@ -417,6 +431,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -18,
     height: '35%',
+    width: '100%',
+    marginRight: 20,
+    borderRadius: 15,
+  },
+  ModalMainContainerLandscape: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: -18,
+    height: '80%',
     width: '100%',
     marginRight: 20,
     borderRadius: 15,
@@ -460,7 +483,17 @@ const styles = StyleSheet.create({
     width: 125,
     borderWidth: 2,
     borderRadius: 13,
-    marginLeft: 31,
+    marginLeft: 35,
+    borderColor: '#4C93FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ModalNoContainerLandscape: {
+    height: 55,
+    width: 125,
+    borderWidth: 2,
+    borderRadius: 13,
+    marginLeft: 185,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
