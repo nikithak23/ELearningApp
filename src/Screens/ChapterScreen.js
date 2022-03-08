@@ -10,13 +10,14 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 // import VideoPlayer from 'react-native-video-player';
 import Video from 'react-native-video';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {ScrollView} from 'react-native-gesture-handler';
+// import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 
 const ChapterScreen = ({navigation, route}) => {
@@ -24,6 +25,9 @@ const ChapterScreen = ({navigation, route}) => {
   const chapterId = route?.params.chapterId;
   const chapterNumber = route?.params.chapterNumber;
   const chapterName = route?.params.chapterName;
+  const cid = route?.params.cid;
+  const cName = route?.params.cName;
+
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
   const lessonName = route?.params.lessonName;
@@ -118,6 +122,7 @@ const ChapterScreen = ({navigation, route}) => {
     //store favourite list
     try {
       const currentItems = await AsyncStorage.getItem('liked');
+
       let json = currentItems === null ? [] : JSON.parse(currentItems);
       if (json.some(element => element.id === newItem[0]) === false) {
         json.push(newItem);
@@ -151,6 +156,8 @@ const ChapterScreen = ({navigation, route}) => {
                 token: token,
                 lName: lessonName,
                 lId: lessonId,
+                cId: cid,
+                cName: cName,
               })
             }>
             <Image
@@ -250,9 +257,9 @@ const ChapterScreen = ({navigation, route}) => {
                     </View>
                   </TouchableOpacity>
                 ) : (
-                  <TouchableOpacity activeOpacity={1}
-                    style={styles.ModalYesContainer}
-                    >
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    style={styles.ModalYesContainer}>
                     <View style={styles.ModalYesView}>
                       <Text style={styles.ModalYesText}>Ok</Text>
                       <Image
@@ -361,7 +368,7 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 30,
     marginHorizontal: 32,
-    marginBottom : 200,
+    marginBottom: 200,
     // textAlign: 'left',
     textAlign: 'justify',
     color: '#4D5060',

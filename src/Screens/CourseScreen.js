@@ -127,6 +127,8 @@ const CourseScreen = ({navigation, route}) => {
               chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
+              cid: cid,
+              cName: cName,
             })
           }
           style={styles.listComponent}>
