@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity,ScrollView,FlatList} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, {useState} from 'react';
+import {Text, Image, View, StyleSheet,TouchableOpacity,ScrollView,FlatList} from 'react-native';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
 
@@ -16,12 +15,9 @@ const QtnList =({navigation,route})=>{
     const [questions,setQuestions] = useState([]);
     let n=0;
     
-    //const courseId=1;
-    //const courseName='Introduction to Physics';
-    //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzI2MTg3LCJpYXQiOjE2NDYzMDgxODd9.b5gSXYhPa6PU_YQXlOQ3e1FmK-Ty3lIsSVcVEGQGbw3tMODjdtTOf_geLOL-AES5ri8u0K0k5WCzcOPqAddy0g';
-  
 
-    const getQtns = async () => {//Recently studied api
+
+    const getQtns = async () => {//Get questions api
       try {
         const response = await axios.get(`${baseUrl}/subject/gettest/${courseId}`, {
           headers: {
@@ -34,14 +30,9 @@ const QtnList =({navigation,route})=>{
         console.log(err);
       }
     };
-      //console.log('Questions', questions);
-      let len=questions.length;
-      console.log('len',len);
+    let len=questions.length;
 
-      /*useEffect(()=>{
-        getQtns();
-        },[])
-       */
+
     useFocusEffect(React.useCallback(() => {
           getQtns();
         }, []),
@@ -49,15 +40,23 @@ const QtnList =({navigation,route})=>{
 
 
 
-//{console.log(item.id%10)}
+
     const renderQuestions = ({item}) => {
         return (
-            <View >
-              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{navigation.navigate('Tests',{cid:courseId,cName:courseName,token:token,num:item.testNumber,key:key})}}>
+            <ScrollView>
+              <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{
+                navigation.navigate('Tests',{
+                  cid:courseId,
+                  cName:courseName,
+                  token:token,
+                  num:item.testNumber,
+                  key:key}
+                  )}
+                  }>
                 <Text style={styles.qtnNo}>{item.testNumber}.</Text>
                 <Text style={styles.qtn}>{item.questions}</Text>
               </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
     };
         
@@ -66,10 +65,10 @@ const QtnList =({navigation,route})=>{
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
-        <Image source={require('../Images/TestPage/btnBack.png')} style={styles.btn} />
-        </TouchableOpacity >
-        <Text style={styles.headerTxt} >Questions</Text>
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
+            <Image source={require('../Images/TestPage/btnBack.png')} style={styles.btn} />
+          </TouchableOpacity >
+          <Text style={styles.headerTxt} >Questions</Text>
       </View>
 
 
@@ -82,7 +81,7 @@ const QtnList =({navigation,route})=>{
       ):null}
      
     </View>
-    )
+  )
 }
 export default QtnList;
 
@@ -100,37 +99,36 @@ const styles = StyleSheet.create({
     marginBottom:17,
     },
     btn: {
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:28,
+    marginTop:Platform.OS === 'ios' ? 50 : 20,
+    marginBottom:15,
+    marginHorizontal:28,
     },
     headerTxt:{
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:80,
-      color:'black',
-      fontSize:15,
-      fontWeight:'500'
+    marginTop:Platform.OS === 'ios' ? 50 : 20,
+    marginBottom:15,
+    marginHorizontal:80,
+    color:'black',
+    fontSize:15,
+    fontWeight:'500'
     },
     qtnNo: {
-        fontSize: 15,
-        lineHeight:20,
-        color: 'black',
-        fontWeight:'500',
-        textAlign:'left',
-        marginVertical:15,
-        marginLeft:20
-      },
+    fontSize: 15,
+    lineHeight:20,
+    color: 'black',
+    fontWeight:'500',
+    textAlign:'left',
+    marginVertical:15,
+    marginLeft:20
+    },
     qtn: {
-        fontSize: 15,
-        lineHeight:20,
-        color: 'black',
-        fontWeight:'500',
-        textAlign:'left',
-        marginVertical:15,
-        marginLeft:22,
-        width:'83%'
-      },
-    
+    fontSize: 15,
+    lineHeight:20,
+    color: 'black',
+    fontWeight:'500',
+    textAlign:'left',
+    marginVertical:15,
+    marginLeft:22,
+    width:'83%'
+   },
 });
 

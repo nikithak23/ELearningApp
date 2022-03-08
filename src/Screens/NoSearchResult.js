@@ -2,33 +2,29 @@ import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import {StackActions} from '@react-navigation/native';
-/*
-const Subjects = [
-  {title: 'Physics'},
-  {title: 'Biology'},
-  {title: 'Chemistry'},
-  {title: 'Mathematics'},
-  {title: 'Geography'},
-  {title: 'Art and culture'},
-];
-*/
+
+
+
 const NoSearchResult=({navigation,route})=> {
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token=route.params.token;
-  //console.log(token);
+
+
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
   let [Sub, setSub] = useState([]);
 
-  const getSub = async () => {//Recently studied api
+
+
+
+  const getSub = async () => {//Get subjects api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      //console.log(response.status);
       setSub(response.data.data);
     } catch (err) {
       console.log(err);
@@ -41,18 +37,17 @@ const NoSearchResult=({navigation,route})=> {
 
 
 
-
   useEffect (() => {
     setSearchedItems(Sub.filter(item=>
-        {return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());}
-        ),
+        {return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());
+        }),
         );
     },[enteredText,Sub]);
 
 
 
 
-  const goSearch=async()=>{
+  const goSearch = async() => {
     if(enteredText){
       console.log(enteredText);
       try {
@@ -61,7 +56,7 @@ const NoSearchResult=({navigation,route})=> {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.status);
+        //console.log(response.status);
         let subjectData=response.data.data;
         let subName=subjectData[0].subjectName;
         let subId=subjectData[0].subjectId;
@@ -81,11 +76,10 @@ const NoSearchResult=({navigation,route})=> {
         console.log(err);
         alert('Enter a valid Search Item');
       }
-  }
-
-  else{
-    alert('Enter a Search Item');
-  }
+    }
+    else{
+        alert('Enter a Search Item');
+      }
   }
 
 
@@ -100,37 +94,41 @@ const NoSearchResult=({navigation,route})=> {
         <Text style={styles.search}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
-    
     );
   }
+
   const searchSuggestions = () => {
     return (
     <View>
-     {searchedItems.length <= 0 ? null:
-        (   <FlatList
+      {searchedItems.length <= 0 ? null:(
+          <FlatList
             data={searchedItems}
             keyExtractor = {(item, index)=> index.toString()}
             horizontal={false}
             showVerticalScrollIndicator={false}
-            renderItem={renderSearchList}/>
-        )}
+            renderItem={renderSearchList}
+          />
+          )}
     </View>
-    );
+  );
 }
 
 
 
 return(
-<View style={styles.container}>
+  <View style={styles.container}>
+
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={require('../Images/Search/btnBack.png')} style={styles.btnBack} />
       </TouchableOpacity>
-      <Text style={styles.title}>Search Result</Text>
-      <Image style={styles.image} source={require('../Images/Search/notFound.png')}/>
-      <Text style={styles.text}>Not Found</Text>
-      <Text style={styles.desc}>Search not found please try again</Text>
 
-      <View style={styles.searchContainer}>
+      <ScrollView>
+          <Text style={styles.title}>Search Result</Text>
+          <Image style={styles.image} source={require('../Images/Search/notFound.png')}/>
+          <Text style={styles.text}>Not Found</Text>
+          <Text style={styles.desc}>Search not found please try again</Text>
+
+          <View style={styles.searchContainer}>
             <TextInput
                 onChangeText={value => setEnteredText(value)} 
                 value={enteredText}
@@ -139,10 +137,12 @@ return(
             <TouchableOpacity onPress={goSearch}>
               <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
             </TouchableOpacity>
-         </View>
-            <View style={{alignItems:'flex-start'}}>
+          </View>
+
+          <View style={{alignItems:'flex-start'}}>
             {enteredText !== '' ? searchSuggestions() : null}
-            </View>
+          </View>
+      </ScrollView> 
 
 </View>
 )};
@@ -153,13 +153,9 @@ export default NoSearchResult;
 const styles = StyleSheet.create({
     container: {
       height: '100%',
-      width: '100%',
-      //justifyContent: 'center',
-      //alignItems: 'center',
-      //backgroundColor:'#4C93FF',
     },
     btnBack: {
-      marginTop: 32,
+      marginTop: Platform.OS === 'ios' ? 50 : 32,
       marginHorizontal:32,
     },
     title:{
@@ -200,14 +196,14 @@ const styles = StyleSheet.create({
       marginHorizontal:30,
     },
     input: {
-    flex:1,
-    color:'black',
-    fontSize:20,
-    paddingHorizontal:15,
+      flex:1,
+      color:'black',
+      fontSize:20,
+      paddingHorizontal:15,
     },
     searchIcon:{
-    marginTop:18,
-    marginHorizontal:-4
+      marginTop:18,
+      marginHorizontal:-4
     },
     search: {
       color:'black',
@@ -217,5 +213,4 @@ const styles = StyleSheet.create({
       marginHorizontal:30,
       marginVertical:3,
     },
-
   });
