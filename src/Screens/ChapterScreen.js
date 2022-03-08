@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 // import VideoPlayer from 'react-native-video-player';
 import Video from 'react-native-video';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 
@@ -113,17 +113,29 @@ const ChapterScreen = ({navigation, route}) => {
     setModalVisible(false);
   };
 
+  useEffect(()=>{
+    const retrievelikes = async() => {
+       try{
+        const currentItems = await AsyncStorage.getItem('liked');
+        let json = currentItems === null ? [] : JSON.parse(currentItems);
+        setLikedItems(json)
+       }catch(e){
+         console.log(e)
+       }
+    }
+    retrievelikes()
+  })
+
   //This is for storing liked list
   const persistLikedlist = async newItem => {
-    //store favourite list
     try {
       const currentItems = await AsyncStorage.getItem('liked');
       let json = currentItems === null ? [] : JSON.parse(currentItems);
-      if (json.some(element => element.id === newItem[0]) === false) {
+      if (json.toString().includes(newItem.toString()) === false) {
         json.push(newItem);
         setLikedItems(json);
       } else {
-        Alert.alert('', 'Already added to Favourite list');
+        Alert.alert('', 'Already added in Likes');
       }
       //update Async Storage
       await AsyncStorage.setItem('liked', JSON.stringify(json));
@@ -160,13 +172,22 @@ const ChapterScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
         <View style={styles.topLeft}>
-          <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
-            <Image
-              source={require('../Images/Subject/heart.png')}
-              // style={styles.heartimg}
-              style={styles.touchableheart}
+          {likedItems.toString().includes(lessonChap.toString()) ? (
+            <Icon
+              
+              name="heart"
+              size={28}
+              style={styles.liked}
             />
-          </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
+              <Image
+                source={require('../Images/Subject/heart.png')}
+                // style={styles.heartimg}
+                style={styles.touchableheart}
+              />
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Image
@@ -250,9 +271,9 @@ const ChapterScreen = ({navigation, route}) => {
                     </View>
                   </TouchableOpacity>
                 ) : (
-                  <TouchableOpacity activeOpacity={1}
-                    style={styles.ModalYesContainer}
-                    >
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    style={styles.ModalYesContainer}>
                     <View style={styles.ModalYesView}>
                       <Text style={styles.ModalYesText}>Ok</Text>
                       <Image
@@ -361,7 +382,7 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 30,
     marginHorizontal: 32,
-    marginBottom : 200,
+    marginBottom: 200,
     // textAlign: 'left',
     textAlign: 'justify',
     color: '#4D5060',
@@ -538,5 +559,12 @@ const styles = StyleSheet.create({
   ModalYesImg: {
     width: 24,
     height: 24,
+  },
+  liked: {
+    color: '#1b7ced',
+    height: 25,
+    width: 26,
+    marginRight: 40,
+    marginTop: -3
   },
 });
