@@ -1,47 +1,9 @@
-/*import React from 'react';
-import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
-
-const SignUp = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SignUp Page 1</Text>
-      <Text style={styles.title}>SignUp Page two</Text>
-      <Text style={styles.title}>SignUp Page three</Text>
-      <Text style={styles.title}>SignUp Page ten</Text>
-      <Text style={styles.title}>SignUp Page 11</Text>
-      <Text style={styles.title}>SignUp Page 13</Text>
-      <Text style={styles.title}>SignUp Page 12</Text>
-      <Text style={styles.title}>SignUp Page</Text>
-      <Text style={styles.title}>hii</Text>
-      <Text style={styles.title}>Hello, Welcome</Text>
-      <Text style={styles.title}>Hello, Welcome 123</Text>
-      <Text style={styles.title}>E Learnng App</Text>
-
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor:'#4C93FF',
-  },
-  title: {
-    fontSize: 16,
-    color: 'black',
-  },
-});
-export default SignUpScreen;
-*/
-
 import React, {useState} from 'react';
 import axios from "axios";
-import {Text,View,Button,Image,StyleSheet,TouchableOpacity,} from 'react-native';
+import {Text,View,Button,Image,StyleSheet,TouchableOpacity,ScrollView} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
+
 
 const SignUpScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -51,22 +13,18 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //const [otp,setOTP]=useState('');
-  //const [data,setData]=useState('');
+  const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
-const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
  const signIn = () => {
     navigation.navigate('SignIn');
   };
-  //const otpCall = async ()=>{
-  //  setOTP(data);
-  //}
+ 
+
   
 
   const validation = async () => {   //Inorder to use 'await' define the ASYNC keyword at function declaration time
-    if (/[0-9]/.test(name) === false &&username &&password &&//email.includes('@') &&
-      password === confirmPassword) {
+    if (/[0-9]/.test(name) === false &&username &&password && password === confirmPassword) {
       setIsValid(true);
       setIsLoading(true);
 
@@ -77,20 +35,17 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           username,
           password
         });
-        //setData(response.data.data);
+     
         console.log(response.status)
         if (response.status === 200) {
           let otp=response.data.data;
-           
-          //await otpCall();
           console.log(response.data);
           console.log(response.data.resultInfo.message);
           console.log(otp);
           setIsLoading(false);
            await navigation.dispatch(
-            StackActions.push('Authentication', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
+            StackActions.push('Authentication', {  
               name: name,
-              //email:email,
               phone: username,
               otp:otp,
               forgotPassword: false
@@ -103,8 +58,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           alert("An error has occured");
         }
       } catch (error) {
-        console.log(error);
-        //console.log(response);
+        //console.log(error);
         alert("Username already exists");
         setIsLoading(false);
       }
@@ -118,7 +72,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
           <View style={styles.headerContainer1}>
           <View style={styles.headerContainer2}></View>
             <Image
@@ -170,7 +124,7 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
               <Text style={styles.signinText}>Sign In</Text>
             </TouchableOpacity>
           </View>
-      </View>
+      </ScrollView>
     );
   };
 
