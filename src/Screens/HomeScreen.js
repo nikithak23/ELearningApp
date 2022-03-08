@@ -11,52 +11,40 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-  Card,
-  CardTitle,
-  CardContent,
-  CardAction,
-  CardButton,
-  CardImage,
-} from 'react-native-cards';
+import {Card} from 'react-native-cards';
 import Animated from 'react-native-reanimated';
 import {useFocusEffect} from '@react-navigation/core';
 Icon.loadFont().then();
 
-/*
-const Subjects = [
-  {title: 'Physics'},
-  {title: 'Biology'},
-  {title: 'Chemistry'},
-  {title: 'Mathematics'},
-  {title: 'Geography'},
-  {title: 'Art and culture'},
-];
-*/
+
+
+
 
 const HomeScreen = ({navigation, route, token}) => {
-  //console.log(token);
+ 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
   let [DataRecent, setDataRecent] = useState([]);
   let [Sub, setSub] = useState([]);
   let [userName, setUserName] = useState('');
+  let recentId;
 
-  const getName = async () => {
-    //Name Api
+
+
+  const getName = async () => {//Name Api
     try {
       const resp = await axios.get(`${baseUrl}/subject/get/name`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      //console.log(resp.status);
       setUserName(resp.data.data.toUpperCase());
     } catch (err) {
       console.log(err);
     }
   };
+
 
   const getData = async () => {
     //Recently studied api
@@ -69,29 +57,26 @@ const HomeScreen = ({navigation, route, token}) => {
       console.log(response.status);
       setDataRecent(response.data.data);
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   };
 
+
   const getSub = async () => {
-    //Recently studied api
+    //Subject api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      //console.log(response.status);
       setSub(response.data.data);
     } catch (err) {
       console.log(err);
     }
   };
-  //console.log('RecData', DataRecent);
-  //console.log('Name',userName);
-  //console.log('Data length',len)
-  //console.log('Subjects',Sub)
   let len = DataRecent.length;
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -100,16 +85,11 @@ const HomeScreen = ({navigation, route, token}) => {
       getSub();
     }, []),
   );
-  // useEffect(()=>{
-  //   getData();
-  //   getName();
-  //   getSub();
-  // },[])
+
 
   useEffect(() => {
     setSearchedItems(
       Sub.filter(item => {
-        //console.log(item.subjectName);
         return item.subjectName
           .toLowerCase()
           .includes(enteredText.toLowerCase());
@@ -117,9 +97,11 @@ const HomeScreen = ({navigation, route, token}) => {
     );
   }, [enteredText, Sub]);
 
+
   const notif = () => {
-    navigation.navigate('Notification');
+    navigation.navigate('Notification', {token: token});
   };
+
 
   const goSearch = async () => {
     if (enteredText) {
@@ -137,7 +119,6 @@ const HomeScreen = ({navigation, route, token}) => {
         let subjectData = response.data.data;
         let subName = subjectData[0].subjectName;
         let subId = subjectData[0].subjectId;
-        console.log(subName);
         if (response.status === 200) {
           setEnteredText('');
           navigation.navigate('SubjectDetails', {
@@ -150,12 +131,12 @@ const HomeScreen = ({navigation, route, token}) => {
         setEnteredText('');
         console.log(err);
         navigation.navigate('NoSearch', {token: token});
-        //alert('Enter a valid Search Item');
       }
     } else {
       alert('Enter a Search Item');
     }
   };
+
 
   const renderSearchList = ({item}) => {
     return (
@@ -170,7 +151,6 @@ const HomeScreen = ({navigation, route, token}) => {
       </View>
     );
   };
-
   const searchSuggestions = () => {
     return (
       <View>
@@ -187,17 +167,19 @@ const HomeScreen = ({navigation, route, token}) => {
     );
   };
 
+
   const renderCurrentStud = ({item}) => {
-    //let percent='100%';
     let percent = item.percent + '%';
+    recentId=item.homeId;
     return (
       <Card style={styles.bottomCards}>
-        <View style={styles.imgContainer}>
-          <Image source={{uri: item.subjectLogo}} style={styles.img} />
-        </View>
-        <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
-        <Text style={styles.ChapName}>{item.courseName}</Text>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity >
+          <View style={recentId%2===0?styles.imgContainer0:styles.imgContainer1}>
+            <Image source={{uri: item.subjectLogo}} style={styles.img} />
+          </View>
+          <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
+          <Text style={styles.ChapName}>{item.courseName}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.progressBar}>
             <Animated.View
               style={
@@ -207,59 +189,63 @@ const HomeScreen = ({navigation, route, token}) => {
             />
           </View>
           <Text style={styles.percentText}>{item.percent}% </Text>
-        </View>
+          </View>
+        </TouchableOpacity>
       </Card>
     );
   };
 
+
+
   return (
     <View style={{backgroundColor: '#f6f8fa'}}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={notif}>
-          <Icon
-            name="notifications-outline"
-            size={33}
-            color="#8E8F93"
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.container}>
-        <Text style={styles.greet}>Hi, {userName}</Text>
-        <Text style={styles.desc}>What would you like to study today?</Text>
-        <Text style={styles.desc}>you can search below.</Text>
-
-        <View style={styles.searchContainer}>
-          <TextInput
-            onChangeText={value => setEnteredText(value)}
-            value={enteredText}
-            style={styles.input}
-          />
-          <TouchableOpacity onPress={goSearch}>
-            <Image
-              source={require('../Images/Search/searchIcon.png')}
-              style={styles.searchIcon}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={notif}>
+            <Icon
+              name="notifications-outline"
+              size={33}
+              color="#8E8F93"
+              style={styles.icon}
             />
           </TouchableOpacity>
         </View>
-        <View style={{alignItems: 'flex-start'}}>
-          {enteredText !== '' ? searchSuggestions() : null}
-        </View>
 
-        {len !== 0 ? (
-          <View>
-            <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
-            <FlatList
-              data={DataRecent}
-              renderItem={renderCurrentStud}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
+      <ScrollView style={styles.container}>
+          <Text style={styles.greet}>Hi, {userName}</Text>
+          <Text style={styles.desc}>What would you like to study today?</Text>
+          <Text style={styles.desc}>you can search below.</Text>
+
+          <View style={styles.searchContainer}>
+            <TextInput
+              onChangeText={value => setEnteredText(value)}
+              value={enteredText}
+              style={styles.input}
             />
+            <TouchableOpacity onPress={goSearch}>
+              <Image
+                source={require('../Images/Search/searchIcon.png')}
+                style={styles.searchIcon}
+              />
+            </TouchableOpacity>
           </View>
-        ) : null}
-      </View>
+          <View style={{alignItems: 'flex-start'}}>
+            {enteredText !== '' ? searchSuggestions() : null}
+          </View>
+
+          {len !== 0 ? (
+            <View>
+              <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
+              <FlatList
+                data={DataRecent}
+                renderItem={renderCurrentStud}
+                keyExtractor={(item, index) => index.toString()}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          ) : null}
+      </ScrollView>
+
     </View>
   );
 };
@@ -337,12 +323,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 18,
   },
-  imgContainer: {
+  imgContainer0: {
     width: 260,
     height: 160,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
-    backgroundColor: '#FFA4A4',
+    backgroundColor:'#FFA4A4',
+  },
+  imgContainer1: {
+    width: 260,
+    height: 160,
+    borderTopRightRadius: 18,
+    borderTopLeftRadius: 18,
+    backgroundColor:'#A4C5FF',
   },
   img: {
     height: 80,
@@ -368,7 +361,6 @@ const styles = StyleSheet.create({
     color: 'green',
     fontSize: 13,
     fontWeight: '400',
-    //paddingHorizontal:0,
     paddingTop: 6,
   },
   progressBar: {
@@ -376,11 +368,11 @@ const styles = StyleSheet.create({
     width: '70%',
     flexDirection: 'row',
     backgroundColor: '#8E8F93',
-    //borderColor: 'black',
-    //borderWidth: 2,
-    //borderRadius: 5,
     marginTop: 10,
     marginHorizontal: 10,
   },
 });
 export default HomeScreen;
+
+
+

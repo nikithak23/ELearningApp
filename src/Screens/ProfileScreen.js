@@ -70,7 +70,21 @@ const ProfileScreen = ({navigation, token}) => {
   };
   useEffect(() => {
     getResults();
-    // setFilterFlatlist(Results);
+    // const retrieve = async () => {
+    //   try {
+    //     const value = await AsyncStorage.getItem('profilePhoto');
+    //     if (value !== null) {
+    //       // We have data!!
+    //       console.log('storeedddd', value);
+    //       setProfilePic(value)
+    //     }else{
+    //       console.warn('store unsuccess')
+    //     }
+    //   } catch (error) {
+    //     console.log('error storing pic')
+    //   }
+    // };
+    // retrieve()
   }, []);
 
   const getProfileData = async () => {
@@ -189,54 +203,62 @@ const ProfileScreen = ({navigation, token}) => {
     navigation.navigate('Results', {token: token, Results: Results});
   };
 
-  const renderChangeProfile = ({item}) => {
-    return(
-      <TouchableOpacity onPress={()=>setProfileModalVisible}>
-      <Image source={item} style={{height: 60, width: 60}}></Image>
-      </TouchableOpacity>
-    )
+  const storeProfile = async() => {
+    try {
+      //await AsyncStorage.removeItem('profilePhoto');
+      const pp = await AsyncStorage.setItem('profilePhoto', profilePic);
+      //await AsyncStorage.removeItem('profilePhoto');
+      console.log('ppppimmmmggg ', pp);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const changeProfile = async() => {
+       ImagePicker.openPicker({
+         width: 300,
+         height: 400,
+         cropping: true,
+       }).then(image => {
+         console.log(image);
+         setProfilePic(image.path);
+         console.log('imgggggggg', profilePic);
+       });
+      storeProfile()
   }
 
-  const changeProfile = () => {
-    // setProfileModalVisible(true);
-    // console.log('click', profileModalVisivle);
-    // return (
-    //   <View>
-    //     <Modal
-    //       animationType="slide"
-    //       transparent={true}
-    //       isVisible={profileModalVisivle}>
-    //       <View style={styles.InModalMainContainer}>
-    //         <FlatList
-    //           horizontal={true}
-    //           data={profiles}
-    //           renderItem={renderChangeProfile}
-    //           keyExtractor={(item, index) => index.toString()}
-    //           showsHorizontalScrollIndicator={false}
-    //         />
-    //       </View>
-    //     </Modal>
-    //   </View>
-    // );
-
-    // console.warn('choose photo')
-
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      console.log(image);
-      setProfilePic(image.path)
-    });
+  const notifFalse = async() => {
+     setNotify(false);
+     try {
+       const response = await axios.delete(
+         `${baseUrl}/subject/set/notification/0`,
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         },
+       );
+       console.log('notiffffff fail', response.data.data);
+     } catch (err) {
+       console.log(err);
+     }
   }
 
-  // const handleImage = () => {
-  //   console.log('edit')
-  //   ImagePicker.showImagePicker({},(response)=>{
-  //     console.log('response=', response)
-  //   })
-  // }
+  const notifTrue = async () => {
+    setNotify(true);
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/subject/set/notification/1`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('notiffffff true', response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <ScrollView style={styles.MainContainer}>
@@ -285,7 +307,7 @@ const ProfileScreen = ({navigation, token}) => {
                   {/* ////////////////////// */}
                   <TouchableOpacity activeOpacity={0.8} onPress={changeProfile}>
                     <ImageBackground
-                      source= {{uri: profilePic}}
+                      source={{uri: profilePic}}
                       style={styles.ProfilePhotoImage1}
                       imageStyle={{
                         borderRadius: 60,
@@ -359,10 +381,7 @@ const ProfileScreen = ({navigation, token}) => {
 
       <View>
         <View style={styles.ProfilePhotoContainer}>
-          <Image
-            source={{uri: profilePic}}
-            style={styles.ProfilePhotoImage}
-          />
+          <Image source={{uri: profilePic}} style={styles.ProfilePhotoImage} />
         </View>
         <View style={styles.ProfileNameView}>
           {/* <Text style={styles.ProfileName}>Prallav Raj</Text> */}
@@ -460,7 +479,7 @@ const ProfileScreen = ({navigation, token}) => {
             </Text>
           </View>
           {notify === true && (
-            <TouchableOpacity onPress={() => setNotify(false)}>
+            <TouchableOpacity onPress={() => notifFalse()}>
               <View style={styles.ActiveNotification1}>
                 <View style={styles.ActiveNotification2}></View>
               </View>
@@ -468,7 +487,7 @@ const ProfileScreen = ({navigation, token}) => {
           )}
 
           {notify === false && (
-            <TouchableOpacity onPress={() => setNotify(true)}>
+            <TouchableOpacity onPress={() => notifTrue()}>
               <View style={styles.InActiveNotification1}>
                 <View style={styles.InActiveNotification2}></View>
               </View>

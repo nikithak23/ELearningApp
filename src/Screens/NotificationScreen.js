@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/core';
 
 const btnBack = require('../Images/Notification/btnback.png');
 const NotificationData = [
@@ -17,17 +19,52 @@ const NotificationData = [
   },
 ];
 
-const NotificationScreen = ({navigation}) => {
+const NotificationScreen = ({navigation, route}) => {
+  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+  const token = route?.params.token;
+  const [notif, setNotif] = useState([])
+  const [date, setDate] = useState(new Date().toUTCString())
+  const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
+  useEffect(()=> {
+    getNotifs();
+  },[notif])
+
+  useFocusEffect(
+    React.useCallback(()=>{
+      
+      console.log('date',date)
+    })
+  )
+
+  const getNotifs = async() => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/subject/notification`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('notiffffff ', response.data.data);
+      setNotif(response.data.data)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const renderNotifications = ({item}) => {
+    let time = date.match(timeRegex)
+    console.log('time', '========', time[0])
     return (
       <View style={styles.component}>
         <View>
           <View style={styles.row}>
-            <Text style={styles.subtitle}>{item.title}</Text>
-            <Text style={styles.time}>Just now</Text>
+            <Text style={styles.subtitle}>{item.notificationHeader}</Text>
+            <Text style={styles.time}>{item.time}</Text>
           </View>
 
-          <Text style={styles.notif}>{item.desc}</Text>
+          <Text style={styles.notif}>{item.notificationContent}</Text>
         </View>
       </View>
     );
@@ -39,7 +76,7 @@ const NotificationScreen = ({navigation}) => {
       </TouchableOpacity>
       <Text style={styles.title}>Notifications</Text>
       <FlatList
-        data={NotificationData}
+        data={notif}
         renderItem={renderNotifications}
         keyExtractor={(item, index) => index.toString()}
       />

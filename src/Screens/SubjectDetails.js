@@ -77,24 +77,24 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
-  const getChaps = async (id) => {
-    try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/chapters/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setChapters(response.data.data);
-      console.log(chapters[0].lessonId)
-      console.log('ccc',chapters)
-      setLoading(false)
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getChaps = async (id) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${baseUrl}/subject/get/chapters/${id}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
+  //     setChapters(response.data.data);
+  //     console.log(chapters[0].lessonId)
+  //     console.log('ccc',chapters)
+  //     setLoading(false)
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     getCourses();
@@ -138,52 +138,52 @@ const SubjectDetails = ({navigation, route}) => {
     );
   };
 
-  const renderChap = ({item, index}) => {
-    {
-      if(loading === true){
-        return(
-          <> 
-          </>
-        )
-      }else{
-        return (
-          <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={
-        ()=>{
-          navigation.navigate('CourseScreen', {
-            lId: lId,
-            lName: lName,
-            token: token,
-            cId: courseId,
-            cName: courseName,
-            lSummary: lSummary,
-          })
-        }
-      }>
-        <View style={styles.column}>
-          <View style={styles.progressLine}></View>
-          <Icon name="checkmark-sharp" size={21} style={styles.tick} />
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.chaps}>
-            {item.chapterName}
-          </Text>
-          <Text style={styles.summary}>{item.summary}</Text>
-        </View>
-      </TouchableOpacity>
-        )
-      }
-    }
+  // const renderChap = ({item, index}) => {
+  //   {
+  //     if(loading === true){
+  //       return(
+  //         <> 
+  //         </>
+  //       )
+  //     }else{
+  //       return (
+  //         <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={
+  //       ()=>{
+  //         navigation.navigate('CourseScreen', {
+  //           lId: lId,
+  //           lName: lName,
+  //           token: token,
+  //           cId: courseId,
+  //           cName: courseName,
+  //           lSummary: lSummary,
+  //         })
+  //       }
+  //     }>
+  //       <View style={styles.column}>
+  //         <View style={styles.progressLine}></View>
+  //         <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+  //       </View>
+  //       <View style={styles.column}>
+  //         <Text style={styles.chaps}>
+  //           {item.chapterName}
+  //         </Text>
+  //         <Text style={styles.summary}>{item.summary}</Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //       )
+  //     }
+  //   }
       
-  };
+  // };
   
-  const onPressLesson = (item) => {
-    setLId(item.lessonId),
-    console.log(lId)
-    setLName(item.lessonName), 
-    setLSummary(item.summary), 
-    getChaps(lId),
-    setLoading(true)
-   }
+  // const onPressLesson = (item) => {
+  //   setLId(item.lessonId),
+  //   console.log(lId)
+  //   setLName(item.lessonName), 
+  //   setLSummary(item.summary), 
+  //   getChaps(lId),
+  //   setLoading(true)
+  //  }
   const renderLesson = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -269,10 +269,11 @@ const SubjectDetails = ({navigation, route}) => {
     React.useCallback(() => {
       try {
         initialiseLikedList();
+        
       } catch (err) {
         console.log(err);
       }
-    }, []),
+    }, [likedList]),
   );
 
   const initialiseLikedList = async () => {
@@ -283,6 +284,7 @@ const SubjectDetails = ({navigation, route}) => {
       setEmpty(false);
       setLikedList(JSON.parse(currentItems));
       console.log('likeddd', likedList)
+      likedList.length === 0 ? setEmpty(true) : null;
     }
     dispatch({
       type: 'UPDATE_LIKED_LIST',

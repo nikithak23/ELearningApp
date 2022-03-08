@@ -11,12 +11,14 @@ import {
   TextInput,
   Button,
 } from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 
 const btnAble = require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
 
 const AuthenticationScreen = ({navigation,route}) => {
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   let textInput = useRef(null);
   const lengthInput = 4;
@@ -87,7 +89,7 @@ const AuthenticationScreen = ({navigation,route}) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
         <View style={styles.rectangle2}>
           <View style={styles.rectangle1}></View>
@@ -99,7 +101,7 @@ const AuthenticationScreen = ({navigation,route}) => {
           ) : (
             <Text style={styles.title}>Verify Account</Text>
           )}
-          <Text style={styles.text}>
+          <Text style={orientation.isPortrait? styles.text : styles.textls}>
             Enter verification code that we have sent to your phone.
           </Text>
         </View>
@@ -171,7 +173,7 @@ const AuthenticationScreen = ({navigation,route}) => {
           )}
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -212,6 +214,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   text: {
+    fontSize: 16,
+    fontWeight: '500',
+    width: 290,
+    marginTop: 5,
+    marginLeft: 40,
+    color: 'black',
+    transform: [{rotate: '12deg'}],
+    color: '#ffffff',
+  },
+  textls: {
     fontSize: 16,
     fontWeight: '500',
     width: 290,

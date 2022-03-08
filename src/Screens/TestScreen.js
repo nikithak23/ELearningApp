@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {Text, Image, View, StyleSheet, ImageBackground, TouchableOpacity,ScrollView} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, {useState, useEffect} from 'react';
+import {Text, Image, View, StyleSheet,TouchableOpacity,ScrollView} from 'react-native';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/core';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+
 
 
 
@@ -22,20 +22,15 @@ const TestScreen =({navigation,route})=>{
     let submitData=[];
     let timeup=route?.params.timeup?route.params.timeup:0;
     const [timer,setTimer] = useState(true);
-    //console.log('UP',timeup);
-    //const [noAnswered,setNoAnswered] = useState(1);
     let num=route.params.num?route.params.num-1:0;
-    //console.log(num,'nummm');
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
    
-    //const courseId=1;
-    //const courseName='Introduction to Physics';
-    //const token='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZXhwIjoxNjQ2MzgxNDcxLCJpYXQiOjE2NDYzNjM0NzF9.7UI6PQSKEypBC-Bdg_4uQCZWJt5M429qN3bAduZV1aeLYIMiRSpyY9bu0XXXmA55Fb5d8QR0dJPapUJepHyORQ';
+
   
 
-    const getQtns = async () => {//Get questions
+    const getQtns = async () => {//Get questions api
       try {
         const response = await axios.get(`${baseUrl}/subject/gettest/${courseId}`, {
           headers: {
@@ -48,10 +43,9 @@ const TestScreen =({navigation,route})=>{
         console.log(err);
       }
     };
-      //console.log('Questions', questions);
-      let len=questions.length;
-      //console.log('len',len);
-      //console.log(questions[0].questions)
+    let len=questions.length;
+
+
 
     useEffect(()=>{
         getQtns();
@@ -61,14 +55,12 @@ const TestScreen =({navigation,route})=>{
       setN(num);
       setTimer(true);
     }, [num]),
-);
+    );
 
 
 
-const sendAns = async () => {//Send Answers
+const sendAns = async () => {//Send Answers api
   console.log(markedAnswer);
-  //setNoAnswered(noAnswered+1);
-  //console.log(noAnswered);
   try {
     const response = await axios.get(`${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`, {
       headers: {
@@ -87,7 +79,7 @@ const sendAns = async () => {//Send Answers
 
 
 
-const submitTest=async()=>{//Submit test
+const submitTest=async()=>{//Submit test api
   try {
     const response = await axios.get(`${baseUrl}/subject/submittest/${courseId}`, {
       headers: {
@@ -96,13 +88,11 @@ const submitTest=async()=>{//Submit test
     });
     console.log('Submit Test Api',response.status);
     submitData=response.data.data;
-    console.log(submitData);
     setModalVisible(false);
     setN(0);
     setOption('');
     console.log('SUBMITTEST',timeup);
-    //setNoAnswered(1);
-    //console.log(courseId,lid,courseName)
+
      await navigation.navigate('TestResult',{
       percent:submitData[0].percentScore,
       attempted:submitData[0].attempted,
@@ -132,13 +122,11 @@ const submitTest=async()=>{//Submit test
       if(n<9){
         if(markedAnswer){
           sendAns();
-          //console.log(markedAnswer);
           setMarkedAnswer('');
           setOption('');
           setN(n+1);  
         }
         else{
-          //console.log('Not Sent');
           setOption('');
           setN(n+1);
         }
@@ -146,18 +134,11 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          //console.log(markedAnswer);
           setMarkedAnswer('')
-          //if(noAnswered<10)
-          //alert('Answer all the questions to submit the test')
-          //else
           setOption('');
           setModalVisible(true);
         }
         else{
-          //if(noAnswered<10)
-          //alert('Answer all the questions to submit the test')
-          //else
           setOption('');
           setModalVisible(true);
         }
@@ -169,14 +150,11 @@ const submitTest=async()=>{//Submit test
       if(n>0){
         if(markedAnswer){
           sendAns();
-          //console.log('Ans',markedAnswer);
           setMarkedAnswer('');
           setOption('');
           setN(n-1);  
         }
         else{
-          //console.log('Not Sent');
-          //console.log('Ans',markedAnswer);
           setOption('');
           setN(n-1);
         }
@@ -184,7 +162,6 @@ const submitTest=async()=>{//Submit test
       else{
         if(markedAnswer){
           sendAns();
-          //console.log(markedAnswer);
           setMarkedAnswer('')
           alert('You have reached the start of the test.')
         }
@@ -198,8 +175,6 @@ const submitTest=async()=>{//Submit test
 
 
     const formatRemainingTime = time=> {
-      //const minutes = Math.floor(remainingTime / 60)
-      //const seconds = remainingTime % 60
       const minutes = Math.floor((time % 3600) / 60);
       const seconds = time % 60;
       return `${minutes}:${seconds}`
@@ -216,78 +191,77 @@ const submitTest=async()=>{//Submit test
 
 
   return(
-    <View style={styles.container}>
+  <View style={styles.container}>
 
-      <View style={styles.header}>
+    <View style={styles.header}>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
         <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
         </TouchableOpacity >
         
         <View style={styles.timer1}>
-        <CountdownCircleTimer
-          isPlaying={timer}
-          key={key}
-          size={37}
-          strokeWidth={3}
-          duration={20}
-          colors={["#32cd32", "#F7B801", "#A30000", "#A30000"]}
-          colorsTime={[8,10, 5, 0]}
-          onComplete={() =>{
-            timeup=1;
-            //console.log('DOWN',timeup);
-             submitTest();
-          }}
-        >
-          {renderTime}
-        </CountdownCircleTimer>
-    </View>
-    <Text style={styles.timerText} >Time remaining</Text>
+          <CountdownCircleTimer
+            isPlaying={timer}
+            key={key}
+            size={37}
+            strokeWidth={3}
+            duration={20}
+            colors={["#32cd32", "#F7B801", "#A30000", "#A30000"]}
+            colorsTime={[8,10, 5, 0]}
+            onComplete={() =>{
+              timeup=1;
+              submitTest();
+            }}
+          >{renderTime}
+          </CountdownCircleTimer>
+        </View>
+        <Text style={styles.timerText} >Time remaining</Text>
+
         <TouchableOpacity onPress={()=>{
           setOption('');
           navigation.navigate('QtnList',{
           courseId:courseId,courseName:courseName,token:token,key:key}
         )}}>
-        <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
+          <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
         </TouchableOpacity >
-      </View>
+    </View>
 
 
 
       {len!==0? (
-      <ScrollView>
-                <Text style={styles.qtn}>{questions[n].questions}</Text>
-                <TouchableOpacity style={option==='A'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
-                  setOption('A');
-                  setMarkedAnswer(questions[n].option_A)}}>
-                <Text style={option==='A'?styles.optionsSelected:styles.options}>A.   {questions[n].option_A}</Text>
-                </TouchableOpacity>
+    <ScrollView>
+              <Text style={styles.qtn}>{questions[n].questions}</Text>
+              <TouchableOpacity style={option==='A'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                setOption('A');
+                setMarkedAnswer(questions[n].option_A)}}>
+              <Text style={option==='A'?styles.optionsSelected:styles.options}>A.   {questions[n].option_A}</Text>
+              </TouchableOpacity>
 
-                <TouchableOpacity style={option==='B'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
-                  setOption('B');
-                  setMarkedAnswer(questions[n].option_B)}}>
-                <Text style={option==='B'?styles.optionsSelected:styles.options}>B.   {questions[n].option_B}</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={option==='B'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                setOption('B');
+                setMarkedAnswer(questions[n].option_B)}}>
+              <Text style={option==='B'?styles.optionsSelected:styles.options}>B.   {questions[n].option_B}</Text>
+              </TouchableOpacity>
 
-                <TouchableOpacity style={option==='C'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
-                  setOption('C');;
-                  setMarkedAnswer(questions[n].option_C)}}>
-                <Text style={option==='C'?styles.optionsSelected:styles.options}>C.   {questions[n].option_C}</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={option==='C'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                setOption('C');;
+                setMarkedAnswer(questions[n].option_C)}}>
+              <Text style={option==='C'?styles.optionsSelected:styles.options}>C.   {questions[n].option_C}</Text>
+              </TouchableOpacity>
 
-                {(questions[n].option_D)?(
-                <TouchableOpacity style={option==='D'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
-                  setOption('D');
-                  setMarkedAnswer(questions[n].option_D)}}>
-                <Text style={option==='D'?styles.optionsSelected:styles.options}>D.   {questions[n].option_D}</Text>
-                </TouchableOpacity>
-                ):<></>}
-      </ScrollView>
-      ):null}
+              {(questions[n].option_D)?(
+              <TouchableOpacity style={option==='D'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
+                setOption('D');
+                setMarkedAnswer(questions[n].option_D)}}>
+              <Text style={option==='D'?styles.optionsSelected:styles.options}>D.   {questions[n].option_D}</Text>
+              </TouchableOpacity>
+              ):<></>}
+    </ScrollView>
+    ):null}
 
 
 
     
-      <View style={styles.footer}>
+    <View style={styles.footer}>
       {len!==0? (
         <View>
           <Text style={styles.footerTxt1}>C{courseId}: {courseName}</Text>
@@ -295,29 +269,26 @@ const submitTest=async()=>{//Submit test
         </View>
         ):null}
         <View style={{flexDirection:'row'}}>
-        <TouchableOpacity onPress={prev}>
-        <Image source={require('../Images/TestPage/btnPrevQtn.png')} style={styles.footerBtn} />
-        </TouchableOpacity >
-        <TouchableOpacity onPress={nxt}>
-        <Image source={require('../Images/TestPage/btnNxtQtn.png')} style={styles.footerBtn} />
-        </TouchableOpacity >
+          <TouchableOpacity onPress={prev}>
+            <Image source={require('../Images/TestPage/btnPrevQtn.png')} style={styles.footerBtn} />
+          </TouchableOpacity >
+          <TouchableOpacity onPress={nxt}>
+            <Image source={require('../Images/TestPage/btnNxtQtn.png')} style={styles.footerBtn} />
+          </TouchableOpacity >
         </View>
-      </View>
+    </View>
      
 
 
+    <Modal isVisible={modalVisible}>
+        <View style={styles.ModalMainContainer}>
 
-      <Modal isVisible={modalVisible}>
-          <View style={styles.ModalMainContainer}>
-              <View style={styles.ModalTopContainer}>
-                <View style={styles.ModalContainer}></View>
+            <View style={styles.ModalTopContainer}>
+              <View style={styles.ModalContainer}></View>
                 <Text style={styles.ModalLogoutText}>Submit Test</Text>
-                <Text style={styles.ModalLogoutText1}>
-                  Are you sure you want to submit the test?
-                </Text>
-              </View>
-
-              <View style={styles.ModalBottomContainer}>
+                <Text style={styles.ModalLogoutText1}>Are you sure you want to submit the test?</Text>
+            </View>
+            <View style={styles.ModalBottomContainer}>
                 <TouchableOpacity style={styles.ModalNoContainer} onPress={()=>setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
@@ -330,28 +301,28 @@ const submitTest=async()=>{//Submit test
                     <Image source={require('../Images/TestPage/yesArrow.png')} style={styles.ModalYesImg}/>
                   </View>
                 </TouchableOpacity>
-              </View>
-          </View>
-      </Modal>
+            </View>
+
+        </View>
+    </Modal>
 
 
-    </View>
-    )
-}
+  </View>
+)}
 export default TestScreen;
 
 
 const styles = StyleSheet.create({
     container: {
-    height: '100%',
-    width: '100%',
-    backgroundColor:'#f6f8fa',
-    flex:1,
+      height: '100%',
+      width: '100%',
+      backgroundColor:'#f6f8fa',
+      flex:1,
     },
     header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor:'white',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor:'white',
     },
     btn: {
       marginTop:Platform.OS === 'ios' ? 50 : 20,
@@ -371,8 +342,6 @@ const styles = StyleSheet.create({
       alignSelf:'center'
     },
     timer1:{
-      //marginTop:Platform.OS === 'ios' ? 50 : 20,
-      //marginBottom:15,
       marginHorizontal:-40,
       alignSelf:'center',
       marginTop:5,
@@ -443,11 +412,6 @@ const styles = StyleSheet.create({
     marginVertical:18,
     marginHorizontal:15,
   },
-
-
-
-
-
   ModalMainContainer: {
     backgroundColor: 'white',
     position: 'absolute',
