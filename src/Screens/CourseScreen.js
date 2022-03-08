@@ -37,6 +37,7 @@ const CourseScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const id = route?.params.lId;
+  const lessonNumber = route?.params.lessonNumber;
   const lName = route?.params.lName;
   const cid = route?.params.cId;
   const cName = route?.params.cName;
@@ -72,29 +73,6 @@ const CourseScreen = ({navigation, route}) => {
     getChapters(id);
   }, [id]);
   console.log('hiii', chapters);
-  // console.log('', chapters[0].chapterName);
-
-  // const getContent = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${baseUrl}/subject/get/content/1?pageSize=1&pageNumber=0`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-
-  //     setContents(response.data.data);
-  //     // console.log('hiii', response.data.chapterName);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getContent();
-  // }, []);
-  // console.log('hlo', contents);
 
   RenderTests = () => {
     return (
@@ -149,31 +127,19 @@ const CourseScreen = ({navigation, route}) => {
               chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
-
-              // console.log(item.)
             })
           }
           style={styles.listComponent}>
           <View>
-            {/* <Image
-              source={{uri: item.imageUrl}}
-              style={styles.chapterCoverPhoto}
-            /> */}
-
             <Image
               source={{uri: item.imageUrl}}
-              // source={require('../Images/Profile/photo1.jpeg')}
               style={styles.chapterCoverPhoto}
             />
           </View>
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
-            {/* <Text style={styles.listname}>{item.name}</Text> */}
-
-            {/* <Text style={styles.listdifficulty}>{item.difficulty}</Text> */}
             <Text style={styles.listname}>{item.chapterName}</Text>
             <Text style={styles.listsummary}>{item.summary}</Text>
-            {/* <Text style={styles.listsummary}>{item.summary}</Text> */}
           </View>
         </TouchableOpacity>
       </View>
