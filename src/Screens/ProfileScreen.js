@@ -65,6 +65,9 @@ const ProfileScreen = ({navigation, token}) => {
             console.log(';;;;;;;;;', value);
             setNotify(value)
           }
+          else{
+            setNotify('false');
+          }
           
         } catch (e) {
           console.log(e);
