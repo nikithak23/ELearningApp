@@ -201,7 +201,7 @@ export default function ResultsScreen({navigation, route}) {
           }>
           {/* style={styles.TopTextView}> */}
           <Text style={styles.TopText1}>Results</Text>
-          <Dropdown
+          <Dropdown 
             filterSub={filterSub}
             subs={subs}
             modalVisible={modalVisible}

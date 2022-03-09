@@ -15,31 +15,29 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
+import useOrientation from '../hooks/useOrientation';
 
 const sub1 = require('../Images/Subject/sub1.png')
 const sub2 = require('../Images/Subject/sub2.png')
 const subImg = [sub1, sub2];
 const bgImg = ['#d5f1e5', '#ffebb5']
 const Options = ['ALL', 'STUDYING', 'LIKED'];
-
+const book = require('../Images/Subject/book.jpeg')
 const SubjectDetails = ({navigation, route}) => {
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const subject = route?.params.subject;
   const token = route?.params.token;
   const subId = route?.params.id;
-  //const courseId = route?.params.courseId;
+  const cId = route?.params.courseId? route?.params.courseId : '0'
   const btnBack = require('../Images/Notification/btnback.png');
   const [selected, setSelected] = useState('ALL');
   const [courseTitle, setCourseTitle] = useState([]);
-  const [courseId, setCourseId] = useState('0');
+  const [courseId, setCourseId] = useState(cId);
   const [LessonTitle, setLessonTitle] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState();
-  const [chapters, setChapters] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(cId);
   const [courseName, setCourseName] = useState('');
   const [lessonStdyng, setLessonStdyng] = useState([]);
-  const [lName, setLName] = useState('');
-  const [lSummary, setLSummary] = useState('');
-  const [loading, setLoading] = useState(true)
   const [empty, setEmpty] = useState(false);
   const [likedList, setLikedList] = useState(null);
   const dispatch = useDispatch();
@@ -140,13 +138,13 @@ const SubjectDetails = ({navigation, route}) => {
   const OnPressCourse = item => {
     setCourseId(item.courseId);
     setCourseName(item.courseName);
-    return setSelectedCourse(item);
+    return setSelectedCourse(item.courseId);
   };
   const renderCourse = ({item, index}) => {
     return (
       <>
         <TouchableOpacity
-          style={styles.courses}
+          style={orientation.isPortrait ? styles.courses : styles.coursesls}
           onPress={() => OnPressCourse(item)}>
           <View style={[styles.courseImg, {backgroundColor: bgImg[index]}]}>
             <Image source={subImg[index]} style={styles.cImg} />
@@ -155,8 +153,11 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.courseName}>{item.courseName}</Text>
           </View>
         </TouchableOpacity>
-        {selectedCourse === item && (
-          <View style= {styles.selected}></View>
+        {selectedCourse === item.courseId && (
+          <View
+            style={
+              orientation.isPortrait ? styles.selected : styles.selectedls
+            }></View>
         )}
       </>
     );
@@ -291,7 +292,7 @@ const SubjectDetails = ({navigation, route}) => {
     
      return (
        <TouchableOpacity
-         style={styles.studyn}
+         style={orientation.isPortrait ? styles.studyn : styles.studynls}
          onPress={() => {
            navigation.navigate('CourseScreen', {
              lId: item.lessonId,
@@ -318,7 +319,12 @@ const SubjectDetails = ({navigation, route}) => {
              />
            </View>
            <View style={styles.row}>
-             <Text style={styles.lessonName}>
+             <Text
+               style={
+                 orientation.isPortrait
+                   ? styles.lessonName
+                   : styles.lessonNamels
+               }>
                {item.lessonName.toUpperCase()}
              </Text>
            </View>
@@ -332,7 +338,12 @@ const SubjectDetails = ({navigation, route}) => {
              )}
            </View>
 
-           <Text style={styles.chapstudyn}>{item.chapterName1}</Text>
+           <Text
+             style={
+               orientation.isPortrait ? styles.chapstudyn : styles.chapstudynls
+             }>
+             {item.chapterName1}
+           </Text>
          </View>
          {item.chapterName2 ? (
            <View style={styles.row}>
@@ -344,7 +355,14 @@ const SubjectDetails = ({navigation, route}) => {
                )}
              </View>
 
-             <Text style={styles.chapstudyn}>{item.chapterName2}</Text>
+             <Text
+               style={
+                 orientation.isPortrait
+                   ? styles.chapstudyn
+                   : styles.chapstudynls
+               }>
+               {item.chapterName2}
+             </Text>
            </View>
          ) : null}
          {item.chapterName3 ? (
@@ -357,7 +375,14 @@ const SubjectDetails = ({navigation, route}) => {
                )}
              </View>
 
-             <Text style={styles.chapstudyn}>{item.chapterName3}</Text>
+             <Text
+               style={
+                 orientation.isPortrait
+                   ? styles.chapstudyn
+                   : styles.chapstudynls
+               }>
+               {item.chapterName3}
+             </Text>
            </View>
          ) : null}
        </TouchableOpacity>
@@ -435,16 +460,28 @@ const SubjectDetails = ({navigation, route}) => {
 
   const renderAll = () => {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={btnBack} style={styles.btnBack} />
+          <Image
+            source={btnBack}
+            style={orientation.isPortrait ? styles.btnBack : styles.btnBackls}
+          />
         </TouchableOpacity>
-        <Text style={styles.title}>{subject}</Text>
-        <View style={styles.rowOpts}>
+        <Text style={orientation.isPortrait ? styles.title : styles.titlels}>
+          {subject}
+        </Text>
+        <View
+          style={orientation.isPortrait ? styles.rowOpts : styles.rowOptsls}>
           {Options.map((opt, index) => (
             <View
               key={index.toString()}
-              style={opt === 'STUDYING' ? styles.line : null}>
+              style={
+                opt === 'STUDYING'
+                  ? orientation.isPortrait
+                    ? styles.line
+                    : styles.linels
+                  : null
+              }>
               <TouchableOpacity onPress={() => setSelected(opt)}>
                 <Text style={opt === selected ? styles.active : styles.optText}>
                   {Options[index]}
@@ -454,37 +491,34 @@ const SubjectDetails = ({navigation, route}) => {
           ))}
         </View>
         {selected === Options[0] ? (
-       
-            <View style = {{marginBottom:-210}}>
-              <FlatList
-                data={courseTitle}
-                renderItem={renderCourse}
-                keyExtractor={item => item.courseId}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              />
-  
-                <FlatList
-                  data={LessonTitle}
-                  renderItem={renderLesson}
-                  keyExtractor={item => item.lessonId}
-                  showsVerticalScrollIndicator={false}
-                />
-                {/* <FlatList
+          <View style={styles.bottom}>
+            <FlatList
+              data={courseTitle}
+              renderItem={renderCourse}
+              keyExtractor={item => item.courseId}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+
+            <FlatList
+              data={LessonTitle}
+              renderItem={renderLesson}
+              keyExtractor={item => item.lessonId}
+              showsVerticalScrollIndicator={false}
+            />
+            {/* <FlatList
                 data={lessonStdyng}
                 renderItem={renderLesson}
                 keyExtractor={item => item.lessonId}
                 showsVerticalScrollIndicator={false}
               /> */}
-           
-            </View>
-          
+          </View>
         ) : selected === Options[1] ? (
           renderStudying()
         ) : (
           renderLiked()
         )}
-      </View>
+      </ScrollView>
     );
   }
   const renderStudying=() => {
@@ -502,7 +536,11 @@ const SubjectDetails = ({navigation, route}) => {
     }else{
       return (
         <>
-          <Text style={styles.empty}>Currently no lessons here</Text>
+          <Image
+            source={book}
+            style={orientation.isPortrait ? styles.book : styles.bookls}
+          />
+          <Text style={styles.emptyStud}>Start a lesson to find it here!</Text>
         </>
       );
     }
@@ -511,11 +549,23 @@ const SubjectDetails = ({navigation, route}) => {
   const renderLiked = () => {
     console.log('this is liked list ===> ',likedList)
     if(empty){
-      return(
+      return (
         <>
-          <Text style={styles.empty}>No Likes</Text>
+          <Icon
+            name="heart-dislike"
+            size={80}
+            style={
+              orientation.isPortrait ? styles.noLike : styles.noLikels
+            }
+          />
+          <Text
+            style={
+              orientation.isPortrait ? styles.emptyStud : styles.emptyStudls
+            }>
+            Like a Chapter to find it here!
+          </Text>
         </>
-      )
+      );
     }else{
       return (
         <View>
@@ -548,11 +598,25 @@ const styles = StyleSheet.create({
     marginLeft: 32,
     marginTop: 51,
   },
+  btnBackls: {
+    height: 25,
+    width: 29,
+    marginLeft: 90,
+    marginTop: 31,
+  },
   title: {
     fontSize: 34,
     fontWeight: '700',
     marginTop: 22,
     marginLeft: 32,
+    marginBottom: 12,
+    color: '#292929',
+  },
+  titlels: {
+    fontSize: 34,
+    fontWeight: '700',
+    marginTop: 22,
+    marginLeft: 90,
     marginBottom: 12,
     color: '#292929',
   },
@@ -568,19 +632,33 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 15,
   },
+  rowOptsls: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'space-around',
+    padding: 15,
+    marginHorizontal: 90,
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderColor: 15,
+    borderRadius: 20,
+    marginTop: 15,
+  },
   optText: {
     color: '#aaa',
     fontWeight: '500',
     fontSize: 15,
     justifyContent: 'center',
     paddingHorizontal: 30,
+    alignSelf: 'center',
   },
   active: {
-    color: '#1b7ced',
+    color: '#4C93FF',
     fontWeight: '500',
     fontSize: 15,
     justifyContent: 'center',
     paddingHorizontal: 30,
+    alignSelf: 'center',
   },
   selected: {
     width: 15,
@@ -589,6 +667,18 @@ const styles = StyleSheet.create({
     marginTop: 211,
     marginLeft: -85,
     marginHorizontal: 70,
+    backgroundColor: '#fff',
+    borderColor: '#fff',
+    borderColor: 1,
+    transform: [{rotate: '45deg'}],
+  },
+  selectedls: {
+    width: 15,
+    height: 15,
+    borderWidth: 2,
+    marginTop: 211,
+    marginLeft: 35,
+    //marginHorizontal: 10,
     backgroundColor: '#fff',
     borderColor: '#fff',
     borderColor: 1,
@@ -603,6 +693,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 162,
     height: 192,
+  },
+  coursesls: {
+    flexDirection: 'column',
+    marginLeft: 220,
+    marginHorizontal: -120,
+    marginTop: 25,
+    borderWidth: 0.1,
+    borderColor: 15,
+    borderRadius: 15,
+    width: 162,
+    height: 192,
+    justifyContent: 'center',
   },
   courseImg: {
     //backgroundColor: '#ffa4a4',
@@ -658,8 +760,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
   },
+  studynls: {
+    backgroundColor: '#fff',
+    marginHorizontal: 90,
+    marginVertical: 3,
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    borderColor: 15,
+    borderRadius: 15,
+    marginTop: 20,
+  },
   lessonName: {
-    color: '#1b7ced',
+    color: '#4C93FF',
     fontSize: 13,
     fontWeight: 'bold',
     marginTop: 30,
@@ -667,6 +779,16 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     letterSpacing: 0,
     width: 200,
+  },
+  lessonNamels: {
+    color: '#4C93FF',
+    fontSize: 13,
+    fontWeight: 'bold',
+    marginTop: 36,
+    marginLeft: 7,
+    marginBottom: 25,
+    letterSpacing: 0,
+    width: 400,
   },
   lessonNum: {
     color: '#888',
@@ -692,6 +814,15 @@ const styles = StyleSheet.create({
     width: 220,
     marginBottom: 15,
   },
+  chapstudynls: {
+    color: '#292929',
+    fontSize: 20,
+    fontWeight: '400',
+    marginLeft: 15,
+    letterSpacing: 0.15,
+    width: 500,
+    marginBottom: 15,
+  },
   summary: {
     color: '#999',
     fontSize: 16,
@@ -711,17 +842,16 @@ const styles = StyleSheet.create({
     width: 138,
     justifyContent: 'center',
   },
-  // selectedCourse: {
-  //   color: '#fff',
-  //   fontSize: 29,
-  //   fontWeight: '900',
-  //   shadowOpacity: 1,
-  //   shadowColor: '#fff',
-  //   marginHorizontal: 30,
-  //   marginLeft: -85,
-  //   marginTop: 180,
-  //   width: 50,
-  // },
+  linels: {
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    marginTop: -15,
+    marginBottom: -15,
+    height: 48,
+    borderColor: '#ddd',
+    width: 220,
+    justifyContent: 'center',
+  },
   progress: {
     marginTop: 27,
     marginLeft: 15,
@@ -741,7 +871,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: 18,
     marginLeft: 290,
-    color: '#1b7ced',
+    color: '#4C93FF',
   },
   progressLine: {
     borderLeftWidth: 2,
@@ -752,7 +882,7 @@ const styles = StyleSheet.create({
   },
 
   likedCName: {
-    color: '#1b7ced',
+    color: '#4C93FF',
     fontSize: 15,
     fontWeight: 'bold',
     marginTop: 20,
@@ -771,7 +901,7 @@ const styles = StyleSheet.create({
     width: 299,
   },
   clear: {
-    color: '#1b7ced',
+    color: '#4C93FF',
     fontSize: 13,
     fontWeight: '600',
     textDecorationLine: 'underline',
@@ -781,16 +911,64 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   empty: {
-    color: '#1b7ced',
+    color: '#4C93FF',
     fontSize: 28,
     fontWeight: 'bold',
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 220,
   },
+  emptyStud: {
+    color: '#6699cc',
+    fontSize: 24,
+    fontWeight: '400',
+    fontStyle: 'italic',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  emptyStudls: {
+    color: '#6699cc',
+    fontSize: 24,
+    fontWeight: '400',
+    fontStyle: 'italic',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 10,
+  },
   bottom: {
-    marginBottom: -220
-  }
+    marginBottom: -220,
+  },
+  book: {
+    width: 180,
+    height: 180,
+    borderWidth: 1,
+    borderRadius: 40,
+    borderColor: 'transparent',
+    borderColor: 0,
+    alignSelf: 'center',
+    marginTop: 80,
+  },
+  bookls: {
+    width: 180,
+    height: 180,
+    borderWidth: 1,
+    borderRadius: 40,
+    borderColor: 'transparent',
+    borderColor: 0,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  noLike: {
+    color: '#adc3d1',
+    marginTop: 120,
+    alignSelf: 'center',
+  },
+  noLikels: {
+    color: '#adc3d1',
+    marginTop: 30,
+    alignSelf: 'center',
+  },
 });
 
 export default SubjectDetails;

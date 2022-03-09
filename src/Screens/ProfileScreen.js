@@ -28,7 +28,7 @@ const pic3 = require('../Images/Profile/photo3.jpeg');
 const profiles = [pic1, pic2, pic3];
 
 const ProfileScreen = ({navigation, token}) => {
-  const [notify, setNotify] = useState(false);
+  const [notify, setNotify] = useState('true');
   const orientation = useOrientation();
 
   // const [isRight, setIsRight] = useState(true);
@@ -64,7 +64,7 @@ const ProfileScreen = ({navigation, token}) => {
           console.log(';;;;;;;;;', value);
           setNotify(value);
         } else {
-          setNotify('false');
+          setNotify('true');
         }
       } catch (e) {
         console.log(e);
