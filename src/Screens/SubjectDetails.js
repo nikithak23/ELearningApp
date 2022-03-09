@@ -23,6 +23,8 @@ const subImg = [sub1, sub2];
 const bgImg = ['#d5f1e5', '#ffebb5']
 const Options = ['ALL', 'STUDYING', 'LIKED'];
 const book = require('../Images/Subject/book.jpeg')
+
+
 const SubjectDetails = ({navigation, route}) => {
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
@@ -152,13 +154,13 @@ const SubjectDetails = ({navigation, route}) => {
           <View style={styles.courseTitle}>
             <Text style={styles.courseName}>{item.courseName}</Text>
           </View>
+          {selectedCourse === item.courseId && (
+            <View
+              style={
+                orientation.isPortrait ? styles.selected : styles.selectedls
+              }></View>
+          )}
         </TouchableOpacity>
-        {selectedCourse === item.courseId && (
-          <View
-            style={
-              orientation.isPortrait ? styles.selected : styles.selectedls
-            }></View>
-        )}
       </>
     );
   };
@@ -168,7 +170,7 @@ const SubjectDetails = ({navigation, route}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        style={styles.lessons}
+        style={orientation.isPortrait ? styles.lessons : styles.lessonsls}
         onPress={() => {
           navigation.navigate('CourseScreen', {
             lId: item.lessonId,
@@ -197,10 +199,18 @@ const SubjectDetails = ({navigation, route}) => {
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.lessonName}>
+            <Text
+              style={
+                orientation.isPortrait ? styles.lessonName : styles.lessonNamels
+              }>
               {item.lessonName.toUpperCase()}
             </Text>
-            <Text style={styles.lessonNum}>Lesson {item.lessonNumber}</Text>
+            <Text
+              style={
+                orientation.isPortrait ? styles.lessonNum : styles.lessonNumls
+              }>
+              Lesson {item.lessonNumber}
+            </Text>
           </View>
         </View>
         <View style={styles.row}>
@@ -209,9 +219,15 @@ const SubjectDetails = ({navigation, route}) => {
               style={
                 ifStudyng?.lessonId === item.lessonId
                   ? ifStudyng.completed1 === true
-                    ? [styles.progressLine, {borderColor: '#03c04a'}]
-                    : styles.progressLine
-                  : styles.progressLine
+                    ? orientation.isPortrait
+                      ? [styles.progressLine, {borderColor: '#03c04a'}]
+                      : [styles.progressLinels, {borderColor: '#03c04a'}]
+                    : orientation.isPortrait
+                    ? styles.progressLine
+                    : styles.progressLinels
+                  : orientation.isPortrait
+                  ? styles.progressLine
+                  : styles.progressLinels
               }></View>
             {ifStudyng?.lessonId === item.lessonId ? (
               ifStudyng.completed1 === true ? (
@@ -288,8 +304,8 @@ const SubjectDetails = ({navigation, route}) => {
   const filterStudyng = lessonStdyng.filter(ele => ele.subject === subject)
   const onlyStudyng = filterStudyng.filter(ele => ele.percent > 0)
   const filterLiked = likedList?.filter(ele => ele[3] === subject)
+
    const renderStud = ({item}) => {
-    
      return (
        <TouchableOpacity
          style={orientation.isPortrait ? styles.studyn : styles.studynls}
@@ -448,10 +464,15 @@ const SubjectDetails = ({navigation, route}) => {
 
   const renderLikedList = ({item}) => {
     return (
-      <View style={styles.lessons}>
+      <View style={orientation.isPortrait ? styles.lessons : styles.lessonsls}>
         <View style={styles.row}>
           <Text style={styles.likedCName}>{item[2]}</Text>
-          <Icon onPress={()=>removeItem(item)} name="heart" size={21} style={styles.like} />
+          <Icon
+            onPress={() => removeItem(item)}
+            name="heart"
+            size={21}
+            style={styles.like}
+          />
         </View>
         <Text style={styles.likedchap}>{item[1]}</Text>
       </View>
@@ -570,7 +591,9 @@ const SubjectDetails = ({navigation, route}) => {
       return (
         <View>
           <TouchableOpacity onPress={() => removeLiked()}>
-            <Text style={styles.clear}>Clear All</Text>
+            <Text style={orientation.isPortrait ? styles.clear : styles.clearls}>
+              Clear All
+            </Text>
           </TouchableOpacity>
           <FlatList
             data={filterLiked}
@@ -664,9 +687,9 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderWidth: 2,
-    marginTop: 211,
-    marginLeft: -85,
-    marginHorizontal: 70,
+    marginTop: -8,
+    marginLeft: 75,
+    //marginHorizontal: 70,
     backgroundColor: '#fff',
     borderColor: '#fff',
     borderColor: 1,
@@ -676,11 +699,13 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderWidth: 2,
-    marginTop: 211,
-    marginLeft: 35,
+    marginTop: -8,
+    marginLeft: 73,
+    
     //marginHorizontal: 10,
     backgroundColor: '#fff',
-    borderColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#000',
     borderColor: 1,
     transform: [{rotate: '45deg'}],
   },
@@ -692,18 +717,19 @@ const styles = StyleSheet.create({
     borderColor: 15,
     borderRadius: 15,
     width: 162,
-    height: 192,
+    height: 210,
   },
   coursesls: {
     flexDirection: 'column',
-    marginLeft: 220,
-    marginHorizontal: -120,
+    marginLeft: 92,
+    // marginRight: -40,
     marginTop: 25,
     borderWidth: 0.1,
     borderColor: 15,
     borderRadius: 15,
     width: 162,
-    height: 192,
+    //height: 192,
+    height:210,
     justifyContent: 'center',
   },
   courseImg: {
@@ -750,6 +776,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
   },
+  lessonsls: {
+    backgroundColor: '#fff',
+    marginHorizontal: 90,
+    marginVertical: 3,
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    borderColor: 15,
+    borderRadius: 15,
+    marginTop: 20,
+  },
   studyn: {
     backgroundColor: '#fff',
     marginHorizontal: 30,
@@ -779,6 +815,10 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     letterSpacing: 0,
     width: 200,
+    height:35,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center'
   },
   lessonNamels: {
     color: '#4C93FF',
@@ -794,6 +834,13 @@ const styles = StyleSheet.create({
     color: '#888',
     marginTop: 32.5,
     marginLeft: 10,
+    fontSize: 11,
+    fontWeight: '300',
+  },
+  lessonNumls: {
+    color: '#888',
+    marginTop: 32.5,
+    marginLeft: 100,
     fontSize: 11,
     fontWeight: '300',
   },
@@ -875,10 +922,17 @@ const styles = StyleSheet.create({
   },
   progressLine: {
     borderLeftWidth: 2,
-    height: 40,
+    height: 38,
     borderColor: '#eee',
     marginLeft: 31.5,
-    marginTop: -26,
+    marginTop: -13,
+  },
+  progressLinels: {
+    borderLeftWidth: 2,
+    height: 30,
+    borderColor: '#eee',
+    marginLeft: 31.5,
+    marginTop: -19,
   },
 
   likedCName: {
@@ -910,6 +964,16 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginRight: 40,
   },
+  clearls: {
+    color: '#4C93FF',
+    fontSize: 13,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+    marginTop: 12,
+    marginRight: 100,
+  },
   empty: {
     color: '#4C93FF',
     fontSize: 28,
@@ -937,7 +1001,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   bottom: {
-    marginBottom: -220,
+    marginBottom: 20,
   },
   book: {
     width: 180,

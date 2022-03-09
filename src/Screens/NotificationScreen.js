@@ -103,7 +103,12 @@ const NotificationScreen = ({navigation, route}) => {
         <View>
           <View style={styles.row}>
             <Text style={styles.subtitle}>{item.notificationHeader}</Text>
-            <Text style={styles.time}>{timeDiff()}</Text>
+            <Text
+              style={
+                orientation.isPortrait ? styles.time : styles.timels
+              }>
+              {timeDiff()}
+            </Text>
           </View>
 
           <Text style={styles.notif}>{item.notificationContent}</Text>
@@ -188,6 +193,15 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     position: 'absolute',
     marginLeft: 230,
+  },
+  timels: {
+    fontSize: 13,
+    color: '#b0b5c6',
+    fontWeight: '500',
+    alignSelf: 'flex-end',
+    textAlign: 'right',
+    position: 'absolute',
+    marginLeft: 500,
   },
   btnBack: {
     height: 25,
