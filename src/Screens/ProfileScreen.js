@@ -20,7 +20,6 @@ import Modal from 'react-native-modal';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 
-
 const pic1 = '../Images/Profile/photo1.jpeg';
 const pic2 = require('../Images/Profile/2photo.jpeg');
 const pic3 = require('../Images/Profile/photo3.jpeg');
@@ -28,10 +27,9 @@ const pic3 = require('../Images/Profile/photo3.jpeg');
 const profiles = [pic1, pic2, pic3];
 
 const ProfileScreen = ({navigation, token}) => {
-  
-  const [notify, setNotify] = useState('false');
+  const [notify, setNotify] = useState(false);
   const orientation = useOrientation();
-  
+
   // const [isRight, setIsRight] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isinnerVisible, setIsinnerVissible] = useState(false);
@@ -72,21 +70,22 @@ const ProfileScreen = ({navigation, token}) => {
         } catch (e) {
           console.log(e);
         }
+      
 
-        try {
+      try {
         const value = await AsyncStorage.getItem('profilePhoto');
         if (value !== null) {
           // We have data!!
           console.log('storeedddd', value);
-          setProfilePic(value)
+          setProfilePic(value);
         }
       } catch (error) {
-        console.log('error storing pic')
+        console.log('error storing pic');
       }
-      };
-      retrieveNotif();
-    },[]);
-  
+    };
+    retrieveNotif();
+  }, []);
+
   const getResults = async () => {
     try {
       const response = await axios.get(`${baseUrl}/subject/get/result`, {
@@ -246,44 +245,43 @@ const ProfileScreen = ({navigation, token}) => {
   //     console.log(e);
   //   }
   // }
-  const changeProfile = async() => {
-       ImagePicker.openPicker({
-         width: 300,
-         height: 400,
-         cropping: true,
-       }).then(image => {
-         console.log(image);
-         setProfilePic(image.path);
-         console.log('imgggggggg', profilePic);
-          AsyncStorage.setItem('profilePhoto', image.path);
-       });
-      
-  }
+  const changeProfile = async () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setProfilePic(image.path);
+      console.log('imgggggggg', profilePic);
+      AsyncStorage.setItem('profilePhoto', image.path);
+    });
+  };
 
-  const notifFalse = async() => {
-     setNotify('false');
-     try {
-        await AsyncStorage.setItem('notification', 'false');
-  
-       const response = await axios.delete(
-         `${baseUrl}/subject/set/notification/0`,
-         {
-           headers: {
-             Authorization: `Bearer ${token}`,
-           },
-         },
-       );
-       console.log('notiffffff fail', response.data.data);
-     } catch (err) {
-       console.log(err);
-     }
-  }
+  const notifFalse = async () => {
+    setNotify('false');
+    try {
+      await AsyncStorage.setItem('notification', 'false');
+
+      const response = await axios.delete(
+        `${baseUrl}/subject/set/notification/0`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('notiffffff fail', response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const notifTrue = async () => {
     setNotify('true');
     try {
-      await AsyncStorage.setItem('notification', 'true')
-      console.log('storedd')
+      await AsyncStorage.setItem('notification', 'true');
+      console.log('storedd');
       const response = await axios.delete(
         `${baseUrl}/subject/set/notification/1`,
         {
