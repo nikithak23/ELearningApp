@@ -23,6 +23,7 @@ import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
+import {ActivityIndicator} from 'react-native-paper';
 
 const ChapterScreen = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -50,6 +51,7 @@ const ChapterScreen = ({navigation, route}) => {
   const [noSelect1, setnoIsSelect1] = useState(false);
   const [noSelect2, setnoIsSelect2] = useState(false);
   const [noSelect3, setnoIsSelect3] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
@@ -65,6 +67,7 @@ const ChapterScreen = ({navigation, route}) => {
       );
 
       setContents(response.data.data);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -166,167 +169,174 @@ const ChapterScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={
-          orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
-        }>
-        {/* style={styles.TopContainer}> */}
+      {isLoading ? (
         <View>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('CourseScreen', {
-                token: token,
-                lName: lessonName,
-                lId: lessonId,
-                cId: cid,
-                cName: cName,
-              })
-            }>
-            <Image
-              source={require('../Images/Profile/Results/back.png')}
-              style={styles.touchableback}
-            />
-          </TouchableOpacity>
+          <ActivityIndicator />
         </View>
-        <View style={styles.topLeft}>
-          {likedItems.toString().includes(lessonChap.toString()) ? (
-            <Icon name="heart" size={28} style={styles.liked} />
-          ) : (
-            <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
-              <Image
-                source={require('../Images/Subject/heart.png')}
-                // style={styles.heartimg}
-                style={styles.touchableheart}
-              />
-            </TouchableOpacity>
-          )}
+      ) : (
+        <View>
+          <View
+            style={
+              orientation.isPortrait
+                ? styles.TopContainer
+                : styles.TopContainerls
+            }>
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('CourseScreen', {
+                    token: token,
+                    lName: lessonName,
+                    lId: lessonId,
+                    cId: cid,
+                    cName: cName,
+                  })
+                }>
+                <Image
+                  source={require('../Images/Profile/Results/back.png')}
+                  style={styles.touchableback}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.topLeft}>
+              {likedItems.toString().includes(lessonChap.toString()) ? (
+                <Icon name="heart" size={28} style={styles.liked} />
+              ) : (
+                <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
+                  <Image
+                    source={require('../Images/Subject/heart.png')}
+                    // style={styles.heartimg}
+                    style={styles.touchableheart}
+                  />
+                </TouchableOpacity>
+              )}
 
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Image
-              source={require('../Images/Subject/pages.png')}
-              style={styles.touchablepages}
-            />
-          </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <Image
+                  source={require('../Images/Subject/pages.png')}
+                  style={styles.touchablepages}
+                />
+              </TouchableOpacity>
 
-          <Modal isVisible={modalVisible}>
-            <View
-              style={
-                orientation.isPortrait
-                  ? styles.ModalMainContainer
-                  : styles.ModalMainContainerls
-              }>
-              {/* style={styles.ModalMainContainer}> */}
-              <View style={styles.ModalTopContainer}>
-                <View style={styles.ModalContainer}></View>
-                <Text style={styles.ModalgoToPageText}>Go to the page</Text>
-                <Text style={styles.ModalgoToPageText1}>
-                  Select the page number you want to read
-                </Text>
-              </View>
-              <View style={styles.ModalPageContainer}>
+              <Modal isVisible={modalVisible}>
                 <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <TouchableOpacity onPress={() => select1(0)}>
-                    <Text
-                      style={
-                        noSelect1
-                          ? styles.activeModalPageNo
-                          : page == 0
-                          ? [styles.inactiveModalPageNo, {color: 'black'}]
-                          : styles.inactiveModalPageNo
-                      }>
-                      1
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => select2(1)}>
-                    <Text
-                      style={
-                        noSelect2
-                          ? styles.activeModalPageNo
-                          : page == 1
-                          ? [styles.inactiveModalPageNo, {color: 'black'}]
-                          : styles.inactiveModalPageNo
-                      }>
-                      2
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => select3(2)}>
-                    <Text
-                      style={
-                        noSelect3
-                          ? styles.activeModalPageNo
-                          : page == 2
-                          ? [styles.inactiveModalPageNo, {color: 'black'}]
-                          : styles.inactiveModalPageNo
-                      }>
-                      3
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.ModalPageText}>of 3 pages</Text>
-              </View>
-
-              <View style={styles.ModalBottomContainer}>
-                <TouchableOpacity
                   style={
                     orientation.isPortrait
-                      ? styles.ModalNoContainer
-                      : styles.ModalNoContainerls
-                  }
-                  // {/* style={styles.ModalNoContainer} */}
-                  onPress={() => setModalVisible(false)}>
-                  <Text style={styles.ModalNoText}>Cancel</Text>
-                </TouchableOpacity>
-                {(noSelect1 || noSelect2 || noSelect3) === true ? (
-                  <TouchableOpacity
-                    style={
-                      orientation.isPortrait
-                        ? styles.ModalYesContainer
-                        : styles.ModalYesContainerls
-                    }
-                    onPress={submitPage}>
-                    <View style={styles.ModalYesView}>
-                      <Text style={styles.ModalYesText}>Ok</Text>
-                      <Image
-                        source={require('../Images/TestPage/yesArrow.png')}
-                        style={styles.ModalYesImg}
-                      />
+                      ? styles.ModalMainContainer
+                      : styles.ModalMainContainerls
+                  }>
+                  {/* style={styles.ModalMainContainer}> */}
+                  <View style={styles.ModalTopContainer}>
+                    <View style={styles.ModalContainer}></View>
+                    <Text style={styles.ModalgoToPageText}>Go to the page</Text>
+                    <Text style={styles.ModalgoToPageText1}>
+                      Select the page number you want to read
+                    </Text>
+                  </View>
+                  <View style={styles.ModalPageContainer}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <TouchableOpacity onPress={() => select1(0)}>
+                        <Text
+                          style={
+                            noSelect1
+                              ? styles.activeModalPageNo
+                              : page == 0
+                              ? [styles.inactiveModalPageNo, {color: 'black'}]
+                              : styles.inactiveModalPageNo
+                          }>
+                          1
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => select2(1)}>
+                        <Text
+                          style={
+                            noSelect2
+                              ? styles.activeModalPageNo
+                              : page == 1
+                              ? [styles.inactiveModalPageNo, {color: 'black'}]
+                              : styles.inactiveModalPageNo
+                          }>
+                          2
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => select3(2)}>
+                        <Text
+                          style={
+                            noSelect3
+                              ? styles.activeModalPageNo
+                              : page == 2
+                              ? [styles.inactiveModalPageNo, {color: 'black'}]
+                              : styles.inactiveModalPageNo
+                          }>
+                          3
+                        </Text>
+                      </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    style={
-                      orientation.isPortrait
-                        ? styles.ModalYesContainer
-                        : styles.ModalYesContainerls
-                    }>
-                    {/* style={styles.ModalYesContainer}> */}
-                    <View style={styles.ModalYesView}>
-                      <Text style={styles.ModalYesText}>Ok</Text>
-                      <Image
-                        source={require('../Images/TestPage/yesArrow.png')}
-                        style={styles.ModalYesImg}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </View>
+                    <Text style={styles.ModalPageText}>of 3 pages</Text>
+                  </View>
+
+                  <View style={styles.ModalBottomContainer}>
+                    <TouchableOpacity
+                      style={
+                        orientation.isPortrait
+                          ? styles.ModalNoContainer
+                          : styles.ModalNoContainerls
+                      }
+                      // {/* style={styles.ModalNoContainer} */}
+                      onPress={() => setModalVisible(false)}>
+                      <Text style={styles.ModalNoText}>Cancel</Text>
+                    </TouchableOpacity>
+                    {(noSelect1 || noSelect2 || noSelect3) === true ? (
+                      <TouchableOpacity
+                        style={
+                          orientation.isPortrait
+                            ? styles.ModalYesContainer
+                            : styles.ModalYesContainerls
+                        }
+                        onPress={submitPage}>
+                        <View style={styles.ModalYesView}>
+                          <Text style={styles.ModalYesText}>Ok</Text>
+                          <Image
+                            source={require('../Images/TestPage/yesArrow.png')}
+                            style={styles.ModalYesImg}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={
+                          orientation.isPortrait
+                            ? styles.ModalYesContainer
+                            : styles.ModalYesContainerls
+                        }>
+                        {/* style={styles.ModalYesContainer}> */}
+                        <View style={styles.ModalYesView}>
+                          <Text style={styles.ModalYesText}>Ok</Text>
+                          <Image
+                            source={require('../Images/TestPage/yesArrow.png')}
+                            style={styles.ModalYesImg}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+              </Modal>
             </View>
-          </Modal>
-        </View>
-      </View>
+          </View>
 
-      <View style={orientation.isPortrait ? styles.body : styles.bodyls}>
-        {/* style={styles.body}> */}
-        <Text style={styles.name}>{chapterName}</Text>
+          <View style={orientation.isPortrait ? styles.body : styles.bodyls}>
+            {/* style={styles.body}> */}
+            <Text style={styles.name}>{chapterName}</Text>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* {contents[0]?.videoUrl ? (
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* {contents[0]?.videoUrl ? (
             <Video
               source={{
                 uri: contents[0]?.videoUrl,
@@ -338,70 +348,81 @@ const ChapterScreen = ({navigation, route}) => {
               controls={true}
             />
           ) : null} */}
-          {/* <View
+              {/* <View
             style={
               orientation.isPortrait ? styles.contentimg : styles.contentimgls
             }> */}
-          {contents[0]?.videoUrl ? (
+              {contents[0]?.videoUrl ? (
+                <View
+                  style={
+                    orientation.isPortrait
+                      ? styles.contentimg
+                      : styles.contentimgls
+                  }>
+                  <YoutubePlayer
+                    height={300}
+                    play={false}
+                    videoId={contents[0]?.videoUrl}
+                  />
+                </View>
+              ) : null}
+
+              {contents[0]?.imageUrl ? (
+                <Image
+                  source={{uri: contents[0]?.imageUrl}}
+                  style={
+                    orientation.isPortrait
+                      ? styles.contentimg
+                      : styles.contentimgls
+                  }
+                />
+              ) : null}
+
+              <Text
+                style={
+                  orientation.isPortrait ? styles.content : styles.contentls
+                }>
+                {contents[0]?.content}
+              </Text>
+            </ScrollView>
+          </View>
+          <View
+            style={orientation.isPortrait ? styles.bottom : styles.bottomls}>
             <View
               style={
-                orientation.isPortrait ? styles.contentimg : styles.contentimgls
+                orientation.isPortrait ? styles.bottomLeft : styles.bottomLeftls
               }>
-              <YoutubePlayer
-                height={300}
-                play={false}
-                videoId={contents[0]?.videoUrl}
-              />
+              <Text style={styles.bottomChapter}>
+                C{chapterNumber}:{chapterName}
+              </Text>
+
+              <Text style={styles.bottomPage}>{page + 1} of 3 pages</Text>
             </View>
-          ) : null}
-
-          {contents[0]?.imageUrl ? (
-            <Image
-              source={{uri: contents[0]?.imageUrl}}
+            <View
               style={
-                orientation.isPortrait ? styles.contentimg : styles.contentimgls
-              }
-            />
-          ) : null}
-
-          <Text
-            style={orientation.isPortrait ? styles.content : styles.contentls}>
-            {contents[0]?.content}
-          </Text>
-        </ScrollView>
-      </View>
-      <View style={orientation.isPortrait ? styles.bottom : styles.bottomls}>
-        <View
-          style={
-            orientation.isPortrait ? styles.bottomLeft : styles.bottomLeftls
-          }>
-          <Text style={styles.bottomChapter}>
-            C{chapterNumber}:{chapterName}
-          </Text>
-
-          <Text style={styles.bottomPage}>{page + 1} of 3 pages</Text>
+                orientation.isPortrait
+                  ? styles.bottomRight
+                  : styles.bottomRightls
+              }>
+              {/* style={styles.bottomRight}> */}
+              <TouchableOpacity onPress={() => decPage(page)}>
+                <Image
+                  source={require('../Images/TestPage/btnPrevQtn.png')}
+                  style={
+                    page == 0 ? [styles.prevQn, {opacity: 0.2}] : styles.prevQn
+                  }
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => incPage(page)}>
+                <Image
+                  source={require('../Images/TestPage/btnNxtQtn.png')}
+                  style={page == 2 ? {opacity: 0.2} : {opactiy: 1}}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-        <View
-          style={
-            orientation.isPortrait ? styles.bottomRight : styles.bottomRightls
-          }>
-          {/* style={styles.bottomRight}> */}
-          <TouchableOpacity onPress={() => decPage(page)}>
-            <Image
-              source={require('../Images/TestPage/btnPrevQtn.png')}
-              style={
-                page == 0 ? [styles.prevQn, {opacity: 0.2}] : styles.prevQn
-              }
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => incPage(page)}>
-            <Image
-              source={require('../Images/TestPage/btnNxtQtn.png')}
-              style={page == 2 ? {opacity: 0.2} : {opactiy: 1}}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      )}
     </View>
   );
 };
