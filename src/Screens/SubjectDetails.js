@@ -27,6 +27,7 @@ const SubjectDetails = ({navigation, route}) => {
   const subject = route?.params.subject;
   const token = route?.params.token;
   const subId = route?.params.id;
+  //const courseId = route?.params.courseId;
   const btnBack = require('../Images/Notification/btnback.png');
   const [selected, setSelected] = useState('ALL');
   const [courseTitle, setCourseTitle] = useState([]);
@@ -42,6 +43,7 @@ const SubjectDetails = ({navigation, route}) => {
   const [empty, setEmpty] = useState(false);
   const [likedList, setLikedList] = useState(null);
   const dispatch = useDispatch();
+  console.log('hommmmeeee', subject, subId);
 
 
   const getCourses = async () => {
@@ -372,7 +374,7 @@ const SubjectDetails = ({navigation, route}) => {
       } catch (err) {
         console.log(err);
       }
-    }, [likedList]),
+    }, []),
   );
 
   const initialiseLikedList = async () => {

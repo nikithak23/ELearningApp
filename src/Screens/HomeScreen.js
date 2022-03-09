@@ -124,6 +124,7 @@ const HomeScreen = ({navigation, route, token}) => {
         let subId = subjectData[0].subjectId;
         if (response.status === 200) {
           setEnteredText('');
+          
           navigation.navigate('SubjectDetails', {
             subject: subName,
             token: token,
@@ -177,10 +178,11 @@ const HomeScreen = ({navigation, route, token}) => {
     return (
       <Card style={orientation.isPortrait?styles.bottomCards:styles.bottomCardsLandscape}>
         <TouchableOpacity onPress={()=>{
+          
           navigation.navigate('SubjectDetails', {
             token: token,
             subject:item.subjectName,
-            subId:item.subjectId,
+            id:item.subjectId,
             courseId:item.courseId,
           });
         }}>
