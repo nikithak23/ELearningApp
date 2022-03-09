@@ -29,7 +29,7 @@ const profiles = [pic1, pic2, pic3];
 
 const ProfileScreen = ({navigation, token}) => {
   
-  const [notify, setNotify] = useState('');
+  const [notify, setNotify] = useState('false');
   const orientation = useOrientation();
   
   // const [isRight, setIsRight] = useState(true);

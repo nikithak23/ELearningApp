@@ -337,6 +337,7 @@ const styles = StyleSheet.create({
   },
   bottomCardsLandscape: {
     marginLeft: 25,
+    //marginHorizontal: 25,
     backgroundColor: '#FFFFFF',
     width: 260,
     height: 270,
