@@ -13,6 +13,7 @@ import {
   ImageBackground,
   TextInput,
   FlatList,
+  Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 // import {} from 'react-native-gesture-handler';
@@ -55,22 +56,19 @@ const ProfileScreen = ({navigation, token}) => {
   // const [text, onChangeText] = useState(ProfileData);
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-    useEffect(() => {
-      const retrieveNotif = async () => {
-        try {
-          const value = await AsyncStorage.getItem('notification');
-          if (value !== null) {
-            console.log(';;;;;;;;;', value);
-            setNotify(value)
-          }
-          else{
-            setNotify('false');
-          }
-          
-        } catch (e) {
-          console.log(e);
+  useEffect(() => {
+    const retrieveNotif = async () => {
+      try {
+        const value = await AsyncStorage.getItem('notification');
+        if (value !== null) {
+          console.log(';;;;;;;;;', value);
+          setNotify(value);
+        } else {
+          setNotify('false');
         }
-      
+      } catch (e) {
+        console.log(e);
+      }
 
       try {
         const value = await AsyncStorage.getItem('profilePhoto');
@@ -384,7 +382,14 @@ const ProfileScreen = ({navigation, token}) => {
                     onChangeText={setName}
                     style={styles.input}></TextInput>
                 </View>
-                <View style={styles.EditModalLine}></View>
+                <View
+                  style={
+                    orientation.isPortrait
+                      ? styles.EditModalLine
+                      : styles.EditModalLinels
+                  }>
+                  {/* style={styles.EditModalLine}> */}
+                </View>
                 <Text style={styles.ProfileMail}>{ProfileData.username}</Text>
               </View>
             </View>
@@ -533,7 +538,11 @@ const ProfileScreen = ({navigation, token}) => {
           <TouchableOpacity onPress={gotoResult}>
             <Image
               source={require('../Images/Profile/arrow.png')}
-              style={styles.ResultsArrowImage}
+              style={
+                orientation.isPortrait
+                  ? styles.ResultsArrowImage
+                  : styles.ResultsArrowImagels
+              }
             />
           </TouchableOpacity>
         </View>
@@ -560,7 +569,13 @@ const ProfileScreen = ({navigation, token}) => {
           </View>
           {notify === 'true' && (
             <TouchableOpacity onPress={() => notifFalse()}>
-              <View style={styles.ActiveNotification1}>
+              <View
+                style={
+                  orientation.isPortrait
+                    ? styles.ActiveNotification1
+                    : styles.ActiveNotification1ls
+                }>
+                {/* style={styles.ActiveNotification1}> */}
                 <View style={styles.ActiveNotification2}></View>
               </View>
             </TouchableOpacity>
@@ -568,7 +583,13 @@ const ProfileScreen = ({navigation, token}) => {
 
           {notify === 'false' && (
             <TouchableOpacity onPress={() => notifTrue()}>
-              <View style={styles.InActiveNotification1}>
+              <View
+                style={
+                  orientation.isPortrait
+                    ? styles.InActiveNotification1
+                    : styles.InActiveNotification1ls
+                }>
+                {/* // styles.InActiveNotification1}> */}
                 <View style={styles.InActiveNotification2}></View>
               </View>
             </TouchableOpacity>
@@ -601,7 +622,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   TopDotsls: {
-    marginTop: 60,
+    marginTop: Platform.OS === 'ios' ? 60 : 90,
     alignSelf: 'flex-end',
     marginHorizontal: 60,
   },
@@ -686,6 +707,7 @@ const styles = StyleSheet.create({
     height: '80%',
     width: '103%',
     marginLeft: -15,
+
     borderRadius: 15,
   },
   ModalTopContainer: {
@@ -758,7 +780,8 @@ const styles = StyleSheet.create({
     width: 250,
     borderWidth: 2,
     borderRadius: 13,
-    marginLeft: 90,
+    marginLeft: Platform.OS === 'ios' ? 90 : 80,
+    // marginLeft: 90,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -783,7 +806,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     borderColor: '#4C93FF',
-    marginLeft: 90,
+    marginLeft: Platform.OS === 'ios' ? 90 : 60,
     backgroundColor: '#4C93FF',
   },
   ModalYesView: {
@@ -956,6 +979,12 @@ const styles = StyleSheet.create({
     marginLeft: 60,
     marginTop: 6,
   },
+  ResultsArrowImagels: {
+    width: 10,
+    height: 12,
+    marginLeft: Platform.OS === 'ios' ? 60 : 0,
+    marginTop: 6,
+  },
   Notifications: {
     marginHorizontal: 33,
     marginTop: 30,
@@ -978,6 +1007,14 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     backgroundColor: '#4C93FF',
   },
+  ActiveNotification1ls: {
+    borderRadius: 20,
+    width: 50,
+    height: 30,
+    marginRight: 30,
+    marginLeft: Platform.OS == 'ios' ? 30 : -30,
+    backgroundColor: '#4C93FF',
+  },
   ActiveNotification2: {
     alignSelf: 'flex-end',
     borderRadius: 20,
@@ -995,6 +1032,15 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     backgroundColor: 'grey',
   },
+  InActiveNotification1ls: {
+    borderRadius: 20,
+    width: 50,
+    height: 30,
+    marginRight: 30,
+    // marginLeft: 30,
+    marginLeft: Platform.OS == 'ios' ? 30 : -30,
+    backgroundColor: 'grey',
+  },
   InActiveNotification2: {
     borderRadius: 20,
     width: 28,
@@ -1008,11 +1054,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -19,
     left: -19,
-    // right: 1,
     height: '45%',
     width: '111%',
-    // marginRight: 20,
-    // borderRadius: 15,
   },
 
   editModalMainContainerls: {
@@ -1020,7 +1063,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -36,
     left: -19,
-    height: '120%',
+    // bottom: -20,
+
+    height: Platform.OS === 'ios' ? '120%' : '130%',
     width: '103%',
     paddingHorizontal: 40,
   },
@@ -1086,6 +1131,16 @@ const styles = StyleSheet.create({
     width: 290,
     backgroundColor: '#C1C2C4',
     marginTop: 15,
+    marginBottom: 16,
+  },
+  EditModalLinels: {
+    height: 2,
+    borderRadius: 20,
+    marginLeft: 50,
+    marginRight: 50,
+    width: 290,
+    backgroundColor: '#C1C2C4',
+    marginTop: Platform.OS === 'ios' ? 15 : 0,
     marginBottom: 16,
   },
 
