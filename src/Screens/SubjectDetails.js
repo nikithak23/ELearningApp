@@ -35,7 +35,7 @@ const SubjectDetails = ({navigation, route}) => {
   const [selectedCourse, setSelectedCourse] = useState();
   const [chapters, setChapters] = useState([]);
   const [courseName, setCourseName] = useState('');
-  const [lId, setLId] = useState('0');
+  const [lessonStdyng, setLessonStdyng] = useState([]);
   const [lName, setLName] = useState('');
   const [lSummary, setLSummary] = useState('');
   const [loading, setLoading] = useState(true)
@@ -77,6 +77,23 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
+  const getStudyng = async() => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/subject/get/lesson/studying`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setLessonStdyng(response.data.data);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   // const getChaps = async (id) => {
   //   try {
   //     const response = await axios.get(
@@ -104,6 +121,11 @@ const SubjectDetails = ({navigation, route}) => {
       getLessons();
     }, [courseId]),
   );
+  useFocusEffect(
+    React.useCallback(()=>{
+      getStudyng();
+    },[lessonStdyng])
+  )
   // useEffect(() => {
   //   getLessons();
   // }, [courseId]);
@@ -138,53 +160,8 @@ const SubjectDetails = ({navigation, route}) => {
     );
   };
 
-  // const renderChap = ({item, index}) => {
-  //   {
-  //     if(loading === true){
-  //       return(
-  //         <> 
-  //         </>
-  //       )
-  //     }else{
-  //       return (
-  //         <TouchableOpacity activeOpacity={0.8} style={styles.row} onPress={
-  //       ()=>{
-  //         navigation.navigate('CourseScreen', {
-  //           lId: lId,
-  //           lName: lName,
-  //           token: token,
-  //           cId: courseId,
-  //           cName: courseName,
-  //           lSummary: lSummary,
-  //         })
-  //       }
-  //     }>
-  //       <View style={styles.column}>
-  //         <View style={styles.progressLine}></View>
-  //         <Icon name="checkmark-sharp" size={21} style={styles.tick} />
-  //       </View>
-  //       <View style={styles.column}>
-  //         <Text style={styles.chaps}>
-  //           {item.chapterName}
-  //         </Text>
-  //         <Text style={styles.summary}>{item.summary}</Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //       )
-  //     }
-  //   }
-      
-  // };
-  
-  // const onPressLesson = (item) => {
-  //   setLId(item.lessonId),
-  //   console.log(lId)
-  //   setLName(item.lessonName), 
-  //   setLSummary(item.summary), 
-  //   getChaps(lId),
-  //   setLoading(true)
-  //  }
   const renderLesson = ({item, index}) => {
+    let ifStudyng = lessonStdyng.find(element => element.lessonId === item.lessonId);
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -196,13 +173,16 @@ const SubjectDetails = ({navigation, route}) => {
             token: token,
             cId: courseId,
             cName: courseName,
-            lessonNumber: item.lessonNumber
-          })
+            lessonNumber: item.lessonNumber,
+            subject: subject,
+          });
         }}>
         <View style={styles.row}>
           <View style={styles.progress}>
             <CircularProgress
-              value={60}
+              value={
+                ifStudyng?.lessonId === item.lessonId ? ifStudyng.percent : 0
+              }
               radius={17}
               duration={1000}
               textColor={'transparent'}
@@ -222,46 +202,165 @@ const SubjectDetails = ({navigation, route}) => {
         </View>
         <View style={styles.row}>
           <View style={styles.column}>
-            <View style={styles.progressLine}></View>
-            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+            <View
+              style={
+                ifStudyng?.lessonId === item.lessonId
+                  ? ifStudyng.completed1 === true
+                    ? [styles.progressLine, {borderColor: '#03c04a'}]
+                    : styles.progressLine
+                  : styles.progressLine
+              }></View>
+            {ifStudyng?.lessonId === item.lessonId ? (
+              ifStudyng.completed1 === true ? (
+                <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+              ) : (
+                <Icon name="ellipse" size={12} style={styles.dot} />
+              )
+            ) : (
+              <Icon name="ellipse" size={12} style={styles.dot} />
+            )}
           </View>
           <View style={styles.column}>
             <Text style={styles.chaps}>{item.chapter1}</Text>
             <Text style={styles.summary}>{item.summary1}</Text>
           </View>
         </View>
-        {item.chapter2? <View style={styles.row}>
-          <View style={styles.column}>
-            <View style={styles.progressLine}></View>
-            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+        {item.chapter2 ? (
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <View
+                style={
+                  ifStudyng?.lessonId === item.lessonId
+                    ? ifStudyng.completed2 === true
+                      ? [styles.progressLine, {borderColor: '#03c04a'}]
+                      : styles.progressLine
+                    : styles.progressLine
+                }></View>
+              {ifStudyng?.lessonId === item.lessonId ? (
+                ifStudyng.completed2 === true ? (
+                  <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+                ) : (
+                  <Icon name="ellipse" size={12} style={styles.dot} />
+                )
+              ) : (
+                <Icon name="ellipse" size={12} style={styles.dot} />
+              )}
+            </View>
+            <View style={styles.column}>
+              <Text style={styles.chaps}>{item.chapter2}</Text>
+              <Text style={styles.summary}>{item.summary2}</Text>
+            </View>
           </View>
-          <View style={styles.column}>
-            <Text style={styles.chaps}>{item.chapter2}</Text>
-            <Text style={styles.summary}>{item.summary2}</Text>
+        ) : null}
+        {item.chapter3 ? (
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <View
+                style={
+                  ifStudyng?.lessonId === item.lessonId
+                    ? ifStudyng.completed3 === true
+                      ? [styles.progressLine, {borderColor: '#03c04a'}]
+                      : styles.progressLine
+                    : styles.progressLine
+                }></View>
+              {ifStudyng?.lessonId === item.lessonId ? (
+                ifStudyng.completed3 === true ? (
+                  <Icon name="checkmark-sharp" size={21} style={styles.tick} />
+                ) : (
+                  <Icon name="ellipse" size={12} style={styles.dot} />
+                )
+              ) : (
+                <Icon name="ellipse" size={12} style={styles.dot} />
+              )}
+            </View>
+            <View style={styles.column}>
+              <Text style={styles.chaps}>{item.chapter3}</Text>
+              <Text style={styles.summary}>{item.summary3}</Text>
+            </View>
           </View>
-        </View> : null}
-        {item.chapter3? <View style={styles.row}>
-          <View style={styles.column}>
-            <View style={styles.progressLine}></View>
-            <Icon name="checkmark-sharp" size={21} style={styles.tick} />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.chaps}>{item.chapter3}</Text>
-            <Text style={styles.summary}>{item.summary3}</Text>
-          </View>
-        </View> : null}
-
-        {/* {console.log(item.lessonId, chapters[index + 1]?.lessonId, index)}
-        {item.lessonId === lId && (
-          <FlatList
-            data={chapters}
-            renderItem={renderChap}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        )} */}
+        ) : null}
       </TouchableOpacity>
     );
   };
+  const filterStudyng = lessonStdyng.filter(ele => ele.subject === subject)
+  const onlyStudyng = filterStudyng.filter(ele => ele.percent > 0)
+  const filterLiked = likedList?.filter(ele => ele[3] === subject)
+   const renderStud = ({item}) => {
+    
+     return (
+       <TouchableOpacity
+         style={styles.studyn}
+         onPress={() => {
+           navigation.navigate('CourseScreen', {
+             lId: item.lessonId,
+             lName: item.lessonName,
+             token: token,
+             cId: item.courseId,
+             cName: item.courseName,
+             lessonNumber: item.lessonNumber,
+             subject: subject,
+           });
+         }}>
+         <View style={styles.row}>
+           <View style={styles.progress}>
+             <CircularProgress
+               value={item.percent}
+               radius={17}
+               duration={1000}
+               textColor={'transparent'}
+               maxValue={100}
+               activeStrokeWidth={1.5}
+               inActiveStrokeWidth={2.5}
+               inActiveStrokeColor={'#999'}
+               inActiveStrokeOpacity={0.35}
+             />
+           </View>
+           <View style={styles.row}>
+             <Text style={styles.lessonName}>
+               {item.lessonName.toUpperCase()}
+             </Text>
+           </View>
+         </View>
+         <View style={styles.row}>
+           <View style={styles.column}>
+             {item.completed1 === true ? (
+               <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+             ) : (
+               <Icon name="ellipse" size={12} style={styles.dot} />
+             )}
+           </View>
+
+           <Text style={styles.chapstudyn}>{item.chapterName1}</Text>
+         </View>
+         {item.chapterName2 ? (
+           <View style={styles.row}>
+             <View style={styles.column}>
+               {item.completed2 === true ? (
+                 <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+               ) : (
+                 <Icon name="ellipse" size={12} style={styles.dot} />
+               )}
+             </View>
+
+             <Text style={styles.chapstudyn}>{item.chapterName2}</Text>
+           </View>
+         ) : null}
+         {item.chapterName3 ? (
+           <View style={styles.row}>
+             <View style={styles.column}>
+               {item.completed3 === true ? (
+                 <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+               ) : (
+                 <Icon name="ellipse" size={12} style={styles.dot} />
+               )}
+             </View>
+
+             <Text style={styles.chapstudyn}>{item.chapterName3}</Text>
+           </View>
+         ) : null}
+       </TouchableOpacity>
+     );
+   }
 
   //////////////////////////get liked list///////////////////////////
   
@@ -284,7 +383,7 @@ const SubjectDetails = ({navigation, route}) => {
       setEmpty(false);
       setLikedList(JSON.parse(currentItems));
       console.log('likeddd', likedList)
-      likedList.length === 0 ? setEmpty(true) : null;
+      filterLiked?.length === 0 ? setEmpty(true) : null;
     }
     dispatch({
       type: 'UPDATE_LIKED_LIST',
@@ -353,8 +452,8 @@ const SubjectDetails = ({navigation, route}) => {
           ))}
         </View>
         {selected === Options[0] ? (
-          <>
-            <View>
+       
+            <View style = {{marginBottom:-210}}>
               <FlatList
                 data={courseTitle}
                 renderItem={renderCourse}
@@ -362,16 +461,22 @@ const SubjectDetails = ({navigation, route}) => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               />
-            </View>
-            <>
-              <FlatList
-                data={LessonTitle}
+  
+                <FlatList
+                  data={LessonTitle}
+                  renderItem={renderLesson}
+                  keyExtractor={item => item.lessonId}
+                  showsVerticalScrollIndicator={false}
+                />
+                {/* <FlatList
+                data={lessonStdyng}
                 renderItem={renderLesson}
                 keyExtractor={item => item.lessonId}
                 showsVerticalScrollIndicator={false}
-              />
-            </>
-          </>
+              /> */}
+           
+            </View>
+          
         ) : selected === Options[1] ? (
           renderStudying()
         ) : (
@@ -381,11 +486,24 @@ const SubjectDetails = ({navigation, route}) => {
     );
   }
   const renderStudying=() => {
-    return(
-      <View>
-        <Text>List of Studyng</Text>
-      </View>
-    )
+    if(onlyStudyng.length>0){
+      return (
+        <View style={styles.bottom}>
+          <FlatList
+            data={onlyStudyng}
+            renderItem={renderStud}
+            keyExtractor={item => item.lessonId}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      );
+    }else{
+      return (
+        <>
+          <Text style={styles.empty}>Currently no lessons here</Text>
+        </>
+      );
+    }
   } 
 
   const renderLiked = () => {
@@ -403,7 +521,7 @@ const SubjectDetails = ({navigation, route}) => {
             <Text style={styles.clear}>Clear All</Text>
           </TouchableOpacity>
           <FlatList
-            data={likedList}
+            data={filterLiked}
             renderItem={renderLikedList}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
@@ -528,13 +646,23 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
   },
+  studyn: {
+    backgroundColor: '#fff',
+    marginHorizontal: 30,
+    marginVertical: 3,
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    borderColor: 15,
+    borderRadius: 15,
+    marginTop: 20,
+  },
   lessonName: {
     color: '#1b7ced',
     fontSize: 13,
     fontWeight: 'bold',
     marginTop: 30,
     marginLeft: 7,
-    marginBottom: 33,
+    marginBottom: 25,
     letterSpacing: 0,
     width: 200,
   },
@@ -552,6 +680,15 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     letterSpacing: 0.15,
     width: 220,
+  },
+  chapstudyn: {
+    color: '#292929',
+    fontSize: 20,
+    fontWeight: '400',
+    marginLeft: 15,
+    letterSpacing: 0.15,
+    width: 220,
+    marginBottom: 15,
   },
   summary: {
     color: '#999',
@@ -584,7 +721,7 @@ const styles = StyleSheet.create({
   //   width: 50,
   // },
   progress: {
-    marginTop: 20,
+    marginTop: 27,
     marginLeft: 15,
   },
   tick: {
@@ -611,6 +748,7 @@ const styles = StyleSheet.create({
     marginLeft: 31.5,
     marginTop: -26,
   },
+
   likedCName: {
     color: '#1b7ced',
     fontSize: 15,
@@ -642,11 +780,14 @@ const styles = StyleSheet.create({
   },
   empty: {
     color: '#1b7ced',
-    fontSize:28,
+    fontSize: 28,
     fontWeight: 'bold',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 220
+    marginTop: 220,
+  },
+  bottom: {
+    marginBottom: -220
   }
 });
 

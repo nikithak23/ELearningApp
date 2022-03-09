@@ -23,15 +23,17 @@ const NotificationScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const [notif, setNotif] = useState([])
-  const [date, setDate] = useState(new Date().toUTCString())
+  const [date, setDate] = useState('')
   const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
+  const hrRegex = /[0-2][0-9]/;
+  const minRegex = /:[0-5][0-9]:/;
   useEffect(()=> {
     getNotifs();
   },[notif])
 
   useFocusEffect(
     React.useCallback(()=>{
-      
+      setDate(new Date().toUTCString());
       console.log('date',date)
     })
   )
@@ -55,7 +57,36 @@ const NotificationScreen = ({navigation, route}) => {
 
   const renderNotifications = ({item}) => {
     let time = date.match(timeRegex)
-    console.log('time', '========', time[0])
+    let presentHr = time[0].match(hrRegex)
+    let notifHr = item.time.match(hrRegex)
+    let presentMin = time[0].match(minRegex)[0].match(/(\d+)/)
+    let notifMin = item.time.match(minRegex)[0].match(/(\d+)/);
+    const hrDiff =  Number(presentHr)-Number(notifHr)
+    const minDiff = Number(presentMin[0]) - Number(notifMin[0])
+    console.log('time', '====',item.time, '====', time[0], 'difff==> ', hrDiff, '>>>>', minDiff)
+
+
+
+// 08:10    07:45
+
+
+    const timeDiff = () => {
+      if (hrDiff > 0) {
+        if (minDiff > -1) {
+          return `${hrDiff} hr ago`;
+        } else {
+          return `${60 - Math.abs(minDiff)} min ago`;
+        }
+      }
+      else {
+        if(minDiff < 5){
+          return `Just now`;
+        }
+        else{
+          return `${minDiff} min ago`
+        }
+      }
+    }
     return (
       <View style={styles.component}>
         <View>
@@ -64,7 +95,7 @@ const NotificationScreen = ({navigation, route}) => {
             <Text style={styles.time}>{item.time}</Text>
           </View>
 
-          <Text style={styles.notif}>{item.notificationContent}</Text>
+          <Text style={styles.notif}>{timeDiff()}</Text>
         </View>
       </View>
     );

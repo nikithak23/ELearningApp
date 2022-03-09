@@ -21,6 +21,7 @@ import {useDispatch} from 'react-redux';
 
 const ChapterScreen = ({navigation, route}) => {
   const token = route?.params.token;
+  const subject = route?.params.subject;
   const chapterId = route?.params.chapterId;
   const chapterNumber = route?.params.chapterNumber;
   const chapterName = route?.params.chapterName;
@@ -28,7 +29,7 @@ const ChapterScreen = ({navigation, route}) => {
   const [likedItems, setLikedItems] = useState([]);
   const lessonName = route?.params.lessonName;
   const lessonId = route?.params.lessonId;
-  const lessonChap = [chapterId, chapterName, lessonName];
+  const lessonChap = [chapterId, chapterName, lessonName, subject];
   const [modalVisible, setModalVisible] = useState(false);
   const videoUrl = route?.params.videoUrl;
   console.log(chapterName);

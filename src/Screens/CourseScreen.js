@@ -36,6 +36,7 @@ const Chapters = [
 const CourseScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
+  const subject = route?.params.subject;
   const id = route?.params.lId;
   const lessonNumber = route?.params.lessonNumber;
   const lName = route?.params.lName;
@@ -127,6 +128,7 @@ const CourseScreen = ({navigation, route}) => {
               chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
+              subject: subject
             })
           }
           style={styles.listComponent}>

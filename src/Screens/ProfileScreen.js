@@ -18,15 +18,16 @@ import Modal from 'react-native-modal';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 
+
 const pic1 = '../Images/Profile/photo1.jpeg';
 const pic2 = require('../Images/Profile/2photo.jpeg');
 const pic3 = require('../Images/Profile/photo3.jpeg');
 
 const profiles = [pic1, pic2, pic3];
 
-
 const ProfileScreen = ({navigation, token}) => {
-  const [notify, setNotify] = useState(false);
+  
+  const [notify, setNotify] = useState('');
   // const [isRight, setIsRight] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isinnerVisible, setIsinnerVissible] = useState(false);
@@ -52,7 +53,33 @@ const ProfileScreen = ({navigation, token}) => {
   // const [text, onChangeText] = useState(ProfileData);
 
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
+    useEffect(() => {
+      const retrieveNotif = async () => {
+        try {
+          const value = await AsyncStorage.getItem('notification');
+          if (value !== null) {
+            console.log(';;;;;;;;;', value);
+            setNotify(value)
+          }
+          
+        } catch (e) {
+          console.log(e);
+        }
 
+        try {
+        const value = await AsyncStorage.getItem('profilePhoto');
+        if (value !== null) {
+          // We have data!!
+          console.log('storeedddd', value);
+          setProfilePic(value)
+        }
+      } catch (error) {
+        console.log('error storing pic')
+      }
+      };
+      retrieveNotif();
+    },[]);
+  
   const getResults = async () => {
     try {
       const response = await axios.get(`${baseUrl}/subject/get/result`, {
@@ -203,16 +230,15 @@ const ProfileScreen = ({navigation, token}) => {
     navigation.navigate('Results', {token: token, Results: Results});
   };
 
-  const storeProfile = async() => {
-    try {
-      //await AsyncStorage.removeItem('profilePhoto');
-      const pp = await AsyncStorage.setItem('profilePhoto', profilePic);
-      //await AsyncStorage.removeItem('profilePhoto');
-      console.log('ppppimmmmggg ', pp);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // const storeProfile = async() => {
+  //   try {
+  //     //await AsyncStorage.removeItem('profilePhoto');
+  //     await AsyncStorage.setItem('profilePhoto', profilePic);
+  //     //await AsyncStorage.removeItem('profilePhoto');
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
   const changeProfile = async() => {
        ImagePicker.openPicker({
          width: 300,
@@ -222,13 +248,16 @@ const ProfileScreen = ({navigation, token}) => {
          console.log(image);
          setProfilePic(image.path);
          console.log('imgggggggg', profilePic);
+          AsyncStorage.setItem('profilePhoto', image.path);
        });
-      storeProfile()
+      
   }
 
   const notifFalse = async() => {
-     setNotify(false);
+     setNotify('false');
      try {
+        await AsyncStorage.setItem('notification', 'false');
+  
        const response = await axios.delete(
          `${baseUrl}/subject/set/notification/0`,
          {
@@ -244,8 +273,10 @@ const ProfileScreen = ({navigation, token}) => {
   }
 
   const notifTrue = async () => {
-    setNotify(true);
+    setNotify('true');
     try {
+      await AsyncStorage.setItem('notification', 'true')
+      console.log('storedd')
       const response = await axios.delete(
         `${baseUrl}/subject/set/notification/1`,
         {
@@ -478,7 +509,7 @@ const ProfileScreen = ({navigation, token}) => {
               Turn off the notification if you don't want to recieve
             </Text>
           </View>
-          {notify === true && (
+          {notify === 'true' && (
             <TouchableOpacity onPress={() => notifFalse()}>
               <View style={styles.ActiveNotification1}>
                 <View style={styles.ActiveNotification2}></View>
@@ -486,7 +517,7 @@ const ProfileScreen = ({navigation, token}) => {
             </TouchableOpacity>
           )}
 
-          {notify === false && (
+          {notify === 'false' && (
             <TouchableOpacity onPress={() => notifTrue()}>
               <View style={styles.InActiveNotification1}>
                 <View style={styles.InActiveNotification2}></View>
