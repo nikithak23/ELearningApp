@@ -49,7 +49,8 @@ const OnboardingScreen1 = ({navigation}) => {
       <View style={styles.text1view}>
         <Text style={styles.text1}>Learn from anywhere</Text>
         <Text style={styles.text2}>
-          This is the part that is to be done afterwards and its a dummy text
+          This is an online app that allows you to rediscover yourself. Take a
+          course on digital art and become a better artist
         </Text>
       </View>
       <View style={styles.bottom}>

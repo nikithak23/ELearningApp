@@ -338,18 +338,22 @@ const ChapterScreen = ({navigation, route}) => {
               controls={true}
             />
           ) : null} */}
-          <View
+          {/* <View
             style={
               orientation.isPortrait ? styles.contentimg : styles.contentimgls
-            }>
-            {contents[0]?.videoUrl ? (
+            }> */}
+          {contents[0]?.videoUrl ? (
+            <View
+              style={
+                orientation.isPortrait ? styles.contentimg : styles.contentimgls
+              }>
               <YoutubePlayer
                 height={300}
                 play={false}
                 videoId={contents[0]?.videoUrl}
               />
-            ) : null}
-          </View>
+            </View>
+          ) : null}
 
           {contents[0]?.imageUrl ? (
             <Image

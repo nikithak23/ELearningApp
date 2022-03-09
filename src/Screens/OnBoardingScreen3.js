@@ -41,7 +41,8 @@ const OnboardingScreen1 = ({navigation}) => {
       <View style={styles.text1view}>
         <Text style={styles.text1}>Study Overview</Text>
         <Text style={styles.text2}>
-          This is the part that is to be done afterwards and its a dummy text
+          Join our app that will help you learn the cutting-edge skills to scale
+          new heights in your creative career
         </Text>
       </View>
       <View style={styles.bottom}>

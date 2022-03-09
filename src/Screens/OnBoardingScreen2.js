@@ -46,7 +46,8 @@ const OnboardingScreen1 = ({navigation}) => {
       <View style={styles.text1view}>
         <Text style={styles.text1}>User Friendly</Text>
         <Text style={styles.text2}>
-          This is the part that is to be done afterwards and its a dummy text
+          Enjoy the captivating process of online education in a place and at a
+          time of your choice. Commfort and convenience
         </Text>
       </View>
       <View style={styles.bottom}>
