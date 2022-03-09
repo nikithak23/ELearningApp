@@ -19,7 +19,7 @@ const SignUpForm = ({
   const nameCheck = () => {
     if (/[0-9]/.test(name) === true) {
       return (
-        <Text style={styles.error}>Name must contain only characters</Text>
+        <Text style={orientation.isPortrait?styles.error:styles.errorLs}>Name must contain only characters</Text>
       );
     }
   };
@@ -35,12 +35,12 @@ const SignUpForm = ({
   */
   const passwordCheck = () => {
     if (password.length >0&&password.length <=5) {
-      return <Text style={styles.error}>Password length must be more than 5</Text>;
+      return <Text style={orientation.isPortrait?styles.error:styles.errorLs}>Password length must be more than 5</Text>;
     }
   };
   const confirmPasswordCheck = () => {
     if (confirmPassword !== password && confirmPassword) {
-      return <Text style={styles.error}>Both passwords must be same.</Text>;
+      return <Text style={orientation.isPortrait?styles.error:styles.errorLs}>Both passwords must be same.</Text>;
     }
   };
 
@@ -53,7 +53,7 @@ const SignUpForm = ({
             placeholder="Name"
             onChangeText={input => setName(input)}
             maxLength={20}
-            style={styles.inputField}
+            style={orientation.isPortrait?styles.inputField:styles.inputFieldLs}
           />
           {nameCheck()}
        
@@ -63,7 +63,7 @@ const SignUpForm = ({
             placeholder="Mobile"
             onChangeText={input => mobileCheck(input)}
             maxLength={10}
-            style={styles.inputField}
+            style={orientation.isPortrait?styles.inputField:styles.inputFieldLs}
           />
         
     
@@ -73,7 +73,7 @@ const SignUpForm = ({
             onChangeText={input => setPassword(input)}
             secureTextEntry={true}
             maxLength={10}
-            style={styles.inputField}
+            style={orientation.isPortrait?styles.inputField:styles.inputFieldLs}
           />
           {passwordCheck()}
         
@@ -84,7 +84,7 @@ const SignUpForm = ({
             onChangeText={input => setConfirmPassword(input)}
             secureTextEntry={true}
             maxLength={10}
-            style={styles.inputField}
+            style={orientation.isPortrait?styles.inputField:styles.inputFieldLs}
           />
           {confirmPasswordCheck()}
          
@@ -104,18 +104,29 @@ const styles = StyleSheet.create({
   },
   inputField: {
     fontSize:20,
-    //fontFamily:'Rubik',
     height:75,
     lineHeight:24,
     marginHorizontal:50,
     borderColor:'#EEEDE7',
     borderBottomWidth:2,
   },
-
+  inputFieldLs: {
+    fontSize:20,
+    height:75,
+    lineHeight:24,
+    marginHorizontal:120,
+    borderColor:'#EEEDE7',
+    borderBottomWidth:2,
+  },
   error: {
     color:'red',
     fontSize:13,
     marginHorizontal:50
+  },
+  errorLs: {
+    color:'red',
+    fontSize:13,
+    marginHorizontal:120
   },
 });
 export default SignUpForm;
