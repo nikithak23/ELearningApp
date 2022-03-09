@@ -1056,7 +1056,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -19,
     left: -19,
-    height: '45%',
+    height: Platform.OS === 'ios' ? '45%' : '55%',
+    // height: '45%',
     width: '111%',
   },
 
