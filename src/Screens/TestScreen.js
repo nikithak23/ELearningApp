@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, Image, View, StyleSheet,TouchableOpacity,ScrollView} from 'react-native';
+import {Text, Image, View, StyleSheet,TouchableOpacity,ScrollView, Platform} from 'react-native';
 import axios from 'axios';
 import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/core';
@@ -315,116 +315,116 @@ export default TestScreen;
 
 
 const styles = StyleSheet.create({
-    container: {
-      height: '100%',
-      width: '100%',
-      backgroundColor:'#f6f8fa',
-      flex:1,
-    },
-    header: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      backgroundColor:'white',
-    },
-    btn: {
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:28,
-    },
-    //timer0:{
-    //  marginTop:Platform.OS === 'ios' ? 50 : 20,
-    //  marginBottom:15,
-    //  marginHorizontal:-17,
-    //  alignSelf:'center'
-    //},
-    timerText:{
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:-40,
-      alignSelf:'center'
-    },
-    timerTextLandscape:{
-      marginTop:Platform.OS === 'ios' ? 50 : 20,
-      marginBottom:15,
-      marginHorizontal:-180,
-      alignSelf:'center'
-    },
-    timer:{
-      marginHorizontal:-40,
-      alignSelf:'center',
-      marginTop:5,
-    },
-    timerLandscape:{
-      marginHorizontal:-180,
-      alignSelf:'center',
-      marginTop:5,
-    },
-    footer: {
-      width:'100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      backgroundColor:'white',
-      position:'absolute',
-      bottom:0,
-    },
-    footerBtn:{
-      marginTop:20,
-      marginBottom:15,
-      marginRight:28,
-    },
-    footerTxt1:{
-      marginLeft:28,
-      marginTop:9,
-      color:'black',
-      fontSize:14,
-      fontWeight:'500'
-    },
-    footerTxt2:{
-      marginLeft:28,
-      fontSize:14
-    },
-    midcontainerLandscape:{
-      marginBottom:90,
-    },
+  container: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#f6f8fa',
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+  },
+  btn: {
+    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginBottom: 15,
+    marginHorizontal: 28,
+  },
+  //timer0:{
+  //  marginTop:Platform.OS === 'ios' ? 50 : 20,
+  //  marginBottom:15,
+  //  marginHorizontal:-17,
+  //  alignSelf:'center'
+  //},
+  timerText: {
+    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginBottom: 15,
+    marginHorizontal: -40,
+    alignSelf: 'center',
+  },
+  timerTextLandscape: {
+    marginTop: Platform.OS === 'ios' ? 25 : 20,
+    marginBottom: 15,
+    marginHorizontal: Platform.OS === 'ios' ? -240 : -180,
+    alignSelf: 'center',
+  },
+  timer: {
+    marginHorizontal: -40,
+    alignSelf: 'center',
+    marginTop: Platform.OS === 'ios' ? 30 : 5,
+  },
+  timerLandscape: {
+    marginHorizontal: Platform.OS === 'ios' ? -240 : -180,
+    alignSelf: 'center',
+    marginTop: 5,
+  },
+  footer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+  },
+  footerBtn: {
+    marginTop: 20,
+    marginBottom: 15,
+    marginRight: 28,
+  },
+  footerTxt1: {
+    marginLeft: 28,
+    marginTop: 9,
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  footerTxt2: {
+    marginLeft: 28,
+    fontSize: 14,
+  },
+  midcontainerLandscape: {
+    marginBottom: 90,
+  },
   qtn: {
     fontSize: 20,
-    lineHeight:28,
+    lineHeight: 28,
     color: 'black',
-    fontWeight:'700',
-    textAlign:'center',
-    marginTop:35,
-    marginBottom:25,
-    marginHorizontal:28
+    fontWeight: '700',
+    textAlign: 'center',
+    marginTop: 35,
+    marginBottom: 25,
+    marginHorizontal: 28,
   },
-  optionContainer:{
-    borderRadius:25,
-    marginVertical:5,
-    backgroundColor:'white',
-    marginHorizontal:28,
+  optionContainer: {
+    borderRadius: 25,
+    marginVertical: 5,
+    backgroundColor: 'white',
+    marginHorizontal: 28,
   },
-  optionContainerSelected:{
-    borderColor:'#4C93FF',
-    borderWidth:1,
-    borderRadius:25,
-    marginVertical:5,
-    backgroundColor:'white',
-    marginHorizontal:28,
+  optionContainerSelected: {
+    borderColor: '#4C93FF',
+    borderWidth: 1,
+    borderRadius: 25,
+    marginVertical: 5,
+    backgroundColor: 'white',
+    marginHorizontal: 28,
   },
   options: {
     fontSize: 15,
     color: '#595B60',
-    fontWeight:'500',
-    textAlign:'left',
-    marginVertical:18,
-    marginHorizontal:15,
+    fontWeight: '500',
+    textAlign: 'left',
+    marginVertical: 18,
+    marginHorizontal: 15,
   },
   optionsSelected: {
     fontSize: 15,
     color: '#4C93FF',
-    fontWeight:'500',
-    textAlign:'left',
-    marginVertical:18,
-    marginHorizontal:15,
+    fontWeight: '500',
+    textAlign: 'left',
+    marginVertical: 18,
+    marginHorizontal: 15,
   },
   ModalMainContainer: {
     backgroundColor: 'white',
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     width: 125,
     borderWidth: 2,
     borderRadius: 13,
-    marginLeft: 185,
+    marginLeft: Platform.OS === 'ios' ? 240 : 185,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -526,7 +526,6 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-
 });
 
 
