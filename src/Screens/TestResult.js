@@ -43,7 +43,7 @@ return(
         cName:cName,
         })
       }>
-      <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
+      <Image source={require('../Images/TestPage/btnCancel.png')} style={orientation.isPortrait?styles.btn:styles.btnLs} />
       </TouchableOpacity >
     </View>
 
@@ -130,15 +130,20 @@ const styles = StyleSheet.create({
   marginBottom:15,
   marginHorizontal:28,
   },
+  btnLs: {
+  marginTop:Platform.OS === 'ios' ? 50 : 20,
+  marginBottom:15,
+  marginHorizontal:90,
+  },
   resultContainer:{
   alignItems:'center',
   marginVertical:100,
   marginHorizontal:20,
   },
   resultContainerLandscape:{
-    alignItems:'center',
-    marginVertical:50,
-    marginHorizontal:20,
+  alignItems:'center',
+  marginVertical:50,
+  marginHorizontal:90,
   },
   Text1:{
   textAlign:'center',
@@ -149,13 +154,13 @@ const styles = StyleSheet.create({
   marginBottom:7,
   },
   Text1Landscape:{
-    textAlign:'center',
-    fontSize:20,
-    fontWeight:'700',
-    color:'black',
-    marginTop:45,
-    marginBottom:7,
-    },
+  textAlign:'center',
+  fontSize:20,
+  fontWeight:'700',
+  color:'black',
+  marginTop:45,
+  marginBottom:7,
+  },
   Text2:{
   textAlign:'center',
   fontSize:17,
@@ -165,7 +170,6 @@ const styles = StyleSheet.create({
   fontSize:13,
   marginTop:-10,
   },
-
   TryAgnContainer: {
   height: 50,
   width: 320,
@@ -174,14 +178,14 @@ const styles = StyleSheet.create({
   alignSelf:'center',
   },
   TryAgnContainerLandscape: {
-    height: 50,
-    width: 320,
-    borderRadius: 13,
-    backgroundColor: '#4C93FF',
-    alignSelf:'center',
-    marginBottom:50,
-    marginTop:30
-    },
+  height: 50,
+  width: 320,
+  borderRadius: 13,
+  backgroundColor: '#4C93FF',
+  alignSelf:'center',
+  marginBottom:50,
+  marginTop:30
+  },
   TryAgnBtn: {
   flexDirection: 'row',
   alignItems: 'center',

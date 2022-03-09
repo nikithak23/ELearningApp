@@ -11,11 +11,14 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
 // import VideoPlayer from 'react-native-video-player';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
+
+import YoutubePlayer from 'react-native-youtube-iframe';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {ScrollView} from 'react-native-gesture-handler';
@@ -323,7 +326,7 @@ const ChapterScreen = ({navigation, route}) => {
         <Text style={styles.name}>{chapterName}</Text>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          {contents[0]?.videoUrl ? (
+          {/* {contents[0]?.videoUrl ? (
             <Video
               source={{
                 uri: contents[0]?.videoUrl,
@@ -334,7 +337,19 @@ const ChapterScreen = ({navigation, route}) => {
               paused={true}
               controls={true}
             />
-          ) : null}
+          ) : null} */}
+          <View
+            style={
+              orientation.isPortrait ? styles.contentimg : styles.contentimgls
+            }>
+            {contents[0]?.videoUrl ? (
+              <YoutubePlayer
+                height={300}
+                play={false}
+                videoId={contents[0]?.videoUrl}
+              />
+            ) : null}
+          </View>
 
           {contents[0]?.imageUrl ? (
             <Image
@@ -493,7 +508,7 @@ const styles = StyleSheet.create({
   },
   bottomls: {
     backgroundColor: 'white',
-    width: 845,
+    width: Platform.OS == 'ios' ? 845 : 780,
     height: 70,
     justifyContent: 'space-between',
     position: 'absolute',
@@ -553,7 +568,7 @@ const styles = StyleSheet.create({
   ModalMainContainerls: {
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: -35,
+    bottom: Platform.OS == 'ios' ? -35 : -35,
     height: '105%',
     width: '100%',
     marginRight: 20,
@@ -631,9 +646,10 @@ const styles = StyleSheet.create({
   ModalNoContainerls: {
     height: 55,
     width: 250,
+    marginTop: Platform.OS == 'ios' ? 0 : -25,
     borderWidth: 2,
     borderRadius: 13,
-    marginLeft: 90,
+    marginLeft: Platform.OS == 'ios' ? 90 : 70,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -654,10 +670,12 @@ const styles = StyleSheet.create({
   ModalYesContainerls: {
     height: 55,
     width: 250,
+    marginTop: Platform.OS == 'ios' ? 0 : -25,
     borderWidth: 2,
     borderRadius: 13,
     borderColor: '#4C93FF',
-    marginLeft: 90,
+    // marginLeft: 90,
+    marginLeft: Platform.OS == 'ios' ? 90 : 60,
     backgroundColor: '#4C93FF',
   },
   ModalYesView: {

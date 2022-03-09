@@ -118,11 +118,12 @@ return(
   <View style={styles.container}>
 
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image source={require('../Images/Search/btnBack.png')} style={styles.btnBack} />
+        <Image source={require('../Images/Search/btnBack.png')} 
+        style={orientation.isPortrait?styles.btnBack:styles.btnBackLs} />
       </TouchableOpacity>
 
       <ScrollView>
-          <Text style={styles.title}>Search Result</Text>
+          <Text style={orientation.isPortrait?styles.title:styles.titleLs}>Search Result</Text>
           <Image style={styles.image} source={require('../Images/Search/notFound.png')}/>
           <Text style={styles.text}>Not Found</Text>
           <Text style={styles.desc}>Search not found please try again</Text>
@@ -157,9 +158,20 @@ const styles = StyleSheet.create({
       marginTop: Platform.OS === 'ios' ? 50 : 32,
       marginHorizontal:32,
     },
+    btnBackLs: {
+      marginTop: Platform.OS === 'ios' ? 50 : 32,
+      marginHorizontal:92,
+    },
     title:{
       marginTop: 20,
       marginHorizontal:32,
+      color:'#292929',
+      fontSize:32,
+      fontWeight:'700',
+    },
+    titleLs:{
+      marginTop: 20,
+      marginHorizontal:92,
       color:'#292929',
       fontSize:32,
       fontWeight:'700',
@@ -203,7 +215,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#FFFFFF',
       borderRadius:18,
       marginTop:30,
-      marginHorizontal:30,
+      marginHorizontal:90,
       marginBottom:90
     },
     input: {

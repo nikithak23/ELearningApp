@@ -196,7 +196,7 @@ const submitTest=async()=>{//Submit test api
 
     <View style={styles.header}>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
-        <Image source={require('../Images/TestPage/btnCancel.png')} style={styles.btn} />
+        <Image source={require('../Images/TestPage/btnCancel.png')} style={orientation.isPortrait?styles.btn:styles.btnLs} />
         </TouchableOpacity >
         
         <View style={orientation.isPortrait?styles.timer:styles.timerLandscape}>
@@ -222,14 +222,14 @@ const submitTest=async()=>{//Submit test api
           navigation.navigate('QtnList',{
           courseId:courseId,courseName:courseName,token:token,key:key}
         )}}>
-          <Image source={require('../Images/TestPage/icnQtnList.png')} style={styles.btn} />
+          <Image source={require('../Images/TestPage/icnQtnList.png')} style={orientation.isPortrait?styles.btn:styles.btnLs} />
         </TouchableOpacity >
     </View>
 
 
 
       {len!==0? (
-    <ScrollView style={orientation.isPortrait?null:styles.midcontainerLandscape}>
+    <ScrollView style={orientation.isPortrait?null:styles.midcontainerLandscape} showsVerticalScrollIndicator={false}>
               <Text style={styles.qtn}>{questions[n].questions}</Text>
               <TouchableOpacity style={option==='A'?styles.optionContainerSelected:styles.optionContainer} onPress={()=>{
                 setOption('A');
@@ -265,16 +265,18 @@ const submitTest=async()=>{//Submit test api
     <View style={styles.footer}>
       {len!==0? (
         <View>
-          <Text style={styles.footerTxt1}>C{courseId}: {courseName}</Text>
-          <Text style={styles.footerTxt2}>{n+1} of {len} question</Text>
+          <Text style={orientation.isPortrait?styles.footerTxt1:styles.footerTxt1Ls}>C{courseId}: {courseName}</Text>
+          <Text style={orientation.isPortrait?styles.footerTxt2:styles.footerTxt2Ls}>{n+1} of {len} question</Text>
         </View>
         ):null}
         <View style={{flexDirection:'row'}}>
           <TouchableOpacity onPress={prev}>
-            <Image source={require('../Images/TestPage/btnPrevQtn.png')} style={styles.footerBtn} />
+            <Image source={require('../Images/TestPage/btnPrevQtn.png')} 
+            style={orientation.isPortrait?styles.footerBtn:styles.footerBtnLs} />
           </TouchableOpacity >
           <TouchableOpacity onPress={nxt}>
-            <Image source={require('../Images/TestPage/btnNxtQtn.png')} style={styles.footerBtn} />
+            <Image source={require('../Images/TestPage/btnNxtQtn.png')} 
+            style={orientation.isPortrait?styles.footerBtn:styles.footerBtnLs} />
           </TouchableOpacity >
         </View>
     </View>
@@ -294,7 +296,8 @@ const submitTest=async()=>{//Submit test api
                                   onPress={()=>setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.ModalYesContainer} onPress={()=>{
+                <TouchableOpacity style={orientation.isPortrait?styles.ModalYesContainer:styles.ModalYesContainerLandscape} 
+                onPress={()=>{
                   setTimer(false);//if not set to false, timer will keep running in the background
                   submitTest();
                   }}>
@@ -331,6 +334,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginHorizontal: 28,
   },
+  btnLs: {
+    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginBottom: 15,
+    marginHorizontal: 90,
+  },
   //timer0:{
   //  marginTop:Platform.OS === 'ios' ? 50 : 20,
   //  marginBottom:15,
@@ -343,19 +351,19 @@ const styles = StyleSheet.create({
     marginHorizontal: -40,
     alignSelf: 'center',
   },
-  timerTextLandscape: {
-    marginTop: Platform.OS === 'ios' ? 25 : 20,
-    marginBottom: 15,
-    marginHorizontal: Platform.OS === 'ios' ? -240 : -180,
-    alignSelf: 'center',
-  },
   timer: {
     marginHorizontal: -40,
     alignSelf: 'center',
     marginTop: Platform.OS === 'ios' ? 30 : 5,
   },
+  timerTextLandscape: {
+    marginTop: Platform.OS === 'ios' ? 25 : 20,
+    marginBottom: 15,
+    marginHorizontal: Platform.OS === 'ios' ? -180 : -80,
+    alignSelf: 'center',
+  },
   timerLandscape: {
-    marginHorizontal: Platform.OS === 'ios' ? -240 : -180,
+    marginHorizontal: Platform.OS === 'ios' ? -180 : -80,
     alignSelf: 'center',
     marginTop: 5,
   },
@@ -383,8 +391,26 @@ const styles = StyleSheet.create({
     marginLeft: 28,
     fontSize: 14,
   },
+  footerBtnLs: {
+    marginTop: 20,
+    marginBottom: 15,
+    marginRight: 95,
+    marginLeft:-50,
+  },
+  footerTxt1Ls: {
+    marginLeft: 90,
+    marginTop: 9,
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  footerTxt2Ls: {
+    marginLeft: 90,
+    fontSize: 14,
+  },
   midcontainerLandscape: {
     marginBottom: 90,
+    marginHorizontal:55,
   },
   qtn: {
     fontSize: 20,
@@ -488,16 +514,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  ModalNoContainerLandscape: {
-    height: 55,
-    width: 125,
-    borderWidth: 2,
-    borderRadius: 13,
-    marginLeft: Platform.OS === 'ios' ? 240 : 185,
-    borderColor: '#4C93FF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   ModalNoText: {
     color: '#4C93FF',
     fontSize: 20,
@@ -525,6 +541,25 @@ const styles = StyleSheet.create({
   ModalYesImg: {
     width: 24,
     height: 24,
+  },
+  ModalNoContainerLandscape: {
+    height: 55,
+    width: 200,
+    borderWidth: 2,
+    borderRadius: 13,
+    marginLeft: Platform.OS === 'ios' ? 165 : 115,
+    borderColor: '#4C93FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ModalYesContainerLandscape: {
+    height: 55,
+    width: 200,
+    borderWidth: 2,
+    borderRadius: 13,
+    borderColor: '#4C93FF',
+    marginLeft: 31,
+    backgroundColor: '#4C93FF',
   },
 });
 

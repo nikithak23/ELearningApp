@@ -54,8 +54,8 @@ const QtnList =({navigation,route})=>{
                   key:key}
                   )}
                   }>
-                <Text style={styles.qtnNo}>{item.testNumber}.</Text>
-                <Text style={styles.qtn}>{item.questions}</Text>
+                <Text style={orientation.isPortrait?styles.qtnNo:styles.qtnNoLs}>{item.testNumber}.</Text>
+                <Text style={orientation.isPortrait?styles.qtn:styles.qtnLs}>{item.questions}</Text>
               </TouchableOpacity>
             </ScrollView>
         );
@@ -67,7 +67,8 @@ const QtnList =({navigation,route})=>{
 
       <View style={styles.header}>
           <TouchableOpacity onPress={()=>navigation.goBack()}>
-            <Image source={require('../Images/TestPage/btnBack.png')} style={styles.btn} />
+            <Image source={require('../Images/TestPage/btnBack.png')} 
+            style={orientation.isPortrait?styles.btn:styles.btnLs} />
           </TouchableOpacity >
           <Text style={orientation.isPortrait?styles.headerTxt:styles.headerTxtLandscape} >Questions</Text>
       </View>
@@ -104,6 +105,11 @@ const styles = StyleSheet.create({
     marginBottom:15,
     marginHorizontal:28,
     },
+    btnLs: {
+      marginTop:Platform.OS === 'ios' ? 50 : 20,
+      marginBottom:15,
+      marginHorizontal:90,
+      },
     headerTxt:{
     marginTop:Platform.OS === 'ios' ? 50 : 20,
     marginBottom:15,
@@ -115,7 +121,7 @@ const styles = StyleSheet.create({
     headerTxtLandscape:{
     marginTop:Platform.OS === 'ios' ? 50 : 20,
     marginBottom:15,
-    marginHorizontal:230,
+    marginHorizontal:120,
     color:'black',
     fontSize:15,
     fontWeight:'500'
@@ -138,6 +144,26 @@ const styles = StyleSheet.create({
     marginVertical:15,
     marginLeft:22,
     width:'83%'
+   },
+   qtnNoLs: {
+    fontSize: 15,
+    lineHeight:20,
+    color: 'black',
+    fontWeight:'500',
+    textAlign:'left',
+    marginVertical:15,
+    marginLeft:90
+    },
+    qtnLs: {
+    fontSize: 15,
+    lineHeight:20,
+    color: 'black',
+    fontWeight:'500',
+    textAlign:'left',
+    marginVertical:15,
+    marginLeft:22,
+    width:'83%',
+    marginRight:90,
    },
 });
 

@@ -101,7 +101,7 @@ const SignUpScreen = ({navigation}) => {
             />
           </View>
 
-          <View style={styles.signupContainer}>
+          <View style={orientation.isPortrait?styles.signupContainer:styles.signupContainerLs}>
             <Text style={styles.signup}>SignUp</Text>
             <TouchableOpacity onPress={validation}>
               {name &&
@@ -205,23 +205,23 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     resizeMode: 'contain',
-    marginLeft: 70,
+    marginLeft: 135,
     marginTop:-100,
     marginBottom:50,
     transform: [{rotate: '8deg'}],
   },
   header1Landscape: {
-    fontSize: 40,
+    fontSize: 37,
     fontWeight: '700',
     color: 'white',
-    marginLeft: 50,
+    marginLeft: 120,
     transform: [{rotate: '8deg'}],
   },
   header2Landscape: {
-    fontSize: 40,
+    fontSize: 37,
     fontWeight: '700',
     color: 'white',
-    marginLeft: 40,
+    marginLeft: 115,
     transform: [{rotate: '8deg'}],
   },
   signupContainer: {
@@ -230,6 +230,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
     marginHorizontal: 50,
+  },
+  signupContainerLs: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+    marginHorizontal:120,
   },
   signup: {
     fontSize: 25,
@@ -255,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 10,
-    marginHorizontal: 50,
+    marginHorizontal: 120,
     marginBottom:25,
   },
   bottomText: {

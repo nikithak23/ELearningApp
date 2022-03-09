@@ -1,8 +1,17 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity }from 'react-native';
-
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 
 const OnboardingScreen1 = ({navigation}) => {
+  const orientation = useOrientation();
   onBoardTo2 = () => {
     navigation.navigate('OnBoard2');
   };
@@ -12,8 +21,11 @@ const OnboardingScreen1 = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <View
+        style={
+          orientation.isPortrait ? styles.topContainer : styles.topContainerls
+        }>
         <View style={styles.skipTextContainer}>
           <View style={styles.spaceUp}></View>
           <View>
@@ -26,7 +38,13 @@ const OnboardingScreen1 = ({navigation}) => {
 
       <ImageBackground
         source={require('../Images/OnBoarding/onscreen1.png')}
-        style={styles.backgroundImage}></ImageBackground>
+        style={
+          orientation.isPortrait
+            ? styles.backgroundImage
+            : styles.backgroundImagels
+        }>
+        {/* style={styles.backgroundImage}> */}
+      </ImageBackground>
 
       <View style={styles.text1view}>
         <Text style={styles.text1}>Learn from anywhere</Text>
@@ -50,7 +68,7 @@ const OnboardingScreen1 = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -59,13 +77,18 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
   },
 
   topContainer: {
     backgroundColor: '#EBEEF4',
     height: 100,
     width: 400,
+  },
+  topContainerls: {
+    backgroundColor: '#EBEEF4',
+    height: 100,
+    width: 844,
   },
   skipTextContainer: {
     alignItems: Platform.OS === 'ios' ? 'flex-end' : 'center',
@@ -84,9 +107,18 @@ const styles = StyleSheet.create({
     width: 390,
     height: 450,
   },
+
+  backgroundImagels: {
+    width: 850,
+    // position: 'absolute',
+    // height: 1000,
+    height: 1000,
+  },
   text1view: {
     marginTop: Platform.OS === 'ios' ? 30 : -30,
-    marginHorizontal: 61.5,
+    // marginHorizontal: 61.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text1: {
     fontSize: 28,
@@ -94,7 +126,9 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   text2: {
-    alignSelf: 'center',
+    marginHorizontal: 40,
+    textAlign: 'center',
+    // alignSelf: 'center',
     marginTop: 14,
     color: '#676666',
     fontWeight: '500',
@@ -103,11 +137,13 @@ const styles = StyleSheet.create({
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
+    justifyContent: 'space-around',
+    marginHorizontal: 40,
   },
   bottom1: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 50,
+    // marginLeft: 50,
   },
   activeBottom: {
     height: 6,
@@ -116,6 +152,7 @@ const styles = StyleSheet.create({
     borderColor: '#4C93FF',
     borderRadius: 12,
     backgroundColor: '#4C93FF',
+    marginLeft: 10,
   },
   inactiveBottom: {
     height: 6,
@@ -131,6 +168,7 @@ const styles = StyleSheet.create({
     width: 160,
   },
   imagesignin: {
+    marginLeft: 10,
     width: 100,
     height: 100,
     marginTop: 20,

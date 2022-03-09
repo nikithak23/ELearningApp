@@ -217,7 +217,7 @@ const HomeScreen = ({navigation, route, token}) => {
               name="notifications-outline"
               size={33}
               color="#8E8F93"
-              style={styles.icon}
+              style={orientation.isPortrait?styles.icon:styles.iconLs}
             />
           </TouchableOpacity>
         </View>
@@ -229,7 +229,7 @@ const HomeScreen = ({navigation, route, token}) => {
           <Text style={styles.desc}>What would you like to study today?</Text>
           <Text style={styles.desc}>you can search below.</Text>
 
-          <View style={styles.searchContainer}>
+          <View style={orientation.isPortrait?styles.searchContainer:styles.searchContainerLs}>
             <TextInput
               onChangeText={value => setEnteredText(value)}
               value={enteredText}
@@ -248,7 +248,7 @@ const HomeScreen = ({navigation, route, token}) => {
 
           {len !== 0 ? (
             <View>
-              <Text style={styles.currentHead}>CURRENTLY STUDYING</Text>
+              <Text style={orientation.isPortrait?styles.currentHead:styles.currentHeadLs}>CURRENTLY STUDYING</Text>
               <FlatList
                 data={DataRecent}
                 renderItem={renderCurrentStud}
@@ -277,6 +277,10 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 50 : 30,
     marginHorizontal: 32,
   },
+  iconLs: {
+    marginTop: Platform.OS === 'ios' ? 50 : 30,
+    marginHorizontal: 92,
+  },
   greet: {
     fontSize: 36,
     color: 'black',
@@ -304,6 +308,17 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginHorizontal: 30,
   },
+  searchContainerLs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 70,
+    borderWidth: 1,
+    borderColor: 'rgba(41,94,255,0.05)',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    marginTop: 50,
+    marginHorizontal: 90,
+  },
   input: {
     flex: 1,
     color: 'black',
@@ -329,6 +344,13 @@ const styles = StyleSheet.create({
     color: '#595B60',
     letterSpacing: 0.69,
   },
+  currentHeadLs: {
+    marginTop: 25,
+    marginHorizontal: 90,
+    fontSize: 16,
+    color: '#595B60',
+    letterSpacing: 0.69,
+  },
   bottomCards: {
     marginLeft: 25,
     backgroundColor: '#FFFFFF',
@@ -338,7 +360,8 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   bottomCardsLandscape: {
-    marginLeft: 25,
+    marginLeft: 90,
+    marginRight:-40,
     //marginHorizontal: 25,
     backgroundColor: '#FFFFFF',
     width: 260,
