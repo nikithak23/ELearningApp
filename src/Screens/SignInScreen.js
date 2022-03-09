@@ -14,8 +14,10 @@ import {
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import useOrientation from '../hooks/useOrientation';
 
 const SignInScreen = ({navigation}) => {
+  const orientation = useOrientation();
   // const [phone, setPhone] = useState(null);
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
@@ -83,27 +85,24 @@ const SignInScreen = ({navigation}) => {
           username,
           password,
         },
-    
       );
       console.log(response.status);
       //console.log(response.data.data);
       const token = response.data.data;
       //context.onLogin()
       //console.log(context)
-      try{
-        await AsyncStorage.setItem('loggedIn', '1')
+      try {
+        await AsyncStorage.setItem('loggedIn', '1');
         await AsyncStorage.setItem('token', token);
-        console.log('stored')
-        
-      }catch(e){
-        console.log(e)
+        console.log('stored');
+      } catch (e) {
+        console.log(e);
       }
-      
+
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
         console.log(msg);
         setIsLoading(false);
-
 
         await navigation.dispatch(
           StackActions.push('TabPage', {
@@ -181,17 +180,38 @@ const SignInScreen = ({navigation}) => {
 
   const renderForm = () => {
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.headerContainer1}>
-          <View style={styles.headerContainer2}></View>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View
+          style={
+            orientation.isPortrait
+              ? styles.headerContainer1
+              : styles.headerContainer1ls
+          }>
+          {/* style={styles.headerContainer1}> */}
+          <View
+            style={
+              orientation.isPortrait
+                ? styles.headerContainer2
+                : styles.headerContainer2ls
+            }>
+            {/* style={styles.headerContainer2}> */}
+          </View>
           <Image
             source={require('../Images/SignUp/yellowLogo.png')}
-            style={styles.image}
+            style={orientation.isPortrait ? styles.image : styles.imagels}
           />
-          <Text style={styles.header1}>Welcome</Text>
-          <Text style={styles.header2}>Back</Text>
+          {orientation.isPortrait ? (
+            <View>
+              <Text style={styles.header1}>Welcome</Text>
+              <Text style={styles.header2}>Back</Text>
+            </View>
+          ) : (
+            <Text style={styles.header1ls}> Welcome Back</Text>
+          )}
         </View>
-        <View style={styles.form}>
+
+        <View style={orientation.isPortrait ? styles.form : styles.formls}>
+          {/* style={styles.form}> */}
           <SignInForm
             password={password}
             setPassword={setPassword}
@@ -200,7 +220,9 @@ const SignInScreen = ({navigation}) => {
           />
         </View>
 
-        <View style={styles.sign}>
+        <View
+          // style={styles.sign}
+          style={orientation.isPortrait ? styles.sign : styles.signls}>
           <Text style={styles.signText}>Sign in</Text>
 
           <TouchableOpacity onPress={validation}>
@@ -217,12 +239,14 @@ const SignInScreen = ({navigation}) => {
             )}
           </TouchableOpacity>
         </View>
-        <View style={styles.forget}>
+        <View style={orientation.isPortrait ? styles.forget : styles.forgetls}>
+          {/* style={styles.forget}> */}
           <TouchableOpacity onPress={verify}>
             <Text style={styles.forgetPassword}>Forgot Password</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.dontHave}>
+        <View
+          style={orientation.isPortrait ? styles.dontHave : styles.dontHavels}>
           <Text style={styles.DontHaveAccount}>Don't have an account?</Text>
           <TouchableOpacity onPress={signUp}>
             <Text style={styles.forgetPassword}> Sign Up</Text>
@@ -251,6 +275,16 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? -70 : -80,
     marginLeft: -12,
   },
+  headerContainer1ls: {
+    backgroundColor: '#3c7ee3',
+    borderRadius: 70,
+    height: Platform.OS === 'ios' ? 310 : 300,
+    width: 900,
+    transform: [{rotate: '-8deg'}],
+    marginTop: Platform.OS === 'ios' ? -160 : -80,
+    marginLeft: -12,
+  },
+
   headerContainer2: {
     backgroundColor: '#3274d8',
     borderRadius: 70,
@@ -261,6 +295,16 @@ const styles = StyleSheet.create({
     marginRight: -50,
     marginTop: -2,
   },
+  headerContainer2ls: {
+    backgroundColor: '#3274d8',
+    borderRadius: 70,
+    height: 180,
+    width: 600,
+    transform: [{rotate: '12deg'}],
+    alignSelf: 'flex-end',
+    marginRight: -50,
+    marginTop: 62,
+  },
   image: {
     width: 44,
     height: 44,
@@ -270,6 +314,15 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     transform: [{rotate: '12deg'}],
   },
+  imagels: {
+    width: 44,
+    height: 44,
+    resizeMode: 'contain',
+    marginLeft: 70,
+    marginTop: -90,
+    marginBottom: 90,
+    transform: [{rotate: '8deg'}],
+  },
 
   header1: {
     fontSize: 40,
@@ -277,6 +330,14 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 50,
     transform: [{rotate: '12deg'}],
+  },
+  header1ls: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 50,
+    marginTop: -20,
+    transform: [{rotate: '8deg'}],
   },
   header2: {
     fontSize: 40,
@@ -290,6 +351,13 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -30,
     height: Platform.OS === 'ios' ? 290 : 260,
   },
+
+  formls: {
+    marginTop: Platform.OS === 'ios' ? 0 : -30,
+    height: Platform.OS === 'ios' ? 290 : 260,
+    marginHorizontal: 60,
+  },
+
   button: {
     marginTop: 20,
     marginBottom: 120,
@@ -300,6 +368,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 50,
     marginHorizontal: 50,
+
+    justifyContent: 'space-between',
+  },
+  signls: {
+    flexDirection: 'row',
+    marginTop: 20,
+    marginHorizontal: 120,
 
     justifyContent: 'space-between',
   },
@@ -316,6 +391,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 50,
   },
+  forgetls: {
+    marginTop: 0,
+    marginLeft: 120,
+  },
   forgetPassword: {
     color: '#4C93FF',
     fontSize: 16,
@@ -326,6 +405,12 @@ const styles = StyleSheet.create({
     marginTop: 70,
     marginLeft: 50,
     flexDirection: 'row',
+  },
+  dontHavels: {
+    marginTop: 30,
+    marginLeft: 120,
+    flexDirection: 'row',
+    marginBottom: 20,
   },
   DontHaveAccount: {
     color: '#AFAFAF',

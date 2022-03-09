@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
 
@@ -27,33 +34,36 @@ const NotificationScreen = ({navigation, route}) => {
   const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
   const hrRegex = /[0-2][0-9]/;
   const minRegex = /:[0-5][0-9]:/;
-  useEffect(()=> {
+ 
+  const [notif, setNotif] = useState([]);
+  const [date, setDate] = useState(new Date().toUTCString());
+  const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
+
+  useEffect(() => {
     getNotifs();
-  },[notif])
+  }, [notif]
+  ),
 
   useFocusEffect(
     React.useCallback(()=>{
-      setDate(new Date().toUTCString());
-      console.log('date',date)
-    })
+      setDate(new Date().toUTCString())
+    },[])
   )
+   
 
-  const getNotifs = async() => {
+  const getNotifs = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/notification`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.get(`${baseUrl}/subject/notification`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       console.log('notiffffff ', response.data.data);
-      setNotif(response.data.data)
+      setNotif(response.data.data);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const renderNotifications = ({item}) => {
     let time = date.match(timeRegex)
@@ -87,6 +97,9 @@ const NotificationScreen = ({navigation, route}) => {
         }
       }
     }
+    let time = date.match(timeRegex);
+    console.log('my date', new Date());
+    console.log('time', '========', time[0]);
     return (
       <View style={styles.component}>
         <View>
@@ -100,6 +113,7 @@ const NotificationScreen = ({navigation, route}) => {
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -113,7 +127,9 @@ const NotificationScreen = ({navigation, route}) => {
       />
     </View>
   );
-};
+}
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -161,7 +177,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     textAlign: 'right',
     position: 'absolute',
-    marginLeft: 230
+    marginLeft: 230,
   },
   btnBack: {
     height: 25,
@@ -172,5 +188,3 @@ const styles = StyleSheet.create({
 });
 
 export default NotificationScreen;
-
-

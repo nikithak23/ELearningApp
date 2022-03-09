@@ -12,8 +12,10 @@ import {
   StyleSheet,
   ImageBackground,
   TextInput,
+  FlatList,
 } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import useOrientation from '../hooks/useOrientation';
+// import {} from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 // import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -28,6 +30,8 @@ const profiles = [pic1, pic2, pic3];
 const ProfileScreen = ({navigation, token}) => {
   
   const [notify, setNotify] = useState('');
+  const orientation = useOrientation();
+  
   // const [isRight, setIsRight] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isinnerVisible, setIsinnerVissible] = useState(false);
@@ -41,7 +45,7 @@ const ProfileScreen = ({navigation, token}) => {
   const [name, setName] = useState(name1);
 
   const [Results, setResults] = useState([]);
-  const [profileModalVisivle, setProfileModalVisible] = useState(false)
+  const [profileModalVisivle, setProfileModalVisible] = useState(false);
   const [profilePic, setProfilePic] = useState(
     'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
   );
@@ -292,8 +296,15 @@ const ProfileScreen = ({navigation, token}) => {
   };
 
   return (
-    <ScrollView style={styles.MainContainer}>
-      <TouchableOpacity style={styles.TopDots} onPress={innerhandleModal}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={
+        orientation.isPortrait ? styles.MainContainer : styles.MainContainerls
+      }>
+      <TouchableOpacity
+        style={orientation.isPortrait ? styles.TopDots : styles.TopDotsls}
+        onPress={innerhandleModal}>
         <View>
           <Image
             source={require('../Images/Profile/3dots.png')}
@@ -306,7 +317,12 @@ const ProfileScreen = ({navigation, token}) => {
         transparent={true}
         animationType="slide"
         isVisible={isinnerVisible}>
-        <View style={styles.InModalMainContainer}>
+        <View
+          style={
+            orientation.isPortrait
+              ? styles.InModalMainContainer
+              : styles.InModalMainContainerls
+          }>
           <TouchableOpacity onPress={editHandleModalTrue}>
             <View style={styles.InModalEditContainer}>
               <Image
@@ -318,7 +334,13 @@ const ProfileScreen = ({navigation, token}) => {
           </TouchableOpacity>
           {/* NB */}
           <Modal isVisible={editModalVisible}>
-            <View style={styles.editModalMainContainer}>
+            <View
+              style={
+                orientation.isPortrait
+                  ? styles.editModalMainContainer
+                  : styles.editModalMainContainerls
+              }>
+              {/* <View style={styles.editModalMainContainer}> */}
               <View>
                 <View style={styles.ModalEditTopContainer}>
                   <TouchableOpacity onPress={editHandleModalF}>
@@ -377,24 +399,45 @@ const ProfileScreen = ({navigation, token}) => {
             </View>
           </TouchableOpacity>
           <Modal isVisible={isModalVisible}>
-            <View style={styles.ModalMainContainer}>
+            <View
+              style={
+                orientation.isPortrait
+                  ? styles.ModalMainContainer
+                  : styles.ModalMainContainerls
+              }>
+              {/* <View style={styles.ModalMainContainer}> */}
               <View style={styles.ModalTopContainer}>
                 <View style={styles.ModalContainer}></View>
                 <Text style={styles.ModalLogoutText}>Logout</Text>
-                <Text style={styles.ModalLogoutText1}>
+                <Text
+                  style={
+                    orientation.isPortrait
+                      ? styles.ModalLogoutText1
+                      : styles.ModalLogoutText1ls
+                  }>
                   Are you sure you want to logout now?
                 </Text>
               </View>
 
               <View style={styles.ModalBottomContainer}>
                 <TouchableOpacity
-                  style={styles.ModalNoContainer}
+                  style={
+                    orientation.isPortrait
+                      ? styles.ModalNoContainer
+                      : styles.ModalNoContainerls
+                  }
+                  // style={styles.ModalNoContainer}
                   onPress={goBack}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={styles.ModalYesContainer}
+                  style={
+                    orientation.isPortrait
+                      ? styles.ModalYesContainer
+                      : styles.ModalYesContainerls
+                  }
+                  // style={styles.ModalYesContainer}
                   onPress={gotoSign}>
                   <View style={styles.ModalYesView}>
                     <Text style={styles.ModalYesText}>Yes</Text>
@@ -415,26 +458,6 @@ const ProfileScreen = ({navigation, token}) => {
           <Image source={{uri: profilePic}} style={styles.ProfilePhotoImage} />
         </View>
         <View style={styles.ProfileNameView}>
-          {/* <Text style={styles.ProfileName}>Prallav Raj</Text> */}
-          {/* <Text style={styles.ProfileName}>{text}</Text> */}
-          {/* {isRight ? (
-            <Text style={styles.ProfileName}>{text}</Text>
-          ) : (
-            <Text style={styles.ProfileName}>{namee}</Text>
-          )} */}
-          {/* {isRight ? setName(`{text}`) : null} */}
-
-          {/* {isRight == false && <Text style={styles.ProfileName}>{namee}</Text>} */}
-          {/* {edit ? (
-            // <Text>{ProfileData}</Text>
-          ) */}
-          {/* {isRight ? (
-            <Text style={styles.ProfileName}>{text}</Text>
-          ) : ( */}
-          {/* <Text>{name}</Text> */}
-
-          {/* <Text>{ProfileData.name}</Text> */}
-          {/* <Text>{name}</Text> */}
           <Text style={styles.ProfileName}>{ProfileData.name}</Text>
           {/* )} */}
 
@@ -443,7 +466,10 @@ const ProfileScreen = ({navigation, token}) => {
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <View style={styles.MiddleContainer}>
-            <View style={styles.MiddleCard}>
+            <View
+              style={
+                orientation.isPortrait ? styles.MiddleCard : styles.MiddleCardls
+              }>
               <View style={styles.CardTop}>
                 <Text style={styles.Card1Text}>
                   {ProfileData.chapterscompleted}
@@ -455,7 +481,10 @@ const ProfileScreen = ({navigation, token}) => {
               </View>
             </View>
 
-            <View style={styles.MiddleCard}>
+            <View
+              style={
+                orientation.isPortrait ? styles.MiddleCard : styles.MiddleCardls
+              }>
               <View style={styles.CardTop}>
                 <Text style={styles.Card2Text}>{ProfileData.avgscore}</Text>
                 <Text style={styles.Card2Text2}>%</Text>
@@ -465,7 +494,10 @@ const ProfileScreen = ({navigation, token}) => {
               </View>
             </View>
 
-            <View style={styles.MiddleCard}>
+            <View
+              style={
+                orientation.isPortrait ? styles.MiddleCard : styles.MiddleCardls
+              }>
               <View style={styles.CardTop}>
                 <Text style={styles.Card3Text}>{ProfileData.highestscore}</Text>
                 <Text style={styles.Card3Text3}>%</Text>
@@ -479,12 +511,18 @@ const ProfileScreen = ({navigation, token}) => {
       </View>
 
       <View style={styles.BottomContainer}>
-        <View style={styles.Results}>
+        <View
+          style={orientation.isPortrait ? styles.Results : styles.Resultsls}>
           <Image
             source={require('../Images/Profile/resultImage.png')}
             style={styles.ResultsImage}
           />
-          <View style={styles.ResultsTextContainer}>
+          <View
+            style={
+              orientation.isPortrait
+                ? styles.ResultsTextContainer
+                : styles.ResultsTextContainerls
+            }>
             <Text style={styles.ResultsText1}>Results</Text>
             <Text style={styles.ResultsText2}>
               Check the test score you have attempted
@@ -498,12 +536,22 @@ const ProfileScreen = ({navigation, token}) => {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.Notifications}>
+        <View
+          style={
+            orientation.isPortrait
+              ? styles.Notifications
+              : styles.Notificationsls
+          }>
           <Image
             source={require('../Images/Profile/bell.png')}
             style={styles.ResultsImage}
           />
-          <View style={styles.ResultsTextContainer}>
+          <View
+            style={
+              orientation.isPortrait
+                ? styles.ResultsTextContainer
+                : styles.ResultsTextContainerls
+            }>
             <Text style={styles.ResultsText1}>Notifications</Text>
             <Text style={styles.ResultsText2}>
               Turn off the notification if you don't want to recieve
@@ -537,6 +585,12 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: Platform.OS === 'ios' ? 0 : -30,
   },
+  MainContainerls: {
+    backgroundColor: '#F6FAFF',
+    height: '100%',
+    width: '100%',
+    marginTop: Platform.OS === 'ios' ? -30 : -60,
+  },
 
   // 3dots style
 
@@ -545,15 +599,37 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginHorizontal: 30,
   },
-  TopDotsImage: {width: 6, height: 27},
+  TopDotsls: {
+    marginTop: 60,
+    alignSelf: 'flex-end',
+    marginHorizontal: 60,
+  },
+
+  TopDotsImage: {
+    width: 6,
+    height: 27,
+  },
 
   // upperModal styles
 
   InModalMainContainer: {
     backgroundColor: 'white',
     position: 'absolute',
-    top: 60,
-    right: -10,
+    top: 30,
+    right: 10,
+    // right: -20,2
+    height: 150,
+    width: 160,
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    marginRight: 20,
+    borderRadius: 15,
+  },
+  InModalMainContainerls: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: -20,
+    right: 20,
     height: 150,
     width: 160,
     alignItems: 'flex-start',
@@ -602,6 +678,15 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderRadius: 15,
   },
+  ModalMainContainerls: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: -40,
+    height: '80%',
+    width: '103%',
+    marginLeft: -15,
+    borderRadius: 15,
+  },
   ModalTopContainer: {
     alignItems: 'center',
   },
@@ -641,6 +726,18 @@ const styles = StyleSheet.create({
     width: 230,
     marginTop: 15,
   },
+  ModalLogoutText1ls: {
+    color: '#595B60',
+    fontWeight: '300',
+    letterSpacing: 0,
+    lineHeight: 28,
+    textAlign: 'center',
+    fontSize: 20,
+    textAlign: 'center',
+    width: 340,
+    marginTop: 15,
+  },
+
   ModalBottomContainer: {
     flexDirection: 'row',
     marginTop: 30,
@@ -655,6 +752,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ModalNoContainerls: {
+    height: 55,
+    width: 250,
+    borderWidth: 2,
+    borderRadius: 13,
+    marginLeft: 90,
+    borderColor: '#4C93FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   ModalNoText: {
     color: '#4C93FF',
     fontSize: 20,
@@ -666,6 +774,15 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     borderColor: '#4C93FF',
     marginLeft: 31,
+    backgroundColor: '#4C93FF',
+  },
+  ModalYesContainerls: {
+    height: 55,
+    width: 250,
+    borderWidth: 2,
+    borderRadius: 13,
+    borderColor: '#4C93FF',
+    marginLeft: 90,
     backgroundColor: '#4C93FF',
   },
   ModalYesView: {
@@ -718,6 +835,7 @@ const styles = StyleSheet.create({
   MiddleContainer: {
     flexDirection: 'row',
   },
+
   MiddleCard: {
     marginLeft: 30,
     height: 113,
@@ -728,6 +846,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 55,
   },
+  MiddleCardls: {
+    marginLeft: 90,
+    height: 120,
+    width: 150,
+    borderWidth: 1,
+    borderColor: 'rgba(151,151,151,0.1)',
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    marginTop: 55,
+  },
+
   CardTop: {
     flexDirection: 'row',
   },
@@ -791,13 +920,24 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: '#EDEEF1',
   },
+  Resultsls: {
+    marginHorizontal: 90,
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderColor: '#EDEEF1',
+  },
   ResultsImage: {
     width: 16,
     height: 22,
   },
+
   ResultsTextContainer: {
     marginLeft: 25,
     width: 200,
+  },
+  ResultsTextContainerls: {
+    marginLeft: 50,
+    width: 500,
   },
   ResultsText1: {
     fontSize: 18,
@@ -813,10 +953,17 @@ const styles = StyleSheet.create({
     width: 10,
     height: 12,
     marginLeft: 60,
-    marginTop: 5,
+    marginTop: 6,
   },
   Notifications: {
     marginHorizontal: 33,
+    marginTop: 30,
+    flexDirection: 'row',
+    borderBottomWidth: 2,
+    borderColor: '#EDEEF1',
+  },
+  Notificationsls: {
+    marginHorizontal: 90,
     marginTop: 30,
     flexDirection: 'row',
     borderBottomWidth: 2,
@@ -866,6 +1013,17 @@ const styles = StyleSheet.create({
     // marginRight: 20,
     // borderRadius: 15,
   },
+
+  editModalMainContainerls: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: -36,
+    left: -19,
+    height: '120%',
+    width: '103%',
+    paddingHorizontal: 40,
+  },
+
   ModalEditTopContainer: {
     alignItems: 'center',
     flexDirection: 'row',

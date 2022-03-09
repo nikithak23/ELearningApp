@@ -10,21 +10,27 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
 // import VideoPlayer from 'react-native-video-player';
 import Video from 'react-native-video';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ScrollView} from 'react-native-gesture-handler';
+// import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 
 const ChapterScreen = ({navigation, route}) => {
+  const orientation = useOrientation();
   const token = route?.params.token;
   const subject = route?.params.subject;
   const chapterId = route?.params.chapterId;
   const chapterNumber = route?.params.chapterNumber;
   const chapterName = route?.params.chapterName;
+  const cid = route?.params.cid;
+  const cName = route?.params.cName;
+
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
   const lessonName = route?.params.lessonName;
@@ -114,23 +120,24 @@ const ChapterScreen = ({navigation, route}) => {
     setModalVisible(false);
   };
 
-  useEffect(()=>{
-    const retrievelikes = async() => {
-       try{
+  useEffect(() => {
+    const retrievelikes = async () => {
+      try {
         const currentItems = await AsyncStorage.getItem('liked');
         let json = currentItems === null ? [] : JSON.parse(currentItems);
-        setLikedItems(json)
-       }catch(e){
-         console.log(e)
-       }
-    }
-    retrievelikes()
-  })
+        setLikedItems(json);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    retrievelikes();
+  });
 
   //This is for storing liked list
   const persistLikedlist = async newItem => {
     try {
       const currentItems = await AsyncStorage.getItem('liked');
+
       let json = currentItems === null ? [] : JSON.parse(currentItems);
       if (json.toString().includes(newItem.toString()) === false) {
         json.push(newItem);
@@ -156,7 +163,11 @@ const ChapterScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.TopContainer}>
+      <View
+        style={
+          orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
+        }>
+        {/* style={styles.TopContainer}> */}
         <View>
           <TouchableOpacity
             onPress={() =>
@@ -164,6 +175,8 @@ const ChapterScreen = ({navigation, route}) => {
                 token: token,
                 lName: lessonName,
                 lId: lessonId,
+                cId: cid,
+                cName: cName,
               })
             }>
             <Image
@@ -174,12 +187,7 @@ const ChapterScreen = ({navigation, route}) => {
         </View>
         <View style={styles.topLeft}>
           {likedItems.toString().includes(lessonChap.toString()) ? (
-            <Icon
-              
-              name="heart"
-              size={28}
-              style={styles.liked}
-            />
+            <Icon name="heart" size={28} style={styles.liked} />
           ) : (
             <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
               <Image
@@ -198,7 +206,13 @@ const ChapterScreen = ({navigation, route}) => {
           </TouchableOpacity>
 
           <Modal isVisible={modalVisible}>
-            <View style={styles.ModalMainContainer}>
+            <View
+              style={
+                orientation.isPortrait
+                  ? styles.ModalMainContainer
+                  : styles.ModalMainContainerls
+              }>
+              {/* style={styles.ModalMainContainer}> */}
               <View style={styles.ModalTopContainer}>
                 <View style={styles.ModalContainer}></View>
                 <Text style={styles.ModalgoToPageText}>Go to the page</Text>
@@ -255,13 +269,22 @@ const ChapterScreen = ({navigation, route}) => {
 
               <View style={styles.ModalBottomContainer}>
                 <TouchableOpacity
-                  style={styles.ModalNoContainer}
+                  style={
+                    orientation.isPortrait
+                      ? styles.ModalNoContainer
+                      : styles.ModalNoContainerls
+                  }
+                  // {/* style={styles.ModalNoContainer} */}
                   onPress={() => setModalVisible(false)}>
                   <Text style={styles.ModalNoText}>Cancel</Text>
                 </TouchableOpacity>
                 {(noSelect1 || noSelect2 || noSelect3) === true ? (
                   <TouchableOpacity
-                    style={styles.ModalYesContainer}
+                    style={
+                      orientation.isPortrait
+                        ? styles.ModalYesContainer
+                        : styles.ModalYesContainerls
+                    }
                     onPress={submitPage}>
                     <View style={styles.ModalYesView}>
                       <Text style={styles.ModalYesText}>Ok</Text>
@@ -274,7 +297,12 @@ const ChapterScreen = ({navigation, route}) => {
                 ) : (
                   <TouchableOpacity
                     activeOpacity={1}
-                    style={styles.ModalYesContainer}>
+                    style={
+                      orientation.isPortrait
+                        ? styles.ModalYesContainer
+                        : styles.ModalYesContainerls
+                    }>
+                    {/* style={styles.ModalYesContainer}> */}
                     <View style={styles.ModalYesView}>
                       <Text style={styles.ModalYesText}>Ok</Text>
                       <Image
@@ -290,7 +318,8 @@ const ChapterScreen = ({navigation, route}) => {
         </View>
       </View>
 
-      <View style={styles.body}>
+      <View style={orientation.isPortrait ? styles.body : styles.bodyls}>
+        {/* style={styles.body}> */}
         <Text style={styles.name}>{chapterName}</Text>
 
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -299,10 +328,9 @@ const ChapterScreen = ({navigation, route}) => {
               source={{
                 uri: contents[0]?.videoUrl,
               }}
-              style={{
-                width: 390,
-                height: 300,
-              }}
+              style={
+                orientation.isPortrait ? styles.contentimg : styles.contentimgls
+              }
               paused={true}
               controls={true}
             />
@@ -311,23 +339,34 @@ const ChapterScreen = ({navigation, route}) => {
           {contents[0]?.imageUrl ? (
             <Image
               source={{uri: contents[0]?.imageUrl}}
-              style={styles.contentimg}
+              style={
+                orientation.isPortrait ? styles.contentimg : styles.contentimgls
+              }
             />
           ) : null}
 
-          <Text style={styles.content}> {contents[0]?.content}</Text>
+          <Text
+            style={orientation.isPortrait ? styles.content : styles.contentls}>
+            {contents[0]?.content}
+          </Text>
         </ScrollView>
       </View>
-      <View style={styles.bottom}>
-        <View style={styles.bottomLeft}>
+      <View style={orientation.isPortrait ? styles.bottom : styles.bottomls}>
+        <View
+          style={
+            orientation.isPortrait ? styles.bottomLeft : styles.bottomLeftls
+          }>
           <Text style={styles.bottomChapter}>
             C{chapterNumber}:{chapterName}
           </Text>
 
           <Text style={styles.bottomPage}>{page + 1} of 3 pages</Text>
-          {/* {console.log(page)} */}
         </View>
-        <View style={styles.bottomRight}>
+        <View
+          style={
+            orientation.isPortrait ? styles.bottomRight : styles.bottomRightls
+          }>
+          {/* style={styles.bottomRight}> */}
           <TouchableOpacity onPress={() => decPage(page)}>
             <Image
               source={require('../Images/TestPage/btnPrevQtn.png')}
@@ -361,8 +400,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: 30,
   },
+  TopContainerls: {
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 90,
+  },
+
   body: {
     marginTop: 40,
+  },
+  bodyls: {
+    marginTop: 10,
   },
   name: {
     color: '#191B26',
@@ -380,9 +429,30 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 30,
   },
+  contentimgls: {
+    height: 250,
+    width: 400,
+
+    marginHorizontal: 220,
+    // marginLeft: 90,
+    // marginRight: 32,
+    borderRadius: 15,
+    marginTop: 30,
+  },
   content: {
     marginTop: 30,
     marginHorizontal: 32,
+    marginBottom: 200,
+    // textAlign: 'left',
+    textAlign: 'justify',
+    color: '#4D5060',
+    fontSize: 18,
+    lineHeight: 26,
+    letterSpacing: 0,
+  },
+  contentls: {
+    marginTop: 30,
+    marginHorizontal: 90,
     marginBottom: 200,
     // textAlign: 'left',
     textAlign: 'justify',
@@ -421,16 +491,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // borderWidth: 1,
   },
+  bottomls: {
+    backgroundColor: 'white',
+    width: 845,
+    height: 70,
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    // borderWidth: 1,
+  },
   bottomLeft: {
     marginLeft: 30,
+    marginTop: 14,
+  },
+  bottomLeftls: {
+    marginLeft: 90,
     marginTop: 14,
   },
   bottomRight: {
     flexDirection: 'row',
     marginRight: 30,
-    // justifyContent: 'space-around',
-    // alignContent: 'space-around',
+    alignItems: 'center',
+  },
 
+  bottomRightls: {
+    flexDirection: 'row',
+    marginRight: 90,
     alignItems: 'center',
   },
   bottomChapter: {
@@ -459,6 +546,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -18,
     height: '45%',
+    width: '100%',
+    marginRight: 20,
+    borderRadius: 15,
+  },
+  ModalMainContainerls: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: -35,
+    height: '105%',
     width: '100%',
     marginRight: 20,
     borderRadius: 15,
@@ -509,7 +605,6 @@ const styles = StyleSheet.create({
     fontSize: 45,
     textAlign: 'center',
     fontWeight: '600',
-
     marginHorizontal: 30,
   },
   ModalPageText: {
@@ -533,6 +628,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ModalNoContainerls: {
+    height: 55,
+    width: 250,
+    borderWidth: 2,
+    borderRadius: 13,
+    marginLeft: 90,
+    borderColor: '#4C93FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   ModalNoText: {
     color: '#4C93FF',
     fontSize: 20,
@@ -544,6 +649,15 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     borderColor: '#4C93FF',
     marginLeft: 31,
+    backgroundColor: '#4C93FF',
+  },
+  ModalYesContainerls: {
+    height: 55,
+    width: 250,
+    borderWidth: 2,
+    borderRadius: 13,
+    borderColor: '#4C93FF',
+    marginLeft: 90,
     backgroundColor: '#4C93FF',
   },
   ModalYesView: {
@@ -566,6 +680,6 @@ const styles = StyleSheet.create({
     height: 25,
     width: 26,
     marginRight: 40,
-    marginTop: -3
+    marginTop: -3,
   },
 });

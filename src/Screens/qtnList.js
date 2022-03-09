@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {Text, Image, View, StyleSheet,TouchableOpacity,ScrollView,FlatList} from 'react-native';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
-
+import useOrientation from '../hooks/useOrientation';
 
 
 const QtnList =({navigation,route})=>{
 
+    const orientation = useOrientation();
     const courseId=route?.params.courseId;
     const courseName=route?.params.courseName;
     const token=route?.params.token;
@@ -68,7 +69,7 @@ const QtnList =({navigation,route})=>{
           <TouchableOpacity onPress={()=>navigation.goBack()}>
             <Image source={require('../Images/TestPage/btnBack.png')} style={styles.btn} />
           </TouchableOpacity >
-          <Text style={styles.headerTxt} >Questions</Text>
+          <Text style={orientation.isPortrait?styles.headerTxt:styles.headerTxtLandscape} >Questions</Text>
       </View>
 
 
@@ -107,6 +108,14 @@ const styles = StyleSheet.create({
     marginTop:Platform.OS === 'ios' ? 50 : 20,
     marginBottom:15,
     marginHorizontal:80,
+    color:'black',
+    fontSize:15,
+    fontWeight:'500'
+    },
+    headerTxtLandscape:{
+    marginTop:Platform.OS === 'ios' ? 50 : 20,
+    marginBottom:15,
+    marginHorizontal:230,
     color:'black',
     fontSize:15,
     fontWeight:'500'

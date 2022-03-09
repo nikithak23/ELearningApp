@@ -8,32 +8,34 @@ import {
   Touchable,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
-import {StackActions} from '@react-navigation/native';
 
-const Chapters = [
-  {
-    img: require('../Images/Profile/photo1.jpeg'),
-    difficulty: 'BEGINEER',
-    name: 'Food Substances',
-    summary: 'Classes and Sources',
-  },
-  {
-    img: require('../Images/Profile/photo1.jpeg'),
-    difficulty: 'BEGINEER',
-    name: 'Balanced Diet',
-    summary: 'Sources of food substance',
-  },
-  {
-    img: require('../Images/Profile/photo1.jpeg'),
-    difficulty: 'BEGINEER',
-    name: 'Food Diet',
-    summary: 'this is the dummy data',
-  },
-];
+// const Chapters = [
+//   {
+//     img: require('../Images/Profile/photo1.jpeg'),
+//     difficulty: 'BEGINEER',
+//     name: 'Food Substances',
+//     summary: 'Classes and Sources',
+//   },
+//   {
+//     img: require('../Images/Profile/photo1.jpeg'),
+//     difficulty: 'BEGINEER',
+//     name: 'Balanced Diet',
+//     summary: 'Sources of food substance',
+//   },
+//   {
+//     img: require('../Images/Profile/photo1.jpeg'),
+//     difficulty: 'BEGINEER',
+//     name: 'Food Diet',
+//     summary: 'this is the dummy data',
+//   },
+// ];
 
 const CourseScreen = ({navigation, route}) => {
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const subject = route?.params.subject;
@@ -77,7 +79,9 @@ const CourseScreen = ({navigation, route}) => {
 
   RenderTests = () => {
     return (
-      <View style={styles.testList}>
+      <View
+        style={orientation.isPortrait ? styles.testList : styles.testListls}>
+        {/* style={styles.testList}> */}
         <View style={styles.testListTop}>
           <Image
             source={require('../Images/Subject/testcoverphoto.jpeg')}
@@ -128,17 +132,27 @@ const CourseScreen = ({navigation, route}) => {
               chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
-              subject: subject
+              subject: subject,
+              cid: cid,
+              cName: cName,
             })
           }
-          style={styles.listComponent}>
+          style={
+            orientation.isPortrait
+              ? styles.listComponent
+              : styles.listComponentls
+          }>
           <View>
             <Image
               source={{uri: item.imageUrl}}
               style={styles.chapterCoverPhoto}
             />
           </View>
-          <View style={styles.listRight}>
+          <View
+            style={
+              orientation.isPortrait ? styles.listRight : styles.listRightls
+            }>
+            {/* style={styles.listRight}> */}
             <Text style={styles.listdifficulty}>BEGINEER</Text>
             <Text style={styles.listname}>{item.chapterName}</Text>
             <Text style={styles.listsummary}>{item.summary}</Text>
@@ -161,8 +175,12 @@ const CourseScreen = ({navigation, route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.TopContainer}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <View
+        style={
+          orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
+        }>
+        {/* style={styles.TopContainer}> */}
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.touchable}>
@@ -172,24 +190,51 @@ const CourseScreen = ({navigation, route}) => {
           />
         </TouchableOpacity>
 
-        <Text style={styles.topText}>INTRODUCTION TO BIOLOGY</Text>
+        <Text
+          style={orientation.isPortrait ? styles.topText : styles.topTextls}>
+          {cName.toUpperCase()}
+        </Text>
       </View>
       <View style={styles.Lessons}>
-        <Text style={styles.LessonTitle}>{lName}</Text>
+        <Text
+          style={
+            orientation.isPortrait ? styles.LessonTitle : styles.LessonTitlels
+          }>
+          {/* style={styles.LessonTitle}> */}
+          {lName}
+        </Text>
         <Text style={styles.LessonTitle2}>Lesson {id}</Text>
       </View>
       <View style={styles.tabContainer}>
-        <TouchableOpacity onPress={chapterHandler} style={styles.chapter}>
+        <TouchableOpacity
+          onPress={chapterHandler}
+          style={orientation.isPortrait ? styles.chapter : styles.chapterls}>
+          {/* style={styles.chapter}> */}
           <Text
+            // style={
+            //   isChapter
+            //     ? orientation.isPortrait
+            //       ? styles.activeTabTextStyle
+            //       : styles.activeTabTextStylels
+            //     : orientation.isPortrait
+            //     ? styles.inactiveTabTextStyle
+            //     : styles.inactiveTabTextStylels
+            // }>
+            //           orientation.isPortrait ?
+            // (isChapter ? styles.activeTabTextStyle : styles.inactiveTabTextStyle) : orientation.isPortrait ?(styles.activeTabTextStyle : styles.inactiveTabTextStyle)
+
             style={
               isChapter
                 ? styles.activeTabTextStyle
                 : styles.inactiveTabTextStyle
             }>
-            LESSONS
+            CHAPTERS
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={testHandler} style={styles.tests}>
+        <TouchableOpacity
+          onPress={testHandler}
+          style={orientation.isPortrait ? styles.tests : styles.testsls}>
+          {/* style={styles.tests}> */}
           <Text
             style={
               isTest ? styles.activeTabTextStyle : styles.inactiveTabTextStyle
@@ -209,7 +254,7 @@ const CourseScreen = ({navigation, route}) => {
         </View>
       )}
       {isTest && <RenderTests />}
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -218,9 +263,15 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#F6FAFF',
   },
+
   TopContainer: {
     marginTop: 51,
     flexDirection: 'row',
+  },
+  TopContainerls: {
+    marginTop: 51,
+    flexDirection: 'row',
+    marginHorizontal: 60,
   },
   backButton: {
     // marginLeft: 32,
@@ -232,8 +283,14 @@ const styles = StyleSheet.create({
   },
   topText: {
     marginLeft: 40,
+
     fontSize: 15,
     // color: 'grey',
+    fontWeight: '300',
+  },
+  topTextls: {
+    marginLeft: 200,
+    fontSize: 15,
     fontWeight: '300',
   },
   Lessons: {
@@ -246,6 +303,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
   },
+  LessonTitlels: {
+    textAlign: 'center',
+    marginTop: 30,
+    width: 500,
+    fontSize: 25,
+    fontWeight: '600',
+  },
   LessonTitle2: {
     marginTop: 12,
     fontSize: 18,
@@ -254,8 +318,6 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     marginTop: 30,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     flexDirection: 'row',
   },
   chapter: {
@@ -271,6 +333,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 30,
   },
+  chapterls: {
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    width: 330,
+    borderWidth: 1,
+    // borderColor: 'white',
+    borderColor: 'rgba(151,151,151,0.1)',
+    backgroundColor: 'white',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 90,
+  },
   tests: {
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
@@ -285,7 +360,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 30,
   },
+  testsls: {
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    // borderRadius: 10,
+    width: 330,
+    borderWidth: 1,
+    // borderColor: 'white',
+    borderColor: 'rgba(151,151,151,0.1)',
+    backgroundColor: 'white',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 90,
+  },
   activeTabTextStyle: {
+    color: '#3A7FE7',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  activeTabTextStylels: {
     color: '#3A7FE7',
     fontSize: 14,
     fontWeight: '600',
@@ -312,6 +406,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 30,
   },
+  listComponentls: {
+    flexDirection: 'row',
+    borderColor: 'rgba(151,151,151,0.1)',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    marginVertical: 10,
+    marginHorizontal: 90,
+    borderRadius: 15,
+    padding: 30,
+    paddingLeft: 90,
+  },
   chapterCoverPhoto: {
     height: 40,
     width: 40,
@@ -319,6 +424,9 @@ const styles = StyleSheet.create({
   },
   listRight: {
     marginLeft: 25,
+  },
+  listRightls: {
+    marginLeft: 75,
   },
   listdifficulty: {
     color: '#3A7FE7',
@@ -349,6 +457,20 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingTop: 30,
     padding: 15,
+  },
+  testListls: {
+    // flexDirection: 'row',
+    marginTop: 35,
+    borderColor: 'rgba(151,151,151,0.1)',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    marginVertical: 10,
+    marginHorizontal: 90,
+    borderRadius: 15,
+    paddingTop: 30,
+    padding: 15,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   testListTop: {
     flexDirection: 'row',

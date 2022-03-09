@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Card} from 'react-native-cards';
 import Animated from 'react-native-reanimated';
 import {useFocusEffect} from '@react-navigation/core';
+import useOrientation from '../hooks/useOrientation';
 Icon.loadFont().then();
 
 
@@ -21,7 +22,8 @@ Icon.loadFont().then();
 
 
 const HomeScreen = ({navigation, route, token}) => {
- 
+
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
@@ -75,9 +77,9 @@ const HomeScreen = ({navigation, route, token}) => {
       console.log(err);
     }
   };
+  
+
   let len = DataRecent.length;
-
-
   useFocusEffect(
     React.useCallback(() => {
       getData();
@@ -85,6 +87,7 @@ const HomeScreen = ({navigation, route, token}) => {
       getSub();
     }, []),
   );
+  
 
 
   useEffect(() => {
@@ -172,8 +175,15 @@ const HomeScreen = ({navigation, route, token}) => {
     let percent = item.percent + '%';
     recentId=item.homeId;
     return (
-      <Card style={styles.bottomCards}>
-        <TouchableOpacity >
+      <Card style={orientation.isPortrait?styles.bottomCards:styles.bottomCardsLandscape}>
+        <TouchableOpacity onPress={()=>{
+          navigation.navigate('SubjectDetails', {
+            token: token,
+            subject:item.subjectName,
+            subId:item.subjectId,
+            courseId:item.courseId,
+          });
+        }}>
           <View style={recentId%2===0?styles.imgContainer0:styles.imgContainer1}>
             <Image source={{uri: item.subjectLogo}} style={styles.img} />
           </View>
@@ -322,6 +332,15 @@ const styles = StyleSheet.create({
     height: 270,
     marginTop: 10,
     borderRadius: 18,
+  },
+  bottomCardsLandscape: {
+    marginLeft: 25,
+    backgroundColor: '#FFFFFF',
+    width: 260,
+    height: 270,
+    marginTop: 10,
+    borderRadius: 18,
+    marginBottom:90,
   },
   imgContainer0: {
     width: 260,
