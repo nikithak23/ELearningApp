@@ -30,14 +30,14 @@ const NotificationScreen = ({navigation, route}) => {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const [notif, setNotif] = useState([])
-  const [date, setDate] = useState('')
+  
   const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
   const hrRegex = /[0-2][0-9]/;
   const minRegex = /:[0-5][0-9]:/;
  
-  const [notif, setNotif] = useState([]);
+  
   const [date, setDate] = useState(new Date().toUTCString());
-  const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
+  
 
   useEffect(() => {
     getNotifs();
@@ -97,7 +97,7 @@ const NotificationScreen = ({navigation, route}) => {
         }
       }
     }
-    let time = date.match(timeRegex);
+    
     console.log('my date', new Date());
     console.log('time', '========', time[0]);
     return (
