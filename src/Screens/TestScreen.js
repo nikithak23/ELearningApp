@@ -205,9 +205,9 @@ const submitTest=async()=>{//Submit test api
             key={key}
             size={37}
             strokeWidth={3}
-            duration={20}
+            duration={60}
             colors={["#32cd32", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[8,10, 5, 0]}
+            colorsTime={[19,19,20, 0]}
             onComplete={() =>{
               timeup=1;
               submitTest();
