@@ -110,6 +110,8 @@ const styles = StyleSheet.create({
 
   backgroundImagels: {
     width: 850,
+    // position: 'absolute',
+    // height: 1000,
     height: 1000,
   },
   text1view: {
