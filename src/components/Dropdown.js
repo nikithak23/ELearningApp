@@ -10,6 +10,7 @@ import {
   ScrollView,
   Image
 } from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 
 const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
   const downarrow = require('../Images/Profile/Results/allDown.png');
@@ -44,6 +45,7 @@ const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
   
 
   const renderDropdown = () => {
+    const orientation = useOrientation();
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3,
     elevation: 5,
-    height: 250
+    height: 250,
   },
   button: {
     borderRadius: 6,

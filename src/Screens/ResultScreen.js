@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import Dropdown from '../components/Dropdown';
 import {useFocusEffect} from '@react-navigation/core';
+import { transform } from 'lodash';
 
 // const Results = [
 //   {
@@ -184,7 +185,7 @@ export default function ResultsScreen({navigation, route}) {
         </TouchableOpacity>
         <View style={styles.TopTextView}>
           <Text style={styles.TopText1}>Results</Text>
-          <Dropdown
+          <Dropdown 
             filterSub={filterSub}
             subs={subs}
             modalVisible={modalVisible}

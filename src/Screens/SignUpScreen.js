@@ -4,6 +4,7 @@ import {Text,View,Button,Image,StyleSheet,TouchableOpacity,ScrollView} from 'rea
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
 import useOrientation from '../hooks/useOrientation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SignUpScreen = ({navigation}) => {
@@ -29,6 +30,7 @@ const SignUpScreen = ({navigation}) => {
     if (/[0-9]/.test(name) === false &&username &&password && password === confirmPassword) {
       setIsValid(true);
       setIsLoading(true);
+      await AsyncStorage.clear()
 
 
       try {

@@ -3,22 +3,19 @@ import axios from 'axios';
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-let Subjects = [
-  {title: 'Physics', image: require('../Images/Subject/physics.png')},
-  {title: 'Biology', image: require('../Images/Subject/bio.png')},
-  {title: 'Chemistry', image: require('../Images/Subject/chem.png')},
-  {title: 'Mathematics', image: require('../Images/Subject/math.png')},
-  {title: 'Geography', image: require('../Images/Subject/geography.png')},
-  {title: 'Art and culture', image: require('../Images/Subject/art.png')},
-];
+import useOrientation from '../hooks/useOrientation';
+
 
 const SubjectScreen = ({token,navigation}) => {
+
+  const orientation = useOrientation();
   const [SubjectsData, setSubjectsData] = useState([]);
   const [fetchSubjects, setFetchSubjects] = useState(false)
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const renderSubjects = ({item})=>{
     return (
-      <View style={styles.component}>
+      <View
+        style={orientation.isPortrait ? styles.component : styles.componentls}>
         <TouchableOpacity
           style={styles.row}
           onPress={() =>
@@ -54,7 +51,9 @@ const SubjectScreen = ({token,navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Subjects</Text>
+      <Text style={orientation.isPortrait ? styles.title : styles.titlels}>
+        Subjects
+      </Text>
       {/* {fetchSubjects === true ? <Text style={styles.title}>{sub}</Text> : null} */}
       {/* <Text>{SubjectsData[0].subjectName}</Text> */}
       <FlatList
@@ -79,11 +78,29 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     color: '#292929',
   },
+  titlels: {
+    fontSize: 34,
+    fontWeight: '800',
+    marginTop: 40,
+    marginLeft: 32,
+    marginBottom: 12,
+    color: '#292929',
+  },
   component: {
     backgroundColor: '#fff',
     padding: 24,
     marginVertical: 9,
     marginHorizontal: 32,
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderRadius: 15,
+    borderColor: 10,
+  },
+  componentls: {
+    backgroundColor: '#fff',
+    padding: 24,
+    marginVertical: 9,
+    marginHorizontal: 90,
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: 15,

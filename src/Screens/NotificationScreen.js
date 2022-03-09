@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
+import useOrientation from '../hooks/useOrientation';
 
 const btnBack = require('../Images/Notification/btnback.png');
 const NotificationData = [
@@ -27,6 +28,7 @@ const NotificationData = [
 ];
 
 const NotificationScreen = ({navigation, route}) => {
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const [notif, setNotif] = useState([])
@@ -75,11 +77,6 @@ const NotificationScreen = ({navigation, route}) => {
     const minDiff = Number(presentMin[0]) - Number(notifMin[0])
     console.log('time', '====',item.time, '====', time[0], 'difff==> ', hrDiff, '>>>>', minDiff)
 
-
-
-// 08:10    07:45
-
-
     const timeDiff = () => {
       if (hrDiff > 0) {
         if (minDiff > -1) {
@@ -101,14 +98,15 @@ const NotificationScreen = ({navigation, route}) => {
     console.log('my date', new Date());
     console.log('time', '========', time[0]);
     return (
-      <View style={styles.component}>
+      <View
+        style={orientation.isPortrait ? styles.component : styles.componentls}>
         <View>
           <View style={styles.row}>
             <Text style={styles.subtitle}>{item.notificationHeader}</Text>
-            <Text style={styles.time}>{item.time}</Text>
+            <Text style={styles.time}>{timeDiff()}</Text>
           </View>
 
-          <Text style={styles.notif}>{timeDiff()}</Text>
+          <Text style={styles.notif}>{item.notificationContent}</Text>
         </View>
       </View>
     );
@@ -151,6 +149,18 @@ const styles = StyleSheet.create({
     paddingBottom: 23,
     marginVertical: 11,
     marginHorizontal: 32,
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderRadius: 15,
+    zIndex: 100,
+  },
+  componentls: {
+    backgroundColor: '#fff',
+    paddingTop: 22,
+    paddingLeft: 21,
+    paddingBottom: 23,
+    marginVertical: 11,
+    marginHorizontal: 90,
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: 15,

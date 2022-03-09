@@ -91,17 +91,34 @@ const AuthenticationScreen = ({navigation,route}) => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <View style={styles.rectangle2}>
-          <View style={styles.rectangle1}></View>
+        <View
+          style={
+            orientation.isPortrait ? styles.rectangle2 : styles.rectangle2ls
+          }>
+          <View
+            style={
+              orientation.isPortrait ? styles.rectangle1 : styles.rectangle1ls
+            }></View>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={btnCancel} style={styles.btnCancel} />
+            <Image
+              source={btnCancel}
+              style={
+                orientation.isPortrait ? styles.btnCancel : styles.btnCancells
+              }
+            />
           </TouchableOpacity>
           {forgotPass ? (
-            <Text style={styles.title}>Reset Password</Text>
+            <Text
+              style={orientation.isPortrait ? styles.title : styles.titlels}>
+              Reset Password
+            </Text>
           ) : (
-            <Text style={styles.title}>Verify Account</Text>
+            <Text
+              style={orientation.isPortrait ? styles.title : styles.titlels}>
+              Verify Account
+            </Text>
           )}
-          <Text style={orientation.isPortrait? styles.text : styles.textls}>
+          <Text style={orientation.isPortrait ? styles.text : styles.textls}>
             Enter verification code that we have sent to your phone.
           </Text>
         </View>
@@ -213,6 +230,15 @@ const styles = StyleSheet.create({
     marginLeft: 45,
     marginTop: 15,
   },
+  titlels: {
+    fontSize: 40,
+    transform: [{rotate: '8deg'}],
+    color: '#ffffff',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    marginLeft: 45,
+    marginTop: -5,
+  },
   text: {
     fontSize: 16,
     fontWeight: '500',
@@ -227,10 +253,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     width: 290,
-    marginTop: 5,
+    marginTop: -25,
     marginLeft: 40,
     color: 'black',
-    transform: [{rotate: '12deg'}],
+    transform: [{rotate: '8deg'}],
     color: '#ffffff',
   },
   cellText: {
@@ -249,13 +275,32 @@ const styles = StyleSheet.create({
     marginRight: -50,
     marginTop: -5,
   },
+  rectangle1ls: {
+    backgroundColor: '#3274d8',
+    borderRadius: 70,
+    height: 180,
+    width: 600,
+    transform: [{rotate: '12deg'}],
+    alignSelf: 'flex-end',
+    marginRight: -50,
+    marginTop: 62,
+  },
   rectangle2: {
     backgroundColor: '#3c7ee3',
     borderRadius: 70,
-    height: 310,
+    height: Platform.OS === 'ios' ? 310 : 300,
     width: 452,
     transform: [{rotate: '-12deg'}],
-    marginTop: -70,
+    marginTop: Platform.OS === 'ios' ? -70 : -80,
+    marginLeft: -12,
+  },
+  rectangle2ls: {
+    backgroundColor: '#3c7ee3',
+    borderRadius: 70,
+    height: Platform.OS === 'ios' ? 310 : 300,
+    width: 900,
+    transform: [{rotate: '-8deg'}],
+    marginTop: Platform.OS === 'ios' ? -160 : -80,
     marginLeft: -12,
   },
   row: {
@@ -308,6 +353,13 @@ const styles = StyleSheet.create({
     transform: [{rotate: '12deg'}],
     marginLeft: 50,
     marginTop: -80,
+  },
+  btnCancells: {
+    height: 25,
+    width: 25,
+    transform: [{rotate: '8deg'}],
+    marginLeft: 50,
+    marginTop: -110,
   },
   verifyText: {
     color: '#000',
