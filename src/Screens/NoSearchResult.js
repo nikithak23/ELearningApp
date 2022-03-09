@@ -1,16 +1,15 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
-import {StackActions} from '@react-navigation/native';
+import useOrientation from '../hooks/useOrientation';
 
 
 
 const NoSearchResult=({navigation,route})=> {
 
+  const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token=route.params.token;
-
-
   const [enteredText, setEnteredText] = useState ('');
   const [searchedItems, setSearchedItems] = useState([]);
   let [Sub, setSub] = useState([]);
@@ -128,7 +127,7 @@ return(
           <Text style={styles.text}>Not Found</Text>
           <Text style={styles.desc}>Search not found please try again</Text>
 
-          <View style={styles.searchContainer}>
+          <View style={orientation.isPortrait?styles.searchContainer:styles.searchContainerLandscape}>
             <TextInput
                 onChangeText={value => setEnteredText(value)} 
                 value={enteredText}
@@ -194,6 +193,18 @@ const styles = StyleSheet.create({
       borderRadius:18,
       marginTop:30,
       marginHorizontal:30,
+    },
+    searchContainerLandscape: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      height: 70,
+      borderWidth: 1,
+      borderColor: 'rgba(41,94,255,0.05)',
+      backgroundColor:'#FFFFFF',
+      borderRadius:18,
+      marginTop:30,
+      marginHorizontal:30,
+      marginBottom:90
     },
     input: {
       flex:1,

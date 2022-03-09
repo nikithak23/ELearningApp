@@ -1,49 +1,13 @@
-/*import React from 'react';
-import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
-
-const SignUp = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>SignUp Page 1</Text>
-      <Text style={styles.title}>SignUp Page two</Text>
-      <Text style={styles.title}>SignUp Page three</Text>
-      <Text style={styles.title}>SignUp Page ten</Text>
-      <Text style={styles.title}>SignUp Page 11</Text>
-      <Text style={styles.title}>SignUp Page 13</Text>
-      <Text style={styles.title}>SignUp Page 12</Text>
-      <Text style={styles.title}>SignUp Page</Text>
-      <Text style={styles.title}>hii</Text>
-      <Text style={styles.title}>Hello, Welcome</Text>
-      <Text style={styles.title}>Hello, Welcome 123</Text>
-      <Text style={styles.title}>E Learnng App</Text>
-
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor:'#4C93FF',
-  },
-  title: {
-    fontSize: 16,
-    color: 'black',
-  },
-});
-export default SignUpScreen;
-*/
-
 import React, {useState} from 'react';
 import axios from "axios";
-import {Text,View,Button,Image,StyleSheet,TouchableOpacity,} from 'react-native';
+import {Text,View,Button,Image,StyleSheet,TouchableOpacity,ScrollView} from 'react-native';
 import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
+import useOrientation from '../hooks/useOrientation';
+
 
 const SignUpScreen = ({navigation}) => {
+  const orientation = useOrientation();
   const [name, setName] = useState('');
   const [username, setPhone] = useState(null);
   const [email, setEmail] = useState('');
@@ -51,22 +15,18 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //const [otp,setOTP]=useState('');
-  //const [data,setData]=useState('');
+  const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
-const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
  const signIn = () => {
     navigation.navigate('SignIn');
   };
-  //const otpCall = async ()=>{
-  //  setOTP(data);
-  //}
+ 
+
   
 
   const validation = async () => {   //Inorder to use 'await' define the ASYNC keyword at function declaration time
-    if (/[0-9]/.test(name) === false &&username &&password &&//email.includes('@') &&
-      password === confirmPassword) {
+    if (/[0-9]/.test(name) === false &&username &&password && password === confirmPassword) {
       setIsValid(true);
       setIsLoading(true);
 
@@ -77,20 +37,17 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           username,
           password
         });
-        //setData(response.data.data);
+     
         console.log(response.status)
         if (response.status === 200) {
           let otp=response.data.data;
-           
-          //await otpCall();
           console.log(response.data);
           console.log(response.data.resultInfo.message);
           console.log(otp);
           setIsLoading(false);
            await navigation.dispatch(
-            StackActions.push('Authentication', {  //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
+            StackActions.push('Authentication', {  
               name: name,
-              //email:email,
               phone: username,
               otp:otp,
               forgotPassword: false
@@ -103,8 +60,6 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
           alert("An error has occured");
         }
       } catch (error) {
-        console.log(error);
-        //console.log(response);
         alert("Username already exists");
         setIsLoading(false);
       }
@@ -118,15 +73,15 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
 
   const renderForm = () => {
     return (
-      <View style={styles.container}>
-          <View style={styles.headerContainer1}>
-          <View style={styles.headerContainer2}></View>
+      <ScrollView style={styles.container}>
+          <View style={orientation.isPortrait?styles.headerContainer1:styles.headerContainer1Landscape}>
+          <View style={orientation.isPortrait?styles.headerContainer2:styles.headerContainer2Landscape}></View>
             <Image
               source={require('../Images/SignUp/yellowLogo.png')}
-              style={styles.image}
+              style={orientation.isPortrait?styles.image:styles.imageLandscape}
             />
-            <Text style={styles.header1}>Create an</Text>
-            <Text style={styles.header2}>Account</Text>
+            <Text style={orientation.isPortrait?styles.header1:styles.header1Landscape}>Create an</Text>
+            <Text style={orientation.isPortrait?styles.header2:styles.header2Landscape}>Account</Text>
           </View>
 
           <View>
@@ -164,13 +119,13 @@ const baseURL = "https://elearningapp-api.herokuapp.com/learn/create";
             </TouchableOpacity>
           </View>
 
-          <View style={styles.bottomContainer}>
+          <View style={orientation.isPortrait?styles.bottomContainer:styles.bottomContainerLandscape}>
             <Text style={styles.bottomText}>Already have an Account? </Text>
             <TouchableOpacity onPress={signIn}>
               <Text style={styles.signinText}>Sign In</Text>
             </TouchableOpacity>
           </View>
-      </View>
+      </ScrollView>
     );
   };
 
@@ -184,8 +139,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerContainer1: {
-    //backgroundColor: '#3C7EE3',
-    //paddingVertical: 30,
     backgroundColor: '#3c7ee3',
     borderRadius: 70,
     height: 310,
@@ -203,6 +156,25 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: -50,
     marginTop: -2
+  },
+  headerContainer1Landscape: {
+    backgroundColor: '#3c7ee3',
+    borderRadius: 70,
+    height: 300,
+    width: 772,
+    transform: [{rotate: '-8deg'}],
+    marginTop: -120,
+    marginLeft: -12,
+  },
+  headerContainer2Landscape: {
+    backgroundColor: '#3274d8',
+    borderRadius: 70,
+    height: 200,
+    width: 550,
+    transform: [{rotate: '13deg'}],
+    alignSelf: 'flex-end',
+    marginRight: -50,
+    marginTop: 15
   },
   image: {
     width: 44,
@@ -226,6 +198,29 @@ const styles = StyleSheet.create({
     color: 'white',
     marginLeft: 40,
     transform: [{rotate: '12deg'}],
+  },
+  imageLandscape: {
+    width: 44,
+    height: 44,
+    resizeMode: 'contain',
+    marginLeft: 70,
+    marginTop:-100,
+    marginBottom:50,
+    transform: [{rotate: '8deg'}],
+  },
+  header1Landscape: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 50,
+    transform: [{rotate: '8deg'}],
+  },
+  header2Landscape: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'white',
+    marginLeft: 40,
+    transform: [{rotate: '8deg'}],
   },
   signupContainer: {
     flexDirection: 'row',
@@ -252,6 +247,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginHorizontal: 50,
+  },
+  bottomContainerLandscape: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: 50,
+    marginBottom:25,
   },
   bottomText: {
     fontSize: 16,
