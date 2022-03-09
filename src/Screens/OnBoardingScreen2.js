@@ -1,8 +1,17 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image,TouchableOpacity} from 'react-native';
-
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import useOrientation from '../hooks/useOrientation';
 
 const OnboardingScreen1 = ({navigation}) => {
+  const orientation = useOrientation();
   onBoardTo3 = () => {
     navigation.navigate('OnBoard3');
   };
@@ -12,8 +21,11 @@ const OnboardingScreen1 = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <View
+        style={
+          orientation.isPortrait ? styles.topContainer : styles.topContainerls
+        }>
         <View style={styles.skipTextContainer}>
           <View style={styles.spaceUp}></View>
           <View>
@@ -26,7 +38,11 @@ const OnboardingScreen1 = ({navigation}) => {
 
       <ImageBackground
         source={require('../Images/OnBoarding/onscreen2.png')}
-        style={styles.backgroundImage}></ImageBackground>
+        style={
+          orientation.isPortrait
+            ? styles.backgroundImage
+            : styles.backgroundImagels
+        }></ImageBackground>
       <View style={styles.text1view}>
         <Text style={styles.text1}>User Friendly</Text>
         <Text style={styles.text2}>
@@ -47,7 +63,7 @@ const OnboardingScreen1 = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -57,12 +73,17 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
 
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
   },
   topContainer: {
     backgroundColor: '#EBEEF4',
     height: 100,
     width: 400,
+  },
+  topContainerls: {
+    backgroundColor: '#EBEEF4',
+    height: 100,
+    width: 844,
   },
   skipTextContainer: {
     alignItems: Platform.OS === 'ios' ? 'flex-end' : 'center',
@@ -83,31 +104,40 @@ const styles = StyleSheet.create({
     width: 390,
     height: 450,
   },
+  backgroundImagels: {
+    width: 850,
+    height: 1000,
+  },
   text1view: {
     marginTop: Platform.OS === 'ios' ? 30 : -30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text1: {
     fontSize: 28,
     fontWeight: '500',
     color: 'black',
-    marginHorizontal: 110,
+    // marginHorizontal: 110,
   },
   text2: {
-    alignSelf: 'center',
+    marginHorizontal: 40,
+    textAlign: 'center',
+
     marginTop: 14,
     color: '#676666',
     fontWeight: '500',
-    marginHorizontal: 50,
   },
 
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
+    justifyContent: 'space-around',
+    marginHorizontal: 40,
   },
   bottom1: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 45,
+    // marginLeft: 45,
   },
   activeBottom: {
     height: 6,
@@ -133,6 +163,7 @@ const styles = StyleSheet.create({
     width: 160,
   },
   imagesignin: {
+    marginLeft: 10,
     width: 100,
     height: 100,
     marginTop: 20,

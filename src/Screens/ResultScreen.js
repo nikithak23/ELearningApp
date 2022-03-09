@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import Dropdown from '../components/Dropdown';
 import {useFocusEffect} from '@react-navigation/core';
+import useOrientation from '../hooks/useOrientation';
 
 // const Results = [
 //   {
@@ -61,6 +62,7 @@ const Subjects = [
 
 export default function ResultsScreen({navigation, route}) {
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
+  const orientation = useOrientation();
 
   const token = route?.params.token;
   const Results = route?.params.Results;
@@ -136,7 +138,11 @@ export default function ResultsScreen({navigation, route}) {
 
   const renderResults = ({item}) => {
     return (
-      <View style={styles.Listcomponent}>
+      <View
+        style={
+          orientation.isPortrait ? styles.Listcomponent : styles.Listcomponentls
+        }>
+        {/* style={styles.Listcomponent}> */}
         <View style={styles.firstRow}>
           <Text style={styles.subject}>{item.subjectName.toUpperCase()}</Text>
           {/* <Text style={styles.lesson}>{item.courseId}</Text> */}
@@ -173,16 +179,27 @@ export default function ResultsScreen({navigation, route}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.TopContainer}>
+      <View
+        style={
+          orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
+        }>
+        {/* style={styles.TopContainer}> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
-          style={styles.touchable}>
+          style={
+            orientation.isPortrait ? styles.touchable : styles.touchablels
+          }>
+          {/* style={styles.touchable}> */}
           <Image
             source={require('../Images/Profile/Results/back.png')}
             style={styles.backButton}
           />
         </TouchableOpacity>
-        <View style={styles.TopTextView}>
+        <View
+          style={
+            orientation.isPortrait ? styles.TopTextView : styles.TopTextViewls
+          }>
+          {/* style={styles.TopTextView}> */}
           <Text style={styles.TopText1}>Results</Text>
           <Dropdown
             filterSub={filterSub}
@@ -213,6 +230,9 @@ const styles = StyleSheet.create({
   TopContainer: {
     marginTop: 51,
   },
+  TopContainerls: {
+    marginTop: 25,
+  },
   backButton: {
     // marginLeft: 32,
   },
@@ -221,12 +241,25 @@ const styles = StyleSheet.create({
     width: 23,
     marginLeft: 32,
   },
+  touchablels: {
+    height: 20,
+    width: 23,
+    marginLeft: 96,
+  },
   TopTextView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginRight: 8,
     marginHorizontal: 32,
+    marginTop: 24,
+  },
+  TopTextViewls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginRight: 75,
+    marginHorizontal: 94,
     marginTop: 24,
   },
   TopText1: {
@@ -259,6 +292,17 @@ const styles = StyleSheet.create({
   Listcomponent: {
     backgroundColor: 'white',
     marginHorizontal: 30,
+    paddingHorizontal: 26,
+    marginVertical: 10,
+    borderColor: 'rgba(151,151,151,0.1)',
+    borderWidth: 1,
+    borderRadius: 18,
+    height: 245,
+    paddingVertical: 24,
+  },
+  Listcomponentls: {
+    backgroundColor: 'white',
+    marginHorizontal: 90,
     paddingHorizontal: 26,
     marginVertical: 10,
     borderColor: 'rgba(151,151,151,0.1)',

@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 900,
     transform: [{rotate: '-8deg'}],
-    marginTop: Platform.OS === 'ios' ? -160 : -80,
+    marginTop: Platform.OS === 'ios' ? -160 : -150,
     marginLeft: -12,
   },
 

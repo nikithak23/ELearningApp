@@ -9,6 +9,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
@@ -336,7 +337,8 @@ const styles = StyleSheet.create({
   chapterls: {
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    width: 330,
+    // width: 330,
+    width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
     // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',
@@ -364,7 +366,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     // borderRadius: 10,
-    width: 330,
+    width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
     // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',

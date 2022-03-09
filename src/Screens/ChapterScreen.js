@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -493,7 +494,7 @@ const styles = StyleSheet.create({
   },
   bottomls: {
     backgroundColor: 'white',
-    width: 845,
+    width: Platform.OS == 'ios' ? 845 : 780,
     height: 70,
     justifyContent: 'space-between',
     position: 'absolute',
@@ -553,7 +554,7 @@ const styles = StyleSheet.create({
   ModalMainContainerls: {
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: -35,
+    bottom: Platform.OS == 'ios' ? -35 : -35,
     height: '105%',
     width: '100%',
     marginRight: 20,
@@ -631,9 +632,10 @@ const styles = StyleSheet.create({
   ModalNoContainerls: {
     height: 55,
     width: 250,
+    marginTop: Platform.OS == 'ios' ? 0 : -25,
     borderWidth: 2,
     borderRadius: 13,
-    marginLeft: 90,
+    marginLeft: Platform.OS == 'ios' ? 90 : 70,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -654,10 +656,12 @@ const styles = StyleSheet.create({
   ModalYesContainerls: {
     height: 55,
     width: 250,
+    marginTop: Platform.OS == 'ios' ? 0 : -25,
     borderWidth: 2,
     borderRadius: 13,
     borderColor: '#4C93FF',
-    marginLeft: 90,
+    // marginLeft: 90,
+    marginLeft: Platform.OS == 'ios' ? 90 : 60,
     backgroundColor: '#4C93FF',
   },
   ModalYesView: {

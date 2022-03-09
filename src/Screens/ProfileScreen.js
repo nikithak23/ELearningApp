@@ -861,7 +861,8 @@ const styles = StyleSheet.create({
   },
 
   MiddleCard: {
-    marginLeft: 30,
+    // marginLeft: 30,
+    marginHorizontal: 20,
     height: 113,
     width: 104.6,
     borderWidth: 1,
@@ -871,7 +872,8 @@ const styles = StyleSheet.create({
     marginTop: 55,
   },
   MiddleCardls: {
-    marginLeft: 90,
+    // marginLeft: 95,
+    marginLeft: Platform.OS === 'ios' ? 95 : 85,
     height: 120,
     width: 150,
     borderWidth: 1,
