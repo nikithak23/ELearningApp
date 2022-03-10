@@ -201,7 +201,7 @@ export default function ResultsScreen({navigation, route}) {
           }>
           {/* style={styles.TopTextView}> */}
           <Text style={styles.TopText1}>Results</Text>
-          <Dropdown 
+          <Dropdown
             filterSub={filterSub}
             subs={subs}
             modalVisible={modalVisible}
@@ -211,11 +211,19 @@ export default function ResultsScreen({navigation, route}) {
       </View>
 
       <View style={styles.List}>
-        <FlatList
-          data={filterFlatlist}
-          renderItem={renderResults}
-          keyExtractor={(item, index) => item.courseName}
-        />
+        {filterFlatlist.length === 0 ? (
+          <View style={styles.noTest}>
+            <Text style={styles.noTestText}>
+              Take up the Test to Display the Results
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={filterFlatlist}
+            renderItem={renderResults}
+            keyExtractor={(item, index) => item.courseName}
+          />
+        )}
       </View>
     </View>
   );
@@ -389,5 +397,17 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 13,
     textAlign: 'center',
+  },
+  noTest: {
+    marginTop: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 30,
+  },
+  noTestText: {
+    color: '#4C93FF',
+    fontSize: 25,
+    textAlign: 'center',
+    fontWeight: '600',
   },
 });

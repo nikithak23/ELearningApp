@@ -126,10 +126,11 @@ const ProfileScreen = ({navigation, token}) => {
         },
       });
       console.log('welocome to profile');
+      console.log(response.data.data);
       setProfileData(response.data.data);
-      console.log(ProfileData);
 
-      console.log('profile', ProfileData.name);
+      console.log(ProfileData);
+      // console.log('profile', ProfileData.name);
       setFetchData(true);
       console.log(fetchData);
     } catch (err) {
@@ -492,7 +493,9 @@ const ProfileScreen = ({navigation, token}) => {
                 orientation.isPortrait ? styles.MiddleCard : styles.MiddleCardls
               }>
               <View style={styles.CardTop}>
-                <Text style={styles.Card2Text}>{ProfileData.avgscore}</Text>
+                <Text style={styles.Card2Text}>
+                  {ProfileData.avgscore === null ? 0 : ProfileData.avgscore}
+                </Text>
                 <Text style={styles.Card2Text2}>%</Text>
               </View>
               <View style={styles.CardBottom}>
@@ -505,7 +508,11 @@ const ProfileScreen = ({navigation, token}) => {
                 orientation.isPortrait ? styles.MiddleCard : styles.MiddleCardls
               }>
               <View style={styles.CardTop}>
-                <Text style={styles.Card3Text}>{ProfileData.highestscore}</Text>
+                <Text style={styles.Card3Text}>
+                  {ProfileData.highestscore === null
+                    ? 0
+                    : ProfileData.highestscore}
+                </Text>
                 <Text style={styles.Card3Text3}>%</Text>
               </View>
               <View style={styles.CardBottom}>
