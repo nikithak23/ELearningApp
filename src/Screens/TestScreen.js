@@ -18,6 +18,7 @@ const TestScreen = ({navigation, route}) => {
   const orientation = useOrientation();
   const courseId = route?.params.cid;
   const courseName = route?.params.cName;
+  const lessonNumber = route?.params.lessonNumber;
   const token = route?.params.token;
   const lid = route?.params.id; //reqd to go bck to course page
   const lName = route?.params.lName; //reqd to go back to course page
@@ -115,6 +116,7 @@ const TestScreen = ({navigation, route}) => {
         timeup: timeup,
         //following params are needed to go back to course page
         cid: courseId,
+        lessonNumber: lessonNumber,
         cName: courseName,
         token: token,
         lId: lid,

@@ -106,6 +106,7 @@ const CourseScreen = ({navigation, route}) => {
                 cName: cName,
                 token: token,
                 id: id,
+                lessonNumber: lessonNumber,
                 lName: lName,
               })
             }

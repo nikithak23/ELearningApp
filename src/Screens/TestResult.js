@@ -20,7 +20,7 @@ const TestResult = ({navigation, route}) => {
   const star = route?.params.star;
   const key = route?.params.key;
   const timeup = route?.params.timeup; //timeup=1=>timeup submit, timeup=0=>voluntary submit
-
+  const lessonNumber = route?.params.lessonNumber;
   const token = route?.params.token;
   const lid = route?.params.lid;
   const lName = route?.params.lName;
@@ -39,6 +39,7 @@ const TestResult = ({navigation, route}) => {
               lName: lName,
               cId: cid,
               cName: cName,
+              lessonNumber: lessonNumber,
             })
           }>
           <Image
