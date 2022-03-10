@@ -12,10 +12,11 @@ const QtnList =({navigation,route})=>{
     const courseName=route?.params.courseName;
     const token=route?.params.token;
     const key=route?.params.key;
+    const answered=route?.params.answered;
     const baseUrl = 'https://elearningapp-api.herokuapp.com';
     const [questions,setQuestions] = useState([]);
     let n=0;
-    
+    console.log('ansssssss',answered);
 
 
     const getQtns = async () => {//Get questions api
@@ -43,6 +44,7 @@ const QtnList =({navigation,route})=>{
 
 
     const renderQuestions = ({item}) => {
+      
         return (
             <ScrollView>
               <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{
@@ -54,14 +56,19 @@ const QtnList =({navigation,route})=>{
                   key:key}
                   )}
                   }>
-                <Text style={orientation.isPortrait?styles.qtnNo:styles.qtnNoLs}>{item.testNumber}.</Text>
-                <Text style={orientation.isPortrait?styles.qtn:styles.qtnLs}>{item.questions}</Text>
+                
+                <Text style={orientation.isPortrait?answered.includes(item.testNumber)?[styles.qtnNo,{color:'blue'}]:styles.qtnNo
+                            :answered.includes(item.testNumber)?[styles.qtnNoLs,{color:'blue'}]:styles.qtnNoLs}>
+                {item.testNumber}.</Text>
+                <Text style={orientation.isPortrait?answered.includes(item.testNumber)?[styles.qtn,{color:'blue'}]:styles.qtn
+                            :answered.includes(item.testNumber)?[styles.qtnLs,{color:'blue'}]:styles.qtnLs}>
+                    {item.questions}</Text>
               </TouchableOpacity>
             </ScrollView>
         );
     };
         
-
+//answered.includes(item.testNumber)?[styles.qtn,{color:'blue'}]:styles.qtn
   return(
     <View style={styles.container}>
 

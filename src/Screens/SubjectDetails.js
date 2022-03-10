@@ -8,7 +8,8 @@ import {
   Image,
   FlatList,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/core';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -240,7 +241,10 @@ const SubjectDetails = ({navigation, route}) => {
             )}
           </View>
           <View style={styles.column}>
-            <Text style={styles.chaps}>{item.chapter1}</Text>
+            <Text
+              style={orientation.isPortrait ? styles.chaps : styles.chapsls}>
+              {item.chapter1}
+            </Text>
             <Text style={styles.summary}>{item.summary1}</Text>
           </View>
         </View>
@@ -266,7 +270,10 @@ const SubjectDetails = ({navigation, route}) => {
               )}
             </View>
             <View style={styles.column}>
-              <Text style={styles.chaps}>{item.chapter2}</Text>
+              <Text
+                style={orientation.isPortrait ? styles.chaps : styles.chapsls}>
+                {item.chapter2}
+              </Text>
               <Text style={styles.summary}>{item.summary2}</Text>
             </View>
           </View>
@@ -293,7 +300,10 @@ const SubjectDetails = ({navigation, route}) => {
               )}
             </View>
             <View style={styles.column}>
-              <Text style={styles.chaps}>{item.chapter3}</Text>
+              <Text
+                style={orientation.isPortrait ? styles.chaps : styles.chapsls}>
+                {item.chapter3}
+              </Text>
               <Text style={styles.summary}>{item.summary3}</Text>
             </View>
           </View>
@@ -415,7 +425,7 @@ const SubjectDetails = ({navigation, route}) => {
       } catch (err) {
         console.log(err);
       }
-    }, []),
+    }, [likedList]),
   );
 
   const initialiseLikedList = async () => {
@@ -471,7 +481,7 @@ const SubjectDetails = ({navigation, route}) => {
             onPress={() => removeItem(item)}
             name="heart"
             size={21}
-            style={styles.like}
+            style={orientation.isPortrait ? styles.like : styles.likels}
           />
         </View>
         <Text style={styles.likedchap}>{item[1]}</Text>
@@ -701,7 +711,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: -8,
     marginLeft: 73,
-    
+
     //marginHorizontal: 10,
     backgroundColor: '#fff',
     borderWidth: 1,
@@ -729,7 +739,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 162,
     //height: 192,
-    height:210,
+    height: 210,
     justifyContent: 'center',
   },
   courseImg: {
@@ -753,7 +763,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
   },
   courseName: {
-    fontSize: 16,
+    fontSize: 17,
     justifyContent: 'center',
     alignSelf: 'center',
     color: '#292929',
@@ -815,10 +825,10 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     letterSpacing: 0,
     width: 200,
-    height:35,
+    height: 35,
     justifyContent: 'center',
     alignSelf: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   lessonNamels: {
     color: '#4C93FF',
@@ -840,7 +850,7 @@ const styles = StyleSheet.create({
   lessonNumls: {
     color: '#888',
     marginTop: 32.5,
-    marginLeft: 100,
+    marginLeft: Platform.OS === 'ios' ? 100 : 20,
     fontSize: 11,
     fontWeight: '300',
   },
@@ -851,6 +861,14 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     letterSpacing: 0.15,
     width: 220,
+  },
+  chapsls: {
+    color: '#292929',
+    fontSize: 20,
+    fontWeight: '400',
+    marginLeft: 15,
+    letterSpacing: 0.15,
+    width: 360,
   },
   chapstudyn: {
     color: '#292929',
@@ -918,6 +936,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: 18,
     marginLeft: 290,
+    color: '#4C93FF',
+  },
+  likels: {
+    position: 'absolute',
+    marginTop: 18,
+    marginLeft: Platform.OS === 'ios' ? 620 : 495,
     color: '#4C93FF',
   },
   progressLine: {

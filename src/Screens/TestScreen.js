@@ -27,6 +27,7 @@ const TestScreen =({navigation,route})=>{
     const [n,setN] = useState(0);
     const [markedAnswer,setMarkedAnswer]=useState('');
     const [modalVisible,setModalVisible]=useState(false);
+    let [answered,setAnswered]=useState([]);
    
 
   
@@ -69,6 +70,7 @@ const sendAns = async () => {//Send Answers api
       },
     });
     console.log('Send answers Api',response.status);
+    setAnswered([...answered,n+1]);
     console.log('Sent');
     console.log(response.data.data);
     
@@ -77,7 +79,7 @@ const sendAns = async () => {//Send Answers api
     console.log(err);
   }
 };
-
+console.log('answereedddd',answered);
 
 
 const submitTest=async()=>{//Submit test api
@@ -220,7 +222,7 @@ const submitTest=async()=>{//Submit test api
         <TouchableOpacity onPress={()=>{
           setOption('');
           navigation.navigate('QtnList',{
-          courseId:courseId,courseName:courseName,token:token,key:key}
+          courseId:courseId,courseName:courseName,token:token,key:key,answered:answered}
         )}}>
           <Image source={require('../Images/TestPage/icnQtnList.png')} style={orientation.isPortrait?styles.btn:styles.btnLs} />
         </TouchableOpacity >

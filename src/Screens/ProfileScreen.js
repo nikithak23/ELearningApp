@@ -77,6 +77,11 @@ const ProfileScreen = ({navigation, token}) => {
           console.log('storeedddd', value);
           setProfilePic(value);
         }
+        else{
+          setProfilePic(
+            'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
+          );
+        }
       } catch (error) {
         console.log('error storing pic');
       }
