@@ -17,12 +17,7 @@ import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
 Icon.loadFont().then();
 
-
-
-
-
 const HomeScreen = ({navigation, route, token}) => {
-
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState('');
@@ -32,9 +27,8 @@ const HomeScreen = ({navigation, route, token}) => {
   let [userName, setUserName] = useState('');
   let recentId;
 
-
-
-  const getName = async () => {//Name Api
+  const getName = async () => {
+    //Name Api
     try {
       const resp = await axios.get(`${baseUrl}/subject/get/name`, {
         headers: {
@@ -46,7 +40,6 @@ const HomeScreen = ({navigation, route, token}) => {
       console.log(err);
     }
   };
-
 
   const getData = async () => {
     //Recently studied api
@@ -63,7 +56,6 @@ const HomeScreen = ({navigation, route, token}) => {
     }
   };
 
-
   const getSub = async () => {
     //Subject api
     try {
@@ -77,7 +69,6 @@ const HomeScreen = ({navigation, route, token}) => {
       console.log(err);
     }
   };
-  
 
   let len = DataRecent.length;
   useFocusEffect(
@@ -87,8 +78,6 @@ const HomeScreen = ({navigation, route, token}) => {
       getSub();
     }, []),
   );
-  
-
 
   useEffect(() => {
     setSearchedItems(
@@ -100,11 +89,9 @@ const HomeScreen = ({navigation, route, token}) => {
     );
   }, [enteredText, Sub]);
 
-
   const notif = () => {
     navigation.navigate('Notification', {token: token});
   };
-
 
   const goSearch = async () => {
     if (enteredText) {
@@ -124,7 +111,7 @@ const HomeScreen = ({navigation, route, token}) => {
         let subId = subjectData[0].subjectId;
         if (response.status === 200) {
           setEnteredText('');
-          
+
           navigation.navigate('SubjectDetails', {
             subject: subName,
             token: token,
@@ -141,7 +128,6 @@ const HomeScreen = ({navigation, route, token}) => {
     }
   };
 
-
   const renderSearchList = ({item}) => {
     return (
       <View>
@@ -150,7 +136,10 @@ const HomeScreen = ({navigation, route, token}) => {
             setEnteredText(item.subjectName);
             setSearchedItems(enteredText);
           }}>
-          <Text style={orientation.isPortrait?styles.search:styles.searchLs}>{item.subjectName}</Text>
+          <Text
+            style={orientation.isPortrait ? styles.search : styles.searchLs}>
+            {item.subjectName}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -171,95 +160,109 @@ const HomeScreen = ({navigation, route, token}) => {
     );
   };
 
-
   const renderCurrentStud = ({item}) => {
     let percent = item.percent + '%';
-    recentId=item.homeId;
+    recentId = item.homeId;
     return (
-      <Card style={orientation.isPortrait?styles.bottomCards:styles.bottomCardsLandscape}>
-        <TouchableOpacity onPress={()=>{
-          
-          navigation.navigate('SubjectDetails', {
-            token: token,
-            subject:item.subjectName,
-            id:item.subjectId,
-            courseId:item.courseId,
-          });
-        }}>
-          <View style={recentId%2===0?styles.imgContainer0:styles.imgContainer1}>
+      <Card
+        style={
+          orientation.isPortrait
+            ? styles.bottomCards
+            : styles.bottomCardsLandscape
+        }>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SubjectDetails', {
+              token: token,
+              subject: item.subjectName,
+              id: item.subjectId,
+              courseId: item.courseId,
+            });
+          }}>
+          <View
+            style={
+              recentId % 2 === 0 ? styles.imgContainer0 : styles.imgContainer1
+            }>
             <Image source={{uri: item.subjectLogo}} style={styles.img} />
           </View>
           <Text style={styles.subName}>{item.subjectName.toUpperCase()}</Text>
           <Text style={styles.ChapName}>{item.courseName}</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={styles.progressBar}>
-            <Animated.View
-              style={
-                ([StyleSheet.absoluteFill],
-                {backgroundColor: 'green', width: percent})
-              }
-            />
-          </View>
-          <Text style={styles.percentText}>{item.percent}% </Text>
+            <View style={styles.progressBar}>
+              <Animated.View
+                style={
+                  ([StyleSheet.absoluteFill],
+                  {backgroundColor: 'green', width: percent})
+                }
+              />
+            </View>
+            <Text style={styles.percentText}>{item.percent}% </Text>
           </View>
         </TouchableOpacity>
       </Card>
     );
   };
 
-
-
   return (
     <View style={{backgroundColor: '#f6f8fa'}}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={notif}>
-            <Icon
-              name="notifications-outline"
-              size={33}
-              color="#8E8F93"
-              style={orientation.isPortrait?styles.icon:styles.iconLs}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={notif}>
+          <Icon
+            name="notifications-outline"
+            size={33}
+            color="#8E8F93"
+            style={orientation.isPortrait ? styles.icon : styles.iconLs}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <Text style={styles.greet}>Hi, {userName}</Text>
+        <Text style={styles.desc}>What would you like to study today?</Text>
+        <Text style={styles.desc}>you can search below.</Text>
+
+        <View
+          style={
+            orientation.isPortrait
+              ? styles.searchContainer
+              : styles.searchContainerLs
+          }>
+          <TextInput
+            onChangeText={value => setEnteredText(value)}
+            value={enteredText}
+            style={styles.input}
+          />
+          <TouchableOpacity onPress={goSearch}>
+            <Image
+              source={require('../Images/Search/searchIcon.png')}
+              style={styles.searchIcon}
             />
           </TouchableOpacity>
         </View>
+        <View style={{alignItems: 'flex-start'}}>
+          {enteredText !== '' ? searchSuggestions() : null}
+        </View>
 
-      <ScrollView 
-      showsVerticalScrollIndicator={false}
-      style={styles.container}>
-          <Text style={styles.greet}>Hi, {userName}</Text>
-          <Text style={styles.desc}>What would you like to study today?</Text>
-          <Text style={styles.desc}>you can search below.</Text>
-
-          <View style={orientation.isPortrait?styles.searchContainer:styles.searchContainerLs}>
-            <TextInput
-              onChangeText={value => setEnteredText(value)}
-              value={enteredText}
-              style={styles.input}
+        {len !== 0 ? (
+          <View>
+            <Text
+              style={
+                orientation.isPortrait
+                  ? styles.currentHead
+                  : styles.currentHeadLs
+              }>
+              CURRENTLY STUDYING
+            </Text>
+            <FlatList
+              data={DataRecent}
+              renderItem={renderCurrentStud}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
             />
-            <TouchableOpacity onPress={goSearch}>
-              <Image
-                source={require('../Images/Search/searchIcon.png')}
-                style={styles.searchIcon}
-              />
-            </TouchableOpacity>
           </View>
-          <View style={{alignItems: 'flex-start'}}>
-            {enteredText !== '' ? searchSuggestions() : null}
-          </View>
-
-          {len !== 0 ? (
-            <View>
-              <Text style={orientation.isPortrait?styles.currentHead:styles.currentHeadLs}>CURRENTLY STUDYING</Text>
-              <FlatList
-                data={DataRecent}
-                renderItem={renderCurrentStud}
-                keyExtractor={(item, index) => index.toString()}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              />
-            </View>
-          ) : null}
+        ) : null}
       </ScrollView>
-
     </View>
   );
 };
@@ -369,27 +372,27 @@ const styles = StyleSheet.create({
   },
   bottomCardsLandscape: {
     marginLeft: 90,
-    marginRight:-10,
+    marginRight: 0,
     backgroundColor: '#FFFFFF',
     width: 260,
     height: 270,
     marginTop: 10,
     borderRadius: 18,
-    marginBottom:90,
+    marginBottom: 90,
   },
   imgContainer0: {
     width: 260,
     height: 160,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
-    backgroundColor:'#FFA4A4',
+    backgroundColor: '#FFA4A4',
   },
   imgContainer1: {
     width: 260,
     height: 160,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
-    backgroundColor:'#A4C5FF',
+    backgroundColor: '#A4C5FF',
   },
   img: {
     height: 80,
@@ -427,6 +430,3 @@ const styles = StyleSheet.create({
   },
 });
 export default HomeScreen;
-
-
-

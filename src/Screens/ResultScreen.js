@@ -66,6 +66,7 @@ export default function ResultsScreen({navigation, route}) {
 
   const token = route?.params.token;
   const Results = route?.params.Results;
+  console.log('top', Results);
 
   const [filterSub, setFilterSub] = useState('ALL');
   // const [Results, setResults] = useState([]);
@@ -211,6 +212,8 @@ export default function ResultsScreen({navigation, route}) {
       </View>
 
       <View style={styles.List}>
+        {console.log(Results)}
+        {console.log('res', filterFlatlist)}
         {filterFlatlist.length === 0 ? (
           <View style={styles.noTest}>
             <Text style={styles.noTestText}>

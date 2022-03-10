@@ -76,8 +76,7 @@ const ProfileScreen = ({navigation, token}) => {
           // We have data!!
           console.log('storeedddd', value);
           setProfilePic(value);
-        }
-        else{
+        } else {
           setProfilePic(
             'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
           );
@@ -98,14 +97,16 @@ const ProfileScreen = ({navigation, token}) => {
       });
       setResults(response.data.data);
 
-      console.log('the result is', Results);
+      console.log('the result', Results);
       // setFetchSubjects(true);
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
     getResults();
+    console.log('the result', Results);
     // const retrieve = async () => {
     //   try {
     //     const value = await AsyncStorage.getItem('profilePhoto');
@@ -121,7 +122,7 @@ const ProfileScreen = ({navigation, token}) => {
     //   }
     // };
     // retrieve()
-  }, []);
+  }, [Results]);
 
   const getProfileData = async () => {
     try {
