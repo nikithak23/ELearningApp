@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
@@ -201,13 +202,13 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     textAlign: 'right',
     position: 'absolute',
-    marginLeft: 500,
+    marginLeft: Platform.OS === 'ios' ? 550 : 430,
   },
   btnBack: {
     height: 25,
     width: 29,
     marginLeft: 32,
-    marginTop: 51,
+    marginTop: Platform.OS === 'ios' ? 51 : 31,
   },
 });
 

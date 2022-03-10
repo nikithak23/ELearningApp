@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
+  Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
-    marginTop: -5,
+    marginTop: Platform.OS === 'ios' ? -5 : -40,
   },
   text: {
     fontSize: 16,
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 900,
     transform: [{rotate: '-8deg'}],
-    marginTop: Platform.OS === 'ios' ? -160 : -80,
+    marginTop: Platform.OS === 'ios' ? -160 : -125,
     marginLeft: -12,
   },
   row: {
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     width: 25,
     transform: [{rotate: '8deg'}],
     marginLeft: 50,
-    marginTop: -110,
+    marginTop: Platform.OS === 'ios' ? -110 : -150,
   },
   verifyText: {
     color: '#000',
