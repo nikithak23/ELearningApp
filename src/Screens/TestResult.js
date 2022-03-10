@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import useOrientation from '../hooks/useOrientation';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const TestResult=({navigation,route})=>{
 
@@ -49,6 +49,14 @@ return(
 
     <ScrollView>
         <View style={orientation.isPortrait?styles.resultContainer:styles.resultContainerLandscape}>
+          
+          
+            <View style={styles.starContainer}>
+            <View style={{flexDirection:'row'}}>
+            <Text style={styles.starText}>+{star} </Text>
+          <Icon name="star" size={20} style={styles.liked} />
+          </View>
+          </View>
               <CircularProgress
                 value={percent}
                 radius={80}
@@ -59,6 +67,7 @@ return(
                 maxValue={100}
                 activeStrokeWidth={13}
                 inActiveStrokeWidth={13}
+                activeStrokeColor={'#0BC763'}
                 inActiveStrokeColor={'#999'}
                 inActiveStrokeOpacity={0.35}
                 title={`${attempted} of ${len} answered`} 
@@ -200,6 +209,27 @@ const styles = StyleSheet.create({
   TryAgnImg: {
   width: 24,
   height: 24, 
+  },
+  starContainer:{
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'white',
+    borderRadius:20,
+    padding:5,
+    marginBottom:-12,
+  },
+  liked: {
+    color: '#0BC763',
+    height: 25,
+    width: 26,
+    alignSelf:'center',
+    marginTop:3,
+  },
+  starText:{
+    fontSize:21,
+    color:'#0BC763',
+    alignSelf:'center',
+    fontWeight:'500',
   },
 });
 
