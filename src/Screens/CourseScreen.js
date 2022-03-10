@@ -133,6 +133,7 @@ const CourseScreen = ({navigation, route}) => {
               chapterId: item.chapterId,
               lessonName: lName,
               lessonId: id,
+              lessonNumber: lessonNumber,
               subject: subject,
               cid: cid,
               cName: cName,

@@ -34,6 +34,7 @@ const ChapterScreen = ({navigation, route}) => {
   const chapterName = route?.params.chapterName;
   const cid = route?.params.cid;
   const cName = route?.params.cName;
+  const lessonNumber = route?.params.lessonNumber;
 
   const dispatch = useDispatch();
   const [likedItems, setLikedItems] = useState([]);
@@ -186,6 +187,7 @@ const ChapterScreen = ({navigation, route}) => {
                   navigation.navigate('CourseScreen', {
                     token: token,
                     lName: lessonName,
+                    lessonNumber: lessonNumber,
                     lId: lessonId,
                     cId: cid,
                     cName: cName,
