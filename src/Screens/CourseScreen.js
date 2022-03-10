@@ -204,7 +204,7 @@ const CourseScreen = ({navigation, route}) => {
           {/* style={styles.LessonTitle}> */}
           {lName}
         </Text>
-        <Text style={styles.LessonTitle2}>Lesson {id}</Text>
+        <Text style={styles.LessonTitle2}>Lesson {lessonNumber}</Text>
       </View>
       <View style={styles.tabContainer}>
         <TouchableOpacity

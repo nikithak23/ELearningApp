@@ -150,7 +150,7 @@ const HomeScreen = ({navigation, route, token}) => {
             setEnteredText(item.subjectName);
             setSearchedItems(enteredText);
           }}>
-          <Text style={styles.search}>{item.subjectName}</Text>
+          <Text style={orientation.isPortrait?styles.search:styles.searchLs}>{item.subjectName}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -337,6 +337,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 3,
   },
+  searchLs: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '400',
+    paddingHorizontal: 15,
+    marginHorizontal: 90,
+    marginVertical: 3,
+  },
   currentHead: {
     marginTop: 25,
     marginHorizontal: 30,
@@ -361,8 +369,7 @@ const styles = StyleSheet.create({
   },
   bottomCardsLandscape: {
     marginLeft: 90,
-    marginRight:-40,
-    //marginHorizontal: 25,
+    marginRight:-10,
     backgroundColor: '#FFFFFF',
     width: 260,
     height: 270,
