@@ -61,37 +61,13 @@ const Subjects = [
 ];
 
 export default function ResultsScreen({navigation, route}) {
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const orientation = useOrientation();
-
   const token = route?.params.token;
   const Results = route?.params.Results;
-  console.log('top', Results);
 
   const [filterSub, setFilterSub] = useState('ALL');
-  // const [Results, setResults] = useState([]);
   const [filterFlatlist, setFilterFlatlist] = useState(Results);
   const [modalVisible, setModalVisible] = useState(false);
-
-  // const getResults = async () => {
-  //   try {
-  //     const response = await axios.get(`${baseUrl}/subject/get/result`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setResults(response.data.data);
-
-  //     console.log('the result is', Results);
-  //     // setFetchSubjects(true);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   // getResults();
-  //   setFilterFlatlist(Results);
-  // }, []);
 
   useEffect(() => {
     if (filterSub === 'ALL') {
@@ -109,22 +85,13 @@ export default function ResultsScreen({navigation, route}) {
 
   const onPressSub = item => {
     if (item === 'ALL') {
-      //setFilterSub(item);
       return (
         setModalVisible(!modalVisible),
         setFilterFlatlist(Results),
         setFilterSub(item)
       );
     } else {
-      return (
-        setFilterSub(item), setModalVisible(!modalVisible)
-        // setFilterFlatlist(
-        //   Results.filter(item => {
-        //     return item.title.toLowerCase().includes(filterSub.toLowerCase());
-        //   }),
-        //   console.log(filterFlatlist)
-        // )
-      );
+      return setFilterSub(item), setModalVisible(!modalVisible);
     }
   };
   const subs = Subjects.map((item, index) => {
@@ -137,16 +104,15 @@ export default function ResultsScreen({navigation, route}) {
     );
   });
 
+  // To render the results
   const renderResults = ({item}) => {
     return (
       <View
         style={
           orientation.isPortrait ? styles.Listcomponent : styles.Listcomponentls
         }>
-        {/* style={styles.Listcomponent}> */}
         <View style={styles.firstRow}>
           <Text style={styles.subject}>{item.subjectName.toUpperCase()}</Text>
-          {/* <Text style={styles.lesson}>{item.courseId}</Text> */}
         </View>
         <View>
           <Text style={styles.name}>{item.courseName}</Text>
@@ -184,24 +150,19 @@ export default function ResultsScreen({navigation, route}) {
         style={
           orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
         }>
-        {/* style={styles.TopContainer}> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
           style={
             orientation.isPortrait ? styles.touchable : styles.touchablels
           }>
-          {/* style={styles.touchable}> */}
-          <Image
-            source={require('../Images/Profile/Results/back.png')}
-            style={styles.backButton}
-          />
+          <Image source={require('../Images/Profile/Results/back.png')} />
         </TouchableOpacity>
         <View
           style={
             orientation.isPortrait ? styles.TopTextView : styles.TopTextViewls
           }>
-          {/* style={styles.TopTextView}> */}
           <Text style={styles.TopText1}>Results</Text>
+          {/* To render the dropdown component */}
           <Dropdown
             filterSub={filterSub}
             subs={subs}
@@ -210,7 +171,6 @@ export default function ResultsScreen({navigation, route}) {
           />
         </View>
       </View>
-
       <View style={styles.List}>
         {console.log(Results)}
         {console.log('res', filterFlatlist)}
@@ -244,9 +204,6 @@ const styles = StyleSheet.create({
   TopContainerls: {
     marginTop: 25,
   },
-  backButton: {
-    // marginLeft: 32,
-  },
   touchable: {
     height: 20,
     width: 23,
@@ -276,7 +233,6 @@ const styles = StyleSheet.create({
   TopText1: {
     fontSize: 16,
     fontWeight: '400',
-
     color: '#292929',
     fontSize: 34,
     fontWeight: '600',

@@ -1,11 +1,9 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   Image,
   View,
   StyleSheet,
-  ImageBackground,
-  Touchable,
   FlatList,
   TouchableOpacity,
   ScrollView,
@@ -13,27 +11,6 @@ import {
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
-
-// const Chapters = [
-//   {
-//     img: require('../Images/Profile/photo1.jpeg'),
-//     difficulty: 'BEGINEER',
-//     name: 'Food Substances',
-//     summary: 'Classes and Sources',
-//   },
-//   {
-//     img: require('../Images/Profile/photo1.jpeg'),
-//     difficulty: 'BEGINEER',
-//     name: 'Balanced Diet',
-//     summary: 'Sources of food substance',
-//   },
-//   {
-//     img: require('../Images/Profile/photo1.jpeg'),
-//     difficulty: 'BEGINEER',
-//     name: 'Food Diet',
-//     summary: 'this is the dummy data',
-//   },
-// ];
 
 const CourseScreen = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -45,44 +22,46 @@ const CourseScreen = ({navigation, route}) => {
   const lName = route?.params.lName;
   const cid = route?.params.cId;
   const cName = route?.params.cName;
-  console.log('token', token);
-  console.log('LESSONID', id);
-  console.log('lNAmee', lName);
+
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
   const [chapters, setChapters] = useState([]);
 
+  // Api to get all the chapters of particular lesson
   const getChapters = async id => {
     try {
       const response = await axios.get(
         `${baseUrl}/subject/get/chapters/${id}`,
-
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-
       setChapters(response.data.data);
       console.log('hiii', response.data.data);
     } catch (err) {
       console.log(err);
     }
   };
-  // useEffect(() => {
-  //   // setChapters();
-  // });
   useEffect(() => {
     getChapters(id);
   }, [id]);
-  console.log('hiii', chapters);
 
+  const chapterHandler = () => {
+    setIsChapter(true);
+    setIsTest(false);
+  };
+  const testHandler = () => {
+    setIsChapter(false);
+    setIsTest(true);
+  };
+
+  //To render the test flatlist
   RenderTests = () => {
     return (
       <View
         style={orientation.isPortrait ? styles.testList : styles.testListls}>
-        {/* style={styles.testList}> */}
         <View style={styles.testListTop}>
           <Image
             source={require('../Images/Subject/testcoverphoto.jpeg')}
@@ -91,7 +70,6 @@ const CourseScreen = ({navigation, route}) => {
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
             <Text style={styles.listname}>{cName}</Text>
-            {/* <Text style={styles.listname}>{cid}</Text> */}
           </View>
         </View>
         <View style={styles.testListBottom}>
@@ -122,9 +100,11 @@ const CourseScreen = ({navigation, route}) => {
     );
   };
 
+  //To render the chapters flatlist
   const renderChapters = ({item}) => {
     return (
-      <View style={styles.list1}>
+      <>
+        {/* to navigate to chapters screen */}
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Chapter', {
@@ -155,26 +135,13 @@ const CourseScreen = ({navigation, route}) => {
             style={
               orientation.isPortrait ? styles.listRight : styles.listRightls
             }>
-            {/* style={styles.listRight}> */}
             <Text style={styles.listdifficulty}>BEGINEER</Text>
             <Text style={styles.listname}>{item.chapterName}</Text>
             <Text style={styles.listsummary}>{item.summary}</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </>
     );
-  };
-  // const gotoChapters = item => {
-  //   navigation.navigate('Chapter', {token: token, chapterId: item.chapterId});
-  // };
-
-  const chapterHandler = () => {
-    setIsChapter(true);
-    setIsTest(false);
-  };
-  const testHandler = () => {
-    setIsChapter(false);
-    setIsTest(true);
   };
 
   return (
@@ -183,16 +150,11 @@ const CourseScreen = ({navigation, route}) => {
         style={
           orientation.isPortrait ? styles.TopContainer : styles.TopContainerls
         }>
-        {/* style={styles.TopContainer}> */}
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.touchable}>
-          <Image
-            source={require('../Images/Profile/Results/back.png')}
-            style={styles.backButton}
-          />
+          <Image source={require('../Images/Profile/Results/back.png')} />
         </TouchableOpacity>
-
         <Text
           style={orientation.isPortrait ? styles.topText : styles.topTextls}>
           {cName.toUpperCase()}
@@ -203,7 +165,6 @@ const CourseScreen = ({navigation, route}) => {
           style={
             orientation.isPortrait ? styles.LessonTitle : styles.LessonTitlels
           }>
-          {/* style={styles.LessonTitle}> */}
           {lName}
         </Text>
         <Text style={styles.LessonTitle2}>Lesson {lessonNumber}</Text>
@@ -212,20 +173,7 @@ const CourseScreen = ({navigation, route}) => {
         <TouchableOpacity
           onPress={chapterHandler}
           style={orientation.isPortrait ? styles.chapter : styles.chapterls}>
-          {/* style={styles.chapter}> */}
           <Text
-            // style={
-            //   isChapter
-            //     ? orientation.isPortrait
-            //       ? styles.activeTabTextStyle
-            //       : styles.activeTabTextStylels
-            //     : orientation.isPortrait
-            //     ? styles.inactiveTabTextStyle
-            //     : styles.inactiveTabTextStylels
-            // }>
-            //           orientation.isPortrait ?
-            // (isChapter ? styles.activeTabTextStyle : styles.inactiveTabTextStyle) : orientation.isPortrait ?(styles.activeTabTextStyle : styles.inactiveTabTextStyle)
-
             style={
               isChapter
                 ? styles.activeTabTextStyle
@@ -237,7 +185,6 @@ const CourseScreen = ({navigation, route}) => {
         <TouchableOpacity
           onPress={testHandler}
           style={orientation.isPortrait ? styles.tests : styles.testsls}>
-          {/* style={styles.tests}> */}
           <Text
             style={
               isTest ? styles.activeTabTextStyle : styles.inactiveTabTextStyle
@@ -249,7 +196,6 @@ const CourseScreen = ({navigation, route}) => {
       {isChapter && (
         <View style={styles.list}>
           <FlatList
-            // data={Chapters}
             data={chapters}
             renderItem={renderChapters}
             keyExtractor={(item, index) => item.chapterName}
@@ -276,9 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: 60,
   },
-  backButton: {
-    // marginLeft: 32,
-  },
+
   touchable: {
     height: 20,
     width: 23,
@@ -286,9 +230,7 @@ const styles = StyleSheet.create({
   },
   topText: {
     marginLeft: 40,
-
     fontSize: 15,
-    // color: 'grey',
     fontWeight: '300',
   },
   topTextls: {
@@ -328,7 +270,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     width: 165,
     borderWidth: 1,
-    // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
     height: 50,
@@ -339,10 +280,8 @@ const styles = StyleSheet.create({
   chapterls: {
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    // width: 330,
     width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
-    // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
     height: 50,
@@ -353,10 +292,8 @@ const styles = StyleSheet.create({
   tests: {
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    // borderRadius: 10,
     width: 165,
     borderWidth: 1,
-    // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
     height: 50,
@@ -367,10 +304,8 @@ const styles = StyleSheet.create({
   testsls: {
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    // borderRadius: 10,
     width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
-    // borderColor: 'white',
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
     height: 50,
@@ -393,12 +328,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-
   list: {
     marginTop: 35,
-  },
-  list1: {
-    // padding: 15,
   },
   listComponent: {
     flexDirection: 'row',
@@ -439,7 +370,6 @@ const styles = StyleSheet.create({
   },
   listname: {
     marginTop: 10,
-    // paddingRight: 20,
     marginRight: 30,
     fontSize: 18,
     fontWeight: '600',
@@ -451,7 +381,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   testList: {
-    // flexDirection: 'row',
     marginTop: 35,
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
@@ -463,7 +392,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   testListls: {
-    // flexDirection: 'row',
     marginTop: 35,
     borderColor: 'rgba(151,151,151,0.1)',
     backgroundColor: 'white',
@@ -482,7 +410,6 @@ const styles = StyleSheet.create({
   testListBottom: {
     flexDirection: 'column',
     marginTop: 20,
-    // alignItems: 'center',
   },
   testCoverPhoto: {
     height: 65,
@@ -494,8 +421,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 16,
     textAlign: 'center',
-
-    // marginTop: 10,
   },
   beginButton: {
     flexDirection: 'row',
@@ -509,7 +434,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(58, 127, 231,0.1)',
   },
   buttonText: {
-    // textAlign: 'center',
     color: 'white',
     fontSize: 18,
     marginLeft: 80,

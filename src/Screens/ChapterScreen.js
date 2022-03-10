@@ -5,9 +5,6 @@ import {
   Image,
   View,
   StyleSheet,
-  ImageBackground,
-  Touchable,
-  FlatList,
   TouchableOpacity,
   Alert,
   ScrollView,
@@ -15,17 +12,14 @@ import {
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import VideoPlayer from 'react-native-video-player';
-// import Video from 'react-native-video';
-
 import YoutubePlayer from 'react-native-youtube-iframe';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {ActivityIndicator} from 'react-native-paper';
 
 const ChapterScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const orientation = useOrientation();
   const token = route?.params.token;
   const subject = route?.params.subject;
@@ -35,17 +29,12 @@ const ChapterScreen = ({navigation, route}) => {
   const cid = route?.params.cid;
   const cName = route?.params.cName;
   const lessonNumber = route?.params.lessonNumber;
-
-  const dispatch = useDispatch();
-  const [likedItems, setLikedItems] = useState([]);
   const lessonName = route?.params.lessonName;
   const lessonId = route?.params.lessonId;
+
+  const [likedItems, setLikedItems] = useState([]);
   const lessonChap = [chapterId, chapterName, lessonName, subject];
   const [modalVisible, setModalVisible] = useState(false);
-  const videoUrl = route?.params.videoUrl;
-  console.log(chapterName);
-  console.log(chapterId);
-  console.log('llll', lessonName);
   const [contents, setContents] = useState([]);
   const [page, setPage] = useState(0);
   const [selectPage, setSelectPage] = useState();
@@ -53,9 +42,9 @@ const ChapterScreen = ({navigation, route}) => {
   const [noSelect2, setnoIsSelect2] = useState(false);
   const [noSelect3, setnoIsSelect3] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
+  // api to get the content of the given chapter
   const getContent = async chapterId => {
     try {
       const response = await axios.get(
@@ -75,9 +64,6 @@ const ChapterScreen = ({navigation, route}) => {
   useEffect(() => {
     getContent(chapterId);
   }, [page]);
-  console.log('hlo', contents);
-  // console.log('conid', contents[0].contentId);
-  console.log('likerrr', likedItems);
 
   const incPage = page => {
     if (page < 2) {
@@ -114,6 +100,7 @@ const ChapterScreen = ({navigation, route}) => {
     setnoIsSelect2(false);
     setnoIsSelect3(true);
   };
+
   const submitPage = () => {
     if (selectPage) {
       setPage(selectPage);
@@ -151,6 +138,7 @@ const ChapterScreen = ({navigation, route}) => {
       } else {
         Alert.alert('', 'Already added in Likes');
       }
+
       //update Async Storage
       await AsyncStorage.setItem('liked', JSON.stringify(json));
       const current = await AsyncStorage.getItem('liked');
@@ -162,7 +150,6 @@ const ChapterScreen = ({navigation, route}) => {
       console.log(err);
     }
   };
-
   const addToLikedList = async item => {
     await persistLikedlist(item);
   };
@@ -182,6 +169,7 @@ const ChapterScreen = ({navigation, route}) => {
                 : styles.TopContainerls
             }>
             <View>
+              {/* navigating back to course screen  */}
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('CourseScreen', {
@@ -206,7 +194,6 @@ const ChapterScreen = ({navigation, route}) => {
                 <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
                   <Image
                     source={require('../Images/Subject/heart.png')}
-                    // style={styles.heartimg}
                     style={styles.touchableheart}
                   />
                 </TouchableOpacity>
@@ -219,6 +206,7 @@ const ChapterScreen = ({navigation, route}) => {
                 />
               </TouchableOpacity>
 
+              {/* pages modal */}
               <Modal isVisible={modalVisible}>
                 <View
                   style={
@@ -226,7 +214,6 @@ const ChapterScreen = ({navigation, route}) => {
                       ? styles.ModalMainContainer
                       : styles.ModalMainContainerls
                   }>
-                  {/* style={styles.ModalMainContainer}> */}
                   <View style={styles.ModalTopContainer}>
                     <View style={styles.ModalContainer}></View>
                     <Text style={styles.ModalgoToPageText}>Go to the page</Text>
@@ -288,7 +275,6 @@ const ChapterScreen = ({navigation, route}) => {
                           ? styles.ModalNoContainer
                           : styles.ModalNoContainerls
                       }
-                      // {/* style={styles.ModalNoContainer} */}
                       onPress={() => setModalVisible(false)}>
                       <Text style={styles.ModalNoText}>Cancel</Text>
                     </TouchableOpacity>
@@ -316,7 +302,6 @@ const ChapterScreen = ({navigation, route}) => {
                             ? styles.ModalYesContainer
                             : styles.ModalYesContainerls
                         }>
-                        {/* style={styles.ModalYesContainer}> */}
                         <View style={styles.ModalYesView}>
                           <Text style={styles.ModalYesText}>Ok</Text>
                           <Image
@@ -333,26 +318,9 @@ const ChapterScreen = ({navigation, route}) => {
           </View>
 
           <View style={orientation.isPortrait ? styles.body : styles.bodyls}>
-            {/* style={styles.body}> */}
             <Text style={styles.name}>{chapterName}</Text>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-              {/* {contents[0]?.videoUrl ? (
-            <Video
-              source={{
-                uri: contents[0]?.videoUrl,
-              }}
-              style={
-                orientation.isPortrait ? styles.contentimg : styles.contentimgls
-              }
-              paused={true}
-              controls={true}
-            />
-          ) : null} */}
-              {/* <View
-            style={
-              orientation.isPortrait ? styles.contentimg : styles.contentimgls
-            }> */}
               {contents[0]?.videoUrl ? (
                 <View
                   style={
@@ -472,10 +440,7 @@ const styles = StyleSheet.create({
   contentimgls: {
     height: 250,
     width: 400,
-
     marginHorizontal: 220,
-    // marginLeft: 90,
-    // marginRight: 32,
     borderRadius: 15,
     marginTop: 30,
   },
@@ -483,7 +448,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 32,
     marginBottom: 200,
-    // textAlign: 'left',
     textAlign: 'justify',
     color: '#4D5060',
     fontSize: 18,
@@ -494,7 +458,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginHorizontal: 90,
     marginBottom: 200,
-    // textAlign: 'left',
     textAlign: 'justify',
     color: '#4D5060',
     fontSize: 18,
@@ -515,7 +478,6 @@ const styles = StyleSheet.create({
   touchablepages: {
     height: 23,
     width: 23,
-    // marginRight: 20,
   },
   topLeft: {
     flexDirection: 'row',
@@ -528,9 +490,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
-
     flexDirection: 'row',
-    // borderWidth: 1,
   },
   bottomls: {
     backgroundColor: 'white',
@@ -540,7 +500,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     flexDirection: 'row',
-    // borderWidth: 1,
   },
   bottomLeft: {
     marginLeft: 30,
@@ -574,7 +533,6 @@ const styles = StyleSheet.create({
     marginRight: 38,
   },
   bottomPage: {
-    // marginTop: 8,
     color: '#595B60',
     fontWeight: '300',
     fontSize: 16,
@@ -696,12 +654,10 @@ const styles = StyleSheet.create({
   ModalYesContainerls: {
     height: 55,
     width: 250,
-    // marginTop: -25,
     marginTop: Platform.OS === 'ios' ? -10 : -25,
     borderWidth: 2,
     borderRadius: 13,
     borderColor: '#4C93FF',
-    // marginLeft: 90,
     marginLeft: Platform.OS == 'ios' ? 90 : 60,
     backgroundColor: '#4C93FF',
   },
@@ -730,7 +686,6 @@ const styles = StyleSheet.create({
   loading: {
     marginTop: 200,
     alignItems: 'center',
-
     justifyContent: 'center',
   },
 });

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 
-const OnboardingScreen1 = ({navigation}) => {
+const OnboardingScreen3 = ({navigation}) => {
   const orientation = useOrientation();
   gotoSignIn = () => {
     navigation.navigate('SignIn');
@@ -48,11 +48,9 @@ const OnboardingScreen1 = ({navigation}) => {
       <View style={styles.bottom}>
         <View style={styles.bottom1}>
           <View style={styles.inactiveBottom}></View>
-
           <View style={styles.inactiveBottom}></View>
           <View style={styles.activeBottom}></View>
         </View>
-
         <View style={styles.spaceDown}>
           <Text style={styles.gettingStarted}>Get Started</Text>
         </View>
@@ -72,8 +70,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-
-    // alignItems: 'flex-start',
   },
   topContainer: {
     backgroundColor: '#EBEEF4',
@@ -110,7 +106,6 @@ const styles = StyleSheet.create({
   },
   text1view: {
     marginTop: Platform.OS === 'ios' ? 30 : -30,
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   text1: {
@@ -129,7 +124,6 @@ const styles = StyleSheet.create({
   imagesignin: {
     width: 100,
     height: 100,
-    // marginLeft: 20,
     marginTop: 20,
     marginLeft: 10,
   },
@@ -174,4 +168,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-export default OnboardingScreen1;
+export default OnboardingScreen3;

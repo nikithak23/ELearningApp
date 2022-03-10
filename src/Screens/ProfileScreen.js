@@ -1,60 +1,40 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect} from '@react-navigation/core';
 import axios from 'axios';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   Text,
   View,
-  flex,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
   ImageBackground,
   TextInput,
-  FlatList,
   Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
-// import {} from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
-// import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 
 const pic1 = '../Images/Profile/photo1.jpeg';
 const pic2 = require('../Images/Profile/2photo.jpeg');
 const pic3 = require('../Images/Profile/photo3.jpeg');
 
-const profiles = [pic1, pic2, pic3];
-
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
   const orientation = useOrientation();
-
-  // const [isRight, setIsRight] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isinnerVisible, setIsinnerVissible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [editData, setEditData] = useState(false);
-  // const [ProfileData, setProfileData] = useState([]);
   const [ProfileData, setProfileData] = useState([]);
-
   let name1 = ProfileData.name;
   const [fetchData, setFetchData] = useState(false);
   const [name, setName] = useState(name1);
-
   const [Results, setResults] = useState([]);
-  const [profileModalVisivle, setProfileModalVisible] = useState(false);
   const [profilePic, setProfilePic] = useState(
     'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
   );
-
-  console.log('nccc', profileModalVisivle);
-
-  // const [edit, setEdit] = useState(true);
-  // const [name, setName] = useState('');
-  // const [text, onChangeText] = useState(ProfileData);
-
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   useEffect(() => {
     const retrieveNotif = async () => {
@@ -73,8 +53,6 @@ const ProfileScreen = ({navigation, token}) => {
       try {
         const value = await AsyncStorage.getItem('profilePhoto');
         if (value !== null) {
-          // We have data!!
-          console.log('storeedddd', value);
           setProfilePic(value);
         } else {
           setProfilePic(
@@ -88,6 +66,7 @@ const ProfileScreen = ({navigation, token}) => {
     retrieveNotif();
   }, []);
 
+  // Api to get the Results of the user
   const getResults = async () => {
     try {
       const response = await axios.get(`${baseUrl}/subject/get/result`, {
@@ -96,34 +75,15 @@ const ProfileScreen = ({navigation, token}) => {
         },
       });
       setResults(response.data.data);
-
-      console.log('the result', Results);
-      // setFetchSubjects(true);
     } catch (err) {
       console.log(err);
     }
   };
-
   useEffect(() => {
     getResults();
-    console.log('the result', Results);
-    // const retrieve = async () => {
-    //   try {
-    //     const value = await AsyncStorage.getItem('profilePhoto');
-    //     if (value !== null) {
-    //       // We have data!!
-    //       console.log('storeedddd', value);
-    //       setProfilePic(value)
-    //     }else{
-    //       console.warn('store unsuccess')
-    //     }
-    //   } catch (error) {
-    //     console.log('error storing pic')
-    //   }
-    // };
-    // retrieve()
   }, [Results]);
 
+  // Api to get the Profilr data of the user
   const getProfileData = async () => {
     try {
       const response = await axios.get(`${baseUrl}/learn/profile`, {
@@ -131,29 +91,19 @@ const ProfileScreen = ({navigation, token}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('welocome to profile');
-      console.log(response.data.data);
       setProfileData(response.data.data);
-
-      console.log(ProfileData);
-      // console.log('profile', ProfileData.name);
       setFetchData(true);
-      console.log(fetchData);
     } catch (err) {
       console.log(err);
     }
   };
-
   useFocusEffect(
     React.useCallback(() => {
       getProfileData();
     }, [name]),
   );
 
-  // useEffect(() => {
-  //   getProfileData();
-  // }, [name]);
-
+  //Api to send the edited data of the user to the database
   const editProfileData = async () => {
     try {
       const response = await axios.put(
@@ -167,30 +117,13 @@ const ProfileScreen = ({navigation, token}) => {
           },
         },
       );
-      // setName(name);
-      console.log(response.data);
-      console.log('welocome to  edit profile');
-      // setEditData;
-      console.log();
     } catch (err) {
       console.log(err);
     }
   };
 
-  // useEffect(() => {
-  //   editProfileData();
-  // }, [name]);
-
-  // const ri = () => {
-  //   setIsRight(true);
-  //   setName(text);
-  // };
-  // const ro = () => {
-  //   setIsRight(false);
-  // };
   const editHandleModalTrue = () => {
     setEditModalVisible(true);
-    // setEdit(false);
   };
   const editHandleModalT = async () => {
     setEditModalVisible(false);
@@ -198,32 +131,19 @@ const ProfileScreen = ({navigation, token}) => {
     setIsModalVisible(false);
     await editProfileData();
     await getProfileData();
-
-    // setIsRight(true);
-    // setName(name);
-    // setProfileData(text);
   };
   const editHandleModalF = () => {
     setEditModalVisible(false);
     setIsinnerVissible(false);
     setIsModalVisible(false);
     setName(name1);
-    // onChangeText(name);
-    // setName(name);
-    // setIsRight(false);
   };
-
   const innerhandleModal = () => {
     setIsinnerVissible(true);
     setIsModalVisible(false);
   };
   const innerhandleModal1 = () => {
     setIsModalVisible(true);
-  };
-  const goBack1 = () => {
-    setIsinnerVissible(false);
-    setIsModalVisible(false);
-    setEditModalVisible(false);
   };
   const goBack = () => {
     setIsinnerVissible(false);
@@ -236,38 +156,23 @@ const ProfileScreen = ({navigation, token}) => {
     await AsyncStorage.removeItem('token');
     navigation.navigate('SignIn');
   };
-
   const gotoResult = () => {
     navigation.navigate('Results', {token: token, Results: Results});
   };
-
-  // const storeProfile = async() => {
-  //   try {
-  //     //await AsyncStorage.removeItem('profilePhoto');
-  //     await AsyncStorage.setItem('profilePhoto', profilePic);
-  //     //await AsyncStorage.removeItem('profilePhoto');
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
   const changeProfile = async () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
       setProfilePic(image.path);
-      console.log('imgggggggg', profilePic);
       AsyncStorage.setItem('profilePhoto', image.path);
     });
   };
-
   const notifFalse = async () => {
     setNotify('false');
     try {
       await AsyncStorage.setItem('notification', 'false');
-
       const response = await axios.delete(
         `${baseUrl}/subject/set/notification/0`,
         {
@@ -319,6 +224,7 @@ const ProfileScreen = ({navigation, token}) => {
         </View>
       </TouchableOpacity>
 
+      {/* Modal to display the edit and logout text */}
       <Modal
         transparent={true}
         animationType="slide"
@@ -338,7 +244,8 @@ const ProfileScreen = ({navigation, token}) => {
               <Text style={styles.InModalEditText}>Edit</Text>
             </View>
           </TouchableOpacity>
-          {/* NB */}
+
+          {/* Modal to display the edit options */}
           <Modal isVisible={editModalVisible}>
             <View
               style={
@@ -346,7 +253,6 @@ const ProfileScreen = ({navigation, token}) => {
                   ? styles.editModalMainContainer
                   : styles.editModalMainContainerls
               }>
-              {/* <View style={styles.editModalMainContainer}> */}
               <View>
                 <View style={styles.ModalEditTopContainer}>
                   <TouchableOpacity onPress={editHandleModalF}>
@@ -363,7 +269,6 @@ const ProfileScreen = ({navigation, token}) => {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.ProfilePhotoContainer1}>
-                  {/* ////////////////////// */}
                   <TouchableOpacity activeOpacity={0.8} onPress={changeProfile}>
                     <ImageBackground
                       source={{uri: profilePic}}
@@ -394,14 +299,12 @@ const ProfileScreen = ({navigation, token}) => {
                     orientation.isPortrait
                       ? styles.EditModalLine
                       : styles.EditModalLinels
-                  }>
-                  {/* style={styles.EditModalLine}> */}
-                </View>
+                  }></View>
                 <Text style={styles.ProfileMail}>{ProfileData.username}</Text>
               </View>
             </View>
           </Modal>
-          {/* NB */}
+
           <TouchableOpacity onPress={innerhandleModal1}>
             <View style={styles.InModalLogoutContainer}>
               <Image
@@ -411,6 +314,8 @@ const ProfileScreen = ({navigation, token}) => {
               <Text style={styles.InModalEditText}>Logout</Text>
             </View>
           </TouchableOpacity>
+
+          {/* Modal to display the logout options */}
           <Modal isVisible={isModalVisible}>
             <View
               style={
@@ -418,7 +323,6 @@ const ProfileScreen = ({navigation, token}) => {
                   ? styles.ModalMainContainer
                   : styles.ModalMainContainerls
               }>
-              {/* <View style={styles.ModalMainContainer}> */}
               <View style={styles.ModalTopContainer}>
                 <View style={styles.ModalContainer}></View>
                 <Text style={styles.ModalLogoutText}>Logout</Text>
@@ -431,7 +335,6 @@ const ProfileScreen = ({navigation, token}) => {
                   Are you sure you want to logout now?
                 </Text>
               </View>
-
               <View style={styles.ModalBottomContainer}>
                 <TouchableOpacity
                   style={
@@ -439,7 +342,6 @@ const ProfileScreen = ({navigation, token}) => {
                       ? styles.ModalNoContainer
                       : styles.ModalNoContainerls
                   }
-                  // style={styles.ModalNoContainer}
                   onPress={goBack}>
                   <Text style={styles.ModalNoText}>No</Text>
                 </TouchableOpacity>
@@ -450,7 +352,6 @@ const ProfileScreen = ({navigation, token}) => {
                       ? styles.ModalYesContainer
                       : styles.ModalYesContainerls
                   }
-                  // style={styles.ModalYesContainer}
                   onPress={gotoSign}>
                   <View style={styles.ModalYesView}>
                     <Text style={styles.ModalYesText}>Yes</Text>
@@ -466,13 +367,13 @@ const ProfileScreen = ({navigation, token}) => {
         </View>
       </Modal>
 
+      {/* To display the middle container */}
       <View>
         <View style={styles.ProfilePhotoContainer}>
           <Image source={{uri: profilePic}} style={styles.ProfilePhotoImage} />
         </View>
         <View style={styles.ProfileNameView}>
           <Text style={styles.ProfileName}>{ProfileData.name}</Text>
-          {/* )} */}
 
           <Text style={styles.ProfileMail}>{ProfileData.username}</Text>
         </View>
@@ -529,6 +430,7 @@ const ProfileScreen = ({navigation, token}) => {
         </ScrollView>
       </View>
 
+      {/* To display the bottom container */}
       <View style={styles.BottomContainer}>
         <View
           style={orientation.isPortrait ? styles.Results : styles.Resultsls}>
@@ -588,7 +490,6 @@ const ProfileScreen = ({navigation, token}) => {
                     ? styles.ActiveNotification1
                     : styles.ActiveNotification1ls
                 }>
-                {/* style={styles.ActiveNotification1}> */}
                 <View style={styles.ActiveNotification2}></View>
               </View>
             </TouchableOpacity>
@@ -602,7 +503,6 @@ const ProfileScreen = ({navigation, token}) => {
                     ? styles.InActiveNotification1
                     : styles.InActiveNotification1ls
                 }>
-                {/* // styles.InActiveNotification1}> */}
                 <View style={styles.InActiveNotification2}></View>
               </View>
             </TouchableOpacity>
@@ -628,7 +528,6 @@ const styles = StyleSheet.create({
   },
 
   // 3dots style
-
   TopDots: {
     marginTop: 60,
     alignSelf: 'flex-end',
@@ -646,13 +545,12 @@ const styles = StyleSheet.create({
   },
 
   // upperModal styles
-
   InModalMainContainer: {
     backgroundColor: 'white',
     position: 'absolute',
     top: 30,
     right: 10,
-    // right: -20,2
+
     height: 150,
     width: 160,
     alignItems: 'flex-start',
@@ -672,7 +570,6 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderRadius: 15,
   },
-
   InModalEditContainer: {
     flexDirection: 'row',
     marginTop: 10,
@@ -682,7 +579,6 @@ const styles = StyleSheet.create({
     height: 20,
     marginLeft: 31,
   },
-
   InModalEditText: {
     fontSize: 16,
     color: '#191B26',
@@ -703,7 +599,6 @@ const styles = StyleSheet.create({
   },
 
   // Lower Modal Styles
-
   ModalMainContainer: {
     backgroundColor: 'white',
     position: 'absolute',
@@ -735,12 +630,6 @@ const styles = StyleSheet.create({
   },
   ModalTopRight: {
     marginTop: 30,
-    // fontSize: 22,
-    // fontWeight: 'bold',
-    // lineHeight: 27,
-    // letterSpacing: 0,
-    // fontWeight: '500',
-    // color: '#191B26',
   },
   ModalLogoutText: {
     marginTop: 30,
@@ -773,7 +662,6 @@ const styles = StyleSheet.create({
     width: 340,
     marginTop: 15,
   },
-
   ModalBottomContainer: {
     flexDirection: 'row',
     marginTop: 30,
@@ -794,12 +682,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: Platform.OS === 'ios' ? 90 : 80,
-    // marginLeft: 90,
     borderColor: '#4C93FF',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   ModalNoText: {
     color: '#4C93FF',
     fontSize: 20,
@@ -839,7 +725,6 @@ const styles = StyleSheet.create({
   },
 
   //Profile Container
-
   ProfilePhotoContainer: {
     borderRadius: 60,
     borderColor: '#3A7FE7',
@@ -872,9 +757,7 @@ const styles = StyleSheet.create({
   MiddleContainer: {
     flexDirection: 'row',
   },
-
   MiddleCard: {
-    // marginLeft: 30,
     marginHorizontal: 20,
     height: 113,
     width: 104.6,
@@ -885,7 +768,6 @@ const styles = StyleSheet.create({
     marginTop: 55,
   },
   MiddleCardls: {
-    // marginLeft: 95,
     marginLeft: Platform.OS === 'ios' ? 95 : 85,
     height: 120,
     width: 150,
@@ -895,11 +777,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 55,
   },
-
   CardTop: {
     flexDirection: 'row',
   },
-
   Card1Text: {
     color: '#DB8E9D',
     fontSize: 34,
@@ -949,7 +829,6 @@ const styles = StyleSheet.create({
   },
 
   //Bottom Container
-
   BottomContainer: {
     marginTop: 51,
   },
@@ -969,7 +848,6 @@ const styles = StyleSheet.create({
     width: 16,
     height: 22,
   },
-
   ResultsTextContainer: {
     marginLeft: 25,
     width: 200,
@@ -1052,7 +930,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 30,
     marginRight: 30,
-    // marginLeft: 30,
     marginLeft: Platform.OS == 'ios' ? 30 : -30,
     backgroundColor: 'grey',
   },
@@ -1070,7 +947,6 @@ const styles = StyleSheet.create({
     top: -19,
     left: -19,
     height: Platform.OS === 'ios' ? '45%' : '55%',
-    // height: '45%',
     width: '111%',
   },
 
@@ -1079,39 +955,25 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -36,
     left: -19,
-    // bottom: -20,
-
     height: Platform.OS === 'ios' ? '120%' : '130%',
     width: '103%',
     paddingHorizontal: 40,
   },
-
   ModalEditTopContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     margin: 32,
-
     justifyContent: 'space-between',
   },
-  // ProfilePhotoContainer: {
-  //   borderRadius: 60,
-  //   borderColor: '#3A7FE7',
-  //   borderWidth: 2,
-  //   // marginTop: ,
-  //   alignSelf: 'center',
-  // },
   ProfilePhotoImage1: {
     width: 100,
     height: 100,
     margin: 5,
-    // borderRadius: 60,
   },
   ProfilePhotoContainer1: {
     borderRadius: 60,
     borderColor: 'rgba(58,127,231,0.3)',
-
     borderWidth: 2,
-    // marginTop: ,
     alignSelf: 'center',
   },
   cameraImg: {
@@ -1119,26 +981,17 @@ const styles = StyleSheet.create({
     marginTop: 26,
   },
   input: {
-    // flex: 1,
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    // height: 40,
-    // alignSelf: 'center',
-    // paddingHorizontal: 15,
   },
   EditTextInputContainer: {
     alignSelf: 'center',
-
-    // flexDirection: 'row',
-    // marginTop: 30,
-    // a,
   },
   EditModalBottomContainer: {
     alignItems: 'center',
     marginTop: 15,
   },
-
   EditModalLine: {
     height: 2,
     borderRadius: 20,
@@ -1159,9 +1012,5 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 15 : 0,
     marginBottom: 16,
   },
-
-  // cover: {
-  //   backgroundColor: 'rgba(0,0,0,.5)',
-  // },
 });
 export default ProfileScreen;

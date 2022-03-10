@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 
-const OnboardingScreen1 = ({navigation}) => {
+const OnboardingScreen2 = ({navigation}) => {
   const orientation = useOrientation();
   onBoardTo3 = () => {
     navigation.navigate('OnBoard3');
@@ -73,8 +73,6 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-
-    // alignItems: 'flex-start',
   },
   topContainer: {
     backgroundColor: '#EBEEF4',
@@ -100,7 +98,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-
   backgroundImage: {
     width: 390,
     height: 450,
@@ -118,17 +115,14 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '500',
     color: 'black',
-    // marginHorizontal: 110,
   },
   text2: {
     marginHorizontal: 40,
     textAlign: 'center',
-
     marginTop: 14,
     color: '#676666',
     fontWeight: '500',
   },
-
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
@@ -138,7 +132,6 @@ const styles = StyleSheet.create({
   bottom1: {
     flexDirection: 'row',
     alignItems: 'center',
-    // marginLeft: 45,
   },
   activeBottom: {
     height: 6,
@@ -156,7 +149,6 @@ const styles = StyleSheet.create({
     borderColor: '#4C93FF',
     borderRadius: 12,
     backgroundColor: '#4C93FF',
-
     opacity: 0.4,
     marginLeft: 5,
   },
@@ -170,4 +162,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-export default OnboardingScreen1;
+export default OnboardingScreen2;

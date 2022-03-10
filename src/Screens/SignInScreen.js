@@ -1,15 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {
   Text,
   View,
-  Button,
   Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   Platform,
-  TextInput,
 } from 'react-native';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
@@ -18,66 +16,15 @@ import useOrientation from '../hooks/useOrientation';
 
 const SignInScreen = ({navigation}) => {
   const orientation = useOrientation();
-  // const [phone, setPhone] = useState(null);
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //const context = useContext(AuthContext);
 
-  // const onChangePhone = phone => {
-  //   setPhone(phone);
-  // };
-  // const onChangePassword = password => {
-  //   setPassword(password);
-  // };
-
-  // const onSubmitFormHandler = async event => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await axios.post(
-  //       'https://elearningapp-api.herokuapp.com/learn/authenticate',
-  //       {
-  //         username,
-  //         password,
-  //       },
-  //     );
-  //     if (response.status === 200) {
-  //       console.log(response.status);
-  //       alert(` Login Success ${JSON.stringify(response.resultInfo)}`);
-  //       setIsLoading(false);
-  //       setPhone('');
-  //       setPassword('');
-  //     } else {
-  //       throw new Error('An error has occurred here');
-  //     }
-  //   } catch (error) {
-  //     alert('An error has occurred');
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const validation = () => {
-  //   if (username && password) {
-  //     onSubmitFormHandler();
-  //     setIsValid(true);
-  //     // console.log(isValid);
-  //     // navigation.dispatch(
-  //     //   StackActions.replace('Home', {
-  //     //     username: username,
-  //     //   }),
-  //     // );
-  //   } else {
-  //     setIsValid(false);
-  //     // console.log(isValid);
-  //   }
-  // };
+  // Api to authenticate the user
   const validation = async () => {
-    //Inorder to use 'await' define the ASYNC keyword at function declaration time
-    // if (username && password) {
     setIsValid(true);
     setIsLoading(true);
-
     try {
       const response = await axios.post(
         `https://elearningapp-api.herokuapp.com/learn/authenticate`,
@@ -86,11 +33,7 @@ const SignInScreen = ({navigation}) => {
           password,
         },
       );
-      console.log(response.status);
-      //console.log(response.data.data);
       const token = response.data.data;
-      //context.onLogin()
-      //console.log(context)
       try {
         await AsyncStorage.setItem('loggedIn', '1');
         await AsyncStorage.setItem('token', token);
@@ -106,14 +49,12 @@ const SignInScreen = ({navigation}) => {
 
         await navigation.dispatch(
           StackActions.push('TabPage', {
-            //instead of 'push', if 'replace' is given, on clicking back button in the phone the app closes
             phone: username,
             msg: msg,
             token: token,
           }),
         );
       } else {
-        //console.log(response.status);
         throw new Error('An error has occurred');
       }
     } catch (error) {
@@ -121,23 +62,16 @@ const SignInScreen = ({navigation}) => {
       alert('Password Incorrect');
       setIsLoading(false);
     }
-    // }
-    // else {
-    //   setIsValid(false);
-    //   alert('Invalid Sign Up credentials');
-    // }
   };
 
   const signUp = () => {
     navigation.navigate('SignUp');
   };
 
+  // Api to get forget password
   const verify = async () => {
-    //Inorder to use 'await' define the ASYNC keyword at function declaration time
-    // if (username && password) {
     setIsValid(true);
     setIsLoading(true);
-
     try {
       console.log(username);
       const response = await axios.put(
@@ -167,16 +101,7 @@ const SignInScreen = ({navigation}) => {
       alert('An error has occurred');
       setIsLoading(false);
     }
-    // }
-    // else {
-    //   setIsValid(false);
-    //   alert('Invalid Sign Up credentials');
-    // }
   };
-
-  // const verify = () => {
-  //   navigation.navigate('Authentication');
-  // };
 
   const renderForm = () => {
     return (
@@ -187,15 +112,12 @@ const SignInScreen = ({navigation}) => {
               ? styles.headerContainer1
               : styles.headerContainer1ls
           }>
-          {/* style={styles.headerContainer1}> */}
           <View
             style={
               orientation.isPortrait
                 ? styles.headerContainer2
                 : styles.headerContainer2ls
-            }>
-            {/* style={styles.headerContainer2}> */}
-          </View>
+            }></View>
           <Image
             source={require('../Images/SignUp/yellowLogo.png')}
             style={orientation.isPortrait ? styles.image : styles.imagels}
@@ -209,9 +131,7 @@ const SignInScreen = ({navigation}) => {
             <Text style={styles.header1ls}> Welcome Back</Text>
           )}
         </View>
-
         <View style={orientation.isPortrait ? styles.form : styles.formls}>
-          {/* style={styles.form}> */}
           <SignInForm
             password={password}
             setPassword={setPassword}
@@ -220,9 +140,7 @@ const SignInScreen = ({navigation}) => {
           />
         </View>
 
-        <View
-          // style={styles.sign}
-          style={orientation.isPortrait ? styles.sign : styles.signls}>
+        <View style={orientation.isPortrait ? styles.sign : styles.signls}>
           <Text style={styles.signText}>Sign in</Text>
 
           <TouchableOpacity onPress={validation}>
@@ -258,14 +176,12 @@ const SignInScreen = ({navigation}) => {
 
   return <View>{renderForm()}</View>;
 };
-
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
     backgroundColor: 'white',
   },
-
   headerContainer1: {
     backgroundColor: '#3c7ee3',
     borderRadius: 70,
@@ -284,7 +200,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? -160 : -150,
     marginLeft: -12,
   },
-
   headerContainer2: {
     backgroundColor: '#3274d8',
     borderRadius: 70,
@@ -323,7 +238,6 @@ const styles = StyleSheet.create({
     marginBottom: 90,
     transform: [{rotate: '8deg'}],
   },
-
   header1: {
     fontSize: 40,
     fontWeight: '700',
@@ -346,18 +260,15 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     transform: [{rotate: '12deg'}],
   },
-
   form: {
     marginTop: Platform.OS === 'ios' ? 0 : -30,
     height: Platform.OS === 'ios' ? 290 : 260,
   },
-
   formls: {
     marginTop: Platform.OS === 'ios' ? 0 : -30,
     height: Platform.OS === 'ios' ? 290 : 260,
     marginHorizontal: 60,
   },
-
   button: {
     marginTop: 20,
     marginBottom: 120,
@@ -368,14 +279,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 50,
     marginHorizontal: 50,
-
     justifyContent: 'space-between',
   },
   signls: {
     flexDirection: 'row',
     marginTop: 20,
     marginHorizontal: 120,
-
     justifyContent: 'space-between',
   },
   signText: {

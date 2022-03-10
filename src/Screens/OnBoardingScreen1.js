@@ -12,6 +12,7 @@ import useOrientation from '../hooks/useOrientation';
 
 const OnboardingScreen1 = ({navigation}) => {
   const orientation = useOrientation();
+
   onBoardTo2 = () => {
     navigation.navigate('OnBoard2');
   };
@@ -42,9 +43,7 @@ const OnboardingScreen1 = ({navigation}) => {
           orientation.isPortrait
             ? styles.backgroundImage
             : styles.backgroundImagels
-        }>
-        {/* style={styles.backgroundImage}> */}
-      </ImageBackground>
+        }></ImageBackground>
 
       <View style={styles.text1view}>
         <Text style={styles.text1}>Learn from anywhere</Text>
@@ -78,9 +77,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-    // alignItems: 'flex-start',
   },
-
   topContainer: {
     backgroundColor: '#EBEEF4',
     height: 100,
@@ -96,28 +93,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
-
-  spaceUp: {height: 100, width: 200},
+  spaceUp: {
+    height: 100,
+    width: 200,
+  },
   skipText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'black',
   },
-
   backgroundImage: {
     width: 390,
     height: 450,
   },
-
   backgroundImagels: {
     width: 850,
-    // position: 'absolute',
-    // height: 1000,
     height: 1000,
   },
   text1view: {
     marginTop: Platform.OS === 'ios' ? 30 : -30,
-    // marginHorizontal: 61.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -129,12 +123,10 @@ const styles = StyleSheet.create({
   text2: {
     marginHorizontal: 40,
     textAlign: 'center',
-    // alignSelf: 'center',
     marginTop: 14,
     color: '#676666',
     fontWeight: '500',
   },
-
   bottom: {
     flexDirection: 'row',
     marginTop: Platform.OS === 'ios' ? 30 : 0,
@@ -144,7 +136,6 @@ const styles = StyleSheet.create({
   bottom1: {
     flexDirection: 'row',
     alignItems: 'center',
-    // marginLeft: 50,
   },
   activeBottom: {
     height: 6,
