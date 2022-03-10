@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     position: 'absolute',
     bottom: Platform.OS == 'ios' ? -35 : -35,
-    height: Platform.OS == 'ios' ? '105%' : '120%',
+    height: Platform.OS == 'ios' ? '110%' : '120%',
     width: '100%',
     marginRight: 20,
     borderRadius: 15,
