@@ -17,10 +17,6 @@ import useOrientation from '../hooks/useOrientation';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const pic1 = '../Images/Profile/photo1.jpeg';
-const pic2 = require('../Images/Profile/2photo.jpeg');
-const pic3 = require('../Images/Profile/photo3.jpeg');
-
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
   const orientation = useOrientation();
@@ -41,7 +37,6 @@ const ProfileScreen = ({navigation, token}) => {
       try {
         const value = await AsyncStorage.getItem('notification');
         if (value !== null) {
-          console.log(';;;;;;;;;', value);
           setNotify(value);
         } else {
           setNotify('true');

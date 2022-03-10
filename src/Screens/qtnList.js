@@ -21,8 +21,6 @@ const QtnList = ({navigation, route}) => {
   const answered = route?.params.answered;
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [questions, setQuestions] = useState([]);
-  let n = 0;
-  console.log('ansssssss', answered);
 
   const getQtns = async () => {
     //Get questions api
@@ -35,7 +33,6 @@ const QtnList = ({navigation, route}) => {
           },
         },
       );
-      console.log(response.status);
       setQuestions(response.data.data);
     } catch (err) {
       console.log(err);
@@ -110,7 +107,6 @@ const QtnList = ({navigation, route}) => {
           Questions
         </Text>
       </View>
-
       {len !== 0 ? (
         <FlatList
           data={questions}

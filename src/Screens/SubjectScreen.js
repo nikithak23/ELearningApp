@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-
 import useOrientation from '../hooks/useOrientation';
 
-
 const SubjectScreen = ({token,navigation}) => {
-
   const orientation = useOrientation();
   const [SubjectsData, setSubjectsData] = useState([]);
   const [fetchSubjects, setFetchSubjects] = useState(false)
@@ -32,6 +28,7 @@ const SubjectScreen = ({token,navigation}) => {
     );
   }
 
+  //api to get Subjects
   const getSubjects = async () => {
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
@@ -54,8 +51,6 @@ const SubjectScreen = ({token,navigation}) => {
       <Text style={orientation.isPortrait ? styles.title : styles.titlels}>
         Subjects
       </Text>
-      {/* {fetchSubjects === true ? <Text style={styles.title}>{sub}</Text> : null} */}
-      {/* <Text>{SubjectsData[0].subjectName}</Text> */}
       <FlatList
         data={SubjectsData}
         renderItem={renderSubjects}

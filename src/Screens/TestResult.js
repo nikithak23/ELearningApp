@@ -66,7 +66,7 @@ const TestResult = ({navigation, route}) => {
             value={percent}
             radius={80}
             duration={1000}
-            textColor="black" //{'transparent'}
+            textColor="black" 
             fontSize={25}
             valueSuffix={'%'}
             maxValue={100}

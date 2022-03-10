@@ -19,12 +19,10 @@ const SignInScreen = ({navigation}) => {
   const [username, setPhone] = useState(null);
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Api to authenticate the user
   const validation = async () => {
     setIsValid(true);
-    setIsLoading(true);
     try {
       const response = await axios.post(
         `https://elearningapp-api.herokuapp.com/learn/authenticate`,
@@ -37,16 +35,12 @@ const SignInScreen = ({navigation}) => {
       try {
         await AsyncStorage.setItem('loggedIn', '1');
         await AsyncStorage.setItem('token', token);
-        console.log('stored');
       } catch (e) {
         console.log(e);
       }
 
       if (response.status === 200) {
         let msg = response.data.resultInfo.message;
-        console.log(msg);
-        setIsLoading(false);
-
         await navigation.dispatch(
           StackActions.push('TabPage', {
             phone: username,
@@ -60,10 +54,10 @@ const SignInScreen = ({navigation}) => {
     } catch (error) {
       console.log(error);
       alert('Password Incorrect');
-      setIsLoading(false);
     }
   };
 
+  //go to signUp page
   const signUp = () => {
     navigation.navigate('SignUp');
   };
@@ -71,7 +65,6 @@ const SignInScreen = ({navigation}) => {
   // Api to get forget password
   const verify = async () => {
     setIsValid(true);
-    setIsLoading(true);
     try {
       console.log(username);
       const response = await axios.put(
@@ -80,12 +73,8 @@ const SignInScreen = ({navigation}) => {
           username,
         },
       );
-      console.log(response.status);
       if (response.status === 200) {
         let msg = response.data.data;
-        console.log(msg);
-
-        setIsLoading(false);
         await navigation.dispatch(
           StackActions.push('Authentication', {
             otp: msg,
@@ -99,7 +88,6 @@ const SignInScreen = ({navigation}) => {
     } catch (error) {
       console.log(error);
       alert('An error has occurred');
-      setIsLoading(false);
     }
   };
 
@@ -158,7 +146,6 @@ const SignInScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
         <View style={orientation.isPortrait ? styles.forget : styles.forgetls}>
-          {/* style={styles.forget}> */}
           <TouchableOpacity onPress={verify}>
             <Text style={styles.forgetPassword}>Forgot Password</Text>
           </TouchableOpacity>

@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Button,
   Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
@@ -42,6 +41,7 @@ const AuthenticationScreen = ({navigation,route}) => {
     console.warn('OTP: ', otp)
   }, [otp]);
 
+  //go to signIn screen
   const goSignin = async() => {
     if (internalVal === JSON.stringify(otp)) {
       if(forgotPass){
@@ -56,13 +56,8 @@ const AuthenticationScreen = ({navigation,route}) => {
         );
         console.log(response.status);
         console.log(response.data);
-        if (response.status === 200) {
-          // if(forgotPass){
-          //   return navigation.replace('ResetPassword',{username: username, otp: otp});
-          // }
-          
+        if (response.status === 200) {  
             return navigation.replace('SignIn');
-          
         }else{
           console.warn(response.status)
         }
@@ -74,7 +69,7 @@ const AuthenticationScreen = ({navigation,route}) => {
       setWrongOtp(true);
     }
   };
-
+  // To resend OTP
   const resend = async() => {
     try{
       const response = await axios.get(

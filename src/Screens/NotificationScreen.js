@@ -13,34 +13,16 @@ import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
 
 const btnBack = require('../Images/Notification/btnback.png');
-const NotificationData = [
-  {
-    title: 'Complete the test!',
-    desc: 'This is a dummy test which will be changed later',
-  },
-  {
-    title: 'Hurry up!',
-    desc: 'This is a dummy test which will be changed later',
-  },
-  {
-    title: 'Hurray!',
-    desc: 'This is a dummy test which will be changed later',
-  },
-];
 
 const NotificationScreen = ({navigation, route}) => {
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const [notif, setNotif] = useState([])
-  
   const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
   const hrRegex = /[0-2][0-9]/;
   const minRegex = /:[0-5][0-9]:/;
- 
-  
   const [date, setDate] = useState(new Date().toUTCString());
-  
 
   useEffect(() => {
     getNotifs();
@@ -53,7 +35,7 @@ const NotificationScreen = ({navigation, route}) => {
     },[])
   )
    
-
+  //api to get notifications
   const getNotifs = async () => {
     try {
       const response = await axios.get(`${baseUrl}/subject/notification`, {
@@ -61,7 +43,6 @@ const NotificationScreen = ({navigation, route}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('notiffffff ', response.data.data);
       setNotif(response.data.data);
     } catch (err) {
       console.log(err);
@@ -76,7 +57,6 @@ const NotificationScreen = ({navigation, route}) => {
     let notifMin = item.time.match(minRegex)[0].match(/(\d+)/);
     const hrDiff =  Number(presentHr)-Number(notifHr)
     const minDiff = Number(presentMin[0]) - Number(notifMin[0])
-    console.log('time', '====',item.time, '====', time[0], 'difff==> ', hrDiff, '>>>>', minDiff)
 
     const timeDiff = () => {
       if (hrDiff > 0) {
@@ -96,8 +76,6 @@ const NotificationScreen = ({navigation, route}) => {
       }
     }
     
-    console.log('my date', new Date());
-    console.log('time', '========', time[0]);
     return (
       <View
         style={orientation.isPortrait ? styles.component : styles.componentls}>
@@ -111,7 +89,6 @@ const NotificationScreen = ({navigation, route}) => {
               {timeDiff()}
             </Text>
           </View>
-
           <Text style={styles.notif}>{item.notificationContent}</Text>
         </View>
       </View>
@@ -132,8 +109,6 @@ const NotificationScreen = ({navigation, route}) => {
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
