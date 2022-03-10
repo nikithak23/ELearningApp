@@ -65,9 +65,8 @@ const ChapterScreen = ({navigation, route}) => {
           },
         },
       );
-
-      setContents(response.data.data);
       setIsLoading(false);
+      setContents(response.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -170,11 +169,11 @@ const ChapterScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <View>
+        <View style={styles.loading}>
           <ActivityIndicator />
         </View>
       ) : (
-        <View>
+        <View style={styles.container}>
           <View
             style={
               orientation.isPortrait
@@ -404,7 +403,6 @@ const ChapterScreen = ({navigation, route}) => {
                   ? styles.bottomRight
                   : styles.bottomRightls
               }>
-              {/* style={styles.bottomRight}> */}
               <TouchableOpacity onPress={() => decPage(page)}>
                 <Image
                   source={require('../Images/TestPage/btnPrevQtn.png')}
@@ -528,6 +526,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 0,
+
     flexDirection: 'row',
     // borderWidth: 1,
   },
@@ -671,7 +670,7 @@ const styles = StyleSheet.create({
   ModalNoContainerls: {
     height: 55,
     width: 250,
-    marginTop: Platform.OS == 'ios' ? 0 : -25,
+    marginTop: Platform.OS === 'ios' ? -10 : -25,
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: Platform.OS == 'ios' ? 90 : 70,
@@ -695,7 +694,8 @@ const styles = StyleSheet.create({
   ModalYesContainerls: {
     height: 55,
     width: 250,
-    marginTop: Platform.OS == 'ios' ? 0 : -25,
+    // marginTop: -25,
+    marginTop: Platform.OS === 'ios' ? -10 : -25,
     borderWidth: 2,
     borderRadius: 13,
     borderColor: '#4C93FF',
@@ -724,5 +724,11 @@ const styles = StyleSheet.create({
     width: 26,
     marginRight: 40,
     marginTop: -3,
+  },
+  loading: {
+    marginTop: 200,
+    alignItems: 'center',
+
+    justifyContent: 'center',
   },
 });

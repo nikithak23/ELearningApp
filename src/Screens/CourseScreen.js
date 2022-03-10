@@ -65,7 +65,7 @@ const CourseScreen = ({navigation, route}) => {
       );
 
       setChapters(response.data.data);
-      // console.log('hiii', response.data.chapterName);
+      console.log('hiii', response.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +91,7 @@ const CourseScreen = ({navigation, route}) => {
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>BEGINEER</Text>
             <Text style={styles.listname}>{cName}</Text>
-            <Text style={styles.listname}>{cid}</Text>
+            {/* <Text style={styles.listname}>{cid}</Text> */}
           </View>
         </View>
         <View style={styles.testListBottom}>
@@ -110,7 +110,7 @@ const CourseScreen = ({navigation, route}) => {
               })
             }
             style={styles.beginButton}>
-            <Text style={styles.buttonText}>Begin Text</Text>
+            <Text style={styles.buttonText}>Begin Test</Text>
             <Image
               source={require('../Images/Profile/yesArrow.png')}
               style={styles.buttonImg}

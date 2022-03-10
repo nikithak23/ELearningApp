@@ -57,8 +57,8 @@ return(
                 fontSize={25}
                 valueSuffix={'%'}
                 maxValue={100}
-                activeStrokeWidth={10.5}
-                inActiveStrokeWidth={10.5}
+                activeStrokeWidth={13}
+                inActiveStrokeWidth={13}
                 inActiveStrokeColor={'#999'}
                 inActiveStrokeOpacity={0.35}
                 title={`${attempted} of ${len} answered`} 
