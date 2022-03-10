@@ -197,6 +197,7 @@ const SubjectDetails = ({navigation, route}) => {
               inActiveStrokeWidth={2.5}
               inActiveStrokeColor={'#999'}
               inActiveStrokeOpacity={0.35}
+              clockwise={false}
             />
           </View>
           <View style={styles.row}>
@@ -342,6 +343,7 @@ const SubjectDetails = ({navigation, route}) => {
                inActiveStrokeWidth={2.5}
                inActiveStrokeColor={'#999'}
                inActiveStrokeOpacity={0.35}
+               clockwise={false}
              />
            </View>
            <View style={styles.row}>
