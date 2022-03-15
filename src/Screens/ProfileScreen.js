@@ -16,7 +16,8 @@ import {
 import useOrientation from '../hooks/useOrientation';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
@@ -237,7 +238,7 @@ const ProfileScreen = ({navigation, token}) => {
                 source={require('../Images/Profile/edit.png')}
                 style={styles.InModalEditImg}
               />
-              <Text style={styles.InModalEditText}>Edit</Text>
+              <Text style={styles.InModalEditText}>{Strings.Edit}</Text>
             </View>
           </TouchableOpacity>
 
@@ -307,7 +308,7 @@ const ProfileScreen = ({navigation, token}) => {
                 source={require('../Images/Profile/logout.png')}
                 style={styles.InModalLogoutImg}
               />
-              <Text style={styles.InModalEditText}>Logout</Text>
+              <Text style={styles.InModalEditText}>{Strings.LogOut}</Text>
             </View>
           </TouchableOpacity>
 
@@ -321,14 +322,14 @@ const ProfileScreen = ({navigation, token}) => {
               }>
               <View style={styles.ModalTopContainer}>
                 <View style={styles.ModalContainer}></View>
-                <Text style={styles.ModalLogoutText}>Logout</Text>
+                <Text style={styles.ModalLogoutText}>{Strings.LogOut}</Text>
                 <Text
                   style={
                     orientation.isPortrait
                       ? styles.ModalLogoutText1
                       : styles.ModalLogoutText1ls
                   }>
-                  Are you sure you want to logout now?
+                  {Strings.LogoutAreUSure}
                 </Text>
               </View>
               <View style={styles.ModalBottomContainer}>
@@ -339,7 +340,7 @@ const ProfileScreen = ({navigation, token}) => {
                       : styles.ModalNoContainerls
                   }
                   onPress={goBack}>
-                  <Text style={styles.ModalNoText}>No</Text>
+                  <Text style={styles.ModalNoText}>{Strings.No}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -350,7 +351,7 @@ const ProfileScreen = ({navigation, token}) => {
                   }
                   onPress={gotoSign}>
                   <View style={styles.ModalYesView}>
-                    <Text style={styles.ModalYesText}>Yes</Text>
+                    <Text style={styles.ModalYesText}>{Strings.Yes}</Text>
                     <Image
                       source={require('../Images/Profile/yesArrow.png')}
                       style={styles.ModalYesImg}
@@ -384,10 +385,12 @@ const ProfileScreen = ({navigation, token}) => {
                 <Text style={styles.Card1Text}>
                   {ProfileData.chapterscompleted}
                 </Text>
-                <Text style={styles.Card1Text1}>%</Text>
+                <Text style={styles.Card1Text1}>{Strings.Perc}</Text>
               </View>
               <View style={styles.CardBottom}>
-                <Text style={styles.CardBottomText}>Chapters Completed</Text>
+                <Text style={styles.CardBottomText}>
+                  {Strings.ChaptersCompleted}
+                </Text>
               </View>
             </View>
 
@@ -399,10 +402,10 @@ const ProfileScreen = ({navigation, token}) => {
                 <Text style={styles.Card2Text}>
                   {ProfileData.avgscore === null ? 0 : ProfileData.avgscore}
                 </Text>
-                <Text style={styles.Card2Text2}>%</Text>
+                <Text style={styles.Card2Text2}>{Strings.Perc}</Text>
               </View>
               <View style={styles.CardBottom}>
-                <Text style={styles.CardBottomText}>Average Test Score</Text>
+                <Text style={styles.CardBottomText}>{Strings.AvgTScore}</Text>
               </View>
             </View>
 
@@ -416,10 +419,10 @@ const ProfileScreen = ({navigation, token}) => {
                     ? 0
                     : ProfileData.highestscore}
                 </Text>
-                <Text style={styles.Card3Text3}>%</Text>
+                <Text style={styles.Card3Text3}>{Strings.Perc}</Text>
               </View>
               <View style={styles.CardBottom}>
-                <Text style={styles.CardBottomText}>Highest Test Score</Text>
+                <Text style={styles.CardBottomText}>{Strings.HighTScore}</Text>
               </View>
             </View>
           </View>
@@ -440,10 +443,8 @@ const ProfileScreen = ({navigation, token}) => {
                 ? styles.ResultsTextContainer
                 : styles.ResultsTextContainerls
             }>
-            <Text style={styles.ResultsText1}>Results</Text>
-            <Text style={styles.ResultsText2}>
-              Check the test score you have attempted
-            </Text>
+            <Text style={styles.ResultsText1}>{Strings.Results}</Text>
+            <Text style={styles.ResultsText2}>{Strings.CheckTScore}</Text>
           </View>
 
           <TouchableOpacity onPress={gotoResult}>
@@ -473,10 +474,8 @@ const ProfileScreen = ({navigation, token}) => {
                 ? styles.ResultsTextContainer
                 : styles.ResultsTextContainerls
             }>
-            <Text style={styles.ResultsText1}>Notifications</Text>
-            <Text style={styles.ResultsText2}>
-              Turn off the notification if you don't want to recieve
-            </Text>
+            <Text style={styles.ResultsText1}>{Strings.Notifications}</Text>
+            <Text style={styles.ResultsText2}>{Strings.TurnOffNotif}</Text>
           </View>
           {notify === 'true' && (
             <TouchableOpacity onPress={() => notifFalse()}>

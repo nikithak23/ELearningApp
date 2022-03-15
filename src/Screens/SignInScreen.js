@@ -108,17 +108,19 @@ const SignInScreen = ({navigation}) => {
                 ? styles.headerContainer2
                 : styles.headerContainer2ls
             }></View>
-          {/* <Image
+          <Image
             source={require('../Images/SignUp/yellowLogo.png')}
             style={orientation.isPortrait ? styles.image : styles.imagels}
-          /> */}
+          />
           {orientation.isPortrait ? (
             <View>
               <Text style={styles.header1}>{Strings.Welcome}</Text>
               <Text style={styles.header2}>{Strings.Back}</Text>
             </View>
           ) : (
-            <Text style={styles.header1ls}> Welcome Back</Text>
+            <Text style={styles.header1ls}>
+              {Strings.Welcome} {Strings.Back}
+            </Text>
           )}
         </View>
         <View style={orientation.isPortrait ? styles.form : styles.formls}>
@@ -131,9 +133,9 @@ const SignInScreen = ({navigation}) => {
         </View>
 
         <View style={orientation.isPortrait ? styles.sign : styles.signls}>
-          <Text style={styles.signText}>Sign in</Text>
+          <Text style={styles.signText}>{Strings.SignIn}</Text>
 
-          {/* <TouchableOpacity onPress={validation}>
+          <TouchableOpacity onPress={validation}>
             {username && password ? (
               <Image
                 source={require('../Images/SignUp/btn_able.png')}
@@ -145,18 +147,18 @@ const SignInScreen = ({navigation}) => {
                 style={styles.imagesignin}
               />
             )}
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <View style={orientation.isPortrait ? styles.forget : styles.forgetls}>
           <TouchableOpacity onPress={verify}>
-            <Text style={styles.forgetPassword}>Forgot Password</Text>
+            <Text style={styles.forgetPassword}>{Strings.ForgotPassword}</Text>
           </TouchableOpacity>
         </View>
         <View
           style={orientation.isPortrait ? styles.dontHave : styles.dontHavels}>
-          <Text style={styles.DontHaveAccount}>Don't have an account?</Text>
+          <Text style={styles.DontHaveAccount}>{Strings.NoAccount}</Text>
           <TouchableOpacity onPress={signUp}>
-            <Text style={styles.forgetPassword}> Sign Up</Text>
+            <Text style={styles.forgetPassword}>{Strings.SignUp}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

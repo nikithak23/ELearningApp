@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import Dropdown from '../components/Dropdown';
 import useOrientation from '../hooks/useOrientation';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 const Subjects = [
   'ALL',
   'PHYSICS',
@@ -79,12 +80,12 @@ export default function ResultsScreen({navigation, route}) {
         </View>
         <View style={styles.bottom}>
           <View>
-            <Text style={styles.textRight}>Right Answers</Text>
+            <Text style={styles.textRight}>{Strings.RightAnswers}</Text>
             <Text style={styles.right}>{item.rightAnswer}</Text>
-            <Text style={styles.textRight}>Questions attempted</Text>
+            <Text style={styles.textRight}>{Strings.QuestionsAttempted}</Text>
             <View style={styles.qa}>
               <Text style={styles.right}>{item.attempted}</Text>
-              <Text style={styles.of50}> of 10</Text>
+              <Text style={styles.of50}> {Strings.of10}</Text>
             </View>
           </View>
           <View style={styles.percentage}>
@@ -121,7 +122,7 @@ export default function ResultsScreen({navigation, route}) {
           style={
             orientation.isPortrait ? styles.TopTextView : styles.TopTextViewls
           }>
-          <Text style={styles.TopText1}>Results</Text>
+          <Text style={styles.TopText1}>{Strings.Results}</Text>
           {/* To render the dropdown component */}
           <Dropdown
             filterSub={filterSub}
@@ -136,9 +137,7 @@ export default function ResultsScreen({navigation, route}) {
         {console.log('res', filterFlatlist)}
         {filterFlatlist.length === 0 ? (
           <View style={styles.noTest}>
-            <Text style={styles.noTestText}>
-              Take up the Test to Display the Results
-            </Text>
+            <Text style={styles.noTestText}>{Strings.ResultCondition}</Text>
           </View>
         ) : (
           <FlatList

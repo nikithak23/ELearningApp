@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
 
@@ -67,15 +68,12 @@ const CourseScreen = ({navigation, route}) => {
             style={styles.testCoverPhoto}
           />
           <View style={styles.listRight}>
-            <Text style={styles.listdifficulty}>BEGINEER</Text>
+            <Text style={styles.listdifficulty}>{Strings.Begineer}</Text>
             <Text style={styles.listname}>{cName}</Text>
           </View>
         </View>
         <View style={styles.testListBottom}>
-          <Text style={styles.testListSummary}>
-            You have 20 minutes to answer all 10 questions. For each right ans 5
-            marks
-          </Text>
+          <Text style={styles.testListSummary}>{Strings.TestTime}</Text>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Tests', {
@@ -88,7 +86,7 @@ const CourseScreen = ({navigation, route}) => {
               })
             }
             style={styles.beginButton}>
-            <Text style={styles.buttonText}>Begin Test</Text>
+            <Text style={styles.buttonText}>{Strings.BeginTest}</Text>
             <Image
               source={require('../Images/Profile/yesArrow.png')}
               style={styles.buttonImg}
@@ -134,7 +132,7 @@ const CourseScreen = ({navigation, route}) => {
             style={
               orientation.isPortrait ? styles.listRight : styles.listRightls
             }>
-            <Text style={styles.listdifficulty}>BEGINEER</Text>
+            <Text style={styles.listdifficulty}>{Strings.Begineer}</Text>
             <Text style={styles.listname}>{item.chapterName}</Text>
             <Text style={styles.listsummary}>{item.summary}</Text>
           </View>
@@ -166,7 +164,9 @@ const CourseScreen = ({navigation, route}) => {
           }>
           {lName}
         </Text>
-        <Text style={styles.LessonTitle2}>Lesson {lessonNumber}</Text>
+        <Text style={styles.LessonTitle2}>
+          {Strings.Lesson} {lessonNumber}
+        </Text>
       </View>
       <View style={styles.tabContainer}>
         <TouchableOpacity
@@ -178,7 +178,7 @@ const CourseScreen = ({navigation, route}) => {
                 ? styles.activeTabTextStyle
                 : styles.inactiveTabTextStyle
             }>
-            CHAPTERS
+            {Strings.Chapters}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -188,7 +188,7 @@ const CourseScreen = ({navigation, route}) => {
             style={
               isTest ? styles.activeTabTextStyle : styles.inactiveTabTextStyle
             }>
-            TESTS
+            {Strings.Tests}
           </Text>
         </TouchableOpacity>
       </View>

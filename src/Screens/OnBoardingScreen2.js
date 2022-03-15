@@ -32,7 +32,7 @@ const OnboardingScreen2 = ({navigation}) => {
           <View style={styles.spaceUp}></View>
           <View>
             <TouchableOpacity onPress={skipToSign}>
-              <Text style={styles.skipText}>Skip</Text>
+              <Text style={styles.skipText}>{Strings.Skip}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -46,11 +46,8 @@ const OnboardingScreen2 = ({navigation}) => {
             : styles.backgroundImagels
         }></ImageBackground>
       <View style={styles.text1view}>
-        <Text style={styles.text1}>User Friendly</Text>
-        <Text style={styles.text2}>
-          Enjoy the captivating process of online education in a place and at a
-          time of your choice. Commfort and convenience
-        </Text>
+        <Text style={styles.text1}>{Strings.OnBo2First}</Text>
+        <Text style={styles.text2}>{Strings.OnBo2Second}</Text>
       </View>
       <View style={styles.bottom}>
         <View style={styles.bottom1}>

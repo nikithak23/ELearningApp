@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Images} from '../assets/Images/index';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -217,9 +218,11 @@ const ChapterScreen = ({navigation, route}) => {
                   }>
                   <View style={styles.ModalTopContainer}>
                     <View style={styles.ModalContainer}></View>
-                    <Text style={styles.ModalgoToPageText}>Go to the page</Text>
+                    <Text style={styles.ModalgoToPageText}>
+                      {Strings.GoToPage}
+                    </Text>
                     <Text style={styles.ModalgoToPageText1}>
-                      Select the page number you want to read
+                      {Strings.SelectPage}
                     </Text>
                   </View>
                   <View style={styles.ModalPageContainer}>
@@ -266,7 +269,7 @@ const ChapterScreen = ({navigation, route}) => {
                         </Text>
                       </TouchableOpacity>
                     </View>
-                    <Text style={styles.ModalPageText}>of 3 pages</Text>
+                    <Text style={styles.ModalPageText}>{Strings.of3Pages}</Text>
                   </View>
 
                   <View style={styles.ModalBottomContainer}>
@@ -277,7 +280,7 @@ const ChapterScreen = ({navigation, route}) => {
                           : styles.ModalNoContainerls
                       }
                       onPress={() => setModalVisible(false)}>
-                      <Text style={styles.ModalNoText}>Cancel</Text>
+                      <Text style={styles.ModalNoText}>{Strings.Cancel}</Text>
                     </TouchableOpacity>
                     {(noSelect1 || noSelect2 || noSelect3) === true ? (
                       <TouchableOpacity
@@ -288,7 +291,7 @@ const ChapterScreen = ({navigation, route}) => {
                         }
                         onPress={submitPage}>
                         <View style={styles.ModalYesView}>
-                          <Text style={styles.ModalYesText}>Ok</Text>
+                          <Text style={styles.ModalYesText}>{Strings.Ok}</Text>
                           <Image
                             source={require('../Images/TestPage/yesArrow.png')}
                             style={styles.ModalYesImg}
@@ -304,7 +307,7 @@ const ChapterScreen = ({navigation, route}) => {
                             : styles.ModalYesContainerls
                         }>
                         <View style={styles.ModalYesView}>
-                          <Text style={styles.ModalYesText}>Ok</Text>
+                          <Text style={styles.ModalYesText}>{Strings.Ok}</Text>
                           <Image
                             source={require('../Images/TestPage/yesArrow.png')}
                             style={styles.ModalYesImg}
@@ -366,7 +369,9 @@ const ChapterScreen = ({navigation, route}) => {
                 C{chapterNumber}:{chapterName}
               </Text>
 
-              <Text style={styles.bottomPage}>{page + 1} of 3 pages</Text>
+              <Text style={styles.bottomPage}>
+                {page + 1} {Strings.of3Pages}
+              </Text>
             </View>
             <View
               style={

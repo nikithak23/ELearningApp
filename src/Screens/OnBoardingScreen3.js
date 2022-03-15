@@ -30,7 +30,7 @@ const OnboardingScreen3 = ({navigation}) => {
           <View style={styles.spaceUp}></View>
           <View>
             <TouchableOpacity onPress={skipToSign}>
-              <Text style={styles.skipText}>Skip</Text>
+              <Text style={styles.skipText}>{Strings.Skip}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -43,11 +43,8 @@ const OnboardingScreen3 = ({navigation}) => {
             : styles.backgroundImagels
         }></ImageBackground>
       <View style={styles.text1view}>
-        <Text style={styles.text1}>Study Overview</Text>
-        <Text style={styles.text2}>
-          Join our app that will help you learn the cutting-edge skills to scale
-          new heights in your creative career
-        </Text>
+        <Text style={styles.text1}>{Strings.OnBo3First}</Text>
+        <Text style={styles.text2}>{Strings.OnBo3Second}</Text>
       </View>
       <View style={styles.bottom}>
         <View style={styles.bottom1}>
@@ -56,7 +53,7 @@ const OnboardingScreen3 = ({navigation}) => {
           <View style={styles.activeBottom}></View>
         </View>
         <View style={styles.spaceDown}>
-          <Text style={styles.gettingStarted}>Get Started</Text>
+          <Text style={styles.gettingStarted}>{Strings.GetStarted}</Text>
         </View>
         <TouchableOpacity onPress={gotoSignIn}>
           <Image

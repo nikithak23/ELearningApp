@@ -32,7 +32,7 @@ export const Strings = {
   Notifications: 'Notifications',
   Skip: 'Skip',
   OnBo1First: 'Learn from anywhere',
-  OnBoSecond:
+  OnBo1Second:
     'This is an online app that allows you to rediscover yourself. Take a course on digital art and become a better artist',
   OnBo2First: 'User Friendly',
   OnBo2Second:
