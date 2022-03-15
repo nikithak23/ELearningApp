@@ -78,15 +78,15 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
   },
   topContainer: {
-    backgroundColor: '#EBEEF4',
+    backgroundColor: Colors.BgOnBoard,
     height: 100,
     width: 400,
   },
   topContainerls: {
-    backgroundColor: '#EBEEF4',
+    backgroundColor: Colors.BgOnBoard,
     height: 100,
     width: 844,
   },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   skipText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
+    color: Colors.Black,
   },
   backgroundImage: {
     width: 390,
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 28,
     fontWeight: '500',
-    color: 'black',
+    color: Colors.Black,
   },
   text2: {
     marginHorizontal: 40,
     textAlign: 'center',
     marginTop: 14,
-    color: '#676666',
+    color: Colors.Description,
     fontWeight: '500',
   },
   bottom: {
@@ -143,18 +143,18 @@ const styles = StyleSheet.create({
     height: 6,
     width: 25,
     borderWidth: 1,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     borderRadius: 12,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
     marginLeft: 10,
   },
   inactiveBottom: {
     height: 6,
     width: 6,
     borderWidth: 1,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     borderRadius: 12,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
     opacity: 0.4,
     marginLeft: 5,
   },

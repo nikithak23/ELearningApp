@@ -60,4 +60,5 @@ export const Colors = {
   Tansparent: 'transparent',
   NoLike: '#adc3d1',
   //SubDetalist
+  TextInputForm: '#eeede7',
 };

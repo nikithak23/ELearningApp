@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Dropdown from '../components/Dropdown';
 import useOrientation from '../hooks/useOrientation';
-
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 const Subjects = [
   'ALL',
   'PHYSICS',
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#F6FAFF',
+    backgroundColor: Colors.BgGrey,
   },
   TopContainer: {
     marginTop: 51,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   TopText1: {
     fontSize: 16,
     fontWeight: '400',
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 34,
     fontWeight: '600',
     letterSpacing: 0,
@@ -201,13 +201,13 @@ const styles = StyleSheet.create({
   TopText2: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#595B60',
+    color: Colors.BottomPage,
   },
   TopAll: {
     width: 69,
     height: 30,
     borderWidth: 2,
-    borderColor: '#4C93FF',
+    borderColor: Colors.BottomPage,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -217,22 +217,22 @@ const styles = StyleSheet.create({
     marginTop: 37,
   },
   Listcomponent: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     marginHorizontal: 30,
     paddingHorizontal: 26,
     marginVertical: 10,
-    borderColor: 'rgba(151,151,151,0.1)',
+    borderColor: Colors.ChapterBorder,
     borderWidth: 1,
     borderRadius: 18,
     height: 245,
     paddingVertical: 24,
   },
   Listcomponentls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     marginHorizontal: 90,
     paddingHorizontal: 26,
     marginVertical: 10,
-    borderColor: 'rgba(151,151,151,0.1)',
+    borderColor: Colors.ChapterBorder,
     borderWidth: 1,
     borderRadius: 18,
     height: 245,
@@ -244,18 +244,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   subject: {
-    color: '#3A7FE7',
+    color: Colors.ActiveTab,
     fontSize: 14,
     fontWeight: '500',
   },
   lesson: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontSize: 14,
     textAlign: 'right',
   },
   name: {
     marginTop: 10,
-    color: '#191B26',
+    color: Colors.ChapNameColor,
     fontSize: 22,
     fontWeight: '500',
   },
@@ -266,19 +266,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textRight: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontSize: 12,
     fontWeight: '300',
   },
   of50: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontSize: 14,
     fontWeight: '300',
     marginBottom: 21,
   },
   right: {
     fontSize: 18,
-    color: '#191B26',
+    color: Colors.ChapNameColor,
     marginTop: 8,
     marginBottom: 20,
   },
@@ -291,12 +291,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   perhigh: {
-    color: '#0BC763',
+    color: Colors.PercentHigh,
     fontSize: 40,
     marginTop: -10,
   },
   perlow: {
-    color: '#F24545',
+    color: Colors.PercentLow,
     fontSize: 40,
     marginTop: -10,
   },
@@ -304,13 +304,13 @@ const styles = StyleSheet.create({
   per1high: {
     fontSize: 20,
     paddingRight: 14,
-    color: '#0BC763',
+    color: Colors.PercentHigh,
     fontWeight: 'bold',
   },
   per1low: {
     fontSize: 20,
     paddingRight: 14,
-    color: '#F24545',
+    color: Colors.PercentLow,
     fontWeight: 'bold',
   },
   modalText: {
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   noTestText: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 25,
     textAlign: 'center',
     fontWeight: '600',

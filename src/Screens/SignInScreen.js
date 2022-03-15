@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
   },
   headerContainer1: {
     backgroundColor: Colors.Rect2,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     marginLeft: -12,
   },
   headerContainer1ls: {
-    backgroundColor: '#3c7ee3',
+    backgroundColor: Colors.Rect2,
     borderRadius: 70,
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 900,
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     marginLeft: -12,
   },
   headerContainer2: {
-    backgroundColor: '#3274d8',
+    backgroundColor: Colors.Rect1,
     borderRadius: 70,
     height: 180,
     width: 340,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     marginTop: -2,
   },
   headerContainer2ls: {
-    backgroundColor: '#3274d8',
+    backgroundColor: Colors.Rect1,
     borderRadius: 70,
     height: 180,
     width: 600,
@@ -230,14 +230,14 @@ const styles = StyleSheet.create({
   header1: {
     fontSize: 40,
     fontWeight: '700',
-    color: 'white',
+    color: Colors.White,
     marginLeft: 50,
     transform: [{rotate: '12deg'}],
   },
   header1ls: {
     fontSize: 40,
     fontWeight: '700',
-    color: 'white',
+    color: Colors.White,
     marginLeft: 50,
     marginTop: -20,
     transform: [{rotate: '8deg'}],
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   header2: {
     fontSize: 40,
     fontWeight: '700',
-    color: 'white',
+    color: Colors.White,
     marginLeft: 40,
     transform: [{rotate: '12deg'}],
   },
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     marginLeft: 120,
   },
   forgetPassword: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 16,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
@@ -311,14 +311,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   DontHaveAccount: {
-    color: '#AFAFAF',
+    color: Colors.Qgrey,
     fontWeight: 'bold',
     fontSize: 16,
   },
   success: {
     marginTop: 0,
     textAlign: 'center',
-    color: 'black',
+    color: Colors.Black,
   },
 });
 export default SignInScreen;

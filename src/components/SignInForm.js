@@ -1,22 +1,8 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TextInput,
-  StyleSheet,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
+import {Colors} from '../assets/Colors/index';
 
-const SignInForm = ({
-  phone,
-  setPhone,
-  // onChangePassword,
-  // onChangePhone,
-
-  password,
-  setPassword,
-}) => {
+const SignInForm = ({phone, setPhone, password, setPassword}) => {
   return (
     <View>
       <View style={styles.container}>
@@ -53,15 +39,12 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginHorizontal: 50,
     marginTop: 20,
-    // marginBottom: -20,
-
-    borderColor: '#EEEDE7',
-
+    borderColor: Colors.TextInputForm,
     borderBottomWidth: 2,
   },
 
   error: {
-    color: 'red',
+    color: Colors.Error,
     fontSize: 13,
     marginHorizontal: 20,
   },

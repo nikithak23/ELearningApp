@@ -551,7 +551,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   ModalMainContainerls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     bottom: Platform.OS == 'ios' ? -35 : -35,
     height: Platform.OS == 'ios' ? '110%' : '120%',

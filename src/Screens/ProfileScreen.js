@@ -16,6 +16,7 @@ import {
 import useOrientation from '../hooks/useOrientation';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
@@ -510,13 +511,13 @@ const ProfileScreen = ({navigation, token}) => {
 
 const styles = StyleSheet.create({
   MainContainer: {
-    backgroundColor: '#F6FAFF',
+    backgroundColor: Colors.BgGrey,
     height: '100%',
     width: '100%',
     marginTop: Platform.OS === 'ios' ? 0 : -30,
   },
   MainContainerls: {
-    backgroundColor: '#F6FAFF',
+    backgroundColor: Colors.BgGrey,
     height: '100%',
     width: '100%',
     marginTop: Platform.OS === 'ios' ? -30 : -60,
@@ -541,7 +542,7 @@ const styles = StyleSheet.create({
 
   // upperModal styles
   InModalMainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     top: 30,
     right: 10,
@@ -554,7 +555,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   InModalMainContainerls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     top: -20,
     right: 20,
@@ -576,7 +577,7 @@ const styles = StyleSheet.create({
   },
   InModalEditText: {
     fontSize: 16,
-    color: '#191B26',
+    color: Colors.ChapNameColor,
     fontWeight: '500',
     letterSpacing: 0,
     lineHeight: 26,
@@ -595,7 +596,7 @@ const styles = StyleSheet.create({
 
   // Lower Modal Styles
   ModalMainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     bottom: -18,
     height: '35%',
@@ -604,7 +605,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   ModalMainContainerls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     bottom: -40,
     height: '80%',
@@ -620,7 +621,7 @@ const styles = StyleSheet.create({
     height: 2,
     borderRadius: 20,
     width: 40.2,
-    backgroundColor: 'rgba(151,151,151,0.49)',
+    backgroundColor: Colors.ModalContainerColor,
     marginTop: 15,
   },
   ModalTopRight: {
@@ -633,10 +634,10 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     letterSpacing: 0,
     fontWeight: '500',
-    color: '#191B26',
+    color: Colors.ChapNameColor,
   },
   ModalLogoutText1: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontWeight: '300',
     letterSpacing: 0,
     lineHeight: 28,
@@ -647,7 +648,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   ModalLogoutText1ls: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontWeight: '300',
     letterSpacing: 0,
     lineHeight: 28,
@@ -667,7 +668,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: 31,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -677,12 +678,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: Platform.OS === 'ios' ? 90 : 80,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     alignItems: 'center',
     justifyContent: 'center',
   },
   ModalNoText: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 20,
   },
   ModalYesContainer: {
@@ -690,18 +691,18 @@ const styles = StyleSheet.create({
     width: 125,
     borderWidth: 2,
     borderRadius: 13,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     marginLeft: 31,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ModalYesContainerls: {
     height: 55,
     width: 250,
     borderWidth: 2,
     borderRadius: 13,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     marginLeft: Platform.OS === 'ios' ? 90 : 60,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ModalYesView: {
     flexDirection: 'row',
@@ -712,7 +713,7 @@ const styles = StyleSheet.create({
   ModalYesText: {
     marginVertical: 14,
     fontSize: 20,
-    color: 'white',
+    color: Colors.White,
   },
   ModalYesImg: {
     width: 24,
@@ -722,7 +723,7 @@ const styles = StyleSheet.create({
   //Profile Container
   ProfilePhotoContainer: {
     borderRadius: 60,
-    borderColor: '#3A7FE7',
+    borderColor: Colors.ActiveTab,
     borderWidth: 2,
     marginTop: 23,
     alignSelf: 'center',
@@ -744,7 +745,7 @@ const styles = StyleSheet.create({
   ProfileMail: {
     marginTop: 5,
     fontSize: 20,
-    color: '#6A7686',
+    color: Colors.ProfileMail,
     fontWeight: '400',
   },
 
@@ -757,9 +758,9 @@ const styles = StyleSheet.create({
     height: 113,
     width: 104.6,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
+    borderColor: Colors.ChapterBorder,
     borderRadius: 18,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.White,
     marginTop: 55,
   },
   MiddleCardls: {
@@ -767,16 +768,16 @@ const styles = StyleSheet.create({
     height: 120,
     width: 150,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
+    borderColor: Colors.ChapterBorder,
     borderRadius: 18,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.White,
     marginTop: 55,
   },
   CardTop: {
     flexDirection: 'row',
   },
   Card1Text: {
-    color: '#DB8E9D',
+    color: Colors.Card1,
     fontSize: 34,
     marginTop: 15,
     marginLeft: 13,
@@ -785,10 +786,10 @@ const styles = StyleSheet.create({
     marginTop: 28,
     fontWeight: '800',
     fontSize: 17,
-    color: '#DB8E9D',
+    color: Colors.Card1,
   },
   Card2Text: {
-    color: '#E0CA62',
+    color: Colors.Card2,
     fontSize: 34,
     marginTop: 15,
     marginLeft: 13,
@@ -797,10 +798,10 @@ const styles = StyleSheet.create({
     marginTop: 28,
     fontWeight: '800',
     fontSize: 17,
-    color: '#E0CA62',
+    color: Colors.Card2,
   },
   Card3Text: {
-    color: '#F3B746',
+    color: Colors.Card3,
     fontSize: 34,
     marginTop: 15,
     marginLeft: 13,
@@ -809,7 +810,7 @@ const styles = StyleSheet.create({
     marginTop: 28,
     fontWeight: '800',
     fontSize: 17,
-    color: '#F3B746',
+    color: Colors.Card3,
   },
   CardBottom: {
     fontSize: 13,
@@ -818,7 +819,7 @@ const styles = StyleSheet.create({
     marginRight: 13,
   },
   CardBottomText: {
-    color: '#5F6067',
+    color: Colors.CardBottom,
     letterSpacing: 0,
     lineHeight: 18,
   },
@@ -831,13 +832,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 33,
     flexDirection: 'row',
     borderBottomWidth: 2,
-    borderColor: '#EDEEF1',
+    borderColor: Colors.ResultProf,
   },
   Resultsls: {
     marginHorizontal: 90,
     flexDirection: 'row',
     borderBottomWidth: 2,
-    borderColor: '#EDEEF1',
+    borderColor: Colors.ResultProf,
   },
   ResultsImage: {
     width: 16,
@@ -858,7 +859,7 @@ const styles = StyleSheet.create({
   ResultsText2: {
     marginTop: 4,
     marginBottom: 24,
-    color: '#858689',
+    color: Colors.ResultText2Prof,
     fontSize: 14,
   },
   ResultsArrowImage: {
@@ -878,14 +879,14 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     borderBottomWidth: 2,
-    borderColor: '#EDEEF1',
+    borderColor: Colors.ResultProf,
   },
   Notificationsls: {
     marginHorizontal: 90,
     marginTop: 30,
     flexDirection: 'row',
     borderBottomWidth: 2,
-    borderColor: '#EDEEF1',
+    borderColor: Colors.ResultProf,
   },
   ActiveNotification1: {
     borderRadius: 20,
@@ -893,7 +894,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 30,
     marginLeft: 30,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ActiveNotification1ls: {
     borderRadius: 20,
@@ -901,7 +902,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 30,
     marginLeft: Platform.OS == 'ios' ? 30 : -30,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ActiveNotification2: {
     alignSelf: 'flex-end',
@@ -910,7 +911,7 @@ const styles = StyleSheet.create({
     height: 28,
     marginTop: 1,
     marginRight: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
   },
   InActiveNotification1: {
     borderRadius: 20,
@@ -918,7 +919,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 30,
     marginLeft: 30,
-    backgroundColor: 'grey',
+    backgroundColor: Colors.Lesson,
   },
   InActiveNotification1ls: {
     borderRadius: 20,
@@ -926,7 +927,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 30,
     marginLeft: Platform.OS == 'ios' ? 30 : -30,
-    backgroundColor: 'grey',
+    backgroundColor: Colors.Lesson,
   },
   InActiveNotification2: {
     borderRadius: 20,
@@ -934,10 +935,10 @@ const styles = StyleSheet.create({
     height: 28,
     marginTop: 1,
     marginLeft: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
   },
   editModalMainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     top: -19,
     left: -19,
@@ -946,7 +947,7 @@ const styles = StyleSheet.create({
   },
 
   editModalMainContainerls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     top: -36,
     left: -19,
@@ -967,7 +968,7 @@ const styles = StyleSheet.create({
   },
   ProfilePhotoContainer1: {
     borderRadius: 60,
-    borderColor: 'rgba(58,127,231,0.3)',
+    borderColor: Colors.ProfilePhotoCon,
     borderWidth: 2,
     alignSelf: 'center',
   },
@@ -993,7 +994,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     width: 290,
-    backgroundColor: '#C1C2C4',
+    backgroundColor: Colors.EditModal,
     marginTop: 15,
     marginBottom: 16,
   },
@@ -1003,7 +1004,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     width: 290,
-    backgroundColor: '#C1C2C4',
+    backgroundColor: Colors.EditModal,
     marginTop: Platform.OS === 'ios' ? 15 : 0,
     marginBottom: 16,
   },
