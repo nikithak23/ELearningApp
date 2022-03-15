@@ -10,6 +10,8 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -399,7 +401,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#F6FAFF',
+    backgroundColor: Colors.BgGrey,
   },
   TopContainer: {
     marginTop: 51,
@@ -421,7 +423,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   name: {
-    color: '#191B26',
+    color: Colors.ChapNameColor,
     fontSize: 28,
     textAlign: 'center',
     fontWeight: '500',
@@ -448,7 +450,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
     marginBottom: 200,
     textAlign: 'justify',
-    color: '#4D5060',
+    color: Colors.ChapContentColor,
     fontSize: 18,
     lineHeight: 26,
     letterSpacing: 0,
@@ -458,7 +460,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 90,
     marginBottom: 200,
     textAlign: 'justify',
-    color: '#4D5060',
+    color: Colors.ChapContentColor,
     fontSize: 18,
     lineHeight: 26,
     letterSpacing: 0,
@@ -483,7 +485,7 @@ const styles = StyleSheet.create({
   },
 
   bottom: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     width: 390,
     height: 90,
     justifyContent: 'space-between',
@@ -492,7 +494,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bottomls: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     width: Platform.OS == 'ios' ? 845 : 780,
     height: 70,
     justifyContent: 'space-between',
@@ -520,7 +522,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomChapter: {
-    color: '#191B20',
+    color: Colors.Black,
     fontSize: 18,
     fontWeight: '500',
     lineHeight: 26,
@@ -532,7 +534,7 @@ const styles = StyleSheet.create({
     marginRight: 38,
   },
   bottomPage: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontWeight: '300',
     fontSize: 16,
     lineHeight: 26,
@@ -540,7 +542,7 @@ const styles = StyleSheet.create({
   },
 
   ModalMainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     position: 'absolute',
     bottom: -18,
     height: Platform.OS == 'ios' ? '45%' : '50%',
@@ -564,7 +566,7 @@ const styles = StyleSheet.create({
     height: 2,
     borderRadius: 20,
     width: 40.2,
-    backgroundColor: 'rgba(151,151,151,0.49)',
+    backgroundColor: Colors.ModalContainerColor,
     marginTop: 15,
   },
   ModalgoToPageText: {
@@ -574,10 +576,10 @@ const styles = StyleSheet.create({
     lineHeight: 27,
     letterSpacing: 0,
     fontWeight: '500',
-    color: '#191B26',
+    color: Colors.ChapNameColor,
   },
   ModalgoToPageText1: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontWeight: '300',
     letterSpacing: 0,
     lineHeight: 28,
@@ -593,20 +595,20 @@ const styles = StyleSheet.create({
 
   inactiveModalPageNo: {
     fontSize: 26,
-    color: '#BEBEBE',
+    color: Colors.ModalInactivePageNo,
     textAlign: 'center',
     marginHorizontal: 30,
     fontWeight: '500',
   },
   activeModalPageNo: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 45,
     textAlign: 'center',
     fontWeight: '600',
     marginHorizontal: 30,
   },
   ModalPageText: {
-    color: '#595B60',
+    color: Colors.BottomPage,
     fontSize: 14,
     fontWeight: '300',
     textAlign: 'center',
@@ -622,7 +624,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: 31,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -633,12 +635,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 13,
     marginLeft: Platform.OS == 'ios' ? 90 : 70,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     alignItems: 'center',
     justifyContent: 'center',
   },
   ModalNoText: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 20,
   },
   ModalYesContainer: {
@@ -646,9 +648,9 @@ const styles = StyleSheet.create({
     width: 125,
     borderWidth: 2,
     borderRadius: 13,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     marginLeft: 31,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ModalYesContainerls: {
     height: 55,
@@ -656,9 +658,9 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? -10 : -25,
     borderWidth: 2,
     borderRadius: 13,
-    borderColor: '#4C93FF',
+    borderColor: Colors.ReSend,
     marginLeft: Platform.OS == 'ios' ? 90 : 60,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
   ModalYesView: {
     flexDirection: 'row',
@@ -669,14 +671,14 @@ const styles = StyleSheet.create({
   ModalYesText: {
     marginVertical: 14,
     fontSize: 20,
-    color: 'white',
+    color: Colors.White,
   },
   ModalYesImg: {
     width: 24,
     height: 24,
   },
   liked: {
-    color: '#1b7ced',
+    color: Colors.Liked,
     height: 25,
     width: 26,
     marginRight: 40,

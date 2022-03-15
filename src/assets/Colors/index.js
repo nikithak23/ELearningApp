@@ -10,14 +10,14 @@ export const Colors = {
   //auth
   ChapNameColor: '#191b26',
   ChapContentColor: '#4d5060',
-  BottonPage: '#595b60',
+  BottomPage: '#595b60',
   ModalContainerColor: 'rgba(151,151,151,0.49)',
   ModalInactivePageNo: '#bebebe',
   Liked: '#1b7ced',
   //chapters
   Lesson: 'grey',
   ChapterBorder: 'rgba(151,151,151,0.1)',
-  ActiveTab: '#3a7fec',
+  ActiveTab: '#3a7fe7',
   BeginButtonBg: 'rgba(58, 127, 231,0.9)',
   BeginButtonBo: 'rgba(58, 127, 231,0.1)',
   //course

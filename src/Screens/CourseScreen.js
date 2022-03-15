@@ -9,6 +9,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
+import {Colors} from '../assets/Colors/index';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
 
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#F6FAFF',
+    backgroundColor: Colors.BgGrey,
   },
 
   TopContainer: {
@@ -268,8 +269,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     width: 165,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -280,8 +281,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -292,8 +293,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     width: 165,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -304,8 +305,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     width: Platform.OS === 'ios' ? 330 : 300,
     borderWidth: 1,
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -331,8 +332,8 @@ const styles = StyleSheet.create({
   },
   listComponent: {
     flexDirection: 'row',
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     borderWidth: 1,
     marginVertical: 10,
     marginHorizontal: 30,
@@ -341,8 +342,8 @@ const styles = StyleSheet.create({
   },
   listComponentls: {
     flexDirection: 'row',
-    borderColor: 'rgba(151,151,151,0.1)',
-    backgroundColor: 'white',
+    borderColor: Colors.ChapterBorder,
+    backgroundColor: Colors.White,
     borderWidth: 1,
     marginVertical: 10,
     marginHorizontal: 90,
