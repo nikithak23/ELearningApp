@@ -1,0 +1,16 @@
+export const Images = {
+  Art: require('./art.png'),
+  Bio: require('./bio.png'),
+  Book: require('./book.jpeg'),
+  Chem: require('./chem.png'),
+  Geography: require('./geography.png'),
+  Math: require('./math.png'),
+  NotFound: require('./notFound.png'),
+  OnScreen1: require('./onscreen1.png'),
+  OnScreen2: require('./onscreen2.png'),
+  OnScreen3: require('./onscreen3.png'),
+  Physics: require('./physics.png'),
+  Sub1: require('./sub1.png'),
+  Sub2: require('./sub2.png'),
+  TestCoverPhoto: require('./testcoverphoto.jpeg'),
+};

@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
+
 import axios from 'axios';
 import {
   Text,
@@ -18,7 +19,7 @@ const btnAble = require('../Images/SignUp/btn_able.png');
 const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
 
-const AuthenticationScreen = ({navigation,route}) => {
+const AuthenticationScreen = ({navigation, route}) => {
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   let textInput = useRef(null);
@@ -28,10 +29,10 @@ const AuthenticationScreen = ({navigation,route}) => {
   const forgotPass = route?.params?.forgotPassword
     ? route?.params?.forgotPassword
     : false;
-  const [otp, setOtp] = useState(otpCode)
+  const [otp, setOtp] = useState(otpCode);
   const [internalVal, setInternalVal] = useState('');
   const [wrongOtp, setWrongOtp] = useState(false);
-  
+
   const onChangeText = val => {
     setInternalVal(val);
     setWrongOtp(false);
@@ -39,15 +40,18 @@ const AuthenticationScreen = ({navigation,route}) => {
 
   useEffect(() => {
     textInput.focus();
-    console.warn('OTP: ', otp)
+    console.warn('OTP: ', otp);
   }, [otp]);
 
-  const goSignin = async() => {
+  const goSignin = async () => {
     if (internalVal === JSON.stringify(otp)) {
-      if(forgotPass){
-            return navigation.replace('ResetPassword',{username: username, otp: otp});
-          }
-      try{
+      if (forgotPass) {
+        return navigation.replace('ResetPassword', {
+          username: username,
+          otp: otp,
+        });
+      }
+      try {
         const response = await axios.post(
           `${baseUrl}/learn/verify/${username}`,
           {
@@ -60,14 +64,13 @@ const AuthenticationScreen = ({navigation,route}) => {
           // if(forgotPass){
           //   return navigation.replace('ResetPassword',{username: username, otp: otp});
           // }
-          
-            return navigation.replace('SignIn');
-          
-        }else{
-          console.warn(response.status)
+
+          return navigation.replace('SignIn');
+        } else {
+          console.warn(response.status);
         }
-      }catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     } else {
       setInternalVal('');
@@ -75,19 +78,16 @@ const AuthenticationScreen = ({navigation,route}) => {
     }
   };
 
-  const resend = async() => {
-    try{
-      const response = await axios.get(
-        `${baseUrl}/learn/resend/${username}`
-      );
-      setOtp(response.data.data)
+  const resend = async () => {
+    try {
+      const response = await axios.get(`${baseUrl}/learn/resend/${username}`);
+      setOtp(response.data.data);
       console.log(response.status);
       console.log(response.data);
-      
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>

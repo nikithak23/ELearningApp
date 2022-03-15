@@ -9,6 +9,8 @@ import {
   ScrollView,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 
 const OnboardingScreen2 = ({navigation}) => {
   const orientation = useOrientation();

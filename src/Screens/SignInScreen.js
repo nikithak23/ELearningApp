@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -118,14 +120,14 @@ const SignInScreen = ({navigation}) => {
                 ? styles.headerContainer2
                 : styles.headerContainer2ls
             }></View>
-          <Image
+          {/* <Image
             source={require('../Images/SignUp/yellowLogo.png')}
             style={orientation.isPortrait ? styles.image : styles.imagels}
-          />
+          /> */}
           {orientation.isPortrait ? (
             <View>
-              <Text style={styles.header1}>Welcome</Text>
-              <Text style={styles.header2}>Back</Text>
+              <Text style={styles.header1}>{Strings.Welcome}</Text>
+              <Text style={styles.header2}>{Strings.Back}</Text>
             </View>
           ) : (
             <Text style={styles.header1ls}> Welcome Back</Text>
@@ -143,7 +145,7 @@ const SignInScreen = ({navigation}) => {
         <View style={orientation.isPortrait ? styles.sign : styles.signls}>
           <Text style={styles.signText}>Sign in</Text>
 
-          <TouchableOpacity onPress={validation}>
+          {/* <TouchableOpacity onPress={validation}>
             {username && password ? (
               <Image
                 source={require('../Images/SignUp/btn_able.png')}
@@ -155,7 +157,7 @@ const SignInScreen = ({navigation}) => {
                 style={styles.imagesignin}
               />
             )}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={orientation.isPortrait ? styles.forget : styles.forgetls}>
           {/* style={styles.forget}> */}
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerContainer1: {
-    backgroundColor: '#3c7ee3',
+    backgroundColor: Colors.Rect2,
     borderRadius: 70,
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 452,

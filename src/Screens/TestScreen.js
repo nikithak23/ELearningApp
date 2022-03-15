@@ -653,8 +653,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#4C93FF',
   },
 });
-
-/*
-//Clock icon
-<Image source={require('../Images/TestPage/icnTimer.png')} style={styles.timer0} />
-*/

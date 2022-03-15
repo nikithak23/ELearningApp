@@ -74,8 +74,8 @@ const CourseScreen = ({navigation, route}) => {
         </View>
         <View style={styles.testListBottom}>
           <Text style={styles.testListSummary}>
-            You have 20 minutes to ansawer all 10 questions. For each right ans
-            5 marks
+            You have 20 minutes to answer all 10 questions. For each right ans 5
+            marks
           </Text>
           <TouchableOpacity
             onPress={() =>

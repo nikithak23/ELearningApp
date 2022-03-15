@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
 import useOrientation from '../hooks/useOrientation';
 
 const OnboardingScreen1 = ({navigation}) => {
