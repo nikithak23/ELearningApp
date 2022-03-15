@@ -46,7 +46,6 @@ const TestScreen = ({navigation, route}) => {
           },
         },
       );
-      console.log('Get questions Api', response.status);
       setQuestions(response.data.data);
     } catch (err) {
       console.log(err);
@@ -77,16 +76,12 @@ const TestScreen = ({navigation, route}) => {
           },
         },
       );
-      console.log('Send answers Api', response.status);
       setAnswered([...answered, n + 1]);
-      console.log('Sent');
       console.log(response.data.data);
     } catch (err) {
-      console.log('Not Sent');
       console.log(err);
     }
   };
-  console.log('answereedddd', answered);
 
   const submitTest = async () => {
     //Submit test api
@@ -99,12 +94,10 @@ const TestScreen = ({navigation, route}) => {
           },
         },
       );
-      console.log('Submit Test Api', response.status);
       submitData = response.data.data;
       setModalVisible(false);
       setN(0);
       setOption('');
-      console.log('SUBMITTEST', timeup);
 
       await navigation.navigate('TestResult', {
         percent: submitData[0].percentScore,
@@ -225,7 +218,6 @@ const TestScreen = ({navigation, route}) => {
           }>
           Time remaining
         </Text>
-
         <TouchableOpacity
           onPress={() => {
             setOption('');
@@ -430,12 +422,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginHorizontal: 90,
   },
-  //timer0:{
-  //  marginTop:Platform.OS === 'ios' ? 50 : 20,
-  //  marginBottom:15,
-  //  marginHorizontal:-17,
-  //  alignSelf:'center'
-  //},
   timerText: {
     marginTop: Platform.OS === 'ios' ? 50 : 20,
     marginBottom: 15,

@@ -5,15 +5,12 @@ import {
   View,
   StyleSheet,
   Image,
-  ScrollView,
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Button,
 } from 'react-native';
 
 const btnAble = require('../Images/SignUp/btn_able.png');
-const btnDisable = require('../Images/SignUp/btn_disable.png');
 const btnCancel = require('../Images/Auth/btn_cancel.png');
 
 const ResetPassScreen = ({navigation, route}) => {
@@ -27,7 +24,6 @@ const ResetPassScreen = ({navigation, route}) => {
 
   const reset = async () => {
       try {
-        console.log(username, otp, password);
         const response = await axios.post(
           `${baseUrl}/learn/reset`,
           {
@@ -36,8 +32,6 @@ const ResetPassScreen = ({navigation, route}) => {
             otp,
           }
         );
-        console.log(response.status);
-        console.log(response.data);
         if (response.status === 200) {
           return navigation.replace('SignIn');
         } else {

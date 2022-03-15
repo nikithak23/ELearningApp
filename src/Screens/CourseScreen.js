@@ -22,7 +22,6 @@ const CourseScreen = ({navigation, route}) => {
   const lName = route?.params.lName;
   const cid = route?.params.cId;
   const cName = route?.params.cName;
-
   const [isChapter, setIsChapter] = useState(true);
   const [isTest, setIsTest] = useState(false);
   const [chapters, setChapters] = useState([]);
@@ -39,7 +38,6 @@ const CourseScreen = ({navigation, route}) => {
         },
       );
       setChapters(response.data.data);
-      console.log('hiii', response.data.data);
     } catch (err) {
       console.log(err);
     }

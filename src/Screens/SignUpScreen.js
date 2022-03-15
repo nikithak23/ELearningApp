@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   Text,
   View,
-  Button,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -18,7 +17,6 @@ const SignUpScreen = ({navigation}) => {
   const orientation = useOrientation();
   const [name, setName] = useState('');
   const [username, setPhone] = useState(null);
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -40,23 +38,15 @@ const SignUpScreen = ({navigation}) => {
       setIsValid(true);
       setIsLoading(true);
       await AsyncStorage.clear();
-
       try {
-        const response = await axios.post(
-          `https://elearningapp-api.herokuapp.com/learn/create`,
-          {
-            name,
-            username,
-            password,
-          },
-        );
+        const response = await axios.post(`${baseURL}`, {
+          name,
+          username,
+          password,
+        });
 
-        console.log(response.status);
         if (response.status === 200) {
           let otp = response.data.data;
-          console.log(response.data);
-          console.log(response.data.resultInfo.message);
-          console.log(otp);
           setIsLoading(false);
           await navigation.dispatch(
             StackActions.push('Authentication', {
@@ -67,7 +57,6 @@ const SignUpScreen = ({navigation}) => {
             }),
           );
         } else {
-          console.log(response.status);
           throw new Error('An error has occurred');
         }
       } catch (error) {

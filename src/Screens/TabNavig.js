@@ -1,7 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
-import {NavigationContainer} from '@react-navigation/native';
 import SubjectScreen from './SubjectScreen';
 import ProfileScreen from './ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,9 +9,6 @@ const Tab = createBottomTabNavigator();
 
 const TabNavig = ({route, navigation}) => {
   const token = route.params.token;
-  const name = route.params.name;
-  const data = route.params.data;
-  //console.log(data);
   return (
     <Tab.Navigator
       initialRouteName="Home"

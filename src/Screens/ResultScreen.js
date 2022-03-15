@@ -1,54 +1,14 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
   FlatList,
-  Modal,
-  ScrollView,
 } from 'react-native';
-import axios from 'axios';
 import Dropdown from '../components/Dropdown';
-import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
-
-// const Results = [
-//   {
-//     title: 'PHYSICS',
-//     Lesson: 'Lesson 1',
-//     Name: 'Animal Nutrition:Food Chain',
-//     right: '35',
-//     qa: '35',
-//     per: '75',
-//   },
-//   {
-//     title: 'BIOLOGY',
-//     Lesson: 'Lesson 2',
-//     Name: 'Photosynthesis',
-//     right: '40',
-//     qa: '46',
-//     per: '90',
-//   },
-//   {
-//     title: 'CHEMISTRY',
-//     Lesson: 'Lesson 1',
-//     Name: 'Introduction to Chemistry',
-//     right: '18',
-//     qa: '18',
-//     per: '20',
-//   },
-//   {
-//     title: 'PHYSICS',
-//     Lesson: 'Lesson 2',
-//     Name: 'Animal Nutrition',
-//     right: '35',
-//     qa: '35',
-//     per: '75',
-//   },
-// ];
 
 const Subjects = [
   'ALL',

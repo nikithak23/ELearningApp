@@ -10,7 +10,6 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
-  Button,
   Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
@@ -61,10 +60,6 @@ const AuthenticationScreen = ({navigation, route}) => {
         console.log(response.status);
         console.log(response.data);
         if (response.status === 200) {
-          // if(forgotPass){
-          //   return navigation.replace('ResetPassword',{username: username, otp: otp});
-          // }
-
           return navigation.replace('SignIn');
         } else {
           console.warn(response.status);

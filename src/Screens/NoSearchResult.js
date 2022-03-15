@@ -3,10 +3,7 @@ import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 
-
-
 const NoSearchResult=({navigation,route})=> {
-
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token=route.params.token;
@@ -14,10 +11,8 @@ const NoSearchResult=({navigation,route})=> {
   const [searchedItems, setSearchedItems] = useState([]);
   let [Sub, setSub] = useState([]);
 
-
-
-
-  const getSub = async () => {//Get subjects api
+  const getSub = async () => {
+    //Get subjects api
     try {
       const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
         headers: {
@@ -33,9 +28,6 @@ const NoSearchResult=({navigation,route})=> {
     getSub();
   },[])
 
-
-
-
   useEffect (() => {
     setSearchedItems(Sub.filter(item=>
         {return item.subjectName.toLowerCase().includes(enteredText.toLowerCase());
@@ -43,23 +35,17 @@ const NoSearchResult=({navigation,route})=> {
         );
     },[enteredText,Sub]);
 
-
-
-
   const goSearch = async() => {
     if(enteredText){
-      console.log(enteredText);
       try {
         const response = await axios.get(`${baseUrl}/subject/search/${enteredText}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        //console.log(response.status);
         let subjectData=response.data.data;
         let subName=subjectData[0].subjectName;
         let subId=subjectData[0].subjectId;
-        console.log(subName);
         if(response.status===200){
           setEnteredText('');
           navigation.navigate('SubjectDetails', {
@@ -80,8 +66,6 @@ const NoSearchResult=({navigation,route})=> {
         alert('Enter a Search Item');
       }
   }
-
-
 
   const renderSearchList=({item})=>{
     return (
@@ -111,8 +95,6 @@ const NoSearchResult=({navigation,route})=> {
     </View>
   );
 }
-
-
 
 return(
   <View style={styles.container}>

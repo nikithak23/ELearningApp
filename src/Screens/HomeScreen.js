@@ -94,8 +94,8 @@ const HomeScreen = ({navigation, route, token}) => {
   };
 
   const goSearch = async () => {
+    //search api
     if (enteredText) {
-      console.log(enteredText);
       try {
         const response = await axios.get(
           `${baseUrl}/subject/search/${enteredText}`,
@@ -105,13 +105,11 @@ const HomeScreen = ({navigation, route, token}) => {
             },
           },
         );
-        console.log(response.status);
         let subjectData = response.data.data;
         let subName = subjectData[0].subjectName;
         let subId = subjectData[0].subjectId;
         if (response.status === 200) {
           setEnteredText('');
-
           navigation.navigate('SubjectDetails', {
             subject: subName,
             token: token,
@@ -220,7 +218,6 @@ const HomeScreen = ({navigation, route, token}) => {
         <Text style={styles.greet}>Hi, {userName}</Text>
         <Text style={styles.desc}>What would you like to study today?</Text>
         <Text style={styles.desc}>you can search below.</Text>
-
         <View
           style={
             orientation.isPortrait
@@ -242,7 +239,6 @@ const HomeScreen = ({navigation, route, token}) => {
         <View style={{alignItems: 'flex-start'}}>
           {enteredText !== '' ? searchSuggestions() : null}
         </View>
-
         {len !== 0 ? (
           <View>
             <Text

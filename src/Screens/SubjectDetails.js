@@ -8,23 +8,21 @@ import {
   Image,
   FlatList,
   ScrollView,
-  ActivityIndicator,
-  Platform
+  Platform,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/core';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import useOrientation from '../hooks/useOrientation';
 
-const sub1 = require('../Images/Subject/sub1.png')
-const sub2 = require('../Images/Subject/sub2.png')
+const sub1 = require('../Images/Subject/sub1.png');
+const sub2 = require('../Images/Subject/sub2.png');
 const subImg = [sub1, sub2];
-const bgImg = ['#d5f1e5', '#ffebb5']
+const bgImg = ['#d5f1e5', '#ffebb5'];
 const Options = ['ALL', 'STUDYING', 'LIKED'];
-const book = require('../Images/Subject/book.jpeg')
-
+const book = require('../Images/Subject/book.jpeg');
 
 const SubjectDetails = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -32,7 +30,7 @@ const SubjectDetails = ({navigation, route}) => {
   const subject = route?.params.subject;
   const token = route?.params.token;
   const subId = route?.params.id;
-  const cId = route?.params.courseId? route?.params.courseId : '0'
+  const cId = route?.params.courseId ? route?.params.courseId : '0';
   const btnBack = require('../Images/Notification/btnback.png');
   const [selected, setSelected] = useState('ALL');
   const [courseTitle, setCourseTitle] = useState([]);
@@ -43,10 +41,12 @@ const SubjectDetails = ({navigation, route}) => {
   const [lessonStdyng, setLessonStdyng] = useState([]);
   const [empty, setEmpty] = useState(false);
   const [likedList, setLikedList] = useState(null);
+  const filterStudyng = lessonStdyng.filter(ele => ele.subject === subject);
+  const onlyStudyng = filterStudyng.filter(ele => ele.percent > 0);
+  const filterLiked = likedList?.filter(ele => ele[3] === subject);
   const dispatch = useDispatch();
-  console.log('hommmmeeee', subject, subId);
 
-
+  //api to get courses
   const getCourses = async () => {
     try {
       const response = await axios.get(
@@ -63,6 +63,7 @@ const SubjectDetails = ({navigation, route}) => {
     }
   };
 
+  //api to get lessons
   const getLessons = async () => {
     try {
       const response = await axios.get(
@@ -74,13 +75,13 @@ const SubjectDetails = ({navigation, route}) => {
         },
       );
       setLessonTitle(response.data.data);
-      console.log('lesson', LessonTitle);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getStudyng = async() => {
+  //api to currently studying lessons
+  const getStudyng = async () => {
     try {
       const response = await axios.get(
         `${baseUrl}/subject/get/lesson/studying`,
@@ -91,30 +92,10 @@ const SubjectDetails = ({navigation, route}) => {
         },
       );
       setLessonStdyng(response.data.data);
-
     } catch (err) {
       console.log(err);
     }
-  }
-
-  // const getChaps = async (id) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${baseUrl}/subject/get/chapters/${id}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-  //     setChapters(response.data.data);
-  //     console.log(chapters[0].lessonId)
-  //     console.log('ccc',chapters)
-  //     setLoading(false)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  };
 
   useEffect(() => {
     getCourses();
@@ -125,24 +106,17 @@ const SubjectDetails = ({navigation, route}) => {
     }, [courseId]),
   );
   useFocusEffect(
-    React.useCallback(()=>{
+    React.useCallback(() => {
       getStudyng();
-    },[lessonStdyng])
-  )
-  // useEffect(() => {
-  //   getLessons();
-  // }, [courseId]);
-  // useFocusEffect(
-  //   React.useCallback(()=>{
-  //     getChaps(lId)
-  //   },[lId])
-  // )
+    }, [lessonStdyng]),
+  );
 
   const OnPressCourse = item => {
     setCourseId(item.courseId);
     setCourseName(item.courseName);
-    return setSelectedCourse(item.courseId);
+    setSelectedCourse(item.courseId);
   };
+
   const renderCourse = ({item, index}) => {
     return (
       <>
@@ -167,7 +141,9 @@ const SubjectDetails = ({navigation, route}) => {
   };
 
   const renderLesson = ({item, index}) => {
-    let ifStudyng = lessonStdyng.find(element => element.lessonId === item.lessonId);
+    let ifStudyng = lessonStdyng.find(
+      element => element.lessonId === item.lessonId,
+    );
     return (
       <TouchableOpacity
         activeOpacity={0.7}
@@ -312,118 +288,106 @@ const SubjectDetails = ({navigation, route}) => {
       </TouchableOpacity>
     );
   };
-  const filterStudyng = lessonStdyng.filter(ele => ele.subject === subject)
-  const onlyStudyng = filterStudyng.filter(ele => ele.percent > 0)
-  const filterLiked = likedList?.filter(ele => ele[3] === subject)
 
-   const renderStud = ({item}) => {
-     return (
-       <TouchableOpacity
-         style={orientation.isPortrait ? styles.studyn : styles.studynls}
-         onPress={() => {
-           navigation.navigate('CourseScreen', {
-             lId: item.lessonId,
-             lName: item.lessonName,
-             token: token,
-             cId: item.courseId,
-             cName: item.courseName,
-             lessonNumber: item.lessonNumber,
-             subject: subject,
-           });
-         }}>
-         <View style={styles.row}>
-           <View style={styles.progress}>
-             <CircularProgress
-               value={item.percent}
-               radius={17}
-               duration={1000}
-               textColor={'transparent'}
-               maxValue={100}
-               activeStrokeWidth={1.5}
-               inActiveStrokeWidth={2.5}
-               inActiveStrokeColor={'#999'}
-               inActiveStrokeOpacity={0.35}
-               clockwise={false}
-             />
-           </View>
-           <View style={styles.row}>
-             <Text
-               style={
-                 orientation.isPortrait
-                   ? styles.lessonName
-                   : styles.lessonNamels
-               }>
-               {item.lessonName.toUpperCase()}
-             </Text>
-           </View>
-         </View>
-         <View style={styles.row}>
-           <View style={styles.column}>
-             {item.completed1 === true ? (
-               <Icon name="checkmark-sharp" size={20} style={styles.tick} />
-             ) : (
-               <Icon name="ellipse" size={12} style={styles.dot} />
-             )}
-           </View>
+  const renderStud = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={orientation.isPortrait ? styles.studyn : styles.studynls}
+        onPress={() => {
+          navigation.navigate('CourseScreen', {
+            lId: item.lessonId,
+            lName: item.lessonName,
+            token: token,
+            cId: item.courseId,
+            cName: item.courseName,
+            lessonNumber: item.lessonNumber,
+            subject: subject,
+          });
+        }}>
+        <View style={styles.row}>
+          <View style={styles.progress}>
+            <CircularProgress
+              value={item.percent}
+              radius={17}
+              duration={1000}
+              textColor={'transparent'}
+              maxValue={100}
+              activeStrokeWidth={1.5}
+              inActiveStrokeWidth={2.5}
+              inActiveStrokeColor={'#999'}
+              inActiveStrokeOpacity={0.35}
+              clockwise={false}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text
+              style={
+                orientation.isPortrait ? styles.lessonName : styles.lessonNamels
+              }>
+              {item.lessonName.toUpperCase()}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.column}>
+            {item.completed1 === true ? (
+              <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+            ) : (
+              <Icon name="ellipse" size={12} style={styles.dot} />
+            )}
+          </View>
+          <Text
+            style={
+              orientation.isPortrait ? styles.chapstudyn : styles.chapstudynls
+            }>
+            {item.chapterName1}
+          </Text>
+        </View>
+        {item.chapterName2 ? (
+          <View style={styles.row}>
+            <View style={styles.column}>
+              {item.completed2 === true ? (
+                <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+              ) : (
+                <Icon name="ellipse" size={12} style={styles.dot} />
+              )}
+            </View>
+            <Text
+              style={
+                orientation.isPortrait ? styles.chapstudyn : styles.chapstudynls
+              }>
+              {item.chapterName2}
+            </Text>
+          </View>
+        ) : null}
+        {item.chapterName3 ? (
+          <View style={styles.row}>
+            <View style={styles.column}>
+              {item.completed3 === true ? (
+                <Icon name="checkmark-sharp" size={20} style={styles.tick} />
+              ) : (
+                <Icon name="ellipse" size={12} style={styles.dot} />
+              )}
+            </View>
 
-           <Text
-             style={
-               orientation.isPortrait ? styles.chapstudyn : styles.chapstudynls
-             }>
-             {item.chapterName1}
-           </Text>
-         </View>
-         {item.chapterName2 ? (
-           <View style={styles.row}>
-             <View style={styles.column}>
-               {item.completed2 === true ? (
-                 <Icon name="checkmark-sharp" size={20} style={styles.tick} />
-               ) : (
-                 <Icon name="ellipse" size={12} style={styles.dot} />
-               )}
-             </View>
+            <Text
+              style={
+                orientation.isPortrait ? styles.chapstudyn : styles.chapstudynls
+              }>
+              {item.chapterName3}
+            </Text>
+          </View>
+        ) : null}
+      </TouchableOpacity>
+    );
+  };
 
-             <Text
-               style={
-                 orientation.isPortrait
-                   ? styles.chapstudyn
-                   : styles.chapstudynls
-               }>
-               {item.chapterName2}
-             </Text>
-           </View>
-         ) : null}
-         {item.chapterName3 ? (
-           <View style={styles.row}>
-             <View style={styles.column}>
-               {item.completed3 === true ? (
-                 <Icon name="checkmark-sharp" size={20} style={styles.tick} />
-               ) : (
-                 <Icon name="ellipse" size={12} style={styles.dot} />
-               )}
-             </View>
+  ///////get liked list///////
 
-             <Text
-               style={
-                 orientation.isPortrait
-                   ? styles.chapstudyn
-                   : styles.chapstudynls
-               }>
-               {item.chapterName3}
-             </Text>
-           </View>
-         ) : null}
-       </TouchableOpacity>
-     );
-   }
-
-  //////////////////////////get liked list///////////////////////////
-  
   useFocusEffect(
     React.useCallback(() => {
       try {
         initialiseLikedList();
-        
       } catch (err) {
         console.log(err);
       }
@@ -437,7 +401,6 @@ const SubjectDetails = ({navigation, route}) => {
     } else {
       setEmpty(false);
       setLikedList(JSON.parse(currentItems));
-      console.log('likeddd', likedList)
       filterLiked?.length === 0 ? setEmpty(true) : null;
     }
     dispatch({
@@ -449,7 +412,7 @@ const SubjectDetails = ({navigation, route}) => {
   const removeLiked = async () => {
     try {
       await AsyncStorage.removeItem('liked');
-      setLikedList([])
+      setLikedList([]);
       setEmpty(true);
     } catch (err) {
       console.log(err);
@@ -459,13 +422,9 @@ const SubjectDetails = ({navigation, route}) => {
   const removeItem = async item => {
     try {
       const deleteLikedListItem = likedList.filter(function (el) {
-        
         return el[0] !== item[0];
       });
-      await AsyncStorage.setItem(
-        'liked',
-        JSON.stringify(deleteLikedListItem),
-      );
+      await AsyncStorage.setItem('liked', JSON.stringify(deleteLikedListItem));
       if (deleteLikedListItem.length === 0) {
         setEmpty(true);
       }
@@ -489,6 +448,69 @@ const SubjectDetails = ({navigation, route}) => {
         <Text style={styles.likedchap}>{item[1]}</Text>
       </View>
     );
+  };
+
+  const renderStudying = () => {
+    if (onlyStudyng.length > 0) {
+      return (
+        <View style={styles.bottom}>
+          <FlatList
+            data={onlyStudyng}
+            renderItem={renderStud}
+            keyExtractor={item => item.lessonId}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <>
+          <Image
+            source={book}
+            style={orientation.isPortrait ? styles.book : styles.bookls}
+          />
+          <Text style={styles.emptyStud}>Start a lesson to find it here!</Text>
+        </>
+      );
+    }
+  };
+
+  const renderLiked = () => {
+    console.log('this is liked list ===> ', likedList);
+    if (empty) {
+      return (
+        <>
+          <Icon
+            name="heart-dislike"
+            size={80}
+            style={orientation.isPortrait ? styles.noLike : styles.noLikels}
+          />
+          <Text
+            style={
+              orientation.isPortrait ? styles.emptyStud : styles.emptyStudls
+            }>
+            Like a Chapter to find it here!
+          </Text>
+        </>
+      );
+    } else {
+      return (
+        <View>
+          <TouchableOpacity onPress={() => removeLiked()}>
+            <Text
+              style={orientation.isPortrait ? styles.clear : styles.clearls}>
+              Clear All
+            </Text>
+          </TouchableOpacity>
+          <FlatList
+            data={filterLiked}
+            renderItem={renderLikedList}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      );
+    }
   };
 
   const renderAll = () => {
@@ -539,12 +561,6 @@ const SubjectDetails = ({navigation, route}) => {
               keyExtractor={item => item.lessonId}
               showsVerticalScrollIndicator={false}
             />
-            {/* <FlatList
-                data={lessonStdyng}
-                renderItem={renderLesson}
-                keyExtractor={item => item.lessonId}
-                showsVerticalScrollIndicator={false}
-              /> */}
           </View>
         ) : selected === Options[1] ? (
           renderStudying()
@@ -553,73 +569,9 @@ const SubjectDetails = ({navigation, route}) => {
         )}
       </ScrollView>
     );
-  }
-  const renderStudying=() => {
-    if(onlyStudyng.length>0){
-      return (
-        <View style={styles.bottom}>
-          <FlatList
-            data={onlyStudyng}
-            renderItem={renderStud}
-            keyExtractor={item => item.lessonId}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
-      );
-    }else{
-      return (
-        <>
-          <Image
-            source={book}
-            style={orientation.isPortrait ? styles.book : styles.bookls}
-          />
-          <Text style={styles.emptyStud}>Start a lesson to find it here!</Text>
-        </>
-      );
-    }
-  } 
+  };
 
-  const renderLiked = () => {
-    console.log('this is liked list ===> ',likedList)
-    if(empty){
-      return (
-        <>
-          <Icon
-            name="heart-dislike"
-            size={80}
-            style={
-              orientation.isPortrait ? styles.noLike : styles.noLikels
-            }
-          />
-          <Text
-            style={
-              orientation.isPortrait ? styles.emptyStud : styles.emptyStudls
-            }>
-            Like a Chapter to find it here!
-          </Text>
-        </>
-      );
-    }else{
-      return (
-        <View>
-          <TouchableOpacity onPress={() => removeLiked()}>
-            <Text style={orientation.isPortrait ? styles.clear : styles.clearls}>
-              Clear All
-            </Text>
-          </TouchableOpacity>
-          <FlatList
-            data={filterLiked}
-            renderItem={renderLikedList}
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
-      );
-    }
-  }; 
-  return(
-    renderAll()
-  )
+  return renderAll();
 };
 
 const styles = StyleSheet.create({
@@ -701,7 +653,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: -8,
     marginLeft: 75,
-    //marginHorizontal: 70,
     backgroundColor: '#fff',
     borderColor: '#fff',
     borderColor: 1,
@@ -713,8 +664,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: -8,
     marginLeft: 73,
-
-    //marginHorizontal: 10,
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#000',
@@ -734,18 +683,15 @@ const styles = StyleSheet.create({
   coursesls: {
     flexDirection: 'column',
     marginLeft: 92,
-    // marginRight: -40,
     marginTop: 25,
     borderWidth: 0.1,
     borderColor: 15,
     borderRadius: 15,
     width: 162,
-    //height: 192,
     height: 210,
     justifyContent: 'center',
   },
   courseImg: {
-    //backgroundColor: '#ffa4a4',
     padding: 32,
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,

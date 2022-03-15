@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
-  Alert,
-  TouchableOpacity,
   Modal,
   StyleSheet,
   Text,
@@ -10,52 +8,16 @@ import {
   ScrollView,
   Image
 } from 'react-native';
-import useOrientation from '../hooks/useOrientation';
 
 const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
   const downarrow = require('../Images/Profile/Results/allDown.png');
-  // const Subjects = [
-  //       'ALL',
-  //     'PHYSICS',
-  //     'BIOLOGY',
-  //     'CHEMISTRY',
-  //     'MATHEMATICS',
-  //     'GEOGRAPHY',
-  //     'ART AND CULTURE',
-  // ];
-  // const [filterSub, setFilterSub] = useState('All')
-  // const onPressSub = (item) => {
-  //   return (
-  //     setFilterSub(item),
-  //     setModalVisible(!modalVisible)
-  //     );
-  // }
-  // const subs = Subjects.map((item,index)=>{
-  //   return (
-  //     <TouchableOpacity key={index}>
-  //       <Text
-  //         style={styles.modalText}
-  //         onPress={() => onPressSub(item)}>
-  //         {item}
-  //       </Text>
-  //     </TouchableOpacity>
-  //   );
-  // })
-  //const [modalVisible, setModalVisible] = useState(false);
-  
-
-  const renderDropdown = () => {
-    const orientation = useOrientation();
+  const renderDropdown = () =>{
     return (
       <View style={styles.centeredView}>
         <Modal
           animationType="fade"
           transparent={true}
           visible={modalVisible}
-          // onRequestClose={() => {
-          //   Alert.alert('Modal has been closed.');
-          //   setModalVisible(!modalVisible);
-          // }}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -115,10 +77,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginLeft:6
   },
-  // modalText: {
-  //   marginBottom: 15,
-  //   textAlign: 'center',
-  // },
   arrow:{
     marginLeft:15,
     marginTop:5,

@@ -31,7 +31,6 @@ const ChapterScreen = ({navigation, route}) => {
   const lessonNumber = route?.params.lessonNumber;
   const lessonName = route?.params.lessonName;
   const lessonId = route?.params.lessonId;
-
   const [likedItems, setLikedItems] = useState([]);
   const lessonChap = [chapterId, chapterName, lessonName, subject];
   const [modalVisible, setModalVisible] = useState(false);

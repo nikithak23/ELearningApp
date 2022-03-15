@@ -5,10 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = ({navigation, route}) => {
   const [splashScreen, setSplashScreen] = useState(true);
-
-  // const hideSplashScreen = () => {
-  //   setSplashScreen(false);
-  // };
   
   const retrieveData = async() => {
     const value = await AsyncStorage.getItem('loggedIn');
