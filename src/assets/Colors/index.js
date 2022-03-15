@@ -24,7 +24,7 @@ export const Colors = {
   SearchBorder: 'rgba(41,94,255,0.05)',
   ImgBg: '#ffa4a4',
   ImgBg1: '#a4c5ff',
-  SubName: '#3a7fe7',
+  // SubName: '#3a7fe7',
   ProgessBg: '#8e8f93',
   //home
   Title: '#292929',
