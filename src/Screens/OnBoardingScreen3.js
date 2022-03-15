@@ -36,7 +36,7 @@ const OnboardingScreen3 = ({navigation}) => {
         </View>
       </View>
       <ImageBackground
-        source={require('../Images/OnBoarding/onscreen3.png')}
+        source={Images.OnScreen3}
         style={
           orientation.isPortrait
             ? styles.backgroundImage
@@ -56,10 +56,7 @@ const OnboardingScreen3 = ({navigation}) => {
           <Text style={styles.gettingStarted}>{Strings.GetStarted}</Text>
         </View>
         <TouchableOpacity onPress={gotoSignIn}>
-          <Image
-            source={require('../Images/SignUp/btn_able.png')}
-            style={styles.imagesignin}
-          />
+          <Image source={Icons.ButtonAble} style={styles.imagesignin} />
         </TouchableOpacity>
       </View>
     </ScrollView>

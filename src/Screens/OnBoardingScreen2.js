@@ -11,6 +11,8 @@ import {
 import useOrientation from '../hooks/useOrientation';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Images} from '../assets/Images/index';
+import {Icons} from '../assets/Icons/index';
 
 const OnboardingScreen2 = ({navigation}) => {
   const orientation = useOrientation();
@@ -39,7 +41,7 @@ const OnboardingScreen2 = ({navigation}) => {
       </View>
 
       <ImageBackground
-        source={require('../Images/OnBoarding/onscreen2.png')}
+        source={Images.OnScreen2}
         style={
           orientation.isPortrait
             ? styles.backgroundImage
@@ -57,10 +59,7 @@ const OnboardingScreen2 = ({navigation}) => {
         </View>
         <View style={styles.spaceDown}></View>
         <TouchableOpacity onPress={onBoardTo3}>
-          <Image
-            source={require('../Images/SignUp/btn_able.png')}
-            style={styles.imagesignin}
-          />
+          <Image source={Icons.ButtonAble} style={styles.imagesignin} />
         </TouchableOpacity>
       </View>
     </ScrollView>

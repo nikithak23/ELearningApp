@@ -11,6 +11,8 @@ import Dropdown from '../components/Dropdown';
 import useOrientation from '../hooks/useOrientation';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons';
 const Subjects = [
   'ALL',
   'PHYSICS',
@@ -116,7 +118,7 @@ export default function ResultsScreen({navigation, route}) {
           style={
             orientation.isPortrait ? styles.touchable : styles.touchablels
           }>
-          <Image source={require('../Images/Profile/Results/back.png')} />
+          <Image source={Icons.ButtonBack} />
         </TouchableOpacity>
         <View
           style={

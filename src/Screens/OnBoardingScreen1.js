@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Images} from '../assets/Images/index';
+import {Icons} from '../assets/Icons/index';
 import useOrientation from '../hooks/useOrientation';
 
 const OnboardingScreen1 = ({navigation}) => {
@@ -40,7 +42,7 @@ const OnboardingScreen1 = ({navigation}) => {
       </View>
 
       <ImageBackground
-        source={require('../Images/OnBoarding/onscreen1.png')}
+        source={Images.OnScreen1}
         style={
           orientation.isPortrait
             ? styles.backgroundImage
@@ -61,10 +63,7 @@ const OnboardingScreen1 = ({navigation}) => {
         <View style={styles.spaceDown}></View>
 
         <TouchableOpacity onPress={onBoardTo2}>
-          <Image
-            source={require('../Images/SignUp/btn_able.png')}
-            style={styles.imagesignin}
-          />
+          <Image source={Icons.ButtonAble} style={styles.imagesignin} />
         </TouchableOpacity>
       </View>
     </ScrollView>

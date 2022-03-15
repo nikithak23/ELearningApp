@@ -18,6 +18,7 @@ import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
 
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
@@ -214,10 +215,7 @@ const ProfileScreen = ({navigation, token}) => {
         style={orientation.isPortrait ? styles.TopDots : styles.TopDotsls}
         onPress={innerhandleModal}>
         <View>
-          <Image
-            source={require('../Images/Profile/3dots.png')}
-            style={styles.TopDotsImage}
-          />
+          <Image source={Icons.Dots} style={styles.TopDotsImage} />
         </View>
       </TouchableOpacity>
 
@@ -234,10 +232,7 @@ const ProfileScreen = ({navigation, token}) => {
           }>
           <TouchableOpacity onPress={editHandleModalTrue}>
             <View style={styles.InModalEditContainer}>
-              <Image
-                source={require('../Images/Profile/edit.png')}
-                style={styles.InModalEditImg}
-              />
+              <Image source={Icons.Edit} style={styles.InModalEditImg} />
               <Text style={styles.InModalEditText}>{Strings.Edit}</Text>
             </View>
           </TouchableOpacity>
@@ -253,16 +248,10 @@ const ProfileScreen = ({navigation, token}) => {
               <View>
                 <View style={styles.ModalEditTopContainer}>
                   <TouchableOpacity onPress={editHandleModalF}>
-                    <Image
-                      source={require('../Images/Profile/wrong.png')}
-                      style={styles.ModalTopRight}
-                    />
+                    <Image source={Icons.Wrong} style={styles.ModalTopRight} />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={editHandleModalT}>
-                    <Image
-                      source={require('../Images/Profile/right.png')}
-                      style={styles.ModalTopRight}
-                    />
+                    <Image source={Icons.Right} style={styles.ModalTopRight} />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.ProfilePhotoContainer1}>
@@ -274,10 +263,7 @@ const ProfileScreen = ({navigation, token}) => {
                         borderRadius: 60,
                         opacity: 0.2,
                       }}>
-                      <Image
-                        source={require('../Images/Profile/camera.png')}
-                        style={styles.cameraImg}
-                      />
+                      <Image source={Icons.Camera} style={styles.cameraImg} />
                     </ImageBackground>
                   </TouchableOpacity>
                 </View>
@@ -304,10 +290,7 @@ const ProfileScreen = ({navigation, token}) => {
 
           <TouchableOpacity onPress={innerhandleModal1}>
             <View style={styles.InModalLogoutContainer}>
-              <Image
-                source={require('../Images/Profile/logout.png')}
-                style={styles.InModalLogoutImg}
-              />
+              <Image source={Icons.Logout} style={styles.InModalLogoutImg} />
               <Text style={styles.InModalEditText}>{Strings.LogOut}</Text>
             </View>
           </TouchableOpacity>
@@ -352,10 +335,7 @@ const ProfileScreen = ({navigation, token}) => {
                   onPress={gotoSign}>
                   <View style={styles.ModalYesView}>
                     <Text style={styles.ModalYesText}>{Strings.Yes}</Text>
-                    <Image
-                      source={require('../Images/Profile/yesArrow.png')}
-                      style={styles.ModalYesImg}
-                    />
+                    <Image source={Icons.YesArrow} style={styles.ModalYesImg} />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -433,10 +413,7 @@ const ProfileScreen = ({navigation, token}) => {
       <View style={styles.BottomContainer}>
         <View
           style={orientation.isPortrait ? styles.Results : styles.Resultsls}>
-          <Image
-            source={require('../Images/Profile/resultImage.png')}
-            style={styles.ResultsImage}
-          />
+          <Image source={Icons.ResultImage} style={styles.ResultsImage} />
           <View
             style={
               orientation.isPortrait
@@ -449,7 +426,7 @@ const ProfileScreen = ({navigation, token}) => {
 
           <TouchableOpacity onPress={gotoResult}>
             <Image
-              source={require('../Images/Profile/arrow.png')}
+              source={Icons.Arrow}
               style={
                 orientation.isPortrait
                   ? styles.ResultsArrowImage
@@ -464,10 +441,7 @@ const ProfileScreen = ({navigation, token}) => {
               ? styles.Notifications
               : styles.Notificationsls
           }>
-          <Image
-            source={require('../Images/Profile/bell.png')}
-            style={styles.ResultsImage}
-          />
+          <Image source={Icons.Bell} style={styles.ResultsImage} />
           <View
             style={
               orientation.isPortrait

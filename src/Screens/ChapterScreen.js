@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
-import {Images} from '../assets/Images/index';
+import {Icons} from '../assets/Icons/index';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -183,10 +183,7 @@ const ChapterScreen = ({navigation, route}) => {
                     cName: cName,
                   })
                 }>
-                <Image
-                  source={require('../Images/Profile/Results/back.png')}
-                  style={styles.touchableback}
-                />
+                <Image source={Icons.ButtonBack} style={styles.touchableback} />
               </TouchableOpacity>
             </View>
             <View style={styles.topLeft}>
@@ -194,18 +191,12 @@ const ChapterScreen = ({navigation, route}) => {
                 <Icon name="heart" size={28} style={styles.liked} />
               ) : (
                 <TouchableOpacity onPress={() => addToLikedList(lessonChap)}>
-                  <Image
-                    source={require('../Images/Subject/heart.png')}
-                    style={styles.touchableheart}
-                  />
+                  <Image source={Icons.Heart} style={styles.touchableheart} />
                 </TouchableOpacity>
               )}
 
               <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Image
-                  source={require('../Images/Subject/pages.png')}
-                  style={styles.touchablepages}
-                />
+                <Image source={Icons.Pages} style={styles.touchablepages} />
               </TouchableOpacity>
 
               {/* pages modal */}
@@ -293,7 +284,7 @@ const ChapterScreen = ({navigation, route}) => {
                         <View style={styles.ModalYesView}>
                           <Text style={styles.ModalYesText}>{Strings.Ok}</Text>
                           <Image
-                            source={require('../Images/TestPage/yesArrow.png')}
+                            source={Icons.YesArrow}
                             style={styles.ModalYesImg}
                           />
                         </View>
@@ -309,7 +300,7 @@ const ChapterScreen = ({navigation, route}) => {
                         <View style={styles.ModalYesView}>
                           <Text style={styles.ModalYesText}>{Strings.Ok}</Text>
                           <Image
-                            source={require('../Images/TestPage/yesArrow.png')}
+                            source={Icons.YesArrow}
                             style={styles.ModalYesImg}
                           />
                         </View>
@@ -381,7 +372,7 @@ const ChapterScreen = ({navigation, route}) => {
               }>
               <TouchableOpacity onPress={() => decPage(page)}>
                 <Image
-                  source={require('../Images/TestPage/btnPrevQtn.png')}
+                  source={Icons.ButtonBack}
                   style={
                     page == 0 ? [styles.prevQn, {opacity: 0.2}] : styles.prevQn
                   }
@@ -389,7 +380,7 @@ const ChapterScreen = ({navigation, route}) => {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => incPage(page)}>
                 <Image
-                  source={require('../Images/TestPage/btnNxtQtn.png')}
+                  source={Icons.ButtonNextQtn}
                   style={page == 2 ? {opacity: 0.2} : {opactiy: 1}}
                 />
               </TouchableOpacity>

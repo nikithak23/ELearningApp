@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons';
 import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -109,7 +110,7 @@ const SignInScreen = ({navigation}) => {
                 : styles.headerContainer2ls
             }></View>
           <Image
-            source={require('../Images/SignUp/yellowLogo.png')}
+            source={Icons.YellowLogo}
             style={orientation.isPortrait ? styles.image : styles.imagels}
           />
           {orientation.isPortrait ? (
@@ -137,15 +138,9 @@ const SignInScreen = ({navigation}) => {
 
           <TouchableOpacity onPress={validation}>
             {username && password ? (
-              <Image
-                source={require('../Images/SignUp/btn_able.png')}
-                style={styles.imagesignin}
-              />
+              <Image source={Icons.ButtonAble} style={styles.imagesignin} />
             ) : (
-              <Image
-                source={require('../Images/SignUp/btn_disable.png')}
-                style={styles.imagesignin}
-              />
+              <Image source={Icons.ButtonDisable} style={styles.imagesignin} />
             )}
           </TouchableOpacity>
         </View>

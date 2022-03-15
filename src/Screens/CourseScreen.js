@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
+import {Images} from '../assets/Images/index';
+import {Icons} from '../assets/Icons/index';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
 
@@ -63,10 +65,7 @@ const CourseScreen = ({navigation, route}) => {
       <View
         style={orientation.isPortrait ? styles.testList : styles.testListls}>
         <View style={styles.testListTop}>
-          <Image
-            source={require('../Images/Subject/testcoverphoto.jpeg')}
-            style={styles.testCoverPhoto}
-          />
+          <Image source={Images.TestCoverPhoto} style={styles.testCoverPhoto} />
           <View style={styles.listRight}>
             <Text style={styles.listdifficulty}>{Strings.Begineer}</Text>
             <Text style={styles.listname}>{cName}</Text>
@@ -87,10 +86,7 @@ const CourseScreen = ({navigation, route}) => {
             }
             style={styles.beginButton}>
             <Text style={styles.buttonText}>{Strings.BeginTest}</Text>
-            <Image
-              source={require('../Images/Profile/yesArrow.png')}
-              style={styles.buttonImg}
-            />
+            <Image source={Icons.YesArrow} style={styles.buttonImg} />
           </TouchableOpacity>
         </View>
       </View>
@@ -150,7 +146,7 @@ const CourseScreen = ({navigation, route}) => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.touchable}>
-          <Image source={require('../Images/Profile/Results/back.png')} />
+          <Image source={Icons.ButtonBack} />
         </TouchableOpacity>
         <Text
           style={orientation.isPortrait ? styles.topText : styles.topTextls}>
