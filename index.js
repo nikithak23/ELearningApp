@@ -7,10 +7,10 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
-// import App from './App';
+import App from './App';
 // import MainNavig from './src/mainNavig';
 //import ProfileScreen from './src/Screens/ProfileScreen';
-import ResultsScreen from './src/Screens/SignInScreen';
+//import ResultsScreen from './src/Screens/SignInScreen';
 // import Dropdown from './src/components/Dropdown';
 // import CourseScreen from './src/Screens/CourseScreen';
 // import ChapterScreen from './src/Screens/ChapterScreen';
@@ -19,4 +19,4 @@ import ResultsScreen from './src/Screens/SignInScreen';
 // import HomeScreen from './src/Screens/HomeScreen';
 // import AuthenticationScreen from './src/Screens/SignInScreen';
 
-AppRegistry.registerComponent(appName, () => ResultsScreen);
+AppRegistry.registerComponent(appName, () => App);

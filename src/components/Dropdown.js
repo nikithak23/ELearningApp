@@ -8,9 +8,12 @@ import {
   ScrollView,
   Image
 } from 'react-native';
+import {Icons} from '../assets/Icons';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
 
 const Dropdown = ({filterSub, subs, modalVisible ,setModalVisible}) => {
-  const downarrow = require('../Images/Profile/Results/allDown.png');
+  const downarrow = Icons.AllDown;
   const renderDropdown = () =>{
     return (
       <View style={styles.centeredView}>
@@ -46,8 +49,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 32,
-    marginTop:130,
-    backgroundColor: 'white',
+    marginTop: 130,
+    backgroundColor: Colors.White,
     borderRadius: 20,
     padding: 22,
     alignItems: 'center',
@@ -62,26 +65,26 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#fff',
-    borderWidth:1.5,
-    borderColor: '#4c93ff',
+    backgroundColor: Colors.White,
+    borderWidth: 1.5,
+    borderColor: Colors.ReSend,
     marginRight: 25,
     flexDirection: 'row',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: Colors.Dropdown,
   },
   textStyle: {
-    color: '#292929',
+    color: Colors.Title,
     fontWeight: '500',
     textAlign: 'center',
-    marginLeft:6
+    marginLeft: 6,
   },
-  arrow:{
-    marginLeft:15,
-    marginTop:5,
-    marginRight:3
-  }
+  arrow: {
+    marginLeft: 15,
+    marginTop: 5,
+    marginRight: 3,
+  },
 });
 
 export default Dropdown;

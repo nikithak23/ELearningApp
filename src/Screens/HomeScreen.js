@@ -20,6 +20,7 @@ import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
 import {Images} from '../assets/Images/index';
+import {getHomeName} from '../Service/Service'
 Icon.loadFont().then();
 
 
@@ -37,11 +38,13 @@ const HomeScreen = ({navigation, route, token}) => {
   const getName = async () => {
     //Name Api
     try {
-      const resp = await axios.get(`${baseUrl}/subject/get/name`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const resp = await axios.get(`${baseUrl}/subject/get/name`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const resp = await getHomeName(token);
+      console.log('homeee', resp)
       setUserName(resp.data.data.toUpperCase());
     } catch (err) {
       console.log(err);

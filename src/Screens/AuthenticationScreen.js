@@ -15,6 +15,7 @@ import useOrientation from '../hooks/useOrientation';
 import { Icons } from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
+import { getVerified } from '../Service/Service';
 
 const btnAble = Icons.ButtonAble;
 const btnDisable = Icons.ButtonDisable;

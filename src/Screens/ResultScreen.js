@@ -11,7 +11,6 @@ import Dropdown from '../components/Dropdown';
 import useOrientation from '../hooks/useOrientation';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
-import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons';
 const Subjects = [
   'ALL',

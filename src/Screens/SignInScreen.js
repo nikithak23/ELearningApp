@@ -16,7 +16,7 @@ import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useOrientation from '../hooks/useOrientation';
-
+import { getSignInData } from '../Service/Service';
 const SignInScreen = ({navigation}) => {
   const orientation = useOrientation();
   const [username, setPhone] = useState(null);
@@ -27,13 +27,14 @@ const SignInScreen = ({navigation}) => {
   const validation = async () => {
     setIsValid(true);
     try {
-      const response = await axios.post(
-        `https://elearningapp-api.herokuapp.com/learn/authenticate`,
-        {
-          username,
-          password,
-        },
-      );
+      // const response = await axios.post(
+      //   `https://elearningapp-api.herokuapp.com/learn/authenticate`,
+      //   {
+      //     username,
+      //     password,
+      //   },
+      // );
+      const response = await getSignInData(username,password)
       const token = response.data.data;
       try {
         await AsyncStorage.setItem('loggedIn', '1');

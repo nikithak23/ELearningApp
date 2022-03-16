@@ -63,4 +63,5 @@ export const Colors = {
   bgImg2: '#ffebb5',
   //SubDetalist
   TextInputForm: '#eeede7',
+  Dropdown: '#2196F3',
 };
