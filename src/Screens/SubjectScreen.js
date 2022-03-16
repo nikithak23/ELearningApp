@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
 import useOrientation from '../hooks/useOrientation';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
 
 const SubjectScreen = ({token,navigation}) => {
   const orientation = useOrientation();
@@ -49,7 +51,7 @@ const SubjectScreen = ({token,navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={orientation.isPortrait ? styles.title : styles.titlels}>
-        Subjects
+        {Strings.Subjects}
       </Text>
       <FlatList
         data={SubjectsData}
@@ -63,7 +65,7 @@ const SubjectScreen = ({token,navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
   },
   title: {
     fontSize: 34,
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 85,
     marginLeft: 32,
     marginBottom: 12,
-    color: '#292929',
+    color: Colors.Title,
   },
   titlels: {
     fontSize: 34,
@@ -79,31 +81,31 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginLeft: 32,
     marginBottom: 12,
-    color: '#292929',
+    color: Colors.Title,
   },
   component: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     padding: 24,
     marginVertical: 9,
     marginHorizontal: 32,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderRadius: 15,
     borderColor: 10,
   },
   componentls: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     padding: 24,
     marginVertical: 9,
     marginHorizontal: 90,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderRadius: 15,
     borderColor: 10,
   },
   subject: {
     fontSize: 21,
-    color: '#191b26',
+    color: Colors.ChapNameColor,
     fontWeight: '700',
     marginLeft: 22,
   },

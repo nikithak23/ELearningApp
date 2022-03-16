@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-
 import axios from 'axios';
 import {
   Text,
@@ -13,10 +12,13 @@ import {
   Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
+import { Icons } from '../assets/Icons';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
 
-const btnAble = require('../Images/SignUp/btn_able.png');
-const btnDisable = require('../Images/SignUp/btn_disable.png');
-const btnCancel = require('../Images/Auth/btn_cancel.png');
+const btnAble = Icons.ButtonAble;
+const btnDisable = Icons.ButtonDisable;
+const btnCancel = Icons.ButtonCancel;
 
 const AuthenticationScreen = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -106,16 +108,16 @@ const AuthenticationScreen = ({navigation, route}) => {
           {forgotPass ? (
             <Text
               style={orientation.isPortrait ? styles.title : styles.titlels}>
-              Reset Password
+              {Strings.ResetPassword}
             </Text>
           ) : (
             <Text
               style={orientation.isPortrait ? styles.title : styles.titlels}>
-              Verify Account
+              {Strings.VerifyAccount}
             </Text>
           )}
           <Text style={orientation.isPortrait ? styles.text : styles.textls}>
-            Enter verification code that we have sent to your phone.
+            {Strings.EnterVCode}
           </Text>
         </View>
       </View>
@@ -163,21 +165,21 @@ const AuthenticationScreen = ({navigation, route}) => {
               <View style={styles.rsymbol}>
                 <Text style={styles.exclamatory}>!</Text>
               </View>
-              <Text style={styles.rtext}>Invalid verification code</Text>
+              <Text style={styles.rtext}>{Strings.InvalidVCode}</Text>
             </View>
           ) : null}
         </View>
         <View style={styles.row}>
-          <Text style={styles.qText}>Didn't receive a code? </Text>
+          <Text style={styles.qText}>{Strings.NoCode} </Text>
           <TouchableOpacity onPress={() => resend()}>
-            <Text style={styles.resend}> Resend</Text>
+            <Text style={styles.resend}>{Strings.Resend}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           {forgotPass ? (
-            <Text style={styles.verifyText}>Next</Text>
+            <Text style={styles.verifyText}>{Strings.Next}</Text>
           ) : (
-            <Text style={styles.verifyText}>Verify</Text>
+            <Text style={styles.verifyText}>{Strings.Verify}</Text>
           )}
           {internalVal.length < 4 ? (
             <Image source={btnDisable} style={styles.btn} />
@@ -193,7 +195,7 @@ const AuthenticationScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
   },
   containerAvoidingView: {
     flex: 1,
@@ -214,13 +216,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 2,
     borderRadius: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.White,
     zIndex: 100,
   },
   title: {
     fontSize: 40,
     transform: [{rotate: '12deg'}],
-    color: '#ffffff',
+    color: Colors.White,
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
   titlels: {
     fontSize: 40,
     transform: [{rotate: '8deg'}],
-    color: '#ffffff',
+    color: Colors.White,
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
@@ -241,9 +243,9 @@ const styles = StyleSheet.create({
     width: 290,
     marginTop: 5,
     marginLeft: 40,
-    color: 'black',
+    color: Colors.Black,
     transform: [{rotate: '12deg'}],
-    color: '#ffffff',
+    color: Colors.White,
   },
   textls: {
     fontSize: 16,
@@ -251,9 +253,9 @@ const styles = StyleSheet.create({
     width: 290,
     marginTop: -25,
     marginLeft: 40,
-    color: 'black',
+    color: Colors.Black,
     transform: [{rotate: '8deg'}],
-    color: '#ffffff',
+    color: Colors.White,
   },
   cellText: {
     textAlign: 'center',
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   rectangle1: {
-    backgroundColor: '#3274d8',
+    backgroundColor: Colors.Rect1,
     borderRadius: 70,
     height: 180,
     width: 340,
@@ -272,7 +274,7 @@ const styles = StyleSheet.create({
     marginTop: -5,
   },
   rectangle1ls: {
-    backgroundColor: '#3274d8',
+    backgroundColor: Colors.Rect1,
     borderRadius: 70,
     height: 180,
     width: 600,
@@ -282,7 +284,7 @@ const styles = StyleSheet.create({
     marginTop: 62,
   },
   rectangle2: {
-    backgroundColor: '#3c7ee3',
+    backgroundColor: Colors.Rect2,
     borderRadius: 70,
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 452,
@@ -291,7 +293,7 @@ const styles = StyleSheet.create({
     marginLeft: -12,
   },
   rectangle2ls: {
-    backgroundColor: '#3c7ee3',
+    backgroundColor: Colors.Rect2,
     borderRadius: 70,
     height: Platform.OS === 'ios' ? 310 : 300,
     width: 900,
@@ -303,35 +305,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   qText: {
-    color: '#afafaf',
+    color: Colors.Qgrey,
     fontWeight: '700',
     fontSize: 15,
     marginTop: 20,
     marginLeft: -70,
   },
   exclamatory: {
-    color: '#fff',
+    color: Colors.White,
     fontSize: 12,
     fontWeight: 'bold',
   },
   rsymbol: {
     marginLeft: 4,
     paddingLeft: 4.5,
-    backgroundColor: '#e04747',
+    backgroundColor: Colors.RSymbol,
     width: 17,
     height: 17,
     borderWidth: 2,
     borderRadius: 11,
-    borderColor: '#e04747',
+    borderColor: Colors.RSymbol,
   },
   rtext: {
     fontSize: 15,
-    color: '#e04747',
+    color: Colors.RSymbol,
     marginLeft: 7,
     fontWeight: '500',
   },
   resend: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontWeight: '700',
     fontSize: 15,
     textDecorationLine: 'underline',
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? -110 : -150,
   },
   verifyText: {
-    color: '#000',
+    color: Colors.Black,
     fontWeight: '700',
     fontSize: 25,
     marginTop: 70,

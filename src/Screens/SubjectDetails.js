@@ -16,22 +16,26 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import useOrientation from '../hooks/useOrientation';
+import {Icons} from '../assets/Icons';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
+import {Images} from '../assets/Images';
 
-const sub1 = require('../Images/Subject/sub1.png');
-const sub2 = require('../Images/Subject/sub2.png');
-const subImg = [sub1, sub2];
-const bgImg = ['#d5f1e5', '#ffebb5'];
-const Options = ['ALL', 'STUDYING', 'LIKED'];
-const book = require('../Images/Subject/book.jpeg');
 
 const SubjectDetails = ({navigation, route}) => {
+  const sub1 = Images.Sub1;
+  const sub2 = Images.Sub2;
+  const subImg = [sub1, sub2];
+   const btnBack = Icons.ButtonBack;
+  const bgImg = [Colors.bgImg1, Colors.bgImg2];
+  const Options = ['ALL', 'STUDYING', 'LIKED'];
+  const book = Images.Book;
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const subject = route?.params.subject;
   const token = route?.params.token;
   const subId = route?.params.id;
   const cId = route?.params.courseId ? route?.params.courseId : '0';
-  const btnBack = require('../Images/Notification/btnback.png');
   const [selected, setSelected] = useState('ALL');
   const [courseTitle, setCourseTitle] = useState([]);
   const [courseId, setCourseId] = useState(cId);
@@ -187,7 +191,7 @@ const SubjectDetails = ({navigation, route}) => {
               style={
                 orientation.isPortrait ? styles.lessonNum : styles.lessonNumls
               }>
-              Lesson {item.lessonNumber}
+              {Strings.Lesson} {item.lessonNumber}
             </Text>
           </View>
         </View>
@@ -232,7 +236,7 @@ const SubjectDetails = ({navigation, route}) => {
                 style={
                   ifStudyng?.lessonId === item.lessonId
                     ? ifStudyng.completed2 === true
-                      ? [styles.progressLine, {borderColor: '#03c04a'}]
+                      ? [styles.progressLine, {borderColor: Colors.Tick}]
                       : styles.progressLine
                     : styles.progressLine
                 }></View>
@@ -262,7 +266,7 @@ const SubjectDetails = ({navigation, route}) => {
                 style={
                   ifStudyng?.lessonId === item.lessonId
                     ? ifStudyng.completed3 === true
-                      ? [styles.progressLine, {borderColor: '#03c04a'}]
+                      ? [styles.progressLine, {borderColor: Colors.Tick}]
                       : styles.progressLine
                     : styles.progressLine
                 }></View>
@@ -310,11 +314,11 @@ const SubjectDetails = ({navigation, route}) => {
               value={item.percent}
               radius={17}
               duration={1000}
-              textColor={'transparent'}
+              textColor={Colors.Tansparent}
               maxValue={100}
               activeStrokeWidth={1.5}
               inActiveStrokeWidth={2.5}
-              inActiveStrokeColor={'#999'}
+              inActiveStrokeColor={Colors.Summary}
               inActiveStrokeOpacity={0.35}
               clockwise={false}
             />
@@ -469,7 +473,7 @@ const SubjectDetails = ({navigation, route}) => {
             source={book}
             style={orientation.isPortrait ? styles.book : styles.bookls}
           />
-          <Text style={styles.emptyStud}>Start a lesson to find it here!</Text>
+          <Text style={styles.emptyStud}>{Strings.StartLesson}</Text>
         </>
       );
     }
@@ -489,7 +493,7 @@ const SubjectDetails = ({navigation, route}) => {
             style={
               orientation.isPortrait ? styles.emptyStud : styles.emptyStudls
             }>
-            Like a Chapter to find it here!
+            {Strings.LikeChapter}
           </Text>
         </>
       );
@@ -499,7 +503,7 @@ const SubjectDetails = ({navigation, route}) => {
           <TouchableOpacity onPress={() => removeLiked()}>
             <Text
               style={orientation.isPortrait ? styles.clear : styles.clearls}>
-              Clear All
+              {Strings.ClearAll}
             </Text>
           </TouchableOpacity>
           <FlatList
@@ -577,7 +581,7 @@ const SubjectDetails = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
   },
   btnBack: {
     height: 25,
@@ -597,7 +601,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
     marginLeft: 32,
     marginBottom: 12,
-    color: '#292929',
+    color: Colors.Title,
   },
   titlels: {
     fontSize: 34,
@@ -605,34 +609,34 @@ const styles = StyleSheet.create({
     marginTop: 22,
     marginLeft: 90,
     marginBottom: 12,
-    color: '#292929',
+    color: Colors.Title,
   },
   rowOpts: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     justifyContent: 'space-around',
     padding: 15,
     marginHorizontal: 30,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 20,
     marginTop: 15,
   },
   rowOptsls: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     justifyContent: 'space-around',
     padding: 15,
     marginHorizontal: 90,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 20,
     marginTop: 15,
   },
   optText: {
-    color: '#aaa',
+    color: Colors.OptionText,
     fontWeight: '500',
     fontSize: 15,
     justifyContent: 'center',
@@ -640,7 +644,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   active: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontWeight: '500',
     fontSize: 15,
     justifyContent: 'center',
@@ -653,8 +657,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: -8,
     marginLeft: 75,
-    backgroundColor: '#fff',
-    borderColor: '#fff',
+    backgroundColor: Colors.White,
+    borderColor: Colors.White,
     borderColor: 1,
     transform: [{rotate: '45deg'}],
   },
@@ -664,9 +668,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: -8,
     marginLeft: 73,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: Colors.Black,
     borderColor: 1,
     transform: [{rotate: '45deg'}],
   },
@@ -704,9 +708,9 @@ const styles = StyleSheet.create({
     marginLeft: 22,
   },
   courseTitle: {
-    color: '#292929',
+    color: Colors.Title,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
   },
@@ -714,7 +718,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     justifyContent: 'center',
     alignSelf: 'center',
-    color: '#292929',
+    color: Colors.Title,
     fontWeight: '500',
     letterSpacing: 0.25,
   },
@@ -725,47 +729,47 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   lessons: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     marginHorizontal: 30,
     marginVertical: 3,
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 15,
     marginTop: 20,
   },
   lessonsls: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     marginHorizontal: 90,
     marginVertical: 3,
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 15,
     marginTop: 20,
   },
   studyn: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     marginHorizontal: 30,
     marginVertical: 3,
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 15,
     marginTop: 20,
   },
   studynls: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     marginHorizontal: 90,
     marginVertical: 3,
     borderWidth: 0.5,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderColor: 15,
     borderRadius: 15,
     marginTop: 20,
   },
   lessonName: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 13,
     fontWeight: 'bold',
     marginTop: 30,
@@ -779,7 +783,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lessonNamels: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 13,
     fontWeight: 'bold',
     marginTop: 36,
@@ -789,21 +793,21 @@ const styles = StyleSheet.create({
     width: 400,
   },
   lessonNum: {
-    color: '#888',
+    color: Colors.LessonNum,
     marginTop: 32.5,
     marginLeft: 10,
     fontSize: 11,
     fontWeight: '300',
   },
   lessonNumls: {
-    color: '#888',
+    color: Colors.LessonNum,
     marginTop: 32.5,
     marginLeft: Platform.OS === 'ios' ? 100 : 20,
     fontSize: 11,
     fontWeight: '300',
   },
   chaps: {
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 20,
     fontWeight: '400',
     marginLeft: 15,
@@ -811,7 +815,7 @@ const styles = StyleSheet.create({
     width: 220,
   },
   chapsls: {
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 20,
     fontWeight: '400',
     marginLeft: 15,
@@ -819,7 +823,7 @@ const styles = StyleSheet.create({
     width: 360,
   },
   chapstudyn: {
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 20,
     fontWeight: '400',
     marginLeft: 15,
@@ -828,7 +832,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   chapstudynls: {
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 20,
     fontWeight: '400',
     marginLeft: 15,
@@ -837,7 +841,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   summary: {
-    color: '#999',
+    color: Colors.Summary,
     fontSize: 16,
     fontWeight: '300',
     marginTop: 5,
@@ -851,7 +855,7 @@ const styles = StyleSheet.create({
     marginTop: -15,
     marginBottom: -15,
     height: 48,
-    borderColor: '#ddd',
+    borderColor: Colors.Line,
     width: 138,
     justifyContent: 'center',
   },
@@ -861,7 +865,7 @@ const styles = StyleSheet.create({
     marginTop: -15,
     marginBottom: -15,
     height: 48,
-    borderColor: '#ddd',
+    borderColor: Colors.Line,
     width: 220,
     justifyContent: 'center',
   },
@@ -872,43 +876,43 @@ const styles = StyleSheet.create({
   tick: {
     marginTop: 2,
     marginLeft: 23,
-    color: '#03c04a',
+    color: Colors.Tick,
   },
   dot: {
     marginTop: 5,
     marginLeft: 27,
     marginRight: 5,
-    color: '#ccc',
+    color: Colors.Dot,
   },
   like: {
     position: 'absolute',
     marginTop: 18,
     marginLeft: 290,
-    color: '#4C93FF',
+    color: Colors.ReSend,
   },
   likels: {
     position: 'absolute',
     marginTop: 18,
     marginLeft: Platform.OS === 'ios' ? 620 : 495,
-    color: '#4C93FF',
+    color: Colors.ReSend,
   },
   progressLine: {
     borderLeftWidth: 2,
     height: 38,
-    borderColor: '#eee',
+    borderColor: Colors.TextInp,
     marginLeft: 31.5,
     marginTop: -13,
   },
   progressLinels: {
     borderLeftWidth: 2,
     height: 30,
-    borderColor: '#eee',
+    borderColor: Colors.TextInp,
     marginLeft: 31.5,
     marginTop: -19,
   },
 
   likedCName: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 15,
     fontWeight: 'bold',
     marginTop: 20,
@@ -917,7 +921,7 @@ const styles = StyleSheet.create({
     width: 280,
   },
   likedchap: {
-    color: '#292929',
+    color: Colors.Title,
     fontSize: 18,
     fontWeight: '500',
     marginTop: 12,
@@ -927,7 +931,7 @@ const styles = StyleSheet.create({
     width: 299,
   },
   clear: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 13,
     fontWeight: '600',
     textDecorationLine: 'underline',
@@ -937,7 +941,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   clearls: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 13,
     fontWeight: '600',
     textDecorationLine: 'underline',
@@ -947,7 +951,7 @@ const styles = StyleSheet.create({
     marginRight: 100,
   },
   empty: {
-    color: '#4C93FF',
+    color: Colors.ReSend,
     fontSize: 28,
     fontWeight: 'bold',
     justifyContent: 'center',
@@ -955,7 +959,7 @@ const styles = StyleSheet.create({
     marginTop: 220,
   },
   emptyStud: {
-    color: '#6699cc',
+    color: Colors.EmptyList,
     fontSize: 24,
     fontWeight: '400',
     fontStyle: 'italic',
@@ -964,7 +968,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   emptyStudls: {
-    color: '#6699cc',
+    color: Colors.EmptyList,
     fontSize: 24,
     fontWeight: '400',
     fontStyle: 'italic',
@@ -980,7 +984,7 @@ const styles = StyleSheet.create({
     height: 180,
     borderWidth: 1,
     borderRadius: 40,
-    borderColor: 'transparent',
+    borderColor: Colors.Tansparent,
     borderColor: 0,
     alignSelf: 'center',
     marginTop: 80,
@@ -990,18 +994,18 @@ const styles = StyleSheet.create({
     height: 180,
     borderWidth: 1,
     borderRadius: 40,
-    borderColor: 'transparent',
+    borderColor: Colors.Tansparent,
     borderColor: 0,
     alignSelf: 'center',
     marginTop: 20,
   },
   noLike: {
-    color: '#adc3d1',
+    color: Colors.NoLike,
     marginTop: 120,
     alignSelf: 'center',
   },
   noLikels: {
-    color: '#adc3d1',
+    color: Colors.NoLike,
     marginTop: 30,
     alignSelf: 'center',
   },

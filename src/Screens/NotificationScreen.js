@@ -11,10 +11,12 @@ import {
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
-
-const btnBack = require('../Images/Notification/btnback.png');
+import {Icons} from '../assets/Icons';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
 
 const NotificationScreen = ({navigation, route}) => {
+  const btnBack = Icons.ButtonBack;
   const orientation = useOrientation();
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
@@ -61,17 +63,17 @@ const NotificationScreen = ({navigation, route}) => {
     const timeDiff = () => {
       if (hrDiff > 0) {
         if (minDiff > -1) {
-          return `${hrDiff} hr ago`;
+          return `${hrDiff} ${Strings.HrAgo}`;
         } else {
-          return `${60 - Math.abs(minDiff)} min ago`;
+          return `${60 - Math.abs(minDiff)} ${Strings.MinAgo}`;
         }
       }
       else {
         if(minDiff < 5){
-          return `Just now`;
+          return `${Strings.JustNow}`;
         }
         else{
-          return `${minDiff} min ago`
+          return `${minDiff} ${Strings.MinAgo}`;
         }
       }
     }
@@ -100,7 +102,7 @@ const NotificationScreen = ({navigation, route}) => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={btnBack} style={styles.btnBack} />
       </TouchableOpacity>
-      <Text style={styles.title}>Notifications</Text>
+      <Text style={styles.title}>${Strings.Notifications}</Text>
       <FlatList
         data={notif}
         renderItem={renderNotifications}
@@ -113,7 +115,7 @@ const NotificationScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
   },
   title: {
     fontSize: 34,
@@ -121,49 +123,49 @@ const styles = StyleSheet.create({
     marginTop: 22,
     marginLeft: 32,
     marginBottom: 12,
-    color: '#292929',
+    color: Colors.Title,
   },
   component: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     paddingTop: 22,
     paddingLeft: 21,
     paddingBottom: 23,
     marginVertical: 11,
     marginHorizontal: 32,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderRadius: 15,
     zIndex: 100,
   },
   componentls: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.White,
     paddingTop: 22,
     paddingLeft: 21,
     paddingBottom: 23,
     marginVertical: 11,
     marginHorizontal: 90,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: Colors.White,
     borderRadius: 15,
     zIndex: 100,
   },
   subtitle: {
     fontSize: 19,
-    color: '#191b26',
+    color: Colors.ChapNameColor,
     fontWeight: '700',
   },
   row: {
     flexDirection: 'row',
   },
   notif: {
-    color: '#191b26',
+    color: Colors.ChapNameColor,
     fontSize: 14,
     marginTop: 6,
     fontWeight: '500',
   },
   time: {
     fontSize: 13,
-    color: '#b0b5c6',
+    color: Colors.Time,
     fontWeight: '500',
     alignSelf: 'flex-end',
     textAlign: 'right',
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
   },
   timels: {
     fontSize: 13,
-    color: '#b0b5c6',
+    color: Colors.Time,
     fontWeight: '500',
     alignSelf: 'flex-end',
     textAlign: 'right',

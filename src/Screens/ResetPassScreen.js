@@ -9,11 +9,13 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-
-const btnAble = require('../Images/SignUp/btn_able.png');
-const btnCancel = require('../Images/Auth/btn_cancel.png');
+import {Icons} from '../assets/Icons';
+import {Strings} from '../assets/Strings';
+import {Colors} from '../assets/Colors';
 
 const ResetPassScreen = ({navigation, route}) => {
+  const btnAble = Icons.ButtonAble;
+  const btnCancel = Icons.ButtonCancel;
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [password, setPassword] = useState('');
   const username = route?.params?.username;
@@ -50,8 +52,8 @@ const ResetPassScreen = ({navigation, route}) => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={btnCancel} style={styles.btnCancel} />
           </TouchableOpacity>
-          <Text style={styles.title}>Reset Password</Text>
-          <Text style={styles.text}>Please set a new Password.</Text>
+          <Text style={styles.title}>{Strings.ResetPassword}</Text>
+          <Text style={styles.text}>{Strings.SetPassword}</Text>
         </View>
       </View>
       <KeyboardAvoidingView
@@ -66,13 +68,11 @@ const ResetPassScreen = ({navigation, route}) => {
             secureTextEntry={true}
           />
           {password.length > 0 && password.length < 6 ? (
-            <Text style={styles.passErr}>
-              Password should have more than 5 characters
-            </Text>
+            <Text style={styles.passErr}>{Strings.PasswordCondition}</Text>
           ) : null}
         </View>
         <View style={styles.row}>
-          <Text style={styles.reset}>Reset</Text>
+          <Text style={styles.reset}>{Strings.Reset}</Text>
           <TouchableOpacity onPress={() => reset()}>
             <Image source={btnAble} style={styles.btn} />
           </TouchableOpacity>
@@ -85,7 +85,7 @@ const ResetPassScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
   },
   containerAvoidingView: {
     flex: 1,
@@ -93,18 +93,18 @@ const styles = StyleSheet.create({
     padding: 65,
   },
   txtinput: {
-    fontSize:16,
+    fontSize: 16,
     borderWidth: 2,
     width: 300,
     height: 45,
     marginTop: 15,
-    borderColor: '#eeeeee',
-    backgroundColor: '#fff',
+    borderColor: Colors.TextInp,
+    backgroundColor: Colors.White,
   },
   title: {
     fontSize: 40,
     transform: [{rotate: '12deg'}],
-    color: '#ffffff',
+    color: Colors.White,
     fontWeight: 'bold',
     justifyContent: 'center',
     marginLeft: 45,
@@ -117,15 +117,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 40,
     transform: [{rotate: '12deg'}],
-    color: '#ffffff',
+    color: Colors.White,
   },
   passErr: {
     fontSize: 11,
     fontWeight: '400',
-    color: 'red',
+    color: Colors.Error,
   },
   rectangle1: {
-    backgroundColor: '#3274d8',
+    backgroundColor: Colors.Rect1,
     borderRadius: 70,
     height: 180,
     width: 340,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     marginTop: -5,
   },
   rectangle2: {
-    backgroundColor: '#3c7ee3',
+    backgroundColor: Colors.Rect2,
     borderRadius: 70,
     height: 310,
     width: 452,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     marginTop: -80,
   },
   reset: {
-    color: '#000',
+    color: Colors.Black,
     fontWeight: '700',
     fontSize: 25,
     marginTop: 70,

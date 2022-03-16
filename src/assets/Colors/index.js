@@ -59,6 +59,8 @@ export const Colors = {
   EmptyList: '#6699cc',
   Tansparent: 'transparent',
   NoLike: '#adc3d1',
+  bgImg1: '#d5f1e5',
+  bgImg2: '#ffebb5',
   //SubDetalist
   TextInputForm: '#eeede7',
 };
