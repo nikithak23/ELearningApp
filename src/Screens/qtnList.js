@@ -100,7 +100,7 @@ const QtnList = ({navigation, route}) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={Icons.ButtonBack}
+            source={Icons.ButtonBackSmall}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>
@@ -110,7 +110,7 @@ const QtnList = ({navigation, route}) => {
               ? styles.headerTxt
               : styles.headerTxtLandscape
           }>
-          Questions
+          {Strings.Questions}
         </Text>
       </View>
       {len !== 0 ? (

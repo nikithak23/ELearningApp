@@ -123,11 +123,11 @@ const NoSearchResult = ({navigation, route}) => {
 
       <ScrollView>
         <Text style={orientation.isPortrait ? styles.title : styles.titleLs}>
-          Search Result
+          {Strings.SearchResult}
         </Text>
         <Image style={styles.image} source={Images.NotFound} />
-        <Text style={styles.text}>Not Found</Text>
-        <Text style={styles.desc}>Search not found please try again</Text>
+        <Text style={styles.text}>{Strings.Notfound}</Text>
+        <Text style={styles.desc}>{Strings.Try}</Text>
 
         <View
           style={

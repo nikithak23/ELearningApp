@@ -99,13 +99,13 @@ const SignUpScreen = ({navigation}) => {
             style={
               orientation.isPortrait ? styles.header1 : styles.header1Landscape
             }>
-            Create an
+            {Strings.Create}
           </Text>
           <Text
             style={
               orientation.isPortrait ? styles.header2 : styles.header2Landscape
             }>
-            Account
+            {Strings.Account}
           </Text>
         </View>
 
@@ -130,7 +130,7 @@ const SignUpScreen = ({navigation}) => {
               ? styles.signupContainer
               : styles.signupContainerLs
           }>
-          <Text style={styles.signup}>SignUp</Text>
+          <Text style={styles.signup}>{Strings.SignUp}</Text>
           <TouchableOpacity onPress={validation}>
             {name &&
             username &&
@@ -149,9 +149,9 @@ const SignUpScreen = ({navigation}) => {
               ? styles.bottomContainer
               : styles.bottomContainerLandscape
           }>
-          <Text style={styles.bottomText}>Already have an Account? </Text>
+          <Text style={styles.bottomText}>{Strings.AlreadyAccount}</Text>
           <TouchableOpacity onPress={signIn}>
-            <Text style={styles.signinText}>Sign In</Text>
+            <Text style={styles.signinText}>{Strings.SignIn}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -267,7 +267,6 @@ const styles = StyleSheet.create({
   },
   signup: {
     fontSize: 25,
-    color: Colors.Black,
     fontWeight: '700',
     lineHeight: 28,
     paddingBottom: 10,
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   signinText: {
-    color: Colors.Qgrey,
+    color: Colors.ReSend,
     fontSize: 16,
     fontWeight: '600',
     textDecorationLine: 'underline',

@@ -90,11 +90,10 @@ const TestResult = ({navigation, route}) => {
                 style={
                   orientation.isPortrait ? styles.Text1 : styles.Text1Landscape
                 }>
-                Bravo!
+                {Strings.Bravo}
               </Text>
               <Text style={styles.Text2}>
-                You are just {len - rightAnswer} correct questions away from
-                100%. You can do it.
+              {Strings.YouR} {len - rightAnswer} {Strings.AwayFrom}
               </Text>
             </>
           )}
@@ -104,9 +103,9 @@ const TestResult = ({navigation, route}) => {
                 style={
                   orientation.isPortrait ? styles.Text1 : styles.Text1Landscape
                 }>
-                Bravo!
+                {Strings.Bravo}
               </Text>
-              <Text style={styles.Text2}>Congratulations. You did it!</Text>
+              <Text style={styles.Text2}>{Strings.Congrats}</Text>
             </>
           )}
           {percent === 0 && timeup === 0 && (
@@ -115,10 +114,10 @@ const TestResult = ({navigation, route}) => {
                 style={
                   orientation.isPortrait ? styles.Text1 : styles.Text1Landscape
                 }>
-                Alas!
+                {Strings.Alas}
               </Text>
               <Text style={styles.Text2}>
-                Go for it again, Champ. You got this!
+              {Strings.GoAgain}
               </Text>
             </>
           )}
@@ -128,11 +127,11 @@ const TestResult = ({navigation, route}) => {
                 style={
                   orientation.isPortrait ? styles.Text1 : styles.Text1Landscape
                 }>
-                Oooops!
+                {Strings.Oooops}
               </Text>
-              <Text style={styles.Text2}>You ran out of time.</Text>
+              <Text style={styles.Text2}>{Strings.TimeOut}</Text>
               <Text style={styles.Text2}>
-                Your test has been submitted by default.
+                {Strings.DefaultSubmit}
               </Text>
             </>
           )}
@@ -157,7 +156,7 @@ const TestResult = ({navigation, route}) => {
               })
             }>
             <View style={styles.TryAgnBtn}>
-              <Text style={styles.TryAgnTxt}>Try Again</Text>
+              <Text style={styles.TryAgnTxt}>{Strings.TryAgain}</Text>
               <Image
                 source={Icons.YesArrow}
                 style={styles.TryAgnImg}

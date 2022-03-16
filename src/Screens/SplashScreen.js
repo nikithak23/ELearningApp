@@ -3,9 +3,8 @@ import {Image, View, StyleSheet, ImageBackground} from 'react-native';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Colors} from '../assets/Colors/index';
-import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
-import {Images} from '../assets/Images/index';
+
 
 
 const SplashScreen = ({navigation, route}) => {

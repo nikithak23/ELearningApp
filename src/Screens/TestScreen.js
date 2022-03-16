@@ -204,7 +204,7 @@ const TestScreen = ({navigation, route}) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={Icons.ButtonCancel}
+            source={Icons.ButtonBackSmall}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>
@@ -232,7 +232,7 @@ const TestScreen = ({navigation, route}) => {
               ? styles.timerText
               : styles.timerTextLandscape
           }>
-          Time remaining
+          {Strings.TimeRemaining}
         </Text>
         <TouchableOpacity
           onPress={() => {
@@ -349,7 +349,7 @@ const TestScreen = ({navigation, route}) => {
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={prev}>
             <Image
-              source={Icons.ButtonCancelBlue}
+              source={Icons.ButtonBackSmall}
               style={
                 orientation.isPortrait ? styles.footerBtn : styles.footerBtnLs
               }
@@ -375,9 +375,9 @@ const TestScreen = ({navigation, route}) => {
           }>
           <View style={styles.ModalTopContainer}>
             <View style={styles.ModalContainer}></View>
-            <Text style={styles.ModalLogoutText}>Submit Test</Text>
+            <Text style={styles.ModalLogoutText}>{Strings.SubmitTest}</Text>
             <Text style={styles.ModalLogoutText1}>
-              Are you sure you want to submit the test?
+            {Strings.AreUSubmitTest}
             </Text>
           </View>
           <View style={styles.ModalBottomContainer}>
@@ -388,7 +388,7 @@ const TestScreen = ({navigation, route}) => {
                   : styles.ModalNoContainerLandscape
               }
               onPress={() => setModalVisible(false)}>
-              <Text style={styles.ModalNoText}>No</Text>
+              <Text style={styles.ModalNoText}>{Strings.No}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={
@@ -401,7 +401,7 @@ const TestScreen = ({navigation, route}) => {
                 submitTest();
               }}>
               <View style={styles.ModalYesView}>
-                <Text style={styles.ModalYesText}>Yes</Text>
+                <Text style={styles.ModalYesText}>{Strings.Yes}</Text>
                 <Image source={Icons.YesArrow} style={styles.ModalYesImg} />
               </View>
             </TouchableOpacity>
@@ -426,12 +426,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.White,
   },
   btn: {
-    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginTop: Platform.OS === 'ios' ? 50 : 30,
     marginBottom: 15,
     marginHorizontal: 28,
   },
   btnLs: {
-    marginTop: Platform.OS === 'ios' ? 25 : 20,
+    marginTop: Platform.OS === 'ios' ? 30 : 25,
     marginBottom: 15,
     marginHorizontal: 90,
   },

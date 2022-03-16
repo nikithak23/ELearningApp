@@ -230,9 +230,9 @@ const HomeScreen = ({navigation, route, token}) => {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        <Text style={styles.greet}>Hi, {userName}</Text>
-        <Text style={styles.desc}>What would you like to study today?</Text>
-        <Text style={styles.desc}>you can search below.</Text>
+        <Text style={styles.greet}>{Strings.Hi} {userName}</Text>
+        <Text style={styles.desc}>{Strings.HomeStudy}</Text>
+        <Text style={styles.desc}>{Strings.HomeSearch}</Text>
         <View
           style={
             orientation.isPortrait
@@ -259,7 +259,7 @@ const HomeScreen = ({navigation, route, token}) => {
                   ? styles.currentHead
                   : styles.currentHeadLs
               }>
-              CURRENTLY STUDYING
+              {Strings.CurrentStudy}
             </Text>
             <FlatList
               data={DataRecent}

@@ -7,6 +7,7 @@ export const Icons = {
   ButtonCancel: require('./btn_cancel.png'),
   ButtonDisable: require('./btn_disable.png'),
   ButtonBack: require('./btnback.png'),
+  ButtonBackSmall: require('./BackBtnSmall.png'),
   ButtonCancelBlue: require('./btnCancel.png'),
   ButtonChecked: require('./btnChecked.png'),
   ButtonNextQtn: require('./btnNxtQtn.png'),
