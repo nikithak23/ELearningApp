@@ -17,7 +17,11 @@ import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
 import {Images} from '../assets/Images/index';
-
+import {
+  getBeginTestApi,
+  getQuestionsApi,
+  getSubmitTestApi,
+} from '../Service/Service';
 
 const TestScreen = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -27,7 +31,6 @@ const TestScreen = ({navigation, route}) => {
   const token = route?.params.token;
   const lid = route?.params.id; //reqd to go bck to course page
   const lName = route?.params.lName; //reqd to go back to course page
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [questions, setQuestions] = useState([]);
   const [option, setOption] = useState('');
   let key = route.params.key ? route.params.key : 0; //to restart the timer
@@ -43,14 +46,15 @@ const TestScreen = ({navigation, route}) => {
   const getQtns = async () => {
     //Get questions api
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/gettest/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getQuestionsApi(courseId, token);
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/gettest/${courseId}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setQuestions(response.data.data);
     } catch (err) {
       console.log(err);
@@ -73,14 +77,20 @@ const TestScreen = ({navigation, route}) => {
     //Send Answers api
     console.log(markedAnswer);
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+      const response = await getBeginTestApi(
+        courseId,
+        token,
+        questions[n].testNumber,
+        markedAnswer,
       );
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/begintest/${courseId}/${questions[n].testNumber}?markedAnswer=${markedAnswer}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setAnswered([...answered, n + 1]);
       console.log(response.data.data);
     } catch (err) {
@@ -91,14 +101,15 @@ const TestScreen = ({navigation, route}) => {
   const submitTest = async () => {
     //Submit test api
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/submittest/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getSubmitTestApi(courseId, token);
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/submittest/${courseId}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       submitData = response.data.data;
       setModalVisible(false);
       setN(0);
@@ -391,10 +402,7 @@ const TestScreen = ({navigation, route}) => {
               }}>
               <View style={styles.ModalYesView}>
                 <Text style={styles.ModalYesText}>Yes</Text>
-                <Image
-                  source={Icons.YesArrow}
-                  style={styles.ModalYesImg}
-                />
+                <Image source={Icons.YesArrow} style={styles.ModalYesImg} />
               </View>
             </TouchableOpacity>
           </View>

@@ -19,6 +19,13 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
+import {
+  getEditProfileApi,
+  getNotificationFalseApi,
+  getNotificationTrueApi,
+  getProfileApi,
+  getResultsApi,
+} from '../Service/Service';
 
 const ProfileScreen = ({navigation, token}) => {
   const [notify, setNotify] = useState('true');
@@ -34,7 +41,7 @@ const ProfileScreen = ({navigation, token}) => {
   const [profilePic, setProfilePic] = useState(
     'https://www.pasrc.org/sites/g/files/toruqf431/files/styles/freeform_750w/public/2021-03/blank-profile-picture_0.jpg?itok=iSBmDxc8',
   );
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
   useEffect(() => {
     const retrieveNotif = async () => {
       try {
@@ -67,11 +74,12 @@ const ProfileScreen = ({navigation, token}) => {
   // Api to get the Results of the user
   const getResults = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/result`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${baseUrl}/subject/get/result`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await getResultsApi(token);
       setResults(response.data.data);
     } catch (err) {
       console.log(err);
@@ -84,11 +92,12 @@ const ProfileScreen = ({navigation, token}) => {
   // Api to get the Profilr data of the user
   const getProfileData = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/learn/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${baseUrl}/learn/profile`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await getProfileApi(token);
       setProfileData(response.data.data);
       setFetchData(true);
     } catch (err) {
@@ -104,17 +113,18 @@ const ProfileScreen = ({navigation, token}) => {
   //Api to send the edited data of the user to the database
   const editProfileData = async () => {
     try {
-      const response = await axios.put(
-        `${baseUrl}/learn/editprofile`,
-        {
-          name,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getEditProfileApi(name, token);
+      // const response = await axios.put(
+      //   `${baseUrl}/learn/editprofile`,
+      //   {
+      //     name,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
     } catch (err) {
       console.log(err);
     }
@@ -171,14 +181,15 @@ const ProfileScreen = ({navigation, token}) => {
     setNotify('false');
     try {
       await AsyncStorage.setItem('notification', 'false');
-      const response = await axios.delete(
-        `${baseUrl}/subject/set/notification/0`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getNotificationFalseApi(token);
+      // const response = await axios.delete(
+      //   `${baseUrl}/subject/set/notification/0`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       console.log('notiffffff fail', response.data.data);
     } catch (err) {
       console.log(err);
@@ -190,14 +201,15 @@ const ProfileScreen = ({navigation, token}) => {
     try {
       await AsyncStorage.setItem('notification', 'true');
       console.log('storedd');
-      const response = await axios.delete(
-        `${baseUrl}/subject/set/notification/1`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      // const response = await axios.delete(
+      //   `${baseUrl}/subject/set/notification/1`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
+      const response = await getNotificationTrueApi(token);
       console.log('notiffffff true', response.data.data);
     } catch (err) {
       console.log(err);

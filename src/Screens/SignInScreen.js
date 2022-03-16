@@ -16,7 +16,7 @@ import SignInForm from '../components/SignInForm';
 import {StackActions} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useOrientation from '../hooks/useOrientation';
-import { getSignInData } from '../Service/Service';
+import {getForgotApi, getSignInDataApi} from '../Service/Service';
 const SignInScreen = ({navigation}) => {
   const orientation = useOrientation();
   const [username, setPhone] = useState(null);
@@ -34,7 +34,7 @@ const SignInScreen = ({navigation}) => {
       //     password,
       //   },
       // );
-      const response = await getSignInData(username,password)
+      const response = await getSignInDataApi(username, password);
       const token = response.data.data;
       try {
         await AsyncStorage.setItem('loggedIn', '1');
@@ -71,12 +71,13 @@ const SignInScreen = ({navigation}) => {
     setIsValid(true);
     try {
       console.log(username);
-      const response = await axios.put(
-        `https://elearningapp-api.herokuapp.com/learn/forgot`,
-        {
-          username,
-        },
-      );
+      // const response = await axios.put(
+      //   `https://elearningapp-api.herokuapp.com/learn/forgot`,
+      //   {
+      //     username,
+      //   },
+      // );
+      const response = await getForgotApi(username);
       if (response.status === 200) {
         let msg = response.data.data;
         await navigation.dispatch(

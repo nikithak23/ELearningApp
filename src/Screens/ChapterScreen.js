@@ -20,6 +20,7 @@ import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {ActivityIndicator} from 'react-native-paper';
+import {getContentApi} from '../Service/Service';
 
 const ChapterScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -44,19 +45,19 @@ const ChapterScreen = ({navigation, route}) => {
   const [noSelect2, setnoIsSelect2] = useState(false);
   const [noSelect3, setnoIsSelect3] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
 
   // api to get the content of the given chapter
   const getContent = async chapterId => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/content/${chapterId}?pageSize=1&pageNumber=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/get/content/${chapterId}?pageSize=1&pageNumber=${page}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
+      const response = await getContentApi(chapterId, page, token);
       setIsLoading(false);
       setContents(response.data.data);
     } catch (err) {

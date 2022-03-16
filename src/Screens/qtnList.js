@@ -15,7 +15,7 @@ import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
 import {Images} from '../assets/Images/index';
-
+import {getQuestionsApi} from '../Service/Service';
 
 const QtnList = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -30,14 +30,15 @@ const QtnList = ({navigation, route}) => {
   const getQtns = async () => {
     //Get questions api
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/gettest/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getQuestionsApi(courseId, token);
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/gettest/${courseId}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setQuestions(response.data.data);
     } catch (err) {
       console.log(err);

@@ -20,18 +20,22 @@ import {Icons} from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
 import {Images} from '../assets/Images';
-
+import {
+  getCourseApi,
+  getLessonsApi,
+  getLessonStudyingApi,
+} from '../Service/Service';
 
 const SubjectDetails = ({navigation, route}) => {
   const sub1 = Images.Sub1;
   const sub2 = Images.Sub2;
   const subImg = [sub1, sub2];
-   const btnBack = Icons.ButtonBack;
+  const btnBack = Icons.ButtonBack;
   const bgImg = [Colors.bgImg1, Colors.bgImg2];
   const Options = ['ALL', 'STUDYING', 'LIKED'];
   const book = Images.Book;
   const orientation = useOrientation();
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
   const subject = route?.params.subject;
   const token = route?.params.token;
   const subId = route?.params.id;
@@ -53,14 +57,15 @@ const SubjectDetails = ({navigation, route}) => {
   //api to get courses
   const getCourses = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/courses/${subId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/get/courses/${subId}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
+      const response = await getCourseApi(subId, token);
       setCourseTitle(response.data.data);
     } catch (err) {
       console.log(err);
@@ -70,14 +75,15 @@ const SubjectDetails = ({navigation, route}) => {
   //api to get lessons
   const getLessons = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/lessons/${courseId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getLessonsApi(courseId, token);
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/get/lessons/${courseId}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setLessonTitle(response.data.data);
     } catch (err) {
       console.log(err);
@@ -87,14 +93,15 @@ const SubjectDetails = ({navigation, route}) => {
   //api to currently studying lessons
   const getStudyng = async () => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/lesson/studying`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      const response = await getLessonStudyingApi(token);
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/get/lesson/studying`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
       setLessonStdyng(response.data.data);
     } catch (err) {
       console.log(err);

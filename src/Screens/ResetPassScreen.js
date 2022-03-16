@@ -12,37 +12,38 @@ import {
 import {Icons} from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
+import {getResetPassApi} from '../Service/Service';
 
 const ResetPassScreen = ({navigation, route}) => {
   const btnAble = Icons.ButtonAble;
   const btnCancel = Icons.ButtonCancel;
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [password, setPassword] = useState('');
   const username = route?.params?.username;
-  const otp = route.params.otp
+  const otp = route.params.otp;
   const onChangeText = val => {
     setPassword(val);
   };
 
   const reset = async () => {
-      try {
-        const response = await axios.post(
-          `${baseUrl}/learn/reset`,
-          {
-            username,
-            password,
-            otp,
-          }
-        );
-        if (response.status === 200) {
-          return navigation.replace('SignIn');
-        } else {
-          console.warn(response.status);
-        }
-      } catch (err) {
-        console.log(err);
+    try {
+      // const response = await axios.post(
+      //   `${baseUrl}/learn/reset`,
+      //   {
+      //     username,
+      //     password,
+      //     otp,
+      //   }
+      // );
+      const response = await getResetPassApi(username, password, otp);
+      if (response.status === 200) {
+        return navigation.replace('SignIn');
+      } else {
+        console.warn(response.status);
       }
-    } 
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <View style={styles.container}>

@@ -20,14 +20,16 @@ import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
 import {Images} from '../assets/Images/index';
-import {getHomeName} from '../Service/Service'
+import {
+  getHomeDataApi,
+  getHomeNameApi,
+  getSearchApi,
+  getSubjectApi,
+} from '../Service/Service';
 Icon.loadFont().then();
-
-
 
 const HomeScreen = ({navigation, route, token}) => {
   const orientation = useOrientation();
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const [enteredText, setEnteredText] = useState('');
   const [searchedItems, setSearchedItems] = useState([]);
   let [DataRecent, setDataRecent] = useState([]);
@@ -43,8 +45,8 @@ const HomeScreen = ({navigation, route, token}) => {
       //     Authorization: `Bearer ${token}`,
       //   },
       // });
-      const resp = await getHomeName(token);
-      console.log('homeee', resp)
+      const resp = await getHomeNameApi(token);
+      console.log('homeee', resp);
       setUserName(resp.data.data.toUpperCase());
     } catch (err) {
       console.log(err);
@@ -54,11 +56,12 @@ const HomeScreen = ({navigation, route, token}) => {
   const getData = async () => {
     //Recently studied api
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/studying`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${baseUrl}/subject/get/studying`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await getHomeDataApi(token);
       console.log(response.status);
       setDataRecent(response.data.data);
     } catch (err) {
@@ -69,11 +72,12 @@ const HomeScreen = ({navigation, route, token}) => {
   const getSub = async () => {
     //Subject api
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await getSubjectApi(token);
       setSub(response.data.data);
     } catch (err) {
       console.log(err);
@@ -107,14 +111,15 @@ const HomeScreen = ({navigation, route, token}) => {
     //search api
     if (enteredText) {
       try {
-        const response = await axios.get(
-          `${baseUrl}/subject/search/${enteredText}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+        // const response = await axios.get(
+        //   `${baseUrl}/subject/search/${enteredText}`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   },
+        // );
+        const response = await getSearchApi(enteredText, token);
         let subjectData = response.data.data;
         let subName = subjectData[0].subjectName;
         let subId = subjectData[0].subjectId;
@@ -240,10 +245,7 @@ const HomeScreen = ({navigation, route, token}) => {
             style={styles.input}
           />
           <TouchableOpacity onPress={goSearch}>
-            <Image
-              source={Icons.SearchIcon}
-              style={styles.searchIcon}
-            />
+            <Image source={Icons.SearchIcon} style={styles.searchIcon} />
           </TouchableOpacity>
         </View>
         <View style={{alignItems: 'flex-start'}}>
@@ -323,7 +325,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderWidth: 1,
     borderColor: Colors.SearchBorder,
-    backgroundColor:Colors.White,
+    backgroundColor: Colors.White,
     borderRadius: 18,
     marginTop: 50,
     marginHorizontal: 90,
@@ -398,7 +400,7 @@ const styles = StyleSheet.create({
     height: 160,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
-    backgroundColor:Colors.ImgBg1,
+    backgroundColor: Colors.ImgBg1,
   },
   img: {
     height: 80,

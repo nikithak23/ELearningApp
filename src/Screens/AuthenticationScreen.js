@@ -12,10 +12,10 @@ import {
   Platform,
 } from 'react-native';
 import useOrientation from '../hooks/useOrientation';
-import { Icons } from '../assets/Icons';
+import {Icons} from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
-import { getResendApi, getVerifiedApi} from '../Service/Service';
+import {getResendApi, getVerifiedApi} from '../Service/Service';
 
 const btnAble = Icons.ButtonAble;
 const btnDisable = Icons.ButtonDisable;
@@ -23,7 +23,6 @@ const btnCancel = Icons.ButtonCancel;
 
 const AuthenticationScreen = ({navigation, route}) => {
   const orientation = useOrientation();
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   let textInput = useRef(null);
   const lengthInput = 4;
   const otpCode = route?.params?.otp;
@@ -61,7 +60,7 @@ const AuthenticationScreen = ({navigation, route}) => {
           },
         );
         */
-        const response = await getVerifiedApi(otp,username)
+        const response = await getVerifiedApi(otp, username);
 
         console.log(response.status);
         console.log(response.data);

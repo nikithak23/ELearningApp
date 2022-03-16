@@ -14,13 +14,14 @@ import useOrientation from '../hooks/useOrientation';
 import {Icons} from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
+import {getNotificationApi} from '../Service/Service';
 
 const NotificationScreen = ({navigation, route}) => {
   const btnBack = Icons.ButtonBack;
   const orientation = useOrientation();
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
+
   const token = route?.params.token;
-  const [notif, setNotif] = useState([])
+  const [notif, setNotif] = useState([]);
   const timeRegex = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/g;
   const hrRegex = /[0-2][0-9]/;
   const minRegex = /:[0-5][0-9]:/;
@@ -28,23 +29,22 @@ const NotificationScreen = ({navigation, route}) => {
 
   useEffect(() => {
     getNotifs();
-  }, [notif]
-  ),
+  }, [notif]),
+    useFocusEffect(
+      React.useCallback(() => {
+        setDate(new Date().toUTCString());
+      }, []),
+    );
 
-  useFocusEffect(
-    React.useCallback(()=>{
-      setDate(new Date().toUTCString())
-    },[])
-  )
-   
   //api to get notifications
   const getNotifs = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/subject/notification`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.get(`${baseUrl}/subject/notification`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await getNotificationApi(token);
       setNotif(response.data.data);
     } catch (err) {
       console.log(err);
@@ -52,13 +52,13 @@ const NotificationScreen = ({navigation, route}) => {
   };
 
   const renderNotifications = ({item}) => {
-    let time = date.match(timeRegex)
-    let presentHr = time[0].match(hrRegex)
-    let notifHr = item.time.match(hrRegex)
-    let presentMin = time[0].match(minRegex)[0].match(/(\d+)/)
+    let time = date.match(timeRegex);
+    let presentHr = time[0].match(hrRegex);
+    let notifHr = item.time.match(hrRegex);
+    let presentMin = time[0].match(minRegex)[0].match(/(\d+)/);
     let notifMin = item.time.match(minRegex)[0].match(/(\d+)/);
-    const hrDiff =  Number(presentHr)-Number(notifHr)
-    const minDiff = Number(presentMin[0]) - Number(notifMin[0])
+    const hrDiff = Number(presentHr) - Number(notifHr);
+    const minDiff = Number(presentMin[0]) - Number(notifMin[0]);
 
     const timeDiff = () => {
       if (hrDiff > 0) {
@@ -67,27 +67,22 @@ const NotificationScreen = ({navigation, route}) => {
         } else {
           return `${60 - Math.abs(minDiff)} ${Strings.MinAgo}`;
         }
-      }
-      else {
-        if(minDiff < 5){
+      } else {
+        if (minDiff < 5) {
           return `${Strings.JustNow}`;
-        }
-        else{
+        } else {
           return `${minDiff} ${Strings.MinAgo}`;
         }
       }
-    }
-    
+    };
+
     return (
       <View
         style={orientation.isPortrait ? styles.component : styles.componentls}>
         <View>
           <View style={styles.row}>
             <Text style={styles.subtitle}>{item.notificationHeader}</Text>
-            <Text
-              style={
-                orientation.isPortrait ? styles.time : styles.timels
-              }>
+            <Text style={orientation.isPortrait ? styles.time : styles.timels}>
               {timeDiff()}
             </Text>
           </View>
@@ -110,7 +105,7 @@ const NotificationScreen = ({navigation, route}) => {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

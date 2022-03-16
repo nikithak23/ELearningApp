@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {View, Text, StyleSheet, FlatList, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import useOrientation from '../hooks/useOrientation';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
+import {getSubjectApi} from '../Service/Service';
 
-const SubjectScreen = ({token,navigation}) => {
+const SubjectScreen = ({token, navigation}) => {
   const orientation = useOrientation();
   const [SubjectsData, setSubjectsData] = useState([]);
-  const [fetchSubjects, setFetchSubjects] = useState(false)
+  const [fetchSubjects, setFetchSubjects] = useState(false);
   const baseUrl = 'https://elearningapp-api.herokuapp.com';
-  const renderSubjects = ({item})=>{
+  const renderSubjects = ({item}) => {
     return (
       <View
         style={orientation.isPortrait ? styles.component : styles.componentls}>
@@ -28,25 +36,26 @@ const SubjectScreen = ({token,navigation}) => {
         </TouchableOpacity>
       </View>
     );
-  }
+  };
 
   //api to get Subjects
   const getSubjects = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await getSubjectApi(token);
+      // const response = await axios.get(`${baseUrl}/subject/get/subjects`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
       setSubjectsData(response.data.data);
-      setFetchSubjects(true)
+      setFetchSubjects(true);
     } catch (err) {
       console.log(err);
     }
   };
-  useEffect(()=>{
-    getSubjects()
-  },[])
+  useEffect(() => {
+    getSubjects();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -121,5 +130,3 @@ const styles = StyleSheet.create({
 });
 
 export default SubjectScreen;
-
-

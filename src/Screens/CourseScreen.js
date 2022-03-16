@@ -15,10 +15,10 @@ import {Images} from '../assets/Images/index';
 import {Icons} from '../assets/Icons/index';
 import useOrientation from '../hooks/useOrientation';
 import axios from 'axios';
+import {getChaptersApi} from '../Service/Service';
 
 const CourseScreen = ({navigation, route}) => {
   const orientation = useOrientation();
-  const baseUrl = 'https://elearningapp-api.herokuapp.com';
   const token = route?.params.token;
   const subject = route?.params.subject;
   const id = route?.params.lId;
@@ -33,14 +33,15 @@ const CourseScreen = ({navigation, route}) => {
   // Api to get all the chapters of particular lesson
   const getChapters = async id => {
     try {
-      const response = await axios.get(
-        `${baseUrl}/subject/get/chapters/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      // const response = await axios.get(
+      //   `${baseUrl}/subject/get/chapters/${id}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
+      const response = await getChaptersApi(id, token);
       setChapters(response.data.data);
     } catch (err) {
       console.log(err);

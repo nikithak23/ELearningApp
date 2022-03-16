@@ -16,7 +16,7 @@ import {Colors} from '../assets/Colors/index';
 import {Strings} from '../assets/Strings/index';
 import {Icons} from '../assets/Icons/index';
 import {Images} from '../assets/Images/index';
-
+import {getSignUpApi} from '../Service/Service';
 
 const SignUpScreen = ({navigation}) => {
   const orientation = useOrientation();
@@ -26,7 +26,6 @@ const SignUpScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const baseURL = 'https://elearningapp-api.herokuapp.com/learn/create';
 
   const signIn = () => {
     navigation.navigate('SignIn');
@@ -44,11 +43,12 @@ const SignUpScreen = ({navigation}) => {
       setIsLoading(true);
       await AsyncStorage.clear();
       try {
-        const response = await axios.post(`${baseURL}`, {
-          name,
-          username,
-          password,
-        });
+        // const response = await axios.post(`${baseURL}`, {
+        //   name,
+        //   username,
+        //   password,
+        // });
+        const response = await getSignUpApi(name, username, password);
 
         if (response.status === 200) {
           let otp = response.data.data;
@@ -136,15 +136,9 @@ const SignUpScreen = ({navigation}) => {
             username &&
             confirmPassword &&
             password === confirmPassword ? (
-              <Image
-                source={Icons.ButtonAble}
-                style={styles.submitBtn}
-              />
+              <Image source={Icons.ButtonAble} style={styles.submitBtn} />
             ) : (
-              <Image
-                source={Icons.ButtonDisable}
-                style={styles.submitBtn}
-              />
+              <Image source={Icons.ButtonDisable} style={styles.submitBtn} />
             )}
           </TouchableOpacity>
         </View>
