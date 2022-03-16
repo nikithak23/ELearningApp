@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
   },
 });
 export default SplashScreen;
