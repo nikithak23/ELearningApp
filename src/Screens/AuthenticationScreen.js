@@ -15,7 +15,7 @@ import useOrientation from '../hooks/useOrientation';
 import { Icons } from '../assets/Icons';
 import {Strings} from '../assets/Strings';
 import {Colors} from '../assets/Colors';
-import { getVerified } from '../Service/Service';
+import { getResendApi, getVerifiedApi} from '../Service/Service';
 
 const btnAble = Icons.ButtonAble;
 const btnDisable = Icons.ButtonDisable;
@@ -54,12 +54,15 @@ const AuthenticationScreen = ({navigation, route}) => {
         });
       }
       try {
-        const response = await axios.post(
+        /*const response = await axios.post(
           `${baseUrl}/learn/verify/${username}`,
           {
             otp,
           },
         );
+        */
+        const response = await getVerifiedApi(otp,username)
+
         console.log(response.status);
         console.log(response.data);
         if (response.status === 200) {
@@ -78,7 +81,8 @@ const AuthenticationScreen = ({navigation, route}) => {
 
   const resend = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/learn/resend/${username}`);
+      // const response = await axios.get(`${baseUrl}/learn/resend/${username}`);
+      const response = await getResendApi(username);
       setOtp(response.data.data);
       console.log(response.status);
       console.log(response.data);
