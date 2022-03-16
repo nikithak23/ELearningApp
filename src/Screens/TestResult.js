@@ -175,12 +175,12 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
     flex: 1,
   },
   header: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
   },
   btn: {
     marginTop: Platform.OS === 'ios' ? 50 : 20,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: Colors.Black,
     marginTop: 80,
     marginBottom: 7,
   },
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '700',
-    color: 'black',
+    color: Colors.Black,
     marginTop: 45,
     marginBottom: 7,
   },
@@ -231,14 +231,14 @@ const styles = StyleSheet.create({
     height: 50,
     width: 320,
     borderRadius: 13,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
     alignSelf: 'center',
   },
   TryAgnContainerLandscape: {
     height: 50,
     width: 320,
     borderRadius: 13,
-    backgroundColor: '#4C93FF',
+    backgroundColor: Colors.ReSend,
     alignSelf: 'center',
     marginBottom: 50,
     marginTop: 30,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   TryAgnTxt: {
     marginVertical: 10,
     fontSize: 20,
-    color: 'white',
+    color: Colors.White,
   },
   TryAgnImg: {
     width: 24,
@@ -261,13 +261,13 @@ const styles = StyleSheet.create({
   starContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     borderRadius: 20,
     padding: 5,
     marginBottom: -12,
   },
   liked: {
-    color: '#0BC763',
+    color: Colors.PercentHigh,
     height: 25,
     width: 26,
     alignSelf: 'center',
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   },
   starText: {
     fontSize: 21,
-    color: '#0BC763',
+    color: Colors.PercentHigh,
     alignSelf: 'center',
     fontWeight: '500',
   },

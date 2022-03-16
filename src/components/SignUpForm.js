@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     height:75,
     lineHeight:24,
     marginHorizontal:50,
-    borderColor:'#EEEDE7',
+    borderColor:Colors.TextInputForm,
     borderBottomWidth:2,
   },
   inputFieldLs: {
@@ -119,16 +119,16 @@ const styles = StyleSheet.create({
     height:75,
     lineHeight:24,
     marginHorizontal:120,
-    borderColor:'#EEEDE7',
+    borderColor:Colors.TextInputForm,
     borderBottomWidth:2,
   },
   error: {
-    color:'red',
+    color:Colors.Error,
     fontSize:13,
     marginHorizontal:50
   },
   errorLs: {
-    color:'red',
+    color:Colors.Error,
     fontSize:13,
     marginHorizontal:120
   },
