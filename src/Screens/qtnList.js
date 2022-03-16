@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    backgroundColor: '#f6f8fa',
+    backgroundColor: Colors.BgGrey,
     flex: 1,
   },
   header: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: Colors.White,
     marginBottom: 17,
   },
   btn: {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 50 : 20,
     marginBottom: 15,
     marginHorizontal: 80,
-    color: 'black',
+    color: Colors.Black,
     fontSize: 15,
     fontWeight: '500',
   },
@@ -158,14 +158,14 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 50 : 20,
     marginBottom: 15,
     marginHorizontal: 120,
-    color: 'black',
+    color: Colors.Black,
     fontSize: 15,
     fontWeight: '500',
   },
   qtnNo: {
     fontSize: 15,
     lineHeight: 20,
-    color: 'black',
+    color: Colors.Black,
     fontWeight: '500',
     textAlign: 'left',
     marginVertical: 15,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   qtn: {
     fontSize: 15,
     lineHeight: 20,
-    color: 'black',
+    color: Colors.Black,
     fontWeight: '500',
     textAlign: 'left',
     marginVertical: 15,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   qtnNoLs: {
     fontSize: 15,
     lineHeight: 20,
-    color: 'black',
+    color: Colors.Black,
     fontWeight: '500',
     textAlign: 'left',
     marginVertical: 15,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   qtnLs: {
     fontSize: 15,
     lineHeight: 20,
-    color: 'black',
+    color: Colors.Black,
     fontWeight: '500',
     textAlign: 'left',
     marginVertical: 15,
