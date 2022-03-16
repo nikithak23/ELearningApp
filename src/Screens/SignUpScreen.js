@@ -12,6 +12,11 @@ import SignUpForm from '../components/SignUpForm';
 import {StackActions} from '@react-navigation/native';
 import useOrientation from '../hooks/useOrientation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
+
 
 const SignUpScreen = ({navigation}) => {
   const orientation = useOrientation();
@@ -85,7 +90,7 @@ const SignUpScreen = ({navigation}) => {
                 : styles.headerContainer2Landscape
             }></View>
           <Image
-            source={require('../Images/SignUp/yellowLogo.png')}
+            source={Icons.YellowLogo}
             style={
               orientation.isPortrait ? styles.image : styles.imageLandscape
             }
@@ -132,12 +137,12 @@ const SignUpScreen = ({navigation}) => {
             confirmPassword &&
             password === confirmPassword ? (
               <Image
-                source={require('../Images/SignUp/btn_able.png')}
+                source={Icons.ButtonAble}
                 style={styles.submitBtn}
               />
             ) : (
               <Image
-                source={require('../Images/SignUp/btn_disable.png')}
+                source={Icons.ButtonDisable}
                 style={styles.submitBtn}
               />
             )}

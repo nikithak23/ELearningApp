@@ -1,6 +1,10 @@
 import React from 'react';
 import {Text,View,TextInput,StyleSheet,Platform,ScrollView,} from 'react-native';
 import useOrientation from '../hooks/useOrientation';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+
+
 
 const SignUpForm = ({
   name,

@@ -11,6 +11,11 @@ import {
 import CircularProgress from 'react-native-circular-progress-indicator';
 import useOrientation from '../hooks/useOrientation';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
+
 
 const TestResult = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -43,7 +48,7 @@ const TestResult = ({navigation, route}) => {
             })
           }>
           <Image
-            source={require('../Images/TestPage/btnCancel.png')}
+            source={Icons.ButtonCancel}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>
@@ -154,7 +159,7 @@ const TestResult = ({navigation, route}) => {
             <View style={styles.TryAgnBtn}>
               <Text style={styles.TryAgnTxt}>Try Again</Text>
               <Image
-                source={require('../Images/TestPage/yesArrow.png')}
+                source={Icons.YesArrow}
                 style={styles.TryAgnImg}
               />
             </View>

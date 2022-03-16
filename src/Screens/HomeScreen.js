@@ -15,7 +15,14 @@ import {Card} from 'react-native-cards';
 import Animated from 'react-native-reanimated';
 import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
+
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
 Icon.loadFont().then();
+
+
 
 const HomeScreen = ({navigation, route, token}) => {
   const orientation = useOrientation();
@@ -231,7 +238,7 @@ const HomeScreen = ({navigation, route, token}) => {
           />
           <TouchableOpacity onPress={goSearch}>
             <Image
-              source={require('../Images/Search/searchIcon.png')}
+              source={Icons.SearchIcon}
               style={styles.searchIcon}
             />
           </TouchableOpacity>
@@ -425,4 +432,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 });
+
 export default HomeScreen;

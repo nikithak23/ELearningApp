@@ -11,6 +11,11 @@ import {
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/core';
 import useOrientation from '../hooks/useOrientation';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
+
 
 const QtnList = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -94,7 +99,7 @@ const QtnList = ({navigation, route}) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={require('../Images/TestPage/btnBack.png')}
+            source={Icons.ButtonBack}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>

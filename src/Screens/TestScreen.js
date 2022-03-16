@@ -13,6 +13,11 @@ import Modal from 'react-native-modal';
 import {useFocusEffect} from '@react-navigation/core';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import useOrientation from '../hooks/useOrientation';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
+
 
 const TestScreen = ({navigation, route}) => {
   const orientation = useOrientation();
@@ -188,7 +193,7 @@ const TestScreen = ({navigation, route}) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
-            source={require('../Images/TestPage/btnCancel.png')}
+            source={Icons.ButtonCancel}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>
@@ -230,7 +235,7 @@ const TestScreen = ({navigation, route}) => {
             });
           }}>
           <Image
-            source={require('../Images/TestPage/icnQtnList.png')}
+            source={Icons.IconQtnList}
             style={orientation.isPortrait ? styles.btn : styles.btnLs}
           />
         </TouchableOpacity>
@@ -333,7 +338,7 @@ const TestScreen = ({navigation, route}) => {
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={prev}>
             <Image
-              source={require('../Images/TestPage/btnPrevQtn.png')}
+              source={Icons.ButtonCancelBlue}
               style={
                 orientation.isPortrait ? styles.footerBtn : styles.footerBtnLs
               }
@@ -341,7 +346,7 @@ const TestScreen = ({navigation, route}) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={nxt}>
             <Image
-              source={require('../Images/TestPage/btnNxtQtn.png')}
+              source={Icons.ButtonNextQtn}
               style={
                 orientation.isPortrait ? styles.footerBtn : styles.footerBtnLs
               }
@@ -387,7 +392,7 @@ const TestScreen = ({navigation, route}) => {
               <View style={styles.ModalYesView}>
                 <Text style={styles.ModalYesText}>Yes</Text>
                 <Image
-                  source={require('../Images/TestPage/yesArrow.png')}
+                  source={Icons.YesArrow}
                   style={styles.ModalYesImg}
                 />
               </View>

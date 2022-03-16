@@ -2,6 +2,12 @@ import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import {Text, View,StyleSheet, Image, ScrollView,TouchableOpacity,TextInput,FlatList} from 'react-native';
 import useOrientation from '../hooks/useOrientation';
+import {Colors} from '../assets/Colors/index';
+import {Strings} from '../assets/Strings/index';
+import {Icons} from '../assets/Icons/index';
+import {Images} from '../assets/Images/index';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
+
 
 const NoSearchResult=({navigation,route})=> {
   const orientation = useOrientation();
@@ -100,13 +106,13 @@ return(
   <View style={styles.container}>
 
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image source={require('../Images/Search/btnBack.png')} 
+        <Image source={Icons.ButtonBack} 
         style={orientation.isPortrait?styles.btnBack:styles.btnBackLs} />
       </TouchableOpacity>
 
       <ScrollView>
           <Text style={orientation.isPortrait?styles.title:styles.titleLs}>Search Result</Text>
-          <Image style={styles.image} source={require('../Images/Search/notFound.png')}/>
+          <Image style={styles.image} source={Images.NotFound}/>
           <Text style={styles.text}>Not Found</Text>
           <Text style={styles.desc}>Search not found please try again</Text>
 
@@ -117,7 +123,7 @@ return(
                 style={styles.input}  
             />
             <TouchableOpacity onPress={goSearch}>
-              <Image source={require('../Images/Search/searchIcon.png')} style={styles.searchIcon}/>
+              <Image source={Icons.SearchIcon} style={styles.searchIcon}/>
             </TouchableOpacity>
           </View>
 
